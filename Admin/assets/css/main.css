@@ -1,0 +1,109 @@
+/* ========================================
+   SIGAP PPKS - Login Page Styles
+   File: assets/css/main.css
+   ======================================== */
+
+/* === BASE STYLES === */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+}
+
+/* === BRAND TITLE === */
+.brand-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #212529;
+    margin-bottom: 0;
+}
+
+/* === SUBTITLE === */
+.subtitle {
+    font-size: 1.1rem;
+    color: #6c757d;
+}
+
+/* === LAYOUT === */
+.form-column {
+    background-color: #ffffff;
+    padding: 3rem;
+}
+
+.form-container {
+    max-width: 400px;
+    width: 100%;
+}
+
+.image-column {
+    background-color: #f8f9fa;
+}
+
+/* === FORM ELEMENTS === */
+.form-control,
+.input-group-text {
+    background-color: #f8f9fa;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.9rem 1rem;
+    font-size: 0.95rem;
+}
+
+.form-control:focus {
+    background-color: #f8f9fa;
+    box-shadow: 0 0 0 0.25rem rgba(108, 99, 255, 0.25);
+    border-color: #f8f9fa;
+}
+
+.form-label {
+    font-weight: 500;
+    color: #343a40;
+}
+
+/* === BUTTON === */
+.btn-login {
+    background-color: #6c63ff;
+    border-color: #6c63ff;
+    border-radius: 0.5rem;
+    padding: 0.9rem;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.btn-login:hover {
+    background-color: #5a52d9;
+    border-color: #5a52d9;
+}
+
+/* === PASSWORD TOGGLE === */
+.input-group-text {
+    border-radius: 0 0.5rem 0.5rem 0;
+    cursor: pointer;
+}
+
+/* Hide eye icon by default - will be shown by JavaScript */
+#togglePasswordIcon {
+    display: none;
+}
+
+/* === ALERT === */
+.alert {
+    border-radius: 0.5rem;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 767.98px) {
+    .image-column {
+        display: none;
+    }
+    
+    .form-column {
+        padding: 2rem 1.5rem;
+    }
+    
+    .brand-title {
+        font-size: 2.5rem;
+    }
+}

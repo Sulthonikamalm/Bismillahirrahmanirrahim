@@ -1,0 +1,1391 @@
+/* ============================================
+   DOKUMENTASI UMUM STYLE.CSS
+   File ini berisi styling untuk situs Satgas PPKS, termasuk variabel warna, reset dasar, typography, utilities, dan styling per section. 
+   Responsivitas ditangani melalui media queries, dengan breakpoint utama di 1015px untuk navbar, 769px untuk card overlay, dan lebih kecil untuk mobile.
+   Fitur utama: Smooth transitions, reveal on scroll, dan hover effects untuk user experience yang calm.
+   ============================================ */
+
+   /* ============================================
+   FONT LOKAL – F37 CASLON & CAMPTON
+   Path: ../Font/...
+   Format: woff2 (ringan & modern)
+   ============================================ */
+
+/* F37 Caslon – ExtraBold (Logo) */
+@font-face {
+  font-family: 'F37 Caslon';
+  src: url('../Font/Caslon/F37Caslon-ExtraBold.woff2') format('woff2'),
+       url('../Font/Caslon/F37Caslon-ExtraBold.woff') format('woff');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* F37 Caslon – SemiBold (Heading) */
+@font-face {
+  font-family: 'F37 Caslon';
+  src: url('../Font/Caslon/F37Caslon-SemiBold.woff2') format('woff2'),
+       url('../Font/Caslon/F37Caslon-SemiBold.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Campton – Medium (Navbar & Button) */
+@font-face {
+  font-family: 'Campton';
+  src: url('../Font/campton full/Campton-Medium.woff2') format('woff2'),
+       url('../Font/campton full/Campton-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Campton – Book / Regular (Body) */
+@font-face {
+  font-family: 'Campton';
+  src: url('../Font/campton full/Campton-Book.woff2') format('woff2'),
+       url('../Font/campton full/Campton-Book.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* === 1. VARIABEL & RESET DASAR === */
+/* Dokumentasi: Definisi variabel root untuk warna, padding, dan animasi timing. Reset dasar untuk elemen umum agar konsisten cross-browser. */
+:root {
+  --color-dark-blue: #132338;
+  --color-mid-blue: #547e9b;
+  --color-teal: #4b8a7b;
+  --color-light-yellow: #f3f5db;
+  --color-purple: #6a5acd;
+  --color-accent-blue: #3b5998;
+  --color-green: #3a6845;
+  --color-black: #000;
+  --color-text-dark: #333;
+  --color-text-light: #fff;
+
+  --max-width: 1200px;
+  --padding-x: 5vw; /* Unit Relatif untuk Padding Horizontal */
+  /* Calm motion tokens */
+  --ease-calm: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --dur-quick: 400ms;
+  --dur-calm: 720ms;
+
+  /* Font */
+  --font-logo: 'F37 Caslon', serif;
+  --font-heading: 'F37 Caslon', serif;
+  --font-nav: 'Campton', sans-serif;
+  --font-body: 'Campton', sans-serif;
+
+  /* Warna & lainnya */
+  --color-dark-blue: #132338;
+  --color-teal: #4b8a7b;
+  --color-text-dark: #333;
+  --color-text-light: #fff;
+  --ease-calm: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --dur-calm: 720ms;
+  --dur-quick: 400ms;
+  
+}
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--color-text-dark);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Container utama untuk membatasi lebar konten */
+.main-container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--padding-x);
+}
+
+.section-padding {
+  padding: 4rem 0;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 3rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* === 2. TYPOGRAPHY & UTILITIES === */
+/* Dokumentasi: Styling untuk teks utama, deskripsi, dan utilities seperti margin, tombol, dan ikon. Termasuk micro-interactions untuk hover. */
+.main-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+.description,
+p,
+li,
+.clean-list,
+.card-text {
+  font-family: var(--font-body);
+  font-weight: 400;
+}
+
+.description {
+  font-size: 1.1rem;
+  max-width: 500px;
+  margin-bottom: 1.5rem;
+}
+
+.fw-bold {
+  font-weight: bold;
+}
+.text-white {
+  color: var(--color-text-light);
+}
+.text-muted {
+  color: #000000;
+}
+.mt-20 {
+  margin-top: 20px;
+}
+.mt-40 {
+  margin-top: 40px;
+}
+
+/* Tombol Dasar */
+.btn {
+  font-family: var(--font-nav);
+  font-weight: 500;
+  padding: 10px 25px;
+  border-radius: 50px;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s, color 0.3s;
+  border: 2px solid transparent;
+}
+
+.btn-primary {
+  background-color: var(--color-teal);
+  color: var(--color-text-light);
+}
+.btn-primary:hover {
+  background-color: var(--color-dark-blue);
+  color: var(--color-text-light);
+}
+
+.btn-outline-light {
+  border-color: var(--color-text-light);
+  background: transparent;
+  color: var(--color-text-light);
+}
+.btn-outline-light:hover {
+  background-color: var(--color-text-light);
+  color: var(--color-dark-blue);
+}
+
+.btn-outline-dark {
+  border-color: var(--color-dark-blue);
+  color: var(--color-dark-blue);
+  background: transparent;
+}
+.btn-outline-dark:hover {
+  background-color: #132338;
+  color: var(--color-text-light);
+}
+
+/* === Micro-interactions & Calm Hover Effects === */
+.btn,
+.nav-links .nav-item,
+.card,
+.card-lapor,
+.card-info,
+.card-pelapor {
+  transition: transform var(--dur-calm) var(--ease-calm), box-shadow var(--dur-calm) var(--ease-calm), background-color var(--dur-calm) var(--ease-calm), color var(--dur-calm) var(--ease-calm);
+}
+
+.card:hover,
+.card-lapor:hover,
+.card-info:hover,
+.card-pelapor:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.12);
+}
+
+/* Ikon & List */
+.social-icons a {
+  display: flex;
+  color: var(--color-text-light);
+  margin-left: 15px;
+  font-size: 1.1rem;
+  text-decoration: none;
+}
+.clean-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.clean-list li {
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}
+.icon-green {
+  color: var(--color-teal);
+}
+.icon-primary {
+  color: var(--color-teal);
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+/* === 3. HEADER & NAVIGASI (FLEXBOX) === */
+/* Dokumentasi: Styling navbar dengan background gradient, transparansi on scroll, dan mode responsive menggunakan hamburger menu. */
+.asw-footer a {
+  display: none !important;
+}
+.asw-footer span {
+  display: none !important;
+}
+
+.header-bg {
+  background: linear-gradient(
+    135deg,
+    var(--color-dark-blue) 0%,
+    #4a71a5 40%,
+    #8c9da2 100%
+  );
+  color: var(--color-text-light);
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  padding: 10px 0;
+  transition: background var(--dur-calm) var(--ease-calm), backdrop-filter var(--dur-calm) var(--ease-calm);
+}
+
+/* Navbar transparency on scroll (calm) */
+.navbar.scrolled {
+  background: rgba(19, 35, 56, 0.85);
+  backdrop-filter: saturate(1.2) blur(6px);
+}
+
+.nav-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ============================================
+   LOGO SIGAP – MENONJOL SAAT HOVER
+   Tanpa garis bawah | Hitam | F37 Caslon ExtraBold
+   ============================================ */
+.logo {
+  font-family: 'F37 Caslon', serif !important;
+  font-weight: 800 !important;
+  font-size: 2.2rem !important;
+  letter-spacing: -1px;
+  color: #ffffff !important;
+  text-decoration: none !important;
+  display: inline-block;
+  position: relative;
+  transition: all 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
+  transform: translateY(0);
+}
+
+/* HOVER: MENONJOL */
+.logo:hover {
+  color: #17737d !important;
+  text-decoration: none !important;
+  transform: translateY(-4px) scale(1.05);
+  text-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* FOCUS (aksesibilitas) */
+.logo:focus {
+  outline: none;
+  transform: translateY(-2px) scale(1.02);
+  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Pastikan tidak ada garis atau pseudo-element */
+.logo::before,
+.logo::after {
+  display: none !important;
+}
+
+.nav-links {
+  display: flex;
+  gap: 15px;
+}
+
+.nav-links .nav-item {
+  color: var(--color-text);
+  text-decoration: none;
+  padding: 5px 15px;
+  border: 1px solid transparent;
+  border-radius: 50px;
+  transition: background-color 0.3s;
+}
+
+.nav-links .nav-item:hover {
+  background-color: rgba(53, 40, 40, 0.5);
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.hamburger {
+  display: none; /* Sembunyikan di desktop */
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  color: var(--color-text-light);
+  cursor: pointer;
+}
+
+/* === HERO SECTION (FLEXBOX) === */
+/* Dokumentasi: Hero section dengan flexbox untuk alignment, ilustrasi dengan positioning absolut, dan animasi floating untuk ikon. */
+.hero-section {
+  padding-top: 120px;
+  min-height: 80vh;
+  display: flex; /* Memastikan konten hero berada di tengah secara vertikal */
+  align-items: center;
+}
+
+.hero-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 50px;
+  width: 100%;
+}
+
+.hero-text {
+  flex-basis: 50%;
+}
+
+/* Ilustrasi */
+.hero-illustration {
+  flex-basis: 50%;
+  height: 400px;
+  position: relative;
+}
+
+.box-blue,
+.box-teal,
+.main-illustration,
+.card-overlay {
+  border-radius: 15px;
+  position: absolute;
+}
+
+.box-blue {
+  width: 100%;
+  height: 350px;
+  top: 0;
+  right: -50px;
+  z-index: 5;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+.box-green {
+  background-color: var(--color-green);
+  width: 100%;
+  height: 20px;
+  top: 10px;
+  right: 10px;
+  z-index: 20;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+.box-teal {
+  background-color: var(--color-teal);
+  width: 75%;
+  height: 300px;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  z-index: 10;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.main-illustration {
+  max-width: 60%;
+  right: 0;
+  bottom: 0;
+  z-index: 15;
+  transform: rotate(5deg);
+}
+
+/* Gentle floating pulse for icons/illustrations */
+.icon-primary,
+.icon-large {
+  animation: floatSoft 8s var(--ease-calm) infinite;
+}
+
+@keyframes floatSoft {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.card-overlay {
+  background-color: var(--color-text-light);
+  padding: 5px 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  color: var(--color-text-dark);
+  font-size: 0.85rem;
+  position: absolute;
+  z-index: 20;
+}
+.card-overlay2 {
+  padding: 5px 15px;
+  height: 150px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  color: var(--color-text-dark);
+  font-size: 0.85rem;
+  position: absolute;
+  z-index: 20;
+}
+.card-overlay-top {
+  bottom: 370px;
+  left: -10%;
+  width: 40%;
+}
+.card-overlay-middle {
+  bottom: 150px;
+  left: -10%;
+  width: 50%;
+}
+.card-overlay-bottom {
+  bottom: 40px;
+  left: -10%;
+  width: 50%;
+}
+
+/* === 4. STATISTIK (CSS GRID) === */
+/* Dokumentasi: Grid untuk statistik dengan card berwarna, ikon, dan animasi count-up. */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.card-pelapor {
+  padding: 2.5rem 1.5rem;
+  border-radius: 15px;
+  color: var(--color-text-light);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card-blue-light {
+  background-color: var(--color-mid-blue);
+}
+.card-green-teal {
+  background-color: var(--color-teal);
+}
+.card-purple-dark {
+  background-color: var(--color-purple);
+}
+
+.card-inner-flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: left;
+}
+
+.pelapor-icon-circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: var(--color-text-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-right: 20px;
+}
+.pelapor-icon-circle .fa-users {
+  color: var(--color-mid-blue);
+}
+.pelapor-icon-circle .fa-hand-holding-heart {
+  color: var(--color-teal);
+}
+.pelapor-icon-circle .fa-shield-alt {
+  color: var(--color-purple);
+}
+
+.stat-number {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 0;
+  line-height: 1;
+}
+
+.stat-label {
+  margin: 0;
+  font-size: 0.9rem;
+}
+.gambar{
+  height: 100px;
+}
+/* === Reveal on Scroll (calm fade-in) === */
+/* Dokumentasi: Efek reveal menggunakan IntersectionObserver untuk animasi masuk elemen saat scroll. */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity var(--dur-calm) var(--ease-calm), transform var(--dur-calm) var(--ease-calm);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* === 5. CARA LAPOR (FLEX & GRID) === */
+/* Dokumentasi: Section dengan tab navigasi (ARIA-enabled) dan grid langkah-langkah untuk panduan lapor. */
+.section-yellow {
+  background-color: var(--color-light-yellow);
+}
+
+.tab-nav {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.btn-tab {
+  border: 2px solid var(--color-text-dark);
+  color: var(--color-text-dark);
+  background: transparent;
+  padding: 8px 20px;
+}
+.btn-tab:hover {
+  background-color: var(--color-dark-blue);
+  color: var(--color-text-light);
+}
+.btn-tab.active {
+  background-color: var(--color-teal);
+  color: var(--color-text-light);
+  border-color: var(--color-teal);
+}
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.card-lapor {
+  background-color: var(--color-text-light);
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+.step-number {
+  font-weight: bold;
+}
+
+/* === 6. KAPAN HARUS LAPOR? (GRID) === */
+/* Dokumentasi: Grid informasi dengan card berisi gambar dan deskripsi untuk jenis kekerasan. */
+.section-teal {
+  background-color: var(--color-teal);
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.card-info {
+  background-color: var(--color-text-light);
+  color: var(--color-text-dark);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.card-info img {
+  height: 200px;
+  object-fit: cover;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.card-title {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.card-text {
+  margin-bottom: 20px;
+}
+/* === 7. MONITORING (FLEXBOX) === */
+/* Dokumentasi: Layout flex untuk form monitoring dan deskripsi, dengan input group responsif. */
+.section-purple {
+  background-color: var(--color-dark-blue);
+  color: var(--color-text-light);
+}
+
+.monitoring-layout {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+}
+
+.monitoring-form-wrapper {
+  flex: 1;
+}
+
+.monitoring-text-content {
+  flex: 1;
+}
+
+.card-monitoring {
+  background-color: var(--color-text-light);
+  color: var(--color-text-dark);
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.icon-large {
+  font-size: 3rem;
+  margin-bottom: 15px;
+}
+
+.input-group {
+  display: flex;
+  border-radius: 50px;
+  overflow: hidden;
+  border: 1px solid #ccc;
+  height: 45px;
+  margin-top: 10px;
+}
+
+.input-group input {
+  flex-grow: 1;
+  padding: 0 20px;
+  border: none;
+  outline: none;
+}
+
+.input-group button {
+  border-radius: 0;
+  border: none;
+  padding: 0 20px;
+  font-weight: bold;
+  height: 100%;
+}
+
+/* === 8. BANTUAN/FAQ (FLEXBOX) === */
+/* Dokumentasi: Flex layout untuk ilustrasi dan FAQ accordion dengan animasi height. */
+.section-grid {
+  background-color: #f0f8ff;
+}
+
+.assistance-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 40px;
+}
+
+.assistance-illustration {
+  flex-basis: 40%;
+  text-align: center;
+}
+
+.assistance-illustration img {
+  border-radius: 50%;
+  background-color: var(--color-light-yellow);
+  padding: 15px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.faq-list {
+  flex-basis: 60%;
+}
+
+.faq-item {
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.faq-button {
+  width: 100%;
+  padding: 15px;
+  text-align: left;
+  background-color: #f9f9f9;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.faq-answer {
+  padding: 15px;
+  background-color: var(--color-text-light);
+  display: none; /* default hidden */
+  overflow: hidden;
+  opacity: 0;
+  transition: height var(--dur-calm) var(--ease-calm), opacity var(--dur-quick) var(--ease-calm);
+}
+.faq-answer.show {
+  display: block; /* Tampilkan default yang pertama */
+  opacity: 1;
+}
+
+/* Animated accordion (height transition handled in JS) */
+.faq-answer.animating {
+  display: block;
+}
+
+/* === 9. FOOTER (CSS GRID) === */
+/* Dokumentasi: Grid footer dengan kolom untuk link dan kontak, responsif ke mobile. */
+.main-footer {
+  background-color: var(--color-dark-blue);
+  color: var(--color-text-light);
+  padding-top: 40px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+  padding-bottom: 30px;
+}
+
+.footer-col h5 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.footer-col a {
+  color: var(--color-text-light);
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+.footer-col a:hover {
+  text-decoration: underline;
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 15px 0;
+  text-align: center;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+/* === BARU: Hilangkan card overlay di bawah 770px === */
+@media (max-width: 769px) {
+  .card-overlay-top,
+  .card-overlay-middle,
+  .card-overlay-bottom,
+  .card-overlay2 {
+    display: none !important;
+  }
+}
+
+/* === BARU: Rapikan navbar di bawah 1016px (breakpoint utama untuk mode responsive) === */
+@media (max-width: 1015px) {
+  .hamburger {
+    display: flex !important; /* Tampilkan hamburger lebih awal */
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    font-size: 1.4rem;
+    z-index: 1001;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+  }
+
+  .hamburger:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .hamburger:active {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .nav-links {
+    display: none; /* Sembunyikan nav-links di desktop mode, tapi akan ditampilkan via JS untuk mobile */
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: rgba(19, 35, 56, 0.95);
+    width: 100%;
+    padding: 20px;
+    gap: 10px; /* Kurangi gap untuk lebih rapi */
+    text-align: center;
+    transition: transform 0.3s ease;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .nav-links .nav-item {
+    padding: 10px 15px; /* Kurangi padding untuk compact */
+    font-size: 1rem; /* Kurangi font size */
+    border-radius: 8px;
+  }
+
+  .nav-actions {
+    gap: 10px; /* Kurangi gap untuk rapi */
+  }
+
+  .nav-actions .btn {
+    padding: 8px 16px; /* Compact button */
+    font-size: 0.95rem;
+  }
+
+  .nav-content {
+    padding: 0 16px; /* Tambah padding sisi untuk rapi */
+    gap: 10px; /* Kurangi gap keseluruhan */
+  }
+
+  /* Overlay when menu open */
+  body.menu-open::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 999;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  body.menu-open {
+    overflow: hidden;
+  }
+
+  /* Navbar scrolled adjustment for responsive */
+  .navbar.scrolled {
+    background: rgba(19, 35, 56, 0.98);
+    backdrop-filter: saturate(1.4) blur(12px);
+  }
+}
+
+/* === TABLET (768px and below) - Adjust existing for better responsiveness === */
+@media (max-width: 768px) {
+  /* Hero adjustments */
+  .hero-section {
+    padding-top: 100px;
+    min-height: auto;
+    padding-bottom: 40px;
+  }
+
+  .hero-content {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .hero-text {
+    flex-basis: 100%;
+    text-align: center;
+  }
+
+  .hero-text .btn {
+    margin: 0 auto;
+  }
+
+  .hero-illustration {
+    flex-basis: 100%;
+    height: 300px;
+    margin-top: 20px;
+  }
+
+  .box-blue {
+    height: 280px;
+    right: -30px;
+  }
+
+  .box-teal {
+    width: 80%;
+    height: 240px;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .card-pelapor {
+    padding: 1.5rem 1rem;
+  }
+
+  .stat-number {
+    font-size: 2.5rem;
+  }
+
+  .pelapor-icon-circle {
+    width: 50px;
+    height: 50px;
+    font-size: 1.2rem;
+    margin-right: 15px;
+  }
+
+  .tab-nav {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .btn-tab {
+    font-size: 0.85rem;
+    padding: 8px 16px;
+  }
+
+  .steps-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+
+  .card-lapor {
+    padding: 15px;
+  }
+
+  .icon-primary {
+    font-size: 2rem;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .card-info img {
+    height: 180px;
+  }
+
+  .monitoring-layout {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .monitoring-text-content {
+    text-align: center;
+  }
+
+  .input-group {
+    flex-direction: column;
+    height: auto;
+    border-radius: 12px;
+  }
+
+  .input-group input {
+    padding: 12px 20px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .input-group button {
+    padding: 12px 20px;
+    border-radius: 0 0 12px 12px;
+  }
+
+  .assistance-content {
+    flex-direction: column;
+  }
+
+  .assistance-illustration {
+    flex-basis: 100%;
+  }
+
+  .assistance-illustration img {
+    max-width: 200px;
+    margin: 0 auto;
+  }
+
+  .faq-list {
+    flex-basis: 100%;
+  }
+
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+
+/* === MOBILE (480px and below) === */
+@media (max-width: 480px) {
+  :root {
+    --padding-x: 4vw;
+  }
+
+  .main-title {
+    font-size: 2rem;
+    line-height: 1.2;
+  }
+
+  .section-title {
+    font-size: 1.75rem;
+    margin-bottom: 2rem;
+  }
+
+  .description {
+    font-size: 0.95rem;
+  }
+
+  .btn {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+
+  .btn-lg {
+    padding: 12px 24px;
+  }
+
+  .navbar {
+    padding: 10px 0;
+  }
+
+  .nav-content {
+    padding: 0 16px;
+    gap: 8px;
+  }
+
+  .logo {
+    font-size: 1.4rem;
+  }
+.navbar,
+.nav-links .nav-item,
+.nav-actions .btn {
+  font-family: var(--font-nav) !important;
+  font-weight: 500 !important;
+}
+  .nav-links {
+    padding: 70px 20px 20px 20px;
+  }
+
+  .nav-links .nav-item {
+    padding: 14px 18px;
+    font-size: 0.9rem;
+  }
+
+  .nav-actions .btn {
+    padding: 10px 20px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+
+  .nav-actions .social-icons {
+    display: none;
+  }
+
+  .hamburger {
+    width: 42px;
+    height: 42px;
+    font-size: 1.3rem;
+  }
+
+  .hero-section {
+    padding-top: 80px;
+    padding-bottom: 30px;
+  }
+
+  .main-title {
+    font-size: 1.8rem;
+  }
+  .main-title,
+.section-title,
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading) !important;
+  font-weight: 600 !important;
+  line-height: 1.3;
+}
+  .hero-illustration {
+    height: 250px;
+  }
+
+  .box-blue {
+    height: 220px;
+    right: -20px;
+  }
+
+  .box-teal {
+    height: 180px;
+  }
+
+  .section-padding {
+    padding: 3rem 0;
+  }
+
+  .stat-number {
+    font-size: 2rem;
+  }
+
+  .stat-label {
+    font-size: 0.85rem;
+  }
+
+  .tab-nav {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .btn-tab {
+    width: 100%;
+    text-align: center;
+  }
+
+  .steps-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .card-lapor {
+    padding: 20px 15px;
+  }
+
+  .card-info img {
+    height: 160px;
+  }
+
+  .card-title {
+    font-size: 1.1rem;
+  }
+
+  .card-text {
+    font-size: 0.9rem;
+  }
+
+  .monitoring-layout h2 {
+    font-size: 1.8rem;
+  }
+
+  .monitoring-layout h3 {
+    font-size: 1.3rem;
+  }
+
+  .card-monitoring {
+    padding: 20px 15px;
+  }
+
+  .icon-large {
+    font-size: 2.5rem;
+  }
+
+  .faq-button {
+    padding: 12px;
+    font-size: 0.95rem;
+  }
+
+  .faq-answer {
+    padding: 12px;
+    font-size: 0.9rem;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+
+  .footer-col h5 {
+    font-size: 1.1rem;
+  }
+
+  .mt-40 {
+    margin-top: 30px;
+  }
+
+  .mt-20 {
+    margin-top: 15px;
+  }
+}
+
+/* === EXTRA SMALL (360px and below) === */
+@media (max-width: 360px) {
+  .main-title {
+    font-size: 1.6rem;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+  }
+
+  .hero-illustration {
+    height: 200px;
+  }
+
+  .box-blue {
+    height: 180px;
+  }
+}
+
+/* === LANDSCAPE MOBILE (max-height: 500px) === */
+@media (max-height: 500px) and (orientation: landscape) {
+  .hero-section {
+    min-height: auto;
+    padding-top: 80px;
+    padding-bottom: 40px;
+  }
+
+  .hero-illustration {
+    display: none;
+  }
+
+  .hero-text {
+    text-align: left;
+  }
+}
+
+/* === ACCESSIBILITY - TOUCH TARGETS === */
+@media (hover: none) and (pointer: coarse) {
+  .btn,
+  .nav-item,
+  .faq-button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  .btn:hover,
+  .card:hover {
+    transform: none;
+  }
+
+  .btn:active,
+  .card:active {
+    transform: scale(0.98);
+  }
+}
+
+/* === PRINT STYLES === */
+@media print {
+  .navbar,
+  .hamburger,
+  .btn,
+  footer {
+    display: none !important;
+  }
+
+  body {
+    font-size: 12pt;
+    line-height: 1.5;
+  }
+
+  .hero-section {
+    padding-top: 0;
+  }
+
+  .section-padding {
+    padding: 20pt 0;
+  }
+}
+
+/* === PERFORMANCE - REDUCE ANIMATIONS ON LOW-END === */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================
+   MOBILE NAVBAR IMPROVEMENTS
+   ============================================ */
+
+/* Better hamburger icon styling */
+.hamburger {
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  color: var(--color-text-light);
+  cursor: pointer;
+  padding: 8px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.hamburger i {
+  transition: transform 0.3s ease;
+}
+
+/* When menu is open, rotate icon */
+.hamburger[aria-expanded="true"] i {
+  transform: rotate(90deg);
+}
+
+/* Extra small screens - compact navbar */
+@media (max-width: 480px) {
+  .nav-content {
+    gap: 8px;
+  }
+
+  .logo {
+    flex-shrink: 0;
+  }
+
+  .nav-actions {
+    gap: 8px;
+    margin-left: auto;
+  }
+
+  .nav-actions .btn {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+  }
+}
+
+/* Fix for any stray tooltips or dropdowns */
+@media (max-width: 1015px) {
+  [role="tooltip"],
+  .tooltip,
+  [data-tooltip] {
+    display: none !important;
+  }
+
+  .nav-item {
+    position: relative;
+  }
+
+  .nav-item::before,
+  .nav-item::after {
+    display: none !important;
+  }
+}
