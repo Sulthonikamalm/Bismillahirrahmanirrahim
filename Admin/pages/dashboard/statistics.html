@@ -37,41 +37,154 @@
                 <div></div>
             </header>
 
+            <!-- Total Summary Card -->
             <div class="summary-card">
                 <h3 id="totalReports">52</h3>
                 <p>Total Laporan Diterima</p>
             </div>
 
-            <div class="row">
+            <!-- === GENDER CHART (CENTER) === -->
+            <div class="row justify-content-center mb-4">
                 <div class="col-lg-6">
                     <div class="stat-card">
-                        <h3 class="stat-card-title"><i class="bi bi-exclamation-triangle me-2"></i>Berdasarkan Tingkat Kekhawatiran</h3>
-                        <div class="chart-container"><canvas id="worryLevelChart"></canvas></div>
+                        <h3 class="stat-card-title">
+                            <i class="bi bi-gender-ambiguous me-2"></i>
+                            Berdasarkan Gender Korban
+                        </h3>
+                        <div class="chart-container">
+                            <canvas id="genderChart"></canvas>
+                        </div>
                         <table class="stats-table">
                             <tbody>
-                                <tr><td class="stat-label"><span class="stat-dot sedikit"></span>Sedikit Khawatir</td><td class="stat-value" id="stat-sedikit">15 (28.8%)</td></tr>
-                                <tr><td class="stat-label"><span class="stat-dot khawatir"></span>Khawatir</td><td class="stat-value" id="stat-khawatir">25 (48.1%)</td></tr>
-                                <tr><td class="stat-label"><span class="stat-dot sangat"></span>Sangat Khawatir</td><td class="stat-value" id="stat-sangat">12 (23.1%)</td></tr>
+                                <tr>
+                                    <td class="stat-label">
+                                        <span class="stat-dot male"></span>Laki-laki
+                                    </td>
+                                    <td class="stat-value" id="stat-male">20 (38.5%)</td>
+                                </tr>
+                                <tr>
+                                    <td class="stat-label">
+                                        <span class="stat-dot female"></span>Perempuan
+                                    </td>
+                                    <td class="stat-value" id="stat-female">28 (53.8%)</td>
+                                </tr>
+                                <tr>
+                                    <td class="stat-label">
+                                        <span class="stat-dot other"></span>Lainnya
+                                    </td>
+                                    <td class="stat-value" id="stat-other">4 (7.7%)</td>
+                                </tr>
                             </tbody>
-                            <tfoot><tr><td class="stat-label"><strong>Total</strong></td><td class="stat-value" id="stat-worry-total"><strong>52</strong></td></tr></tfoot>
+                            <tfoot>
+                                <tr>
+                                    <td class="stat-label"><strong>Total</strong></td>
+                                    <td class="stat-value" id="stat-gender-total"><strong>52</strong></td>
+                                </tr>
+                            </tfoot>
                         </table>
-                        <div class="alert alert-info mt-3 mb-0"><i class="bi bi-info-circle me-2"></i><small><strong>Catatan:</strong> Kategori "Sangat Khawatir" termasuk kasus darurat yang langsung dihubungkan ke profesional.</small></div>
+                        <div class="alert alert-secondary mt-3 mb-0">
+                            <i class="bi bi-lightbulb me-2"></i>
+                            <small>
+                                <strong>Catatan:</strong> Data gender korban membantu dalam penyediaan layanan dukungan yang lebih sesuai dan inklusif.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- === OTHER CHARTS (SIDE BY SIDE) === -->
+            <div class="row">
+                <!-- Worry Level Chart -->
+                <div class="col-lg-6">
+                    <div class="stat-card">
+                        <h3 class="stat-card-title">
+                            <i class="bi bi-exclamation-triangle me-2"></i>
+                            Berdasarkan Tingkat Kekhawatiran
+                        </h3>
+                        <div class="chart-container">
+                            <canvas id="worryLevelChart"></canvas>
+                        </div>
+                        <table class="stats-table">
+                            <tbody>
+                                <tr>
+                                    <td class="stat-label">
+                                        <span class="stat-dot sedikit"></span>Sedikit Khawatir
+                                    </td>
+                                    <td class="stat-value" id="stat-sedikit">15 (28.8%)</td>
+                                </tr>
+                                <tr>
+                                    <td class="stat-label">
+                                        <span class="stat-dot khawatir"></span>Khawatir
+                                    </td>
+                                    <td class="stat-value" id="stat-khawatir">25 (48.1%)</td>
+                                </tr>
+                                <tr>
+                                    <td class="stat-label">
+                                        <span class="stat-dot sangat"></span>Sangat Khawatir
+                                    </td>
+                                    <td class="stat-value" id="stat-sangat">12 (23.1%)</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td class="stat-label"><strong>Total</strong></td>
+                                    <td class="stat-value" id="stat-worry-total"><strong>52</strong></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <div class="alert alert-info mt-3 mb-0">
+                            <i class="bi bi-info-circle me-2"></i>
+                            <small>
+                                <strong>Catatan:</strong> Kategori "Sangat Khawatir" termasuk kasus darurat yang langsung dihubungkan ke profesional.
+                            </small>
+                        </div>
                     </div>
                 </div>
 
+                <!-- Status Chart -->
                 <div class="col-lg-6">
                     <div class="stat-card">
-                        <h3 class="stat-card-title"><i class="bi bi-clipboard-check me-2"></i>Berdasarkan Status Penanganan</h3>
-                        <div class="chart-container"><canvas id="statusChart"></canvas></div>
+                        <h3 class="stat-card-title">
+                            <i class="bi bi-clipboard-check me-2"></i>
+                            Berdasarkan Status Penanganan
+                        </h3>
+                        <div class="chart-container">
+                            <canvas id="statusChart"></canvas>
+                        </div>
                         <table class="stats-table">
                             <tbody>
-                                <tr><td class="stat-label"><span class="stat-dot process"></span>Process</td><td class="stat-value" id="stat-process">20 (38.5%)</td></tr>
-                                <tr><td class="stat-label"><span class="stat-dot investigation"></span>Investigation</td><td class="stat-value" id="stat-investigation">18 (34.6%)</td></tr>
-                                <tr><td class="stat-label"><span class="stat-dot completed"></span>Completed</td><td class="stat-value" id="stat-completed">14 (26.9%)</td></tr>
+                                <tr>
+                                    <td class="stat-label">
+                                        <span class="stat-dot process"></span>Process
+                                    </td>
+                                    <td class="stat-value" id="stat-process">20 (38.5%)</td>
+                                </tr>
+                                <tr>
+                                    <td class="stat-label">
+                                        <span class="stat-dot investigation"></span>Investigation
+                                    </td>
+                                    <td class="stat-value" id="stat-investigation">18 (34.6%)</td>
+                                </tr>
+                                <tr>
+                                    <td class="stat-label">
+                                        <span class="stat-dot completed"></span>Completed
+                                    </td>
+                                    <td class="stat-value" id="stat-completed">14 (26.9%)</td>
+                                </tr>
                             </tbody>
-                            <tfoot><tr><td class="stat-label"><strong>Total</strong></td><td class="stat-value" id="stat-status-total"><strong>52</strong></td></tr></tfoot>
+                            <tfoot>
+                                <tr>
+                                    <td class="stat-label"><strong>Total</strong></td>
+                                    <td class="stat-value" id="stat-status-total"><strong>52</strong></td>
+                                </tr>
+                            </tfoot>
                         </table>
-                        <div class="alert alert-secondary mt-3 mb-0"><i class="bi bi-lightbulb me-2"></i><small><strong>Status:</strong> Process (laporan baru), Investigation (dalam penyelidikan), Completed (selesai ditangani).</small></div>
+                        <div class="alert alert-secondary mt-3 mb-0">
+                            <i class="bi bi-lightbulb me-2"></i>
+                            <small>
+                                <strong>Status:</strong> Process (laporan baru), Investigation (dalam penyelidikan), Completed (selesai ditangani).
+                            </small>
+                        </div>
                     </div>
                 </div>
             </div>

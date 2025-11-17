@@ -15,7 +15,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../../assets/css/main.css">
@@ -24,12 +24,16 @@
 
     <div class="container-fluid">
         <div class="row vh-100">
-            <!-- Left Column - Login Form -->
-            <div class="col-lg-5 col-md-6 d-flex justify-content-center align-items-center form-column">
+            <!-- ========================================
+                 LEFT COLUMN - LOGIN FORM
+                 ======================================== -->
+            <div class="col-lg-5 col-md-6 form-column">
                 <div class="form-container">
+                    <!-- Brand -->
                     <h1 class="brand-title">Sigap</h1>
-                    <p class="subtitle mb-4">Log in Admin</p>
+                    <p class="subtitle">Log in Admin</p>
 
+                    <!-- Login Form -->
                     <form id="loginForm" novalidate>
                         <!-- Email Field -->
                         <div class="mb-3">
@@ -39,6 +43,7 @@
                                 class="form-control" 
                                 id="email" 
                                 placeholder="admin@sigap.com"
+                                autocomplete="email"
                                 required
                             >
                         </div>
@@ -52,6 +57,7 @@
                                     class="form-control" 
                                     id="password" 
                                     placeholder="Enter your password"
+                                    autocomplete="current-password"
                                     required
                                 >
                                 <span class="input-group-text" id="togglePasswordIcon">
@@ -63,7 +69,7 @@
                         <!-- Error Message -->
                         <div id="errorMessage" class="alert alert-danger d-none" role="alert">
                             <i class="bi bi-exclamation-circle me-2"></i>
-                            Email atau Password salah!
+                            <span id="errorText">Email atau Password salah!</span>
                         </div>
                         
                         <!-- Login Button -->
@@ -72,17 +78,39 @@
                                 Log in
                             </button>
                         </div>
+
+                        <!-- Helper Text -->
+                        <div class="text-center mt-4">
+                            <small class="text-muted">
+                                Demo credentials: admin@sigap.com / admin123
+                            </small>
+                        </div>
                     </form>
                 </div>
             </div>
 
-            <!-- Right Column - Illustration -->
-            <div class="col-lg-7 col-md-6 d-none d-md-flex justify-content-center align-items-center image-column">
-                <img 
-                    src="../../assets/images/Illustration.png" 
-                    class="img-fluid w-75" 
-                    alt="Ilustrasi Admin Dashboard"
-                >
+            <!-- ========================================
+                 RIGHT COLUMN - ILLUSTRATION
+                 ======================================== -->
+            <div class="col-lg-7 col-md-6 image-column">
+                <div class="illustration-container">
+                    <!-- Option 1: If you have Illustration.png -->
+                    <img 
+                        src="../../assets/images/Illustration.png" 
+                        class="illustration-image" 
+                        alt="Ilustrasi Admin Dashboard"
+                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                    >
+                    
+                    <!-- Option 2: Fallback if image not found -->
+                    <div class="illustration-placeholder" style="display: none;">
+                        <i class="bi bi-shield-check"></i>
+                        <h3>Sistem Informasi PPKS</h3>
+                        <p>
+                            Platform terintegrasi untuk pengelolaan dan penanganan kasus kekerasan seksual dengan pendekatan yang aman dan terpercaya.
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
