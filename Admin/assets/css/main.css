@@ -111,14 +111,14 @@ body {
     height: 100vh;
 }
 
-/* === FORM COLUMN === */
+/* === FORM COLUMN (30%) === */
 .form-column {
     background-color: var(--color-white);
     padding: var(--spacing-2xl);
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 42%;
+    width: 30%;
 }
 
 .form-container {
@@ -126,13 +126,18 @@ body {
     width: 100%;
 }
 
-/* === IMAGE COLUMN - Background gradient konsisten === */
+/* === IMAGE COLUMN (70%) - Background gelap seperti SIRAMA === */
 .image-column {
-    background: linear-gradient(135deg, var(--color-dark-blue) 0%, var(--color-mid-blue) 50%, var(--color-teal) 100%);
+    background: linear-gradient(135deg, 
+        #0f1f35 0%, 
+        #1a3a52 40%, 
+        #2d5670 70%, 
+        #3a6b7d 100%
+    );
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 58%;
+    width: 70%;
     position: relative;
     overflow: hidden;
 }
@@ -144,8 +149,8 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></pattern></defs><rect width="1200" height="800" fill="url(%23grid)"/></svg>');
-    opacity: 0.3;
+    background: rgba(0, 0, 0, 0.25);
+    z-index: 0;
 }
 
 /* === BRAND TITLE - Logo style konsisten === */
@@ -322,71 +327,6 @@ body {
     display: none !important;
 }
 
-/* === ILLUSTRATION CONTAINER === */
-.illustration-container {
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 3rem;
-}
-
-/* === ILLUSTRATION IMAGE === */
-.illustration-image {
-    max-width: 75%;
-    max-height: 75%;
-    width: auto;
-    height: auto;
-    object-fit: contain;
-    filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.2));
-    animation: float 3s ease-in-out infinite;
-}
-
-@keyframes float {
-    0%, 100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-20px);
-    }
-}
-
-/* === ILLUSTRATION PLACEHOLDER (Fallback) === */
-.illustration-placeholder {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 3rem;
-}
-
-.illustration-placeholder i {
-    font-size: 8rem;
-    color: rgba(255, 255, 255, 0.9);
-    margin-bottom: 2rem;
-    animation: float 3s ease-in-out infinite;
-}
-
-.illustration-placeholder h3 {
-    font-family: var(--font-heading);
-    font-size: 2.5rem;
-    font-weight: 600;
-    color: var(--color-white);
-    margin-bottom: 1rem;
-}
-
-.illustration-placeholder p {
-    font-family: var(--font-body);
-    font-size: 1.1rem;
-    color: rgba(255, 255, 255, 0.85);
-    max-width: 500px;
-    line-height: 1.7;
-}
-
 /* === HELPER TEXT === */
 .text-center {
     text-align: center;
@@ -501,26 +441,32 @@ small {
     margin-left: 0;
 }
 
-/* Column base */
-.col-lg-5 {
+/* Column base - Adjusted for 30-70 split */
+.col-lg-4 {
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+}
+
+.col-lg-8 {
+    flex: 0 0 66.666667%;
+    max-width: 66.666667%;
+}
+
+.col-md-5 {
     flex: 0 0 41.666667%;
     max-width: 41.666667%;
 }
 
-.col-lg-7 {
+.col-md-7 {
     flex: 0 0 58.333333%;
     max-width: 58.333333%;
 }
 
-.col-md-6 {
-    flex: 0 0 50%;
-    max-width: 50%;
-}
-
 @media (max-width: 991.98px) {
-    .col-lg-5,
-    .col-lg-7,
-    .col-md-6 {
+    .col-lg-4,
+    .col-lg-8,
+    .col-md-5,
+    .col-md-7 {
         flex: 0 0 100%;
         max-width: 100%;
     }
@@ -593,52 +539,7 @@ small {
 }
 
 /* ========================================
-   INPUT GROUP (Custom Implementation)
-   ======================================== */
-
-.input-group {
-    position: relative;
-    display: flex;
-    align-items: stretch;
-}
-
-.input-group .form-control {
-    flex: 1;
-    border-right: none;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-}
-
-.input-group-text {
-    background-color: var(--color-bg);
-    border: 2px solid transparent;
-    border-left: none;
-    border-radius: 0 var(--radius-md) var(--radius-md) 0;
-    padding: 1rem 1.25rem;
-    cursor: pointer;
-    transition: var(--transition);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.input-group:focus-within .input-group-text {
-    background-color: var(--color-white);
-    border-color: var(--color-primary);
-}
-
-.input-group-text i {
-    color: var(--color-gray);
-    font-size: 1.25rem;
-}
-
-.input-group-text:hover i {
-    color: var(--color-primary);
-}
-
-/* ========================================
    CUSTOM TOAST/NOTIFICATION SYSTEM
-   (Replace alert with animated notification)
    ======================================== */
 
 .toast-container {
@@ -733,20 +634,6 @@ small {
         opacity: 0;
         transform: translateX(100px);
     }
-}
-
-/* ========================================
-   SHAKE ANIMATION FOR BUTTON ERROR
-   ======================================== */
-
-@keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
-    20%, 40%, 60%, 80% { transform: translateX(8px); }
-}
-
-.shake {
-    animation: shake 0.5s;
 }
 
 /* === PRINT === */

@@ -16,6 +16,375 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../../assets/css/main.css">
+    <style>
+        /* === ANIMATED BACKGROUND === */
+        @keyframes move {
+            100% {
+                transform: translate3d(0, 0, 1px) rotate(360deg);
+            }
+        }
+
+        .background {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .background span {
+            width: 20vmin;
+            height: 20vmin;
+            border-radius: 20vmin;
+            backface-visibility: hidden;
+            position: absolute;
+            animation: move;
+            animation-duration: 45s;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+        }
+
+        .background span:nth-child(0) {
+            color: #fafafa;
+            top: 66%;
+            left: 22%;
+            animation-duration: 10s;
+            animation-delay: -27s;
+            transform-origin: -1vw -8vh;
+            box-shadow: 40vmin 0 5.2vmin currentColor;
+        }
+
+        .background span:nth-child(1) {
+            color: #4fa18e;
+            top: 3%;
+            left: 88%;
+            animation-duration: 70s;
+            animation-delay: -12s;
+            transform-origin: -2vw -10vh;
+            box-shadow: -40vmin 0 5.7vmin currentColor;
+        }
+
+        .background span:nth-child(2) {
+            color: #fafafa;
+            top: 4%;
+            left: 51%;
+            animation-duration: 50s;
+            animation-delay: -68s;
+            transform-origin: -16vw -16vh;
+            box-shadow: 40vmin 0 5vmin currentColor;
+        }
+
+        .background span:nth-child(3) {
+            color: #4fa18e;
+            top: 7%;
+            left: 16%;
+            animation-duration: 53s;
+            animation-delay: -32s;
+            transform-origin: -13vw 7vh;
+            box-shadow: 40vmin 0 5.7vmin currentColor;
+        }
+
+        .background span:nth-child(4) {
+            color: #fafafa;
+            top: 15%;
+            left: 24%;
+            animation-duration: 71s;
+            animation-delay: -28s;
+            transform-origin: 16vw -1vh;
+            box-shadow: -40vmin 0 5.4vmin currentColor;
+        }
+
+        .background span:nth-child(5) {
+            color: #4fa18e;
+            top: 2%;
+            left: 22%;
+            animation-duration: 48s;
+            animation-delay: -28s;
+            transform-origin: 20vw -11vh;
+            box-shadow: -40vmin 0 5vmin currentColor;
+        }
+
+        .background span:nth-child(6) {
+            color: #34629d;
+            top: 73%;
+            left: 56%;
+            animation-duration: 31s;
+            animation-delay: -38s;
+            transform-origin: -22vw -17vh;
+            box-shadow: 40vmin 0 5.7vmin currentColor;
+        }
+
+        .background span:nth-child(7) {
+            color: #fafafa;
+            top: 79%;
+            left: 93%;
+            animation-duration: 11s;
+            animation-delay: -27s;
+            transform-origin: -5vw 3vh;
+            box-shadow: 40vmin 0 5.2vmin currentColor;
+        }
+
+        .background span:nth-child(8) {
+            color: #fafafa;
+            top: 50%;
+            left: 60%;
+            animation-duration: 71s;
+            animation-delay: -23s;
+            transform-origin: -12vw -10vh;
+            box-shadow: 40vmin 0 5.2vmin currentColor;
+        }
+
+        .background span:nth-child(9) {
+            color: #34629d;
+            top: 40%;
+            left: 80%;
+            animation-duration: 56s;
+            animation-delay: -53s;
+            transform-origin: 10vw 12vh;
+            box-shadow: 40vmin 0 5.5vmin currentColor;
+        }
+
+        .background span:nth-child(10) {
+            color: #fafafa;
+            top: 49%;
+            left: 78%;
+            animation-duration: 28s;
+            animation-delay: -59s;
+            transform-origin: 21vw -11vh;
+            box-shadow: 40vmin 0 5.4vmin currentColor;
+        }
+
+        .background span:nth-child(11) {
+            color: #fafafa;
+            top: 35%;
+            left: 47%;
+            animation-duration: 18s;
+            animation-delay: -33s;
+            transform-origin: 1vw 2vh;
+            box-shadow: 40vmin 0 5vmin currentColor;
+        }
+
+        .background span:nth-child(12) {
+            color: #4fa18e;
+            top: 55%;
+            left: 74%;
+            animation-duration: 57s;
+            animation-delay: -41s;
+            transform-origin: -21vw 9vh;
+            box-shadow: 40vmin 0 5.5vmin currentColor;
+        }
+
+        .background span:nth-child(13) {
+            color: #34629d;
+            top: 80%;
+            left: 48%;
+            animation-duration: 24s;
+            animation-delay: -1s;
+            transform-origin: 8vw 11vh;
+            box-shadow: 40vmin 0 5.1vmin currentColor;
+        }
+
+        .background span:nth-child(14) {
+            color: #34629d;
+            top: 70%;
+            left: 30%;
+            animation-duration: 40s;
+            animation-delay: -21s;
+            transform-origin: 1vw 12vh;
+            box-shadow: 40vmin 0 5.8vmin currentColor;
+        }
+
+        .background span:nth-child(15) {
+            color: #fafafa;
+            top: 78%;
+            left: 97%;
+            animation-duration: 71s;
+            animation-delay: -38s;
+            transform-origin: -9vw -22vh;
+            box-shadow: 40vmin 0 5.4vmin currentColor;
+        }
+
+        .background span:nth-child(16) {
+            color: #34629d;
+            top: 50%;
+            left: 2%;
+            animation-duration: 58s;
+            animation-delay: -32s;
+            transform-origin: 16vw 23vh;
+            box-shadow: -40vmin 0 5.6vmin currentColor;
+        }
+
+        .background span:nth-child(17) {
+            color: #34629d;
+            top: 94%;
+            left: 93%;
+            animation-duration: 29s;
+            animation-delay: -13s;
+            transform-origin: -22vw -8vh;
+            box-shadow: 40vmin 0 5.2vmin currentColor;
+        }
+
+        .background span:nth-child(18) {
+            color: #34629d;
+            top: 4%;
+            left: 99%;
+            animation-duration: 15s;
+            animation-delay: -7s;
+            transform-origin: 23vw -8vh;
+            box-shadow: -40vmin 0 5.9vmin currentColor;
+        }
+
+        .background span:nth-child(19) {
+            color: #34629d;
+            top: 81%;
+            left: 48%;
+            animation-duration: 27s;
+            animation-delay: -11s;
+            transform-origin: 17vw -12vh;
+            box-shadow: -40vmin 0 5.4vmin currentColor;
+        }
+
+        /* === ILLUSTRATION CONTENT === */
+        .illustration-container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem;
+        }
+
+        .illustration-content {
+            text-align: center;
+            color: white;
+            max-width: 600px;
+        }
+
+        .illustration-image {
+            max-width: 300px;
+            width: 100%;
+            height: auto;
+            margin-bottom: 2rem;
+            filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        .illustration-text {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2.5rem;
+            border-radius: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .welcome-title {
+            font-family: var(--font-body);
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+
+        .system-title {
+            font-family: var(--font-logo);
+            font-size: 4rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+            line-height: 1;
+        }
+
+        .system-subtitle {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .university-name {
+            font-family: var(--font-body);
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #ffd700;
+            margin-bottom: 2rem;
+            letter-spacing: 0.5px;
+        }
+
+        .motivational-text {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .quote {
+            font-family: var(--font-body);
+            font-size: 1rem;
+            font-weight: 500;
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 991.98px) {
+            .background {
+                display: none;
+            }
+            
+            .system-title {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 767.98px) {
+            .illustration-image {
+                max-width: 200px;
+                margin-bottom: 1.5rem;
+            }
+
+            .illustration-text {
+                padding: 1.5rem;
+            }
+
+            .system-title {
+                font-size: 2.5rem;
+            }
+
+            .system-subtitle {
+                font-size: 1rem;
+            }
+
+            .quote {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* === ACCESSIBILITY === */
+        @media (prefers-reduced-motion: reduce) {
+            .background span,
+            .illustration-image {
+                animation: none !important;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -57,7 +426,7 @@
                                     autocomplete="current-password"
                                     required
                                 >
-                                <span class="input-group-text" id="togglePasswordIcon">
+                                <span class="input-group-text" id="togglePasswordIcon" style="display: none;">
                                     <i class="bi bi-eye-slash" id="eyeIcon"></i>
                                 </span>
                             </div>
@@ -87,25 +456,62 @@
             </div>
 
             <!-- ========================================
-                 RIGHT COLUMN - ILLUSTRATION
+                 RIGHT COLUMN - ILLUSTRATION WITH ANIMATION
                  ======================================== -->
             <div class="col-lg-7 col-md-6 image-column">
+                <!-- Animated Background -->
+                <div class="background">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+
+                <!-- Content Container -->
                 <div class="illustration-container">
-                    <!-- Option 1: If you have Illustration.png -->
-                    <img 
-                        src="../../assets/images/Illustration.png" 
-                        class="illustration-image" 
-                        alt="Ilustrasi Admin Dashboard"
-                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-                    >
-                    
-                    <!-- Option 2: Fallback if image not found -->
-                    <div class="illustration-placeholder" style="display: none;">
-                        <i class="bi bi-shield-check"></i>
-                        <h3>Sistem Informasi PPKS</h3>
-                        <p>
-                            Platform terintegrasi untuk pengelolaan dan penanganan kasus kekerasan seksual dengan pendekatan yang aman dan terpercaya.
-                        </p>
+                    <!-- Content -->
+                    <div class="illustration-content">
+                        <!-- Image -->
+                        <img 
+                            src="../../assets/images/Illustration.png" 
+                            class="illustration-image" 
+                            alt="Ilustrasi Admin Dashboard"
+                            onerror="this.style.display='none';"
+                        >
+                        
+                        <!-- Text Content -->
+                        <div class="illustration-text">
+                            <h2 class="welcome-title">Selamat Datang di</h2>
+                            <h1 class="system-title">SIGAP</h1>
+                            <p class="system-subtitle">
+                                Sistem Informasi Pengelolaan dan Pelaporan<br>
+                                Kekerasan Seksual
+                            </p>
+                            <p class="university-name">Telkom University Surabaya</p>
+                            
+                            <div class="motivational-text">
+                                <p class="quote">
+                                    "Setiap laporan adalah suara yang harus didengar,<br>
+                                    setiap tindakan adalah harapan yang harus dipenuhi."
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
