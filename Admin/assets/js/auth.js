@@ -2,7 +2,7 @@
  * ============================================================
  * SIGAP PPKS - Login Page JavaScript (Pure JS - No Bootstrap)
  * Version: 7.0 - Clean & Modern
- * File: assets/js/login.js
+ * File: assets/js/auth.js
  * ============================================================
  */
 
@@ -75,7 +75,9 @@ function attachListeners() {
     elements.password.addEventListener('input', handlePasswordInput);
     
     // Toggle password visibility
-    elements.togglePassword.addEventListener('click', togglePasswordVisibility);
+    if (elements.togglePassword) {
+        elements.togglePassword.addEventListener('click', togglePasswordVisibility);
+    }
     
     // Form submit
     elements.form.addEventListener('submit', handleSubmit);
@@ -87,10 +89,10 @@ function attachListeners() {
 function handlePasswordInput() {
     const hasValue = elements.password.value.length > 0;
     
-    if (hasValue) {
-        elements.togglePassword.classList.add('visible');
-    } else {
-        elements.togglePassword.classList.remove('visible');
+    if (hasValue && elements.togglePassword) {
+        elements.togglePassword.style.display = 'flex';
+    } else if (elements.togglePassword) {
+        elements.togglePassword.style.display = 'none';
     }
 }
 
@@ -179,6 +181,9 @@ function isValidEmail(email) {
 // LOGIN LOGIC
 // ========================================
 async function attemptLogin(email, password) {
+    console.log('Attempting login with:', email);
+    console.log('Expected credentials:', CONFIG.CREDENTIALS);
+    
     state.isSubmitting = true;
     setLoadingState(true);
     
@@ -187,9 +192,17 @@ async function attemptLogin(email, password) {
         await sleep(800);
         
         // Check credentials
-        if (email === CONFIG.CREDENTIALS.EMAIL && password === CONFIG.CREDENTIALS.PASSWORD) {
+        const emailMatch = email === CONFIG.CREDENTIALS.EMAIL;
+        const passwordMatch = password === CONFIG.CREDENTIALS.PASSWORD;
+        
+        console.log('Email match:', emailMatch);
+        console.log('Password match:', passwordMatch);
+        
+        if (emailMatch && passwordMatch) {
+            console.log('Credentials valid! Calling handleLoginSuccess...');
             handleLoginSuccess({ email });
         } else {
+            console.log('Credentials invalid!');
             handleLoginError('Email atau password salah!');
         }
     } catch (error) {
@@ -202,6 +215,8 @@ async function attemptLogin(email, password) {
 }
 
 function handleLoginSuccess(user) {
+    console.log('Login berhasil! User:', user);
+    
     // Store session
     sessionStorage.setItem('user', JSON.stringify({
         email: user.email,
@@ -209,13 +224,18 @@ function handleLoginSuccess(user) {
         role: 'Administrator'
     }));
     
+    console.log('Session stored:', sessionStorage.getItem('user'));
+    
     // Show success
     showSuccess('Login Berhasil! Mengarahkan ke Dashboard...');
     
     // Redirect
+    const dashboardPath = CONFIG.ROUTES.DASHBOARD;
+    console.log('Redirecting to:', dashboardPath);
+    
     setTimeout(() => {
-        window.location.href = CONFIG.ROUTES.DASHBOARD;
-    }, 1000);
+        window.location.href = dashboardPath;
+    }, 1500);
 }
 
 function handleLoginError(message) {
@@ -252,7 +272,9 @@ function showError(message) {
 }
 
 function hideError() {
-    elements.errorMessage.classList.add('hidden');
+    if (elements.errorMessage) {
+        elements.errorMessage.classList.add('hidden');
+    }
 }
 
 function showSuccess(message) {
@@ -298,4 +320,4 @@ function showSuccess(message) {
 // ========================================
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
-} 
+}
