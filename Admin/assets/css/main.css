@@ -482,12 +482,279 @@ small {
     }
 }
 
+/* ========================================
+   CUSTOM GRID SYSTEM (Replace Bootstrap)
+   ======================================== */
+
+.container-fluid {
+    width: 100%;
+    padding-right: 0;
+    padding-left: 0;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: 0;
+    margin-left: 0;
+}
+
+/* Column base */
+.col-lg-5 {
+    flex: 0 0 41.666667%;
+    max-width: 41.666667%;
+}
+
+.col-lg-7 {
+    flex: 0 0 58.333333%;
+    max-width: 58.333333%;
+}
+
+.col-md-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+}
+
+@media (max-width: 991.98px) {
+    .col-lg-5,
+    .col-lg-7,
+    .col-md-6 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
+
+/* ========================================
+   UTILITY CLASSES (Replace Bootstrap)
+   ======================================== */
+
+/* Display */
+.d-none {
+    display: none !important;
+}
+
+.d-grid {
+    display: grid !important;
+}
+
+/* Spacing - Margin */
+.mb-3 {
+    margin-bottom: 1rem !important;
+}
+
+.mb-4 {
+    margin-bottom: 1.5rem !important;
+}
+
+.mt-3 {
+    margin-top: 1rem !important;
+}
+
+.mt-4 {
+    margin-top: 1.5rem !important;
+}
+
+/* ========================================
+   BUTTON STYLES (Replace Bootstrap)
+   ======================================== */
+
+.btn {
+    display: inline-block;
+    font-weight: 500;
+    line-height: 1.5;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    border-radius: var(--radius-sm);
+    transition: var(--transition);
+    font-family: var(--font-body);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn-primary {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    color: var(--color-white);
+}
+
+.btn-primary:hover {
+    background-color: var(--color-primary-dark);
+    border-color: var(--color-primary-dark);
+}
+
+/* ========================================
+   INPUT GROUP (Custom Implementation)
+   ======================================== */
+
+.input-group {
+    position: relative;
+    display: flex;
+    align-items: stretch;
+}
+
+.input-group .form-control {
+    flex: 1;
+    border-right: none;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.input-group-text {
+    background-color: var(--color-bg);
+    border: 2px solid transparent;
+    border-left: none;
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    padding: 1rem 1.25rem;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.input-group:focus-within .input-group-text {
+    background-color: var(--color-white);
+    border-color: var(--color-primary);
+}
+
+.input-group-text i {
+    color: var(--color-gray);
+    font-size: 1.25rem;
+}
+
+.input-group-text:hover i {
+    color: var(--color-primary);
+}
+
+/* ========================================
+   CUSTOM TOAST/NOTIFICATION SYSTEM
+   (Replace alert with animated notification)
+   ======================================== */
+
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    pointer-events: none;
+}
+
+.toast {
+    pointer-events: auto;
+    min-width: 300px;
+    max-width: 400px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+    background-color: var(--color-white);
+    border-radius: var(--radius-md);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    border-left: 4px solid;
+    animation: slideInRight 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.toast.toast-success {
+    border-left-color: var(--color-success);
+    background-color: #d1fae5;
+}
+
+.toast.toast-error {
+    border-left-color: var(--color-danger);
+    background-color: #fee2e2;
+}
+
+.toast.toast-hide {
+    animation: slideOutRight 0.3s ease-out forwards;
+}
+
+.toast i {
+    font-size: 1.5rem;
+}
+
+.toast.toast-success i {
+    color: var(--color-success);
+}
+
+.toast.toast-error i {
+    color: var(--color-danger);
+}
+
+.toast-content {
+    flex: 1;
+}
+
+.toast-title {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.toast.toast-success .toast-title {
+    color: var(--color-success);
+}
+
+.toast.toast-error .toast-title {
+    color: var(--color-danger);
+}
+
+.toast-message {
+    font-size: 0.9rem;
+    color: var(--color-dark);
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+}
+
+/* ========================================
+   SHAKE ANIMATION FOR BUTTON ERROR
+   ======================================== */
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
+    20%, 40%, 60%, 80% { transform: translateX(8px); }
+}
+
+.shake {
+    animation: shake 0.5s;
+}
+
 /* === PRINT === */
 @media print {
     .image-column {
         display: none;
     }
-    
+
     .form-column {
         width: 100%;
     }
