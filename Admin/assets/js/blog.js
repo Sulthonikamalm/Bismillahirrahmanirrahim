@@ -13,6 +13,7 @@
     // DOM ELEMENTS
     // ========================================
     let checkAllBtn = null;
+    let checkAllBtnMobile = null;
     let blogCheckboxes = null;
     let deleteBtn = null;
 
@@ -29,6 +30,7 @@
      */
     function initElements() {
         checkAllBtn = document.getElementById('checkAllBlogs');
+        checkAllBtnMobile = document.getElementById('checkAllBlogsMobile');
         blogCheckboxes = document.querySelectorAll('.blog-checkbox');
         deleteBtn = document.getElementById('btnDeleteBlogs');
     }
@@ -37,9 +39,14 @@
      * Attach event listeners
      */
     function attachEventListeners() {
-        // Check all functionality
+        // Check all functionality (Desktop)
         if (checkAllBtn) {
             checkAllBtn.addEventListener('change', toggleAllCheckboxes);
+        }
+
+        // Check all functionality (Mobile)
+        if (checkAllBtnMobile) {
+            checkAllBtnMobile.addEventListener('change', toggleAllCheckboxes);
         }
 
         // Individual checkbox listeners
@@ -85,6 +92,7 @@
         const totalBoxes = blogCheckboxes.length;
         const checkedCount = checkedBoxes.length;
 
+        // Update desktop checkbox
         if (checkAllBtn) {
             if (checkedCount === 0) {
                 // None checked
@@ -98,6 +106,20 @@
                 // Some checked (indeterminate state)
                 checkAllBtn.checked = false;
                 checkAllBtn.indeterminate = true;
+            }
+        }
+
+        // Sync mobile checkbox state
+        if (checkAllBtnMobile) {
+            if (checkedCount === 0) {
+                checkAllBtnMobile.checked = false;
+                checkAllBtnMobile.indeterminate = false;
+            } else if (checkedCount === totalBoxes) {
+                checkAllBtnMobile.checked = true;
+                checkAllBtnMobile.indeterminate = false;
+            } else {
+                checkAllBtnMobile.checked = false;
+                checkAllBtnMobile.indeterminate = true;
             }
         }
 
@@ -175,6 +197,11 @@
         if (checkAllBtn) {
             checkAllBtn.checked = false;
             checkAllBtn.indeterminate = false;
+        }
+
+        if (checkAllBtnMobile) {
+            checkAllBtnMobile.checked = false;
+            checkAllBtnMobile.indeterminate = false;
         }
 
         blogCheckboxes.forEach(checkbox => {
