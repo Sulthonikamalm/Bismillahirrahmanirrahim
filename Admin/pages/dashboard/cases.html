@@ -10,7 +10,80 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="../../assets/css/dashboard.css">
+
+    <style>
+        /* Styling Tab Navigasi */
+        .case-tabs {
+            display: flex;
+            gap: 25px;
+            border-bottom: 1px solid #e0e0e0;
+            margin-bottom: 20px;
+            padding-left: 5px;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 10px 5px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            font-size: 0.95rem;
+            color: #888;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn:hover {
+            color: #333;
+        }
+
+        .tab-btn.active {
+            color: #2c3e50; /* Warna gelap elegan */
+            font-weight: 600;
+        }
+
+        /* Garis bawah animasi untuk tab aktif */
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: #05730b; 
+            border-radius: 3px 3px 0 0;
+        }
+
+        /* Badge Angka */
+        .badge-count {
+            background-color: #f1f1f1;
+            color: #666;
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            border-radius: 12px;
+            margin-left: 8px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active .badge-count {
+            background-color: #2c3e50;
+            color: #fff;
+        }
+
+        
+        .case-list-container {
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 <body>
 
@@ -48,18 +121,44 @@
         </nav>
 
         <main class="main-content" id="mainContent">
-            <header class="content-header">
-                <button class="btn sidebar-toggle" id="sidebarToggle" type="button">
-                    <i class="bi bi-list fs-3"></i>
-                </button>
-                <h2>Data Kasus</h2>
-                <button class="btn btn-outline-danger btn-sm">
-                    <i class="bi bi-trash-fill"></i>
-                </button>
+            <header class="content-header mb-4">
+                <div class="d-flex justify-content-between align-items-center w-100">
+                    <div class="d-flex align-items-center">
+                        <button class="btn sidebar-toggle me-3" id="sidebarToggle" type="button">
+                            <i class="bi bi-list fs-3"></i>
+                        </button>
+                        <div>
+                            <h2 class="mb-0">Manajemen Kasus</h2>
+                            <p class="text-muted small mb-0">Kelola laporan masuk dan arsip kasus</p>
+                        </div>
+                    </div>
+                    
+                    <div id="action-buttons">
+                        <button class="btn btn-outline-danger btn-sm d-none" id="btnDeleteTrash">
+                            <i class="bi bi-trash-fill me-1"></i> Hapus Permanen
+                        </button>
+                        <button class="btn btn-primary btn-sm ms-2" onclick="location.reload()">
+                            <i class="bi bi-arrow-clockwise"></i> Refresh
+                        </button>
+                    </div>
+                </div>
             </header>
 
-            <div class="row case-list-header g-0 d-none d-lg-flex">
-                <div class="col-auto me-3"><input class="form-check-input" type="checkbox"></div>
+            <div class="case-tabs">
+                <button class="tab-btn active" onclick="switchTab('active')">
+                    Kasus Aktif 
+                    <span class="badge-count" id="count-active">0</span>
+                </button>
+                <button class="tab-btn" onclick="switchTab('completed')">
+                    Riwayat Selesai
+                    <span class="badge-count" id="count-completed">0</span>
+                </button>
+            </div>
+
+            <div class="row case-list-header g-0 d-none d-lg-flex mt-2">
+                <div class="col-auto me-3 ps-2">
+                    <input class="form-check-input" type="checkbox" id="checkAll" onclick="toggleAll(this)">
+                </div>
                 <div class="col-lg-1">ID Pelapor</div>
                 <div class="col-lg-2">Tingkat Khawatir</div>
                 <div class="col-lg-3">Email</div>
@@ -67,8 +166,15 @@
                 <div class="col-lg-2">Status</div>
             </div>
 
-            <div class="case-list">
-                <a href="case-detail.html?id=PPKS001" class="case-item-link">
+            <div id="list-active" class="case-list-container case-list mt-2">
+                </div>
+
+            <div id="list-completed" class="case-list-container case-list mt-2" style="display: none;">
+                </div>
+
+            <div id="raw-data-storage" style="display: none;">
+                
+                <a href="case-detail.html?id=PPKS001" class="case-item-link" data-status="completed">
                     <div class="case-item">
                         <div class="row g-0 align-items-center w-100">
                             <div class="col-auto me-3"><input class="form-check-input" type="checkbox"></div>
@@ -81,7 +187,7 @@
                     </div>
                 </a>
 
-                <a href="case-detail.html?id=PPKS002" class="case-item-link">
+                <a href="case-detail.html?id=PPKS002" class="case-item-link" data-status="process">
                     <div class="case-item">
                         <div class="row g-0 align-items-center w-100">
                             <div class="col-auto me-3"><input class="form-check-input" type="checkbox"></div>
@@ -94,7 +200,7 @@
                     </div>
                 </a>
 
-                <a href="case-detail.html?id=GNJ34" class="case-item-link">
+                <a href="case-detail.html?id=GNJ34" class="case-item-link" data-status="investigation">
                     <div class="case-item">
                         <div class="row g-0 align-items-center w-100">
                             <div class="col-auto me-3"><input class="form-check-input" type="checkbox"></div>
@@ -107,7 +213,7 @@
                     </div>
                 </a>
 
-                <a href="case-detail.html?id=PPKS004" class="case-item-link">
+                <a href="case-detail.html?id=PPKS004" class="case-item-link" data-status="process">
                     <div class="case-item">
                         <div class="row g-0 align-items-center w-100">
                             <div class="col-auto me-3"><input class="form-check-input" type="checkbox"></div>
@@ -120,7 +226,7 @@
                     </div>
                 </a>
 
-                <a href="case-detail.html?id=PPKS005" class="case-item-link">
+                <a href="case-detail.html?id=PPKS005" class="case-item-link" data-status="completed">
                     <div class="case-item">
                         <div class="row g-0 align-items-center w-100">
                             <div class="col-auto me-3"><input class="form-check-input" type="checkbox"></div>
@@ -132,23 +238,109 @@
                         </div>
                     </div>
                 </a>
+
             </div>
 
-            <footer class="content-footer">
-                <div class="legend-item">
-                    <div class="legend-color sedikit"></div> Sedikit Khawatir
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color khawatir"></div> Khawatir
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color sangat"></div> Sangat Khawatir
+            <footer class="content-footer mt-5">
+                <div class="d-flex gap-3">
+                    <div class="legend-item">
+                        <div class="legend-color sedikit"></div> Sedikit Khawatir
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color khawatir"></div> Khawatir
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color sangat"></div> Sangat Khawatir
+                    </div>
                 </div>
             </footer>
         </main>
     </div>
 
     <script src="../../assets/js/sidebar.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            organizeCases();
+        });
+
+        function organizeCases() {
+            // Ambil semua data mentah
+            const rawCases = document.querySelectorAll('#raw-data-storage .case-item-link');
+            const listActive = document.getElementById('list-active');
+            const listCompleted = document.getElementById('list-completed');
+            
+            let countActive = 0;
+            let countCompleted = 0;
+
+            rawCases.forEach(caseLink => {
+                // Clone elemen agar aslinya tetap ada (opsional, tapi aman)
+                const item = caseLink.cloneNode(true);
+                
+                // Cek status dari data-attribute atau class badge
+                const statusBadge = item.querySelector('.status-badge').textContent.trim().toLowerCase();
+                
+                if (statusBadge === 'completed' || statusBadge === 'selesai') {
+                    listCompleted.appendChild(item);
+                    countCompleted++;
+                } else {
+                    listActive.appendChild(item);
+                    countActive++;
+                }
+            });
+
+            // Update Badge Count
+            document.getElementById('count-active').textContent = countActive;
+            document.getElementById('count-completed').textContent = countCompleted;
+
+            // Jika Aktif kosong, tampilkan pesan
+            if(countActive === 0) {
+                listActive.innerHTML = '<p class="text-center text-muted py-4">Tidak ada kasus aktif saat ini.</p>';
+            }
+             // Jika Completed kosong, tampilkan pesan
+             if(countCompleted === 0) {
+                listCompleted.innerHTML = '<p class="text-center text-muted py-4">Belum ada kasus yang diselesaikan.</p>';
+            }
+        }
+
+        // Fungsi Ganti Tab
+        window.switchTab = function(tabName) {
+            const tabs = document.querySelectorAll('.tab-btn');
+            const listActive = document.getElementById('list-active');
+            const listCompleted = document.getElementById('list-completed');
+            const btnDelete = document.getElementById('btnDeleteTrash');
+
+            // Reset active state
+            tabs.forEach(t => t.classList.remove('active'));
+            
+            if (tabName === 'active') {
+                tabs[0].classList.add('active');
+                listActive.style.display = 'block';
+                listCompleted.style.display = 'none';
+                
+                // Sembunyikan tombol hapus (Safety)
+                if(btnDelete) btnDelete.classList.add('d-none');
+            } else {
+                tabs[1].classList.add('active');
+                listActive.style.display = 'none';
+                listCompleted.style.display = 'block';
+                
+                // Tampilkan tombol hapus (Hanya di tab selesai)
+                if(btnDelete) btnDelete.classList.remove('d-none');
+            }
+        }
+
+        // Fungsi Check All
+        window.toggleAll = function(source) {
+            // Hanya centang checkbox di tab yang sedang aktif
+            const activeContainer = document.querySelector('.case-list-container[style*="display: block"]') || document.querySelector('.case-list-container:not([style*="none"])');
+            
+            if(activeContainer) {
+                const checkboxes = activeContainer.querySelectorAll('input[type="checkbox"]');
+                checkboxes.forEach(cb => cb.checked = source.checked);
+            }
+        }
+    </script>
 
 </body>
 </html>
