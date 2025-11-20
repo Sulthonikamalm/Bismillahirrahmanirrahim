@@ -40,8 +40,14 @@
 
         <main class="main-content" id="mainContent">
             <header class="content-header">
-                <button class="btn sidebar-toggle" id="sidebarToggle" type="button"><i class="bi bi-list fs-3"></i></button>
-                <h2>Manajemen Blog</h2>
+                <div class="header-left">
+                    <button class="btn sidebar-toggle" id="sidebarToggle" type="button"><i class="bi bi-list fs-3"></i></button>
+                    <div class="select-all-mobile">
+                        <input class="form-check-input" type="checkbox" id="checkAllBlogsMobile">
+                        <label for="checkAllBlogsMobile" class="select-all-label">Pilih Semua</label>
+                    </div>
+                    <h2>Manajemen Blog</h2>
+                </div>
                 <div class="header-actions">
                     <button class="btn btn-outline-danger btn-sm d-none" id="btnDeleteBlogs">
                         <i class="bi bi-trash-fill me-1"></i>

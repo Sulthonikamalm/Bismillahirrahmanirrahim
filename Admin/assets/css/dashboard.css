@@ -308,6 +308,14 @@ body {
     margin-bottom: var(--spacing-xl);
     flex-shrink: 0;
     gap: var(--spacing-md);
+    flex-wrap: wrap;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    flex: 1;
 }
 
 .content-header h2 {
@@ -316,6 +324,37 @@ body {
     font-size: 1.75rem;
     font-weight: 600;
     color: var(--color-dark);
+}
+
+/* Select All Mobile - Hidden on Desktop */
+.select-all-mobile {
+    display: none;
+}
+
+@media (max-width: 991.98px) {
+    .select-all-mobile {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 0.75rem;
+        background-color: var(--color-bg);
+        border-radius: var(--radius-sm);
+    }
+
+    .select-all-mobile .form-check-input {
+        width: 1.125rem;
+        height: 1.125rem;
+        margin: 0;
+    }
+
+    .select-all-label {
+        margin: 0;
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: var(--color-dark);
+        cursor: pointer;
+        user-select: none;
+    }
 }
 
 .header-actions {
@@ -329,6 +368,26 @@ body {
 }
 
 @media (max-width: 767.98px) {
+    .content-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+
+    .header-left {
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .content-header h2 {
+        font-size: 1.25rem;
+    }
+
+    .header-actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+
     .header-actions .btn-text {
         display: none;
     }
@@ -765,13 +824,6 @@ body {
     flex-shrink: 0;
 }
 
-/* Hide select all checkbox in header on mobile */
-@media (max-width: 991.98px) {
-    .blog-list-header .col-auto {
-        display: none !important;
-    }
-}
-
 .blog-list {
     flex-grow: 1;
     overflow-y: auto;
@@ -786,6 +838,7 @@ body {
     box-shadow: var(--shadow-sm);
     font-size: 0.9rem;
     transition: var(--transition);
+    position: relative;
 }
 
 .blog-item:hover {
@@ -803,14 +856,65 @@ body {
     color: var(--color-dark);
 }
 
-/* Hide individual checkboxes on mobile to prevent flickering */
+/* Mobile layout for blog items */
 @media (max-width: 991.98px) {
+    .blog-item {
+        padding: 1rem;
+        padding-top: 2.5rem; /* Space for checkbox at top */
+    }
+
+    .blog-item .row {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    /* Move checkbox to top-right corner */
     .blog-item .col-auto {
-        display: none !important;
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        margin: 0 !important;
     }
 
     .blog-item .blog-checkbox {
-        display: none !important;
+        width: 1.25rem;
+        height: 1.25rem;
+        cursor: pointer;
+    }
+
+    /* Stack content vertically */
+    .blog-item .col-lg-1,
+    .blog-item .col-lg-5,
+    .blog-item .col-lg-2 {
+        flex: 0 0 100%;
+        max-width: 100%;
+        text-align: left !important;
+        padding: 0;
+    }
+
+    .blog-item .blog-no {
+        display: block;
+        font-size: 0.8rem;
+        color: var(--color-primary);
+        margin-bottom: 0.25rem;
+    }
+
+    .blog-item .blog-title {
+        display: block;
+        font-size: 1rem;
+        font-weight: 600;
+        line-height: 1.4;
+        margin-bottom: 0.5rem;
+    }
+
+    .blog-item .col-lg-2 {
+        font-size: 0.85rem;
+        color: var(--color-gray);
+    }
+
+    .blog-item .btn-light-success {
+        margin-top: 0.5rem;
+        width: 100%;
     }
 }
 
