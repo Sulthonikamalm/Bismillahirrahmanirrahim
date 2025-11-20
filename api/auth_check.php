@@ -109,6 +109,58 @@ $currentIP = getClientIP();
 $currentUserAgent = getUserAgent();
 $currentTime = time();
 
+// ========================================================
+// DEVICE FINGERPRINT VALIDATION - Prevent session hijacking across browsers
+// ========================================================
+
+// Generate current device fingerprint
+$acceptLanguage = $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? 'unknown';
+$acceptEncoding = $_SERVER['HTTP_ACCEPT_ENCODING'] ?? 'unknown';
+
+$currentFingerprint = hash('sha256',
+    $currentUserAgent . '|' .
+    $acceptLanguage . '|' .
+    $acceptEncoding . '|' .
+    $currentIP
+);
+
+// CRITICAL: Check if device fingerprint matches session
+if (isset($_SESSION['device_fingerprint'])) {
+    if ($_SESSION['device_fingerprint'] !== $currentFingerprint) {
+        error_log("SECURITY ALERT: Device fingerprint mismatch!");
+        error_log("User: " . ($_SESSION['admin_email'] ?? 'unknown'));
+        error_log("Expected fingerprint: " . $_SESSION['device_fingerprint']);
+        error_log("Current fingerprint: " . $currentFingerprint);
+        error_log("User Agent: " . $currentUserAgent);
+        error_log("IP: " . $currentIP);
+
+        // CRITICAL: Session hijacking detected - Destroy session immediately
+        destroySession();
+
+        http_response_code(401);
+        echo json_encode([
+            'status' => 'unauthorized',
+            'message' => 'Sesi tidak valid. Anda mungkin menggunakan browser atau perangkat yang berbeda.',
+            'reason' => 'device_mismatch'
+        ]);
+        exit;
+    }
+} else {
+    // No fingerprint in session - Old session or security issue
+    error_log("SECURITY WARNING: No device fingerprint in session for user: " . ($_SESSION['admin_email'] ?? 'unknown'));
+
+    // Destroy session for security
+    destroySession();
+
+    http_response_code(401);
+    echo json_encode([
+        'status' => 'unauthorized',
+        'message' => 'Sesi tidak valid. Silakan login kembali.',
+        'reason' => 'no_fingerprint'
+    ]);
+    exit;
+}
+
 // 1. Check session timeout (30 minutes of inactivity)
 if (isset($_SESSION['last_activity'])) {
     $inactiveTime = $currentTime - $_SESSION['last_activity'];
