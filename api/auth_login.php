@@ -214,9 +214,12 @@ function resetFailedAttempts($pdo, $email) {
 // ========================================================
 
 // Start secure session
+// Auto-detect HTTPS for cookie_secure setting
+$isHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443;
+
 session_start([
     'cookie_httponly' => true,
-    'cookie_secure' => true, // Enable only if using HTTPS
+    'cookie_secure' => $isHttps, // Enable only if using HTTPS
     'cookie_samesite' => 'Strict',
     'use_strict_mode' => true,
     'use_only_cookies' => true

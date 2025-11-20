@@ -41,10 +41,30 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Kirim request ke Backend
                 const response = await fetch('../../../api/auth_login.php', {
                     method: 'POST',
-                    body: formData 
+                    body: formData
                 });
 
-                const data = await response.json();
+                // Get response as text first for debugging
+                const responseText = await response.text();
+
+                // Log raw response for debugging
+                console.log('Raw response:', responseText);
+                console.log('Response status:', response.status);
+                console.log('Response headers:', response.headers);
+
+                // Try to parse as JSON
+                let data;
+                try {
+                    data = JSON.parse(responseText);
+                } catch (jsonError) {
+                    console.error('JSON parse error:', jsonError);
+                    console.error('Response text:', responseText);
+                    throw new Error(
+                        'Server error: Response is not valid JSON.\n\n' +
+                        'Response status: ' + response.status + '\n' +
+                        'Response preview: ' + responseText.substring(0, 200)
+                    );
+                }
 
                 if (data.status === 'success') {
                     // Redirect jika sukses
@@ -55,6 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             } catch (error) {
                 // Tampilkan Error
+                console.error('Login error:', error);
                 if(errorMessage) {
                     errorMessage.classList.remove('hidden');
                     errorMessage.style.display = 'block';
