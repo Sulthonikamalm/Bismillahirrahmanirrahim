@@ -133,9 +133,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Show success notification
                     showSuccessNotification(data.data.name || 'Admin');
 
-                    // Redirect after delay
+                    // Redirect after delay - Use redirect from backend response
                     setTimeout(() => {
-                        window.location.href = '../dashboard/statistics.html';
+                        window.location.href = data.redirect || '../dashboard/cases.html';
                     }, 1500);
                 } else {
                     throw new Error(data.message || 'Login gagal');
