@@ -113,8 +113,16 @@ async function handleLogout() {
             btnLogout.innerHTML = '<i class="bi bi-hourglass-split me-2"></i><span>Logging out...</span>';
         }
 
+        // DEBUG MODE: Use debug version for detailed logging
+        const DEBUG_MODE = true;
+        const logoutEndpoint = DEBUG_MODE ?
+            '../../api/auth_logout_debug.php' :
+            '../../api/auth_logout.php';
+
+        console.log('Using logout endpoint:', logoutEndpoint);
+
         // Call logout API with POST method (as required by backend)
-        const response = await fetch('../../api/auth_logout.php', {
+        const response = await fetch(logoutEndpoint, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -122,8 +130,23 @@ async function handleLogout() {
             credentials: 'same-origin', // Include cookies
         });
 
-        // Parse response
-        const data = await response.json();
+        // Get response as text first for debugging
+        const responseText = await response.text();
+        console.log('Logout response text:', responseText);
+        console.log('Logout response status:', response.status);
+
+        // Try to parse as JSON
+        let data;
+        try {
+            data = JSON.parse(responseText);
+        } catch (jsonError) {
+            console.error('JSON parse error:', jsonError);
+            console.error('Response was:', responseText);
+            throw new Error(
+                'Server returned invalid response.\n\n' +
+                'Expected JSON but got: ' + responseText.substring(0, 100)
+            );
+        }
 
         // Handle response based on status
         if (response.ok && data.status === 'success') {

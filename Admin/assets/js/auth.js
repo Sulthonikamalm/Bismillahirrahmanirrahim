@@ -3,6 +3,32 @@
  * File: Admin/assets/js/auth.js
  */
 
+// Function to show success notification
+function showSuccessNotification(userName) {
+    // Create overlay
+    const overlay = document.createElement('div');
+    overlay.className = 'notification-overlay';
+    document.body.appendChild(overlay);
+
+    // Create notification
+    const notification = document.createElement('div');
+    notification.className = 'success-notification';
+    notification.innerHTML = `
+        <div class="success-icon">
+            <i class="bi bi-check-lg"></i>
+        </div>
+        <h3>Login Berhasil!</h3>
+        <p>Selamat datang, ${userName}</p>
+    `;
+    document.body.appendChild(notification);
+
+    // Show with animation
+    setTimeout(() => {
+        overlay.classList.add('show');
+        notification.classList.add('show');
+    }, 10);
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     const loginForm = document.getElementById('loginForm');
     const emailInput = document.getElementById('email');
@@ -76,13 +102,26 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
 
                 if (data.status === 'success') {
-                    // Redirect jika sukses
-                    window.location.href = '../dashboard/statistics.html';
+                    // Show success notification
+                    showSuccessNotification(data.data.name || 'Admin');
+
+                    // Redirect after delay
+                    setTimeout(() => {
+                        window.location.href = '../dashboard/statistics.html';
+                    }, 1500);
                 } else {
                     throw new Error(data.message || 'Login gagal');
                 }
 
             } catch (error) {
+                // Shake animation for form
+                if(loginForm) {
+                    loginForm.classList.add('shake');
+                    setTimeout(() => {
+                        loginForm.classList.remove('shake');
+                    }, 600);
+                }
+
                 // Tampilkan Error
                 console.error('Login error:', error);
                 if(errorMessage) {
