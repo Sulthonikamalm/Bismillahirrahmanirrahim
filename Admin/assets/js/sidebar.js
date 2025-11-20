@@ -77,8 +77,8 @@ async function checkAuthSession() {
         // Jangan cek sesi jika kita sedang di halaman login agar tidak loop
         if (window.location.pathname.includes('login.html')) return;
 
-        // Naik 2 level folder untuk mencapai api/
-        const response = await fetch('../../api/auth_check.php');
+        // Naik 3 level folder untuk mencapai api/ (dashboard → pages → Admin → root → api)
+        const response = await fetch('../../../api/auth_check.php');
         const data = await response.json();
 
         if (data.status === 'unauthorized') {
@@ -116,8 +116,8 @@ async function handleLogout() {
         // DEBUG MODE: Use debug version for detailed logging
         const DEBUG_MODE = true;
         const logoutEndpoint = DEBUG_MODE ?
-            '../../api/auth_logout_debug.php' :
-            '../../api/auth_logout.php';
+            '../../../api/auth_logout_debug.php' :
+            '../../../api/auth_logout.php';
 
         console.log('Using logout endpoint:', logoutEndpoint);
 
