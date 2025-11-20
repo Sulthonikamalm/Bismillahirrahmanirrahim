@@ -307,6 +307,7 @@ body {
     align-items: center;
     margin-bottom: var(--spacing-xl);
     flex-shrink: 0;
+    gap: var(--spacing-md);
 }
 
 .content-header h2 {
@@ -315,6 +316,26 @@ body {
     font-size: 1.75rem;
     font-weight: 600;
     color: var(--color-dark);
+}
+
+.header-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+    align-items: center;
+}
+
+.header-actions .btn-text {
+    display: inline;
+}
+
+@media (max-width: 767.98px) {
+    .header-actions .btn-text {
+        display: none;
+    }
+
+    .header-actions .btn {
+        padding: 0.375rem 0.75rem;
+    }
 }
 
 /* === BREADCRUMB === */

@@ -41,22 +41,37 @@
         <main class="main-content" id="mainContent">
             <header class="content-header">
                 <button class="btn sidebar-toggle" id="sidebarToggle" type="button"><i class="bi bi-list fs-3"></i></button>
-                <h2>Blog</h2>
-                <div></div>
+                <h2>Manajemen Blog</h2>
+                <div class="header-actions">
+                    <button class="btn btn-outline-danger btn-sm d-none" id="btnDeleteBlogs">
+                        <i class="bi bi-trash-fill me-1"></i>
+                        <span class="btn-text">Hapus</span>
+                    </button>
+                    <a href="blog-create.html" class="btn btn-primary btn-sm">
+                        <i class="bi bi-plus-circle me-1"></i>
+                        <span class="btn-text">Buat Blog</span>
+                    </a>
+                </div>
             </header>
 
             <div class="row blog-list-header g-0 d-none d-lg-flex">
+                <div class="col-auto me-3">
+                    <input class="form-check-input" type="checkbox" id="checkAllBlogs">
+                </div>
                 <div class="col-lg-1">No</div>
-                <div class="col-lg-7">Judul</div>
+                <div class="col-lg-5">Judul</div>
                 <div class="col-lg-2 text-center">Terakhir Diubah</div>
-                <div class="col-lg-2 text-center"></div>
+                <div class="col-lg-2 text-center">Aksi</div>
             </div>
 
             <div class="blog-list">
                 <div class="blog-item">
                     <div class="row g-0 align-items-center w-100">
+                        <div class="col-auto me-3">
+                            <input class="form-check-input blog-checkbox" type="checkbox" data-blog-id="876364">
+                        </div>
                         <div class="col-lg-1"><span class="blog-no">#876364</span></div>
-                        <div class="col-lg-7"><span class="blog-title">Memahami Stres: Penyebab dan Solusinya</span></div>
+                        <div class="col-lg-5"><span class="blog-title">Memahami Stres: Penyebab dan Solusinya</span></div>
                         <div class="col-lg-2 text-center"><i class="bi bi-calendar-event-fill me-2 text-muted"></i> 12 Dec, 2020</div>
                         <div class="col-lg-2 text-center"><a href="blog-edit.html" class="btn btn-sm btn-light-success">Edit</a></div>
                     </div>
@@ -64,8 +79,11 @@
 
                 <div class="blog-item">
                     <div class="row g-0 align-items-center w-100">
+                        <div class="col-auto me-3">
+                            <input class="form-check-input blog-checkbox" type="checkbox" data-blog-id="876123">
+                        </div>
                         <div class="col-lg-1"><span class="blog-no">#876123</span></div>
-                        <div class="col-lg-7"><span class="blog-title">Meningkatkan Kebahagiaan Melalui Praktik Mindfulness</span></div>
+                        <div class="col-lg-5"><span class="blog-title">Meningkatkan Kebahagiaan Melalui Praktik Mindfulness</span></div>
                         <div class="col-lg-2 text-center"><i class="bi bi-calendar-event-fill me-2 text-muted"></i> 10 Dec, 2020</div>
                         <div class="col-lg-2 text-center"><a href="blog-edit.html" class="btn btn-sm btn-light-success">Edit</a></div>
                     </div>
@@ -73,20 +91,20 @@
 
                 <div class="blog-item">
                     <div class="row g-0 align-items-center w-100">
+                        <div class="col-auto me-3">
+                            <input class="form-check-input blog-checkbox" type="checkbox" data-blog-id="876213">
+                        </div>
                         <div class="col-lg-1"><span class="blog-no">#876213</span></div>
-                        <div class="col-lg-7"><span class="blog-title">Tips Mengelola Kecemasan Sosial di Era Digital</span></div>
+                        <div class="col-lg-5"><span class="blog-title">Tips Mengelola Kecemasan Sosial di Era Digital</span></div>
                         <div class="col-lg-2 text-center"><i class="bi bi-calendar-event-fill me-2 text-muted"></i> 09 Dec, 2020</div>
                         <div class="col-lg-2 text-center"><a href="blog-edit.html" class="btn btn-sm btn-light-success">Edit</a></div>
                     </div>
                 </div>
             </div>
-
-            <footer class="content-footer-blog">
-                <a href="blog-create.html" class="btn btn-primary posting-btn">Posting</a>
-            </footer>
         </main>
     </div>
 
     <script src="../../assets/js/sidebar.js"></script>
+    <script src="../../assets/js/blog.js"></script>
 </body>
 </html>
