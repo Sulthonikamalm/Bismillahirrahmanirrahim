@@ -765,6 +765,13 @@ body {
     flex-shrink: 0;
 }
 
+/* Hide select all checkbox in header on mobile */
+@media (max-width: 991.98px) {
+    .blog-list-header .col-auto {
+        display: none !important;
+    }
+}
+
 .blog-list {
     flex-grow: 1;
     overflow-y: auto;
@@ -794,6 +801,17 @@ body {
 .blog-item .blog-title {
     font-weight: 500;
     color: var(--color-dark);
+}
+
+/* Hide individual checkboxes on mobile to prevent flickering */
+@media (max-width: 991.98px) {
+    .blog-item .col-auto {
+        display: none !important;
+    }
+
+    .blog-item .blog-checkbox {
+        display: none !important;
+    }
 }
 
 .btn-light-success {
