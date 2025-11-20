@@ -96,19 +96,66 @@ async function checkAuthSession() {
     }
 }
 
-// Fungsi Logout
+// Fungsi Logout - Professional Implementation
 async function handleLogout() {
+    // User confirmation
     const confirmLogout = confirm("Apakah Anda yakin ingin keluar?");
     if (!confirmLogout) return;
 
+    // Get logout button reference
+    const btnLogout = document.getElementById('btnLogout');
+    const originalText = btnLogout ? btnLogout.innerHTML : '';
+
     try {
-        const response = await fetch('../../api/auth_logout.php');
+        // Show loading state
+        if (btnLogout) {
+            btnLogout.disabled = true;
+            btnLogout.innerHTML = '<i class="bi bi-hourglass-split me-2"></i><span>Logging out...</span>';
+        }
+
+        // Call logout API with POST method (as required by backend)
+        const response = await fetch('../../api/auth_logout.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'same-origin', // Include cookies
+        });
+
+        // Parse response
         const data = await response.json();
 
-        if (data.status === 'success') {
-            window.location.href = '../auth/login.html';
+        // Handle response based on status
+        if (response.ok && data.status === 'success') {
+            // Show success feedback briefly
+            if (btnLogout) {
+                btnLogout.innerHTML = '<i class="bi bi-check-circle me-2"></i><span>Success!</span>';
+            }
+
+            // Log success
+            console.log('Logout successful:', data.message);
+
+            // Redirect to login page after brief delay
+            setTimeout(() => {
+                window.location.href = data.redirect || '../auth/login.html';
+            }, 500);
+
+        } else {
+            // Handle error response
+            throw new Error(data.message || 'Logout failed');
         }
+
     } catch (error) {
-        alert("Gagal logout. Periksa koneksi server.");
+        // Log error
+        console.error('Logout error:', error);
+
+        // Show user-friendly error message
+        alert('Gagal logout: ' + error.message + '\n\nSilakan coba lagi atau hubungi administrator.');
+
+        // Restore button state
+        if (btnLogout) {
+            btnLogout.disabled = false;
+            btnLogout.innerHTML = originalText;
+        }
     }
 }
