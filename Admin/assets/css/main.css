@@ -1,6 +1,6 @@
 /* ========================================
    SIGAP PPKS - Admin Login Page Styles
-   Version: 3.0 (Clean Code Edition)
+   Version: 3.0 (Clean Code Edition with Card Style)
    File: assets/css/main.css
    ======================================== */
 
@@ -33,6 +33,7 @@
     --radius-sm: 0.5rem;
     --radius-md: 0.75rem;
     --radius-lg: 1rem;
+    --radius-xl: 2.5rem;
     --spacing-sm: 0.5rem;
     --spacing-md: 1rem;
     --spacing-lg: 1.5rem;
@@ -43,6 +44,7 @@
     --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
     --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
     --shadow-lg: 0 8px 20px rgba(0, 0, 0, 0.12);
+    --shadow-card: 0px 0px 80px rgba(44.63, 62.93, 90.72, 0.50);
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -86,9 +88,13 @@
     box-sizing: border-box;
 }
 
+html {
+    background: transparent;
+}
+
 body {
     font-family: var(--font-body);
-    background-color: var(--color-bg);
+    background-color: transparent;
     color: var(--color-dark);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
@@ -100,11 +106,13 @@ body {
     width: 100%;
     height: 100vh;
     overflow: hidden;
+    background: transparent;
 }
 
 .row {
     display: flex;
     height: 100%;
+    background: transparent;
 }
 
 .vh-100 {
@@ -113,17 +121,29 @@ body {
 
 /* === FORM COLUMN (30%) === */
 .form-column {
-    background-color: var(--color-white);
-    padding: var(--spacing-2xl);
+    background-color: transparent;
+    padding: 2rem 0;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 30%;
 }
 
+/* === FORM CARD CONTAINER - FIGMA STYLE === */
 .form-container {
-    max-width: 420px;
-    width: 100%;
+    max-width: 693px;
+    width: calc(100% - 4rem);
+    min-height: 90vh;
+    background: var(--color-white);
+    box-shadow: var(--shadow-card);
+    border-radius: 40px;
+    padding: 3rem 3rem;
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 2rem;
 }
 
 /* === IMAGE COLUMN (70%) - Background gelap seperti SIRAMA === */
@@ -371,13 +391,29 @@ small {
     }
     
     .form-column {
-        padding: var(--spacing-xl);
+        padding: var(--spacing-lg);
+    }
+    
+    /* Adjust card styling for mobile */
+    .form-container {
+        width: calc(100% - 2rem);
+        min-height: auto;
+        box-shadow: var(--shadow-md);
+        border-radius: 40px;
+        padding: var(--spacing-xl) var(--spacing-lg);
+        margin: 0 1rem;
     }
 }
 
 @media (max-width: 767.98px) {
     .form-column {
-        padding: var(--spacing-lg);
+        padding: var(--spacing-md);
+    }
+    
+    .form-container {
+        width: calc(100% - 2rem);
+        padding: var(--spacing-lg) var(--spacing-md);
+        margin: 0 1rem;
     }
     
     .brand-title {
@@ -401,7 +437,13 @@ small {
 
 @media (max-width: 575.98px) {
     .form-column {
+        padding: var(--spacing-sm);
+    }
+    
+    .form-container {
+        width: calc(100% - 1.5rem);
         padding: var(--spacing-md);
+        margin: 0 0.75rem;
     }
     
     .brand-title {
