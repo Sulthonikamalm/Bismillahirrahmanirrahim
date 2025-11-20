@@ -121,6 +121,21 @@ try {
 
     file_put_contents($logFile, "Password verified successfully\n", FILE_APPEND);
 
+    // Device fingerprinting
+    $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? 'unknown';
+    $acceptLanguage = $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? 'unknown';
+    $acceptEncoding = $_SERVER['HTTP_ACCEPT_ENCODING'] ?? 'unknown';
+    $clientIP = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
+
+    $deviceFingerprint = hash('sha256',
+        $userAgent . '|' .
+        $acceptLanguage . '|' .
+        $acceptEncoding . '|' .
+        $clientIP
+    );
+
+    file_put_contents($logFile, "Device fingerprint created: $deviceFingerprint\n", FILE_APPEND);
+
     // Set session
     $_SESSION['admin_id'] = $user['id'];
     $_SESSION['admin_name'] = $user['nama'];
@@ -128,6 +143,10 @@ try {
     $_SESSION['admin_username'] = $user['username'];
     $_SESSION['logged_in'] = true;
     $_SESSION['login_time'] = time();
+    $_SESSION['last_activity'] = time();
+    $_SESSION['device_fingerprint'] = $deviceFingerprint;
+    $_SESSION['user_agent'] = $userAgent;
+    $_SESSION['login_ip'] = $clientIP;
 
     file_put_contents($logFile, "Session set successfully\n", FILE_APPEND);
 
@@ -142,7 +161,7 @@ try {
             'email' => $user['email'],
             'username' => $user['username']
         ],
-        'redirect' => '../dashboard/statistics.html',
+        'redirect' => '../dashboard/cases.html',
         'debug' => true
     ]);
 

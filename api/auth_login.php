@@ -400,6 +400,21 @@ if (!password_verify($password, $user['password_hash'])) {
 // Regenerate session ID (prevent session fixation)
 session_regenerate_id(true);
 
+// ========================================================
+// DEVICE FINGERPRINTING - Bind session to specific browser/device
+// ========================================================
+$userAgent = $_SERVER['HTTP_USER_AGENT'] ?? 'unknown';
+$acceptLanguage = $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? 'unknown';
+$acceptEncoding = $_SERVER['HTTP_ACCEPT_ENCODING'] ?? 'unknown';
+
+// Create unique device fingerprint
+$deviceFingerprint = hash('sha256',
+    $userAgent . '|' .
+    $acceptLanguage . '|' .
+    $acceptEncoding . '|' .
+    $clientIP
+);
+
 // Set session variables
 $_SESSION['admin_id'] = $user['id'];
 $_SESSION['admin_name'] = $user['nama'];
@@ -410,8 +425,14 @@ $_SESSION['login_time'] = time();
 $_SESSION['login_ip'] = $clientIP;
 $_SESSION['last_activity'] = time();
 
+// CRITICAL: Bind session to device fingerprint
+$_SESSION['device_fingerprint'] = $deviceFingerprint;
+$_SESSION['user_agent'] = $userAgent;
+
 // Generate CSRF token
 $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+
+error_log("DEVICE FINGERPRINT - User: {$user['email']}, Fingerprint: $deviceFingerprint");
 
 // Reset failed attempts
 resetFailedAttempts($pdo, $email);
@@ -436,7 +457,7 @@ echo json_encode([
         'username' => $user['username']
     ],
     'csrf_token' => $_SESSION['csrf_token'],
-    'redirect' => '../dashboard/statistics.html'
+    'redirect' => '../dashboard/cases.html'
 ]);
 
 exit;
