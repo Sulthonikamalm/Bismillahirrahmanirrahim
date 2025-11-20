@@ -271,12 +271,12 @@
     height: 100%;
     display: flex;
     align-items: center;
-    justify-content: flex-start; /* Left align */
-    padding: 3rem 4rem; /* More left padding */
+    justify-content: flex-start; 
+    padding: 3rem 4rem; 
 }
 
 .illustration-content {
-    text-align: left; /* RATA KIRI seperti SIRAMA */
+    text-align: left; 
     color: white;
     max-width: 650px;
     position: relative;
@@ -286,34 +286,44 @@
 /* === LOGO === */
 .logo-container {
     margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    text-align: left;
+    width: 100%;
 }
 
 .logo-image {
-    max-width: 150px;
+    /* UKURAN LOGO */
+    max-width: 200px; 
     width: 100%;
     height: auto;
-    display: block; /* For left alignment */
-    filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.3));
+    display: block;
+    margin: 0;     
+    margin-right: auto; 
+    
+    /* Efek bayangan opsional */
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.2)); 
 }
 
 /* === TEXT STYLES - OPEN SANS === */
 
-/* "Selamat Datang di" - 24px */
+
 .welcome-text {
     font-family: 'Open Sans', sans-serif;
     font-size: 24px;
-    font-weight: 400;
+    font-weight: 450;
     color: #FFFFFF;
     margin: 0 0 8px 0;
     letter-spacing: 0;
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-/* "SIGAP PPKPT" - 40px */
+
 .main-title {
     font-family: 'Open Sans', sans-serif;
     font-size: 40px;
-    font-weight: 700; /* Bold */
+    font-weight: 700; 
     color: #FFFFFF;
     margin: 0 0 8px 0;
     letter-spacing: 0;
@@ -321,7 +331,7 @@
     text-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
 }
 
-/* Subtitle lines - 16px */
+
 .subtitle-text {
     font-family: 'Open Sans', sans-serif;
     font-size: 16px;
@@ -333,7 +343,7 @@
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-/* Remove old university-text class */
+
 .university-text {
     font-family: 'Open Sans', sans-serif;
     font-size: 16px;
@@ -342,7 +352,7 @@
     margin: 0 0 8px 0;
 }
 
-/* Illustration */
+
 .illustration-image {
     max-width: 320px;
     width: 100%;
