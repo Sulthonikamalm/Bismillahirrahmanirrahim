@@ -19,6 +19,14 @@
                 <li class="nav-item"><a class="nav-link" href="statistics.html"><i class="bi bi-bar-chart-fill me-2"></i> Statistik</a></li>
                 <li class="nav-item"><a class="nav-link active" href="blog-list.html"><i class="bi bi-file-earmark-text-fill me-2"></i> Blog</a></li>
             </ul>
+            
+            <div style="padding: 0 1.5rem; margin-top: auto; margin-bottom: 1rem;">
+                <button id="btnLogout" class="btn btn-danger w-100 d-flex align-items-center justify-content-center gap-2" style="background-color: #e74c3c; border: none; padding: 10px;">
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+
             <div class="user-profile">
                 <i class="bi bi-person-circle me-2 fs-3"></i>
                 <div class="user-info">
@@ -74,21 +82,25 @@
 
     <script src="../../assets/js/sidebar.js"></script>
     <script>
+        // Script preview gambar & validasi (Sama seperti sebelumnya)
         document.addEventListener('DOMContentLoaded', function() {
             const imageUpload = document.getElementById('imageUpload');
             const imagePreview = document.getElementById('imagePreview');
             const imageUploadLabel = document.getElementById('imageUploadLabel');
-            imageUpload.addEventListener('change', function(event) {
-                const file = event.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        imagePreview.src = e.target.result;
-                        imageUploadLabel.classList.add('has-image');
+            
+            if(imageUpload) {
+                imageUpload.addEventListener('change', function(event) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            imagePreview.src = e.target.result;
+                            imageUploadLabel.classList.add('has-image');
+                        }
+                        reader.readAsDataURL(file);
                     }
-                    reader.readAsDataURL(file);
-                }
-            });
+                });
+            }
 
             const postForm = document.getElementById('postForm');
             const postJudul = document.getElementById('postJudul');
@@ -97,57 +109,31 @@
             const judulError = document.getElementById('judulError');
             const isiError = document.getElementById('isiError');
 
-            postForm.addEventListener('submit', function(event) {
-                event.preventDefault();
-                let isValid = true;
-                imageError.style.display = 'none';
-                judulError.style.display = 'none';
-                isiError.style.display = 'none';
+            if(postForm) {
+                postForm.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    let isValid = true;
+                    imageError.style.display = 'none';
+                    judulError.style.display = 'none';
+                    isiError.style.display = 'none';
 
-                if (postJudul.value.trim() === '') {
-                    judulError.style.display = 'block';
-                    isValid = false;
-                }
-                if (postIsi.value.trim() === '') {
-                    isiError.style.display = 'block';
-                    isValid = false;
-                }
-                if (imageUpload.files.length === 0) {
-                    imageError.style.display = 'block';
-                    isValid = false;
-                }
-                if (isValid) {
-                    showToast('Berhasil', 'Postingan berhasil dibuat!', 'success');
-                    setTimeout(() => {
+                    if (postJudul.value.trim() === '') {
+                        judulError.style.display = 'block';
+                        isValid = false;
+                    }
+                    if (postIsi.value.trim() === '') {
+                        isiError.style.display = 'block';
+                        isValid = false;
+                    }
+                    if (imageUpload.files.length === 0) {
+                        imageError.style.display = 'block';
+                        isValid = false;
+                    }
+                    if (isValid) {
+                        alert("Postingan berhasil dibuat (Frontend Demo)!");
                         window.location.href = 'blog-list.html';
-                    }, 1500);
-                }
-            });
-
-            // Toast notification function
-            let toastContainer = document.querySelector('.toast-container');
-            if (!toastContainer) {
-                toastContainer = document.createElement('div');
-                toastContainer.className = 'toast-container';
-                document.body.appendChild(toastContainer);
-            }
-
-            function showToast(title, message, type = 'success') {
-                const toast = document.createElement('div');
-                toast.className = `toast toast-${type}`;
-                const icon = type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-circle-fill';
-                toast.innerHTML = `
-                    <i class="bi ${icon}"></i>
-                    <div class="toast-content">
-                        <div class="toast-title">${title}</div>
-                        <div class="toast-message">${message}</div>
-                    </div>
-                `;
-                toastContainer.appendChild(toast);
-                setTimeout(() => {
-                    toast.classList.add('toast-hide');
-                    setTimeout(() => toast.remove(), 300);
-                }, 3000);
+                    }
+                });
             }
         });
     </script>

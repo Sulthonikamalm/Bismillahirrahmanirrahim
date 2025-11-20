@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIGAP - Detail Kasus</title>
+    <title>SIGAP - Detail Laporan</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,6 +19,14 @@
                 <li class="nav-item"><a class="nav-link" href="statistics.html"><i class="bi bi-bar-chart-fill me-2"></i> Statistik</a></li>
                 <li class="nav-item"><a class="nav-link" href="blog-list.html"><i class="bi bi-file-earmark-text-fill me-2"></i> Blog</a></li>
             </ul>
+
+            <div style="padding: 0 1.5rem; margin-top: auto; margin-bottom: 1rem;">
+                <button id="btnLogout" class="btn btn-danger w-100 d-flex align-items-center justify-content-center gap-2" style="background-color: #e74c3c; border: none; padding: 10px;">
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+
             <div class="user-profile">
                 <i class="bi bi-person-circle me-2 fs-3"></i>
                 <div class="user-info">
@@ -34,116 +42,36 @@
                 <h2 class="breadcrumb-header">
                     <a href="cases.html">Data Kasus</a> 
                     <i class="bi bi-chevron-right"></i> 
-                    <span id="caseName">Detail Kasus</span>
+                    <span>#PPKS001</span>
                 </h2>
                 <div></div>
             </header>
-            
+
             <div class="card shadow-sm border-0 detail-card">
-                <div class="card-body p-4 p-md-5">
-                    <h3 class="detail-title">DATA PELAPOR</h3>
-                    <div class="row g-4 g-lg-5 mt-4">
+                <div class="card-body p-4">
+                    <div class="row mb-4">
                         <div class="col-md-6">
-                            <div class="detail-field"><label>Status Darurat</label><span id="detail-darurat">Tidak</span></div>
-                            <div class="detail-field"><label>Siapa Korbannya?</label><span id="detail-korban">Saya sendiri</span></div>
-                            <div class="detail-field"><label>Tingkat Kekhawatiran</label><span id="detail-kekhawatiran">Kekerasan Fisik</span></div>
-                            <div class="detail-field"><label>Gender Korban</label><span id="detail-gender">Perempuan</span></div>
-                            <div class="detail-field"><label>Usia Korban</label><span id="detail-usia">20-25 tahun</span></div>
+                            <h5 class="text-muted mb-1">Pelapor</h5>
+                            <p class="fw-medium fs-5">Anonym (Korban)</p>
                         </div>
-                        <div class="col-md-6">
-                            <div class="detail-field"><label>Pelaku Kekerasan</label><span id="detail-pelaku">Teman sekelas</span></div>
-                            <div class="detail-field"><label>Kapan Kejadiannya</label><span id="detail-tanggal">15 Januari 2024</span></div>
-                            <div class="detail-field"><label>Lokasi Kejadian</label><span id="detail-tempat">Kampus ITB, Gedung A</span></div>
-                            <div class="detail-field"><label>Email Pelapor</label><span id="detail-email">korban1@example.com</span></div>
-                            <div class="detail-field"><label>WhatsApp</label><span id="detail-whatsapp">08123456789</span></div>
+                        <div class="col-md-6 text-md-end">
+                            <span class="badge bg-warning text-dark fs-6 px-3 py-2">Process</span>
                         </div>
                     </div>
-                    <div class="row mt-4">
-                        <div class="col-12">
-                            <div class="detail-field"><label>Status Disabilitas</label><span id="detail-disabilitas">Tidak</span></div>
-                        </div>
+                    <hr>
+                    <div class="mb-4">
+                        <h6 class="fw-bold">Detail Kejadian</h6>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                     </div>
-                    <div class="row mt-4">
-                        <div class="col-12">
-                            <div class="alert alert-light border">
-                                <h6 class="mb-3"><i class="bi bi-file-text me-2"></i>Apa yang Terjadi?</h6>
-                                <p id="detail-kejadian" class="mb-0">Saya mengalami kekerasan fisik dari teman sekelas ketika sedang di lab. Saya dipukul dan diancam.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mt-4">
-                        <div class="col-12">
-                            <h6 class="mb-3"><i class="bi bi-paperclip me-2"></i>Bukti yang Dilampirkan</h6>
-                            <div class="alert alert-info"><i class="bi bi-info-circle me-2"></i>Bukti berupa foto dan video dapat diakses melalui sistem backend.</div>
-                        </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-success">Tandai Selesai</button>
+                        <button class="btn btn-outline-secondary">Kembali</button>
                     </div>
                 </div>
             </div>
-
-            <footer class="detail-footer">
-                <button class="btn btn-danger btn-hapus"><i class="bi bi-trash-fill me-2"></i>Hapus Data Pelapor</button>
-                <div class="dropdown">
-                    <button class="btn btn-primary btn-log-status dropdown-toggle" type="button" id="dropdownLogStatus" data-bs-toggle="dropdown">Ubah Status</button>
-                    <ul class="dropdown-menu dropdown-menu-end" id="logStatusMenu">
-                        <li><a class="dropdown-item" href="#" data-status="Process">Process</a></li>
-                        <li><a class="dropdown-item" href="#" data-status="Investigation">Investigation</a></li>
-                        <li><a class="dropdown-item" href="#" data-status="Completed">Completed</a></li>
-                    </ul>
-                </div>
-            </footer>
         </main>
     </div>
 
-    <script src="../../assets/js/dropdown.js"></script>
     <script src="../../assets/js/sidebar.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Create toast container if not exists
-            let toastContainer = document.querySelector('.toast-container');
-            if (!toastContainer) {
-                toastContainer = document.createElement('div');
-                toastContainer.className = 'toast-container';
-                document.body.appendChild(toastContainer);
-            }
-
-            const logStatusButton = document.getElementById('dropdownLogStatus');
-            const statusItems = document.querySelectorAll('#logStatusMenu .dropdown-item');
-
-            statusItems.forEach(item => {
-                item.addEventListener('click', function(event) {
-                    event.preventDefault();
-                    const selectedStatus = this.getAttribute('data-status');
-                    const selectedText = this.textContent;
-                    logStatusButton.textContent = selectedText;
-                    showToast('Status Diubah', 'Status berhasil diubah menjadi: ' + selectedText, 'success');
-                });
-            });
-
-            const urlParams = new URLSearchParams(window.location.search);
-            const caseId = urlParams.get('id');
-            if (caseId) document.getElementById('caseName').textContent = 'Kasus ' + caseId;
-
-            /**
-             * Show toast notification with slide animation
-             */
-            function showToast(title, message, type = 'success') {
-                const toast = document.createElement('div');
-                toast.className = `toast toast-${type}`;
-                const icon = type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-circle-fill';
-                toast.innerHTML = `
-                    <i class="bi ${icon}"></i>
-                    <div class="toast-content">
-                        <div class="toast-title">${title}</div>
-                        <div class="toast-message">${message}</div>
-                    </div>
-                `;
-                toastContainer.appendChild(toast);
-                setTimeout(() => {
-                    toast.classList.add('toast-hide');
-                    setTimeout(() => toast.remove(), 300);
-                }, 3000);
-            }
-        });
-    </script>
 </body>
 </html>

@@ -15,11 +15,20 @@
     <div class="d-flex">
         <nav class="sidebar" id="sidebar">
             <div class="sidebar-header"><h1 class="brand-title">Sigap</h1></div>
+            
             <ul class="nav flex-column sidebar-nav">
                 <li class="nav-item"><a class="nav-link" href="cases.html"><i class="bi bi-grid-fill me-2"></i> Data Kasus</a></li>
                 <li class="nav-item"><a class="nav-link active" href="statistics.html"><i class="bi bi-bar-chart-fill me-2"></i> Statistik</a></li>
                 <li class="nav-item"><a class="nav-link" href="blog-list.html"><i class="bi bi-file-earmark-text-fill me-2"></i> Blog</a></li>
             </ul>
+
+            <div style="padding: 0 1.5rem; margin-top: auto; margin-bottom: 1rem;">
+                <button id="btnLogout" class="btn btn-danger w-100 d-flex align-items-center justify-content-center gap-2" style="background-color: #e74c3c; border: none; padding: 10px;">
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+
             <div class="user-profile">
                 <i class="bi bi-person-circle me-2 fs-3"></i>
                 <div class="user-info">
@@ -36,13 +45,11 @@
                 <div></div>
             </header>
 
-            <!-- Total Summary Card -->
             <div class="summary-card">
-                <h3 id="totalReports">52</h3>
+                <h3 id="totalReports">0</h3>
                 <p>Total Laporan Diterima</p>
             </div>
 
-            <!-- === GENDER CHART (CENTER) === -->
             <div class="row justify-content-center mb-4">
                 <div class="col-lg-6">
                     <div class="stat-card">
@@ -59,25 +66,25 @@
                                     <td class="stat-label">
                                         <span class="stat-dot male"></span>Laki-laki
                                     </td>
-                                    <td class="stat-value" id="stat-male">20 (38.5%)</td>
+                                    <td class="stat-value" id="stat-male">0 (0%)</td>
                                 </tr>
                                 <tr>
                                     <td class="stat-label">
                                         <span class="stat-dot female"></span>Perempuan
                                     </td>
-                                    <td class="stat-value" id="stat-female">28 (53.8%)</td>
+                                    <td class="stat-value" id="stat-female">0 (0%)</td>
                                 </tr>
                                 <tr>
                                     <td class="stat-label">
                                         <span class="stat-dot other"></span>Lainnya
                                     </td>
-                                    <td class="stat-value" id="stat-other">4 (7.7%)</td>
+                                    <td class="stat-value" id="stat-other">0 (0%)</td>
                                 </tr>
                             </tbody>
                             <tfoot>
                                 <tr>
                                     <td class="stat-label"><strong>Total</strong></td>
-                                    <td class="stat-value" id="stat-gender-total"><strong>52</strong></td>
+                                    <td class="stat-value" id="stat-gender-total"><strong>0</strong></td>
                                 </tr>
                             </tfoot>
                         </table>
@@ -91,9 +98,7 @@
                 </div>
             </div>
 
-            <!-- === OTHER CHARTS (SIDE BY SIDE) === -->
             <div class="row">
-                <!-- Worry Level Chart -->
                 <div class="col-lg-6">
                     <div class="stat-card">
                         <h3 class="stat-card-title">
@@ -109,25 +114,25 @@
                                     <td class="stat-label">
                                         <span class="stat-dot sedikit"></span>Sedikit Khawatir
                                     </td>
-                                    <td class="stat-value" id="stat-sedikit">15 (28.8%)</td>
+                                    <td class="stat-value" id="stat-sedikit">0 (0%)</td>
                                 </tr>
                                 <tr>
                                     <td class="stat-label">
                                         <span class="stat-dot khawatir"></span>Khawatir
                                     </td>
-                                    <td class="stat-value" id="stat-khawatir">25 (48.1%)</td>
+                                    <td class="stat-value" id="stat-khawatir">0 (0%)</td>
                                 </tr>
                                 <tr>
                                     <td class="stat-label">
                                         <span class="stat-dot sangat"></span>Sangat Khawatir
                                     </td>
-                                    <td class="stat-value" id="stat-sangat">12 (23.1%)</td>
+                                    <td class="stat-value" id="stat-sangat">0 (0%)</td>
                                 </tr>
                             </tbody>
                             <tfoot>
                                 <tr>
                                     <td class="stat-label"><strong>Total</strong></td>
-                                    <td class="stat-value" id="stat-worry-total"><strong>52</strong></td>
+                                    <td class="stat-value" id="stat-worry-total"><strong>0</strong></td>
                                 </tr>
                             </tfoot>
                         </table>
@@ -140,7 +145,6 @@
                     </div>
                 </div>
 
-                <!-- Status Chart -->
                 <div class="col-lg-6">
                     <div class="stat-card">
                         <h3 class="stat-card-title">
@@ -156,25 +160,25 @@
                                     <td class="stat-label">
                                         <span class="stat-dot process"></span>Process
                                     </td>
-                                    <td class="stat-value" id="stat-process">20 (38.5%)</td>
+                                    <td class="stat-value" id="stat-process">0 (0%)</td>
                                 </tr>
                                 <tr>
                                     <td class="stat-label">
                                         <span class="stat-dot investigation"></span>Investigation
                                     </td>
-                                    <td class="stat-value" id="stat-investigation">18 (34.6%)</td>
+                                    <td class="stat-value" id="stat-investigation">0 (0%)</td>
                                 </tr>
                                 <tr>
                                     <td class="stat-label">
                                         <span class="stat-dot completed"></span>Completed
                                     </td>
-                                    <td class="stat-value" id="stat-completed">14 (26.9%)</td>
+                                    <td class="stat-value" id="stat-completed">0 (0%)</td>
                                 </tr>
                             </tbody>
                             <tfoot>
                                 <tr>
                                     <td class="stat-label"><strong>Total</strong></td>
-                                    <td class="stat-value" id="stat-status-total"><strong>52</strong></td>
+                                    <td class="stat-value" id="stat-status-total"><strong>0</strong></td>
                                 </tr>
                             </tfoot>
                         </table>
