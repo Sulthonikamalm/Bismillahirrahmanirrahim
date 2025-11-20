@@ -81,12 +81,24 @@
      * Update check all state based on individual checkboxes
      */
     function updateCheckAllState() {
-        const allChecked = Array.from(blogCheckboxes).every(cb => cb.checked);
-        const someChecked = Array.from(blogCheckboxes).some(cb => cb.checked);
+        const checkedBoxes = Array.from(blogCheckboxes).filter(cb => cb.checked);
+        const totalBoxes = blogCheckboxes.length;
+        const checkedCount = checkedBoxes.length;
 
         if (checkAllBtn) {
-            checkAllBtn.checked = allChecked;
-            checkAllBtn.indeterminate = someChecked && !allChecked;
+            if (checkedCount === 0) {
+                // None checked
+                checkAllBtn.checked = false;
+                checkAllBtn.indeterminate = false;
+            } else if (checkedCount === totalBoxes) {
+                // All checked
+                checkAllBtn.checked = true;
+                checkAllBtn.indeterminate = false;
+            } else {
+                // Some checked (indeterminate state)
+                checkAllBtn.checked = false;
+                checkAllBtn.indeterminate = true;
+            }
         }
 
         updateDeleteButtonVisibility();
