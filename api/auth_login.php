@@ -44,7 +44,7 @@ ini_set('error_log', __DIR__ . '/../logs/auth_error.log');
 // DATABASE CONNECTION (With Prepared Statement Protection)
 // ========================================================
 try {
-    require_once __DIR__ . '/../config/database_secure.php';
+    require_once __DIR__ . '/../config/database.php';
 } catch (Exception $e) {
     error_log("CRITICAL: Database connection failed - " . $e->getMessage());
     http_response_code(500);

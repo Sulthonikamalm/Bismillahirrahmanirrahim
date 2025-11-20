@@ -17,7 +17,27 @@ CREATE TABLE IF NOT EXISTS `Admin` (
   `email` VARCHAR(255) NOT NULL UNIQUE,
   `password_hash` VARCHAR(255) NOT NULL,
   `nama` VARCHAR(255) NOT NULL,
+  `failed_attempts` INT DEFAULT 0 COMMENT 'Jumlah percobaan login gagal',
+  `locked_until` TIMESTAMP NULL DEFAULT NULL COMMENT 'Waktu hingga akun di-unlock',
+  `last_login` TIMESTAMP NULL DEFAULT NULL COMMENT 'Waktu login terakhir yang sukses',
   `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ========================================================
+-- TABEL 1B: LoginAttempts
+-- Tujuan: Tracking semua percobaan login untuk security & audit
+-- ========================================================
+CREATE TABLE IF NOT EXISTS `LoginAttempts` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `email` VARCHAR(255) NOT NULL,
+  `ip_address` VARCHAR(45) NOT NULL COMMENT 'IPv4 atau IPv6',
+  `attempt_time` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `success` TINYINT(1) NOT NULL DEFAULT 0 COMMENT '1 = success, 0 = failed',
+  `failure_reason` VARCHAR(255) NULL COMMENT 'Alasan gagal: wrong password, user not found, etc',
+  INDEX idx_email (`email`),
+  INDEX idx_ip (`ip_address`),
+  INDEX idx_attempt_time (`attempt_time`),
+  INDEX idx_success (`success`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ========================================================
