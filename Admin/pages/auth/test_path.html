@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Path Test</title>
+    <style>
+        body {
+            font-family: monospace;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-box {
+            background: white;
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #2563eb;
+        }
+        pre {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .success { color: #10b981; font-weight: bold; }
+        .error { color: #ef4444; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Path & Method Debugging Tool</h1>
+
+    <div class="test-box">
+        <h2>Current Location Info</h2>
+        <pre id="locationInfo"></pre>
+    </div>
+
+    <div class="test-box">
+        <h2>Test 1: Simple Method Test</h2>
+        <button onclick="testSimpleMethod()">Test ../../../test_method.php</button>
+        <pre id="result1"></pre>
+    </div>
+
+    <div class="test-box">
+        <h2>Test 2: Auth Login Path Test</h2>
+        <button onclick="testAuthLoginPath()">Test ../../../api/auth_login.php (GET)</button>
+        <button onclick="testAuthLoginPathPost()">Test ../../../api/auth_login.php (POST)</button>
+        <pre id="result2"></pre>
+    </div>
+
+    <div class="test-box">
+        <h2>Test 3: Direct Login Attempt</h2>
+        <button onclick="testLogin()">Try Login (admin@ppks.com / admin123)</button>
+        <pre id="result3"></pre>
+    </div>
+
+    <script>
+        // Show current location
+        document.getElementById('locationInfo').textContent =
+            `Current URL: ${window.location.href}\n` +
+            `Protocol: ${window.location.protocol}\n` +
+            `Host: ${window.location.host}\n` +
+            `Pathname: ${window.location.pathname}\n` +
+            `Origin: ${window.location.origin}`;
+
+        async function testSimpleMethod() {
+            const resultEl = document.getElementById('result1');
+            resultEl.textContent = 'Testing...';
+
+            try {
+                const response = await fetch('../../../test_method.php', {
+                    method: 'POST',
+                    body: new FormData()
+                });
+
+                const text = await response.text();
+                resultEl.innerHTML = `<span class="success">✅ Response received!</span>\n\n` +
+                    `Status: ${response.status}\n` +
+                    `Status Text: ${response.statusText}\n` +
+                    `Response:\n${text}`;
+            } catch (error) {
+                resultEl.innerHTML = `<span class="error">❌ Error!</span>\n\n${error.message}`;
+            }
+        }
+
+        async function testAuthLoginPath() {
+            const resultEl = document.getElementById('result2');
+            resultEl.textContent = 'Testing GET request...';
+
+            try {
+                const response = await fetch('../../../api/auth_login.php', {
+                    method: 'GET'
+                });
+
+                const text = await response.text();
+                resultEl.innerHTML = `Status: ${response.status} ${response.statusText}\n\n` +
+                    `Response:\n${text}`;
+            } catch (error) {
+                resultEl.innerHTML = `<span class="error">❌ Error!</span>\n\n${error.message}`;
+            }
+        }
+
+        async function testAuthLoginPathPost() {
+            const resultEl = document.getElementById('result2');
+            resultEl.textContent = 'Testing POST request...';
+
+            try {
+                const formData = new FormData();
+                formData.append('test', 'value');
+
+                const response = await fetch('../../../api/auth_login.php', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const text = await response.text();
+                resultEl.innerHTML = `<span class="success">✅ POST Request Sent!</span>\n\n` +
+                    `Status: ${response.status} ${response.statusText}\n\n` +
+                    `Response:\n${text}`;
+
+                // Try to parse as JSON
+                try {
+                    const json = JSON.parse(text);
+                    resultEl.innerHTML += '\n\nParsed JSON:\n' + JSON.stringify(json, null, 2);
+                } catch (e) {
+                    resultEl.innerHTML += '\n\n⚠️ Response is not JSON';
+                }
+            } catch (error) {
+                resultEl.innerHTML = `<span class="error">❌ Error!</span>\n\n${error.message}`;
+            }
+        }
+
+        async function testLogin() {
+            const resultEl = document.getElementById('result3');
+            resultEl.textContent = 'Attempting login...';
+
+            try {
+                const formData = new FormData();
+                formData.append('email', 'admin@ppks.com');
+                formData.append('password', 'admin123');
+
+                console.log('Sending login request...');
+
+                const response = await fetch('../../../api/auth_login.php', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                console.log('Response received:', response);
+
+                const text = await response.text();
+                console.log('Response text:', text);
+
+                resultEl.innerHTML = `Status: ${response.status} ${response.statusText}\n\n` +
+                    `Headers:\n${JSON.stringify([...response.headers], null, 2)}\n\n` +
+                    `Response Body:\n${text}`;
+
+                // Try to parse as JSON
+                try {
+                    const json = JSON.parse(text);
+                    resultEl.innerHTML += '\n\n' + (json.status === 'success' ?
+                        '<span class="success">✅ LOGIN SUCCESS!</span>' :
+                        '<span class="error">❌ LOGIN FAILED</span>') +
+                        '\n\nParsed JSON:\n' + JSON.stringify(json, null, 2);
+                } catch (e) {
+                    resultEl.innerHTML += '\n\n<span class="error">⚠️ Response is not valid JSON!</span>\n' +
+                        'JSON Parse Error: ' + e.message;
+                }
+            } catch (error) {
+                resultEl.innerHTML = `<span class="error">❌ Fetch Error!</span>\n\n${error.message}\n\n${error.stack}`;
+                console.error('Login test error:', error);
+            }
+        }
+    </script>
+</body>
+</html>

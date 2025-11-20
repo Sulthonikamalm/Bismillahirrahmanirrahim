@@ -38,8 +38,17 @@ document.addEventListener('DOMContentLoaded', function() {
             formData.append('password', passwordInput.value);
 
             try {
+                // DEBUG MODE: Change to auth_login_debug.php for detailed logging
+                // Set to true to enable debug mode
+                const DEBUG_MODE = true;
+                const apiEndpoint = DEBUG_MODE ?
+                    '../../../api/auth_login_debug.php' :
+                    '../../../api/auth_login.php';
+
+                console.log('Using endpoint:', apiEndpoint);
+
                 // Kirim request ke Backend
-                const response = await fetch('../../../api/auth_login.php', {
+                const response = await fetch(apiEndpoint, {
                     method: 'POST',
                     body: formData
                 });
