@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-    
+
     // Reset sidebar saat layar dibesarkan
     window.addEventListener('resize', function() {
         if (window.innerWidth > 991 && sidebar) {
@@ -34,11 +34,30 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // ============================================
+    // 1B. USER PROFILE DROPDOWN TOGGLE
+    // ============================================
+    const userProfileToggle = document.getElementById('userProfileToggle');
+    const userDropdownMenu = document.getElementById('userDropdownMenu');
+
+    if (userProfileToggle && userDropdownMenu) {
+        userProfileToggle.addEventListener('click', function(event) {
+            event.stopPropagation();
+            userDropdownMenu.classList.toggle('show');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!userProfileToggle.contains(event.target) && !userDropdownMenu.contains(event.target)) {
+                userDropdownMenu.classList.remove('show');
+            }
+        });
+    }
 
     // ============================================
     // 2. LOGIKA KEAMANAN (BARU)
     // ============================================
-    
+
     // JALANKAN CEK LOGIN OTOMATIS
     checkAuthSession();
 
