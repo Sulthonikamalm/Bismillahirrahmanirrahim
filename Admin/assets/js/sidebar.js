@@ -71,28 +71,62 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Fungsi Cek Sesi ke Backend
+// ========================================================
+// AUTH GUARD - Proteksi Dashboard dari Akses Tanpa Login
+// ========================================================
 async function checkAuthSession() {
     try {
         // Jangan cek sesi jika kita sedang di halaman login agar tidak loop
-        if (window.location.pathname.includes('login.html')) return;
+        if (window.location.pathname.includes('login.html')) {
+            return;
+        }
+
+        console.log('[Auth Guard] Checking authentication...');
 
         // Naik 3 level folder untuk mencapai api/ (dashboard → pages → Admin → root → api)
-        const response = await fetch('../../../api/auth_check.php');
+        const response = await fetch('../../../api/auth_check.php', {
+            method: 'GET',
+            credentials: 'same-origin', // Include cookies
+            cache: 'no-store' // Don't cache auth checks
+        });
+
+        // Parse response
         const data = await response.json();
 
-        if (data.status === 'unauthorized') {
-            // Tendang ke halaman login jika belum login
-            window.location.href = '../auth/login.html';
-        } else if (data.status === 'authenticated') {
-            // Update nama user di sidebar jika ada elemennya
-            const userNameElement = document.querySelector('.user-name');
-            if (userNameElement && data.user.name) {
-                userNameElement.textContent = data.user.name;
-            }
+        console.log('[Auth Guard] Server response:', data.status);
+
+        // STRICT CHECKING: Jika bukan "authenticated", tendang ke login
+        if (data.status !== 'authenticated') {
+            console.warn('[Auth Guard] ❌ Unauthorized access detected. Redirecting to login...');
+
+            // Redirect ke login dengan parameter untuk menunjukkan session expired
+            window.location.href = '../auth/login.html?session=expired';
+            return;
         }
+
+        // ✅ Authenticated - Update UI dengan data user
+        console.log('[Auth Guard] ✅ User authenticated:', data.user.name);
+
+        // Update nama user di sidebar jika ada elemennya
+        const userNameElement = document.querySelector('.user-name');
+        if (userNameElement && data.user && data.user.name) {
+            userNameElement.textContent = data.user.name;
+        }
+
+        // Update email user jika ada
+        const userEmailElement = document.querySelector('.user-email');
+        if (userEmailElement && data.user && data.user.email) {
+            userEmailElement.textContent = data.user.email;
+        }
+
     } catch (error) {
-        console.error('Gagal mengecek sesi:', error);
+        // CRITICAL: Jika API error atau tidak bisa diakses, TENDANG ke login juga
+        // Ini mencegah akses ke dashboard saat backend down/error
+        console.error('[Auth Guard] ❌ Error checking session:', error);
+        console.warn('[Auth Guard] ❌ Cannot verify authentication. Redirecting to login for security...');
+
+        // Redirect ke login dengan parameter error
+        window.location.href = '../auth/login.html?error=auth_check_failed';
     }
 }
 

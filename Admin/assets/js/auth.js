@@ -37,6 +37,34 @@ document.addEventListener('DOMContentLoaded', function() {
     const errorText = document.getElementById('errorText');
     const loginButton = document.querySelector('.login-button');
 
+    // ========================================================
+    // AUTH GUARD REDIRECT - Show message if redirected from dashboard
+    // ========================================================
+    const urlParams = new URLSearchParams(window.location.search);
+    const sessionParam = urlParams.get('session');
+    const errorParam = urlParams.get('error');
+
+    if (sessionParam === 'expired') {
+        // Show session expired message
+        if (errorMessage && errorText) {
+            errorText.innerHTML = '<i class="bi bi-clock-history me-2"></i>Sesi Anda telah berakhir. Silakan login kembali.';
+            errorMessage.classList.remove('hidden');
+            errorMessage.classList.remove('alert-danger');
+            errorMessage.classList.add('alert-warning');
+            errorMessage.style.display = 'block';
+        }
+        console.log('[Auth Guard] User redirected: Session expired');
+    } else if (errorParam === 'auth_check_failed') {
+        // Show auth check error message
+        if (errorMessage && errorText) {
+            errorText.innerHTML = '<i class="bi bi-shield-x me-2"></i>Tidak dapat memverifikasi sesi. Silakan login kembali.';
+            errorMessage.classList.remove('hidden');
+            errorMessage.classList.add('alert-danger');
+            errorMessage.style.display = 'block';
+        }
+        console.log('[Auth Guard] User redirected: Auth check failed');
+    }
+
     // Toggle Password
     const togglePassword = document.getElementById('togglePassword');
     if(togglePassword) {
