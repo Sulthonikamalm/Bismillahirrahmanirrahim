@@ -157,16 +157,27 @@ body {
 }
 
 /* === USER PROFILE === */
-.user-profile {
+.user-profile-dropdown {
     margin-top: auto;
+    position: relative;
+}
+
+.user-profile {
     display: flex;
     align-items: center;
     padding: var(--spacing-md) var(--spacing-xs);
     padding-top: var(--spacing-lg);
     border-top: 1px solid var(--color-border);
+    cursor: pointer;
+    border-radius: var(--radius-sm);
+    transition: var(--transition);
 }
 
-.user-profile i {
+.user-profile:hover {
+    background-color: var(--color-bg);
+}
+
+.user-profile i.bi-person-circle {
     color: var(--color-primary);
 }
 
@@ -174,6 +185,7 @@ body {
     display: flex;
     flex-direction: column;
     line-height: 1.3;
+    flex: 1;
 }
 
 .user-profile .user-name {
@@ -187,9 +199,68 @@ body {
     color: var(--color-gray);
 }
 
+.user-profile .dropdown-arrow {
+    color: var(--color-gray);
+    font-size: 0.9rem;
+    transition: var(--transition);
+}
+
+.user-profile:hover .dropdown-arrow {
+    color: var(--color-primary);
+}
+
+/* User Dropdown Menu */
+.user-dropdown-menu {
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    right: 0;
+    margin-bottom: 0.5rem;
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: var(--transition);
+    z-index: 1000;
+}
+
+.user-dropdown-menu.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-item-logout {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: transparent;
+    border: none;
+    color: var(--color-danger);
+    font-weight: 500;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: var(--transition);
+    border-radius: var(--radius-md);
+    font-family: var(--font-body);
+}
+
+.dropdown-item-logout:hover {
+    background-color: #fee;
+    color: #c0392b;
+}
+
+.dropdown-item-logout i {
+    font-size: 1.1rem;
+}
+
 /* === SIDEBAR TOGGLE === */
 .sidebar-toggle {
-    display: none;
+    display: none; /* Hidden by default (desktop) */
     background: none;
     border: none;
     padding: 0;
@@ -200,6 +271,20 @@ body {
 
 .sidebar-toggle:hover {
     color: var(--color-primary);
+}
+
+/* Show hamburger only on tablet/mobile */
+@media (max-width: 991.98px) {
+    .sidebar-toggle {
+        display: flex !important;
+    }
+}
+
+/* Hide hamburger on desktop */
+@media (min-width: 992px) {
+    .sidebar-toggle {
+        display: none !important;
+    }
 }
 
 /* ========================================
