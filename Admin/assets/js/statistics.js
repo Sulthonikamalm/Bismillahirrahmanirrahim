@@ -12,6 +12,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // TODO: Replace with actual data from database via API
     
     const statisticsData = {
+        gender: {
+            male: 22,
+            female: 30
+        },
         worryLevels: {
             sedikit: 15,
             khawatir: 25,
@@ -31,17 +35,63 @@ document.addEventListener('DOMContentLoaded', function() {
     updateSummaryCard(totalReports);
     
     // === CREATE CHARTS ===
+    createGenderChart(statisticsData.gender);
     createWorryLevelChart(statisticsData.worryLevels);
     createStatusChart(statisticsData.status);
-    
+
     // === UPDATE TABLES ===
+    updateGenderTable(statisticsData.gender, totalReports);
     updateWorryLevelTable(statisticsData.worryLevels, totalReports);
     updateStatusTable(statisticsData.status, totalReports);
     
     // ========================================
     // CHART CREATION FUNCTIONS
     // ========================================
-    
+
+    /**
+     * Create Gender Donut Chart
+     * @param {Object} data - Gender data (male, female only)
+     */
+    function createGenderChart(data) {
+        const ctx = document.getElementById('genderChart');
+        if (!ctx) return;
+
+        new Chart(ctx.getContext('2d'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Laki-laki', 'Perempuan'],
+                datasets: [{
+                    data: [data.male, data.female],
+                    backgroundColor: ['#3b82f6', '#ec4899'],
+                    borderColor: ['#ffffff', '#ffffff'],
+                    borderWidth: 4,
+                    hoverOffset: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '65%',
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const label = context.label || '';
+                                const value = context.parsed || 0;
+                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const percentage = ((value / total) * 100).toFixed(1);
+                                return `${label}: ${value} (${percentage}%)`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
     /**
      * Create Worry Level Donut Chart
      * @param {Object} data - Worry level data
@@ -169,6 +219,18 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
+    /**
+     * Update gender statistics table
+     * @param {Object} data - Gender data (male, female only)
+     * @param {number} total - Total reports
+     */
+    function updateGenderTable(data, total) {
+        const genderTotal = data.male + data.female;
+        updateTableCell('stat-male', data.male, genderTotal);
+        updateTableCell('stat-female', data.female, genderTotal);
+        updateTableCell('stat-gender-total', genderTotal);
+    }
+
     /**
      * Update worry level statistics table
      * @param {Object} data - Worry level data
