@@ -1,0 +1,13 @@
+[20-Nov-2025 15:26:22 Europe/Berlin] [CRITICAL] Database connection failed: SQLSTATE[HY000] [2054] The server requested authentication method unknown to the client [auth_gssapi_client]
+[20-Nov-2025 15:26:22 Europe/Berlin] [CRITICAL] Connection details - Host: localhost, DB: sigap_ppks
+[20-Nov-2025 15:26:55 Europe/Berlin] [CRITICAL] Database connection failed: SQLSTATE[HY000] [2054] The server requested authentication method unknown to the client [auth_gssapi_client]
+[20-Nov-2025 15:26:55 Europe/Berlin] [CRITICAL] Connection details - Host: localhost, DB: sigap_ppks
+[20-Nov-2025 15:26:57 Europe/Berlin] [CRITICAL] Database connection failed: SQLSTATE[HY000] [2054] The server requested authentication method unknown to the client [auth_gssapi_client]
+[20-Nov-2025 15:26:57 Europe/Berlin] [CRITICAL] Connection details - Host: localhost, DB: sigap_ppks
+[20-Nov-2025 15:29:50 Europe/Berlin] [CRITICAL] Database connection failed: SQLSTATE[HY000] [2054] The server requested authentication method unknown to the client [auth_gssapi_client]
+[20-Nov-2025 15:29:50 Europe/Berlin] [CRITICAL] Connection details - Host: localhost, DB: sigap_ppks
+[20-Nov-2025 15:29:51 Europe/Berlin] [CRITICAL] Database connection failed: SQLSTATE[HY000] [2054] The server requested authentication method unknown to the client [auth_gssapi_client]
+[20-Nov-2025 15:29:51 Europe/Berlin] [CRITICAL] Connection details - Host: localhost, DB: sigap_ppks
+[20-Nov-2025 15:32:43 Europe/Berlin] [INFO] Database connection established successfully
+[20-Nov-2025 15:33:00 Europe/Berlin] [INFO] Database connection established successfully
+[20-Nov-2025 15:33:00 Europe/Berlin] LOGIN SUCCESS - User: admin@ppks.com (ID: 11) from IP: ::1
