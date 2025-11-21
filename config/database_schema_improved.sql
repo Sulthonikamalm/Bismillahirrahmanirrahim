@@ -101,7 +101,7 @@ CREATE TABLE IF NOT EXISTS `Laporan` (
 
   -- Data dari Step 2
   `korban_sebagai` VARCHAR(100) NULL COMMENT 'Saya sendiri / Teman saya / Orang lain',
-  `tingkat_kekhawatiran` VARCHAR(100) NULL COMMENT 'Kekerasan Fisik / Seksual / Psikologis / dll',
+  `tingkat_kekhawatiran` VARCHAR(100) NULL COMMENT 'sedikit / khawatir / sangat',
 
   -- Data dari Step 3
   `gender_korban` VARCHAR(50) NULL,
@@ -201,7 +201,7 @@ INSERT IGNORE INTO `Laporan` (
   'Process',
   'tidak',
   'Saya sendiri',
-  'Kekerasan Fisik',
+  'sedikit',
   'perempuan',
   'Teman sekelas',
   '2024-01-15',
@@ -220,7 +220,7 @@ INSERT IGNORE INTO `Laporan` (
   'Completed',
   'tidak',
   'Teman saya',
-  'Kekerasan Seksual',
+  'sangat',
   'perempuan',
   'Dosen',
   '2024-01-10',
@@ -239,7 +239,7 @@ INSERT IGNORE INTO `Laporan` (
   'Process',
   'tidak',
   'Saya sendiri',
-  'Kekerasan Psikologis',
+  'khawatir',
   'laki-laki',
   'Atasan lab',
   '2024-01-20',
@@ -258,7 +258,7 @@ INSERT IGNORE INTO `Laporan` (
   'Process',
   'tidak',
   'Orang lain',
-  'Kekerasan Fisik',
+  'sedikit',
   'perempuan',
   'Mahasiswa senior',
   '2024-01-25',
@@ -277,7 +277,7 @@ INSERT IGNORE INTO `Laporan` (
   'Process',
   'tidak',
   'Saya sendiri',
-  'Kekerasan Verbal',
+  'sedikit',
   'perempuan',
   'Teman satu kelas',
   '2024-02-01',
@@ -289,6 +289,44 @@ INSERT IGNORE INTO `Laporan` (
   'tidak',
   NULL,
   1
+),
+-- Laporan 6: Tambahan untuk testing statistik
+(
+  'PPKS006',
+  'In Progress',
+  'tidak',
+  'Saya sendiri',
+  'sedikit',
+  'laki-laki',
+  'Senior organisasi',
+  '2024-02-05',
+  'Kampus ITB, Sekretariat',
+  'Saya mengalami tekanan dan intimidasi dari senior organisasi.',
+  'korban6@example.com',
+  '18-20',
+  '08678901234',
+  'tidak',
+  NULL,
+  NULL
+),
+-- Laporan 7: Tambahan khawatir
+(
+  'PPKS007',
+  'Process',
+  'tidak',
+  'Teman saya',
+  'khawatir',
+  'perempuan',
+  'Rekan kerja',
+  '2024-02-10',
+  'Kampus ITB, Kantor',
+  'Teman saya mengalami pelecehan dari rekan kerja.',
+  'korban7@example.com',
+  '25-30',
+  '08789012345',
+  'tidak',
+  NULL,
+  NULL
 );
 
 -- Dummy Bukti File
