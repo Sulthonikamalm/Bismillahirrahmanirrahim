@@ -83,27 +83,6 @@
     </div>
 
     <script src="../../assets/js/sidebar.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Logika upload gambar & form handling (sama seperti create)
-            const imageUpload = document.getElementById('imageUpload');
-            const imagePreview = document.getElementById('imagePreview');
-            const imageUploadLabel = document.getElementById('imageUploadLabel');
-
-            if(imageUpload){
-                imageUpload.addEventListener('change', function(event) {
-                    const file = event.target.files[0];
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = function(e) {
-                            imagePreview.src = e.target.result;
-                            imageUploadLabel.classList.add('has-image');
-                        }
-                        reader.readAsDataURL(file);
-                    }
-                });
-            }
-        });
-    </script>
+    <script src="../../assets/js/blog-form.js"></script>
 </body>
 </html>

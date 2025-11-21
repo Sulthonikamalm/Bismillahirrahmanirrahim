@@ -140,7 +140,8 @@ try {
     http_response_code(200);
     echo json_encode([
         'status' => 'success',
-        'data' => $response
+        'data' => $response,
+        'csrf_token' => $_SESSION['csrf_token'] ?? ''
     ]);
 
 } catch (PDOException $e) {

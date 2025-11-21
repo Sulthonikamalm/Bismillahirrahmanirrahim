@@ -172,7 +172,10 @@ try {
     http_response_code(200);
     echo json_encode([
         'status' => 'success',
-        'data' => $formattedBlogs,
+        'data' => [
+            'blogs' => $formattedBlogs,
+            'total_count' => (int) $totalRecords
+        ],
         'pagination' => [
             'current_page' => $page,
             'total_pages' => $totalPages,
@@ -184,7 +187,8 @@ try {
         'filters' => [
             'search' => $search,
             'category' => $category
-        ]
+        ],
+        'csrf_token' => $_SESSION['csrf_token'] ?? ''
     ]);
 
 } catch (PDOException $e) {
