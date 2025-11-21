@@ -223,21 +223,21 @@ function handleFileUploads($pdo, $laporanId, $kodePelaporan) {
             // Determine file type category
             $fileCategory = in_array($extension, ['jpg', 'jpeg', 'png', 'gif', 'webp']) ? 'image' : 'video';
 
-            // Insert to database (if bukti table exists)
+            // Insert to database (Bukti table)
             try {
-                $sql = "INSERT INTO Bukti (laporan_id, nama_file, nama_asli, tipe_file, ukuran, path)
-                        VALUES (:laporan_id, :nama_file, :nama_asli, :tipe_file, :ukuran, :path)";
+                // file_url should be relative path from web root
+                $fileUrl = '../../../uploads/bukti/' . $kodePelaporan . '/' . $newFilename;
+
+                $sql = "INSERT INTO Bukti (laporan_id, file_url, file_type)
+                        VALUES (:laporan_id, :file_url, :file_type)";
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([
                     'laporan_id' => $laporanId,
-                    'nama_file' => $newFilename,
-                    'nama_asli' => $originalName,
-                    'tipe_file' => $fileCategory,
-                    'ukuran' => $fileSize,
-                    'path' => 'uploads/bukti/' . $kodePelaporan . '/' . $newFilename
+                    'file_url' => $fileUrl,
+                    'file_type' => $fileCategory
                 ]);
             } catch (PDOException $e) {
-                // Table might not exist, just log and continue
+                // Table might not exist or have different schema, log and continue
                 error_log("Bukti table insert error: " . $e->getMessage());
             }
 
