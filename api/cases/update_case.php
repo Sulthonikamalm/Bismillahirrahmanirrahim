@@ -108,7 +108,7 @@ if ($caseId === false || $caseId <= 0) {
 }
 
 // Validate status_laporan
-$allowedStatuses = ['Process', 'In Progress', 'Resolved', 'Closed', 'Rejected'];
+$allowedStatuses = ['Process', 'In Progress', 'Completed'];
 if (!empty($statusLaporan) && !in_array($statusLaporan, $allowedStatuses)) {
     http_response_code(400);
     exit(json_encode([
