@@ -597,58 +597,68 @@
     }
 
     // ============================================
-    // FORM SUBMISSION
+    // FORM SUBMISSION - WITH FILE UPLOAD
     // ============================================
     async function submitForm() {
         console.log('=== FORM SUBMISSION START ===');
         console.log('Form Data (Frontend):', formData);
 
         const btnKirimPengaduan = document.getElementById('btnKirimPengaduan');
-        
+
         if (btnKirimPengaduan) {
             btnKirimPengaduan.disabled = true;
             btnKirimPengaduan.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Mengirim...';
         }
 
         try {
-            const payload = {
-                statusDarurat: formData.statusDarurat || null,
-                korbanSebagai: formData.korban || null,
-                tingkatKekhawatiran: formData.kehawatiran || null,
-                genderKorban: formData.genderKorban || null,
-                pelakuKekerasan: formData.pelakuKekerasan || null,
-                waktuKejadian: formData.waktuKejadian || null, // Now in YYYY-MM-DD format
-                lokasiKejadian: formData.lokasiKejadian || null,
-                detailKejadian: formData.detailKejadian || null,
-                emailKorban: formData.emailKorban || null,
-                usiaKorban: formData.usiaKorban || null,
-                whatsappKorban: formData.whatsappKorban || null,
-                statusDisabilitas: formData.disabilitasStatus || 'tidak',
-                jenisDisabilitas: formData.jenisDisabilitas || null
-            };
+            // Use FormData to support file uploads
+            const submitData = new FormData();
 
-            console.log('Payload to Backend:', payload);
+            // Add form fields
+            submitData.append('statusDarurat', formData.statusDarurat || '');
+            submitData.append('korbanSebagai', formData.korban || '');
+            submitData.append('tingkatKekhawatiran', formData.kehawatiran || '');
+            submitData.append('genderKorban', formData.genderKorban || '');
+            submitData.append('pelakuKekerasan', formData.pelakuKekerasan || '');
+            submitData.append('waktuKejadian', formData.waktuKejadian || '');
+            submitData.append('lokasiKejadian', formData.lokasiKejadian || '');
+            submitData.append('detailKejadian', formData.detailKejadian || '');
+            submitData.append('emailKorban', formData.emailKorban || '');
+            submitData.append('usiaKorban', formData.usiaKorban || '');
+            submitData.append('whatsappKorban', formData.whatsappKorban || '');
+            submitData.append('statusDisabilitas', formData.disabilitasStatus || 'tidak');
+            submitData.append('jenisDisabilitas', formData.jenisDisabilitas || '');
+
+            // Add files if present
+            if (uploadedFiles && uploadedFiles.length > 0) {
+                console.log('📎 Adding files to upload:', uploadedFiles.length);
+                uploadedFiles.forEach((file, index) => {
+                    submitData.append('buktiFiles[]', file);
+                    console.log(`  File ${index + 1}: ${file.name} (${formatFileSize(file.size)})`);
+                });
+            }
+
+            console.log('Sending FormData to Backend...');
 
             const response = await fetch('../api/submit_laporan.php', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify(payload)
+                // Don't set Content-Type header - browser will set it with boundary for multipart/form-data
+                body: submitData
             });
 
             console.log('Response Status:', response.status);
-            
+
             const result = await response.json();
             console.log('API Response:', result);
 
             if (result.success && result.data && result.data.kode_pelaporan) {
                 const kodeLaporan = result.data.kode_pelaporan;
                 const laporanId = result.data.laporan_id;
+                const uploadedCount = result.data.uploaded_files || 0;
 
                 console.log('✅ Laporan berhasil terkirim!');
                 console.log('Kode Pelaporan:', kodeLaporan);
+                console.log('Files Uploaded:', uploadedCount);
 
                 formData.reportCode = kodeLaporan;
                 formData.laporanId = laporanId;
@@ -658,13 +668,9 @@
 
                 showSuccessModal(kodeLaporan);
 
-                if (formData.buktiFiles && formData.buktiFiles.length > 0) {
-                    console.log('📎 Files to upload:', formData.buktiFiles.length);
-                }
-
             } else {
                 console.error('❌ Server Error:', result);
-                
+
                 if (result.errors) {
                     showValidationErrors(result.errors);
                 } else {
