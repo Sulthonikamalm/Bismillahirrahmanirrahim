@@ -280,7 +280,7 @@
         statusChart = new Chart(ctx.getContext('2d'), {
             type: 'bar',
             data: {
-                labels: ['Process', 'Investigation', 'Completed'],
+                labels: ['Process', 'In Progress', 'Completed'],
                 datasets: [{
                     label: 'Jumlah Laporan',
                     data: [data.process, data.investigation, data.completed],
