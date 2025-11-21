@@ -7,15 +7,412 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="../../assets/css/dashboard.css">
+    <style>
+        /* ================================================
+           STATISTICS PAGE - PROFESSIONAL DESIGN
+           ================================================ */
+
+        :root {
+            --stat-primary: #6366f1;
+            --stat-primary-light: #818cf8;
+            --stat-success: #10b981;
+            --stat-warning: #f59e0b;
+            --stat-danger: #ef4444;
+            --stat-info: #3b82f6;
+            --stat-pink: #ec4899;
+            --stat-purple: #8b5cf6;
+            --stat-bg: #f8fafc;
+            --stat-card-bg: #ffffff;
+            --stat-text: #1e293b;
+            --stat-text-muted: #64748b;
+            --stat-border: #e2e8f0;
+        }
+
+        .main-content {
+            background: var(--stat-bg);
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(135deg, var(--stat-primary) 0%, var(--stat-purple) 100%);
+            border-radius: 20px;
+            padding: 2rem 2.5rem;
+            margin-bottom: 2rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+
+        .page-header::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: 10%;
+            width: 200px;
+            height: 200px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+        }
+
+        .page-header h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin: 0 0 0.5rem 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-header p {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 0.95rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Summary Cards Row */
+        .summary-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 1200px) {
+            .summary-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .summary-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .summary-card {
+            background: var(--stat-card-bg);
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 1px solid var(--stat-border);
+        }
+
+        .summary-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+        }
+
+        .summary-card .icon-wrapper {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .summary-card .icon-wrapper.total {
+            background: linear-gradient(135deg, var(--stat-primary), var(--stat-purple));
+            color: white;
+        }
+
+        .summary-card .icon-wrapper.process {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: white;
+        }
+
+        .summary-card .icon-wrapper.progress {
+            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+            color: white;
+        }
+
+        .summary-card .icon-wrapper.completed {
+            background: linear-gradient(135deg, #34d399, #10b981);
+            color: white;
+        }
+
+        .summary-card .card-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .summary-card .card-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--stat-text);
+            line-height: 1.2;
+        }
+
+        .summary-card .card-label {
+            font-size: 0.85rem;
+            color: var(--stat-text-muted);
+            margin-top: 0.25rem;
+        }
+
+        /* Charts Grid */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 992px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .chart-card {
+            background: var(--stat-card-bg);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.1);
+            border: 1px solid var(--stat-border);
+        }
+
+        .chart-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--stat-border);
+        }
+
+        .chart-card-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--stat-text);
+            margin: 0;
+        }
+
+        .chart-card-title .title-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .chart-card-title .title-icon.gender {
+            background: rgba(236, 72, 153, 0.1);
+            color: var(--stat-pink);
+        }
+
+        .chart-card-title .title-icon.worry {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--stat-warning);
+        }
+
+        .chart-card-title .title-icon.status {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--stat-success);
+        }
+
+        .chart-container {
+            height: 220px;
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Stats Legend */
+        .stats-legend {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 1rem;
+            background: var(--stat-bg);
+            border-radius: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .legend-item:hover {
+            background: #f1f5f9;
+        }
+
+        .legend-left {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+
+        /* Gender Colors */
+        .legend-dot.male { background: var(--stat-info); }
+        .legend-dot.female { background: var(--stat-pink); }
+
+        /* Worry Colors */
+        .legend-dot.sedikit { background: var(--stat-success); }
+        .legend-dot.khawatir { background: var(--stat-warning); }
+        .legend-dot.sangat { background: var(--stat-danger); }
+
+        /* Status Colors */
+        .legend-dot.process { background: #f59e0b; }
+        .legend-dot.in-progress { background: var(--stat-info); }
+        .legend-dot.completed { background: var(--stat-success); }
+
+        .legend-label {
+            font-size: 0.9rem;
+            color: var(--stat-text);
+            font-weight: 500;
+        }
+
+        .legend-value {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .legend-count {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--stat-text);
+        }
+
+        .legend-percent {
+            font-size: 0.8rem;
+            color: var(--stat-text-muted);
+            background: var(--stat-border);
+            padding: 0.2rem 0.5rem;
+            border-radius: 6px;
+        }
+
+        /* Info Note */
+        .info-note {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(139, 92, 246, 0.05));
+            border-radius: 10px;
+            margin-top: 1rem;
+            border-left: 3px solid var(--stat-primary);
+        }
+
+        .info-note i {
+            color: var(--stat-primary);
+            font-size: 1rem;
+            margin-top: 0.1rem;
+        }
+
+        .info-note p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: var(--stat-text-muted);
+            line-height: 1.5;
+        }
+
+        /* Full Width Chart Card */
+        .chart-card.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .chart-card.full-width .chart-container {
+            height: 280px;
+        }
+
+        .chart-card.full-width .stats-legend {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .chart-card.full-width .stats-legend {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Loading State */
+        .loading-shimmer {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        /* Toast Notification */
+        .toast-container {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1050;
+        }
+
+        .toast {
+            background: var(--stat-card-bg);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast.success { border-left: 4px solid var(--stat-success); }
+        .toast.error { border-left: 4px solid var(--stat-danger); }
+
+        /* Hide default header */
+        .content-header h2 { display: none; }
+    </style>
 </head>
 <body>
     <div class="d-flex">
         <nav class="sidebar" id="sidebar">
             <div class="sidebar-header"><h1 class="brand-title">Sigap</h1></div>
-            
+
             <ul class="nav flex-column sidebar-nav">
                 <li class="nav-item"><a class="nav-link" href="cases.html"><i class="bi bi-grid-fill me-2"></i> Data Kasus</a></li>
                 <li class="nav-item"><a class="nav-link active" href="statistics.html"><i class="bi bi-bar-chart-fill me-2"></i> Statistik</a></li>
@@ -43,152 +440,196 @@
         <main class="main-content" id="mainContent">
             <header class="content-header">
                 <button class="btn sidebar-toggle" id="sidebarToggle" type="button"><i class="bi bi-list fs-3"></i></button>
-                <h2>Statistik Laporan</h2>
+                <h2>Statistik</h2>
                 <div></div>
             </header>
 
-            <div class="summary-card">
-                <h3 id="totalReports">0</h3>
-                <p>Total Laporan Diterima</p>
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1><i class="bi bi-bar-chart-line-fill me-2"></i>Dashboard Statistik</h1>
+                <p>Ringkasan data laporan kekerasan yang masuk ke sistem SIGAP PPKS</p>
             </div>
 
-            <div class="row justify-content-center mb-4">
-                <div class="col-lg-6">
-                    <div class="stat-card">
-                        <h3 class="stat-card-title">
-                            <i class="bi bi-gender-ambiguous me-2"></i>
-                            Berdasarkan Gender Korban
-                        </h3>
-                        <div class="chart-container">
-                            <canvas id="genderChart"></canvas>
-                        </div>
-                        <table class="stats-table">
-                            <tbody>
-                                <tr>
-                                    <td class="stat-label">
-                                        <span class="stat-dot male"></span>Laki-laki
-                                    </td>
-                                    <td class="stat-value" id="stat-male">0 (0%)</td>
-                                </tr>
-                                <tr>
-                                    <td class="stat-label">
-                                        <span class="stat-dot female"></span>Perempuan
-                                    </td>
-                                    <td class="stat-value" id="stat-female">0 (0%)</td>
-                                </tr>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td class="stat-label"><strong>Total</strong></td>
-                                    <td class="stat-value" id="stat-gender-total"><strong>0</strong></td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                        <div class="alert alert-secondary mt-3 mb-0">
-                            <i class="bi bi-lightbulb me-2"></i>
-                            <small>
-                                <strong>Catatan:</strong> Data gender korban membantu dalam penyediaan layanan dukungan yang lebih sesuai dan inklusif.
-                            </small>
-                        </div>
+            <!-- Summary Cards -->
+            <div class="summary-row">
+                <div class="summary-card">
+                    <div class="icon-wrapper total">
+                        <i class="bi bi-file-earmark-text"></i>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-value" id="totalReports">0</div>
+                        <div class="card-label">Total Laporan</div>
+                    </div>
+                </div>
+                <div class="summary-card">
+                    <div class="icon-wrapper process">
+                        <i class="bi bi-clock-history"></i>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-value" id="summaryProcess">0</div>
+                        <div class="card-label">Process</div>
+                    </div>
+                </div>
+                <div class="summary-card">
+                    <div class="icon-wrapper progress">
+                        <i class="bi bi-hourglass-split"></i>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-value" id="summaryInProgress">0</div>
+                        <div class="card-label">In Progress</div>
+                    </div>
+                </div>
+                <div class="summary-card">
+                    <div class="icon-wrapper completed">
+                        <i class="bi bi-check-circle"></i>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-value" id="summaryCompleted">0</div>
+                        <div class="card-label">Completed</div>
                     </div>
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="stat-card">
-                        <h3 class="stat-card-title">
-                            <i class="bi bi-exclamation-triangle me-2"></i>
-                            Berdasarkan Tingkat Kekhawatiran
+            <!-- Charts Grid -->
+            <div class="charts-grid">
+                <!-- Gender Chart -->
+                <div class="chart-card">
+                    <div class="chart-card-header">
+                        <h3 class="chart-card-title">
+                            <span class="title-icon gender"><i class="bi bi-gender-ambiguous"></i></span>
+                            Berdasarkan Gender
                         </h3>
-                        <div class="chart-container">
-                            <canvas id="worryLevelChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="genderChart"></canvas>
+                    </div>
+                    <div class="stats-legend">
+                        <div class="legend-item">
+                            <div class="legend-left">
+                                <span class="legend-dot male"></span>
+                                <span class="legend-label">Laki-laki</span>
+                            </div>
+                            <div class="legend-value">
+                                <span class="legend-count" id="stat-male-count">0</span>
+                                <span class="legend-percent" id="stat-male-percent">0%</span>
+                            </div>
                         </div>
-                        <table class="stats-table">
-                            <tbody>
-                                <tr>
-                                    <td class="stat-label">
-                                        <span class="stat-dot sedikit"></span>Sedikit Khawatir
-                                    </td>
-                                    <td class="stat-value" id="stat-sedikit">0 (0%)</td>
-                                </tr>
-                                <tr>
-                                    <td class="stat-label">
-                                        <span class="stat-dot khawatir"></span>Khawatir
-                                    </td>
-                                    <td class="stat-value" id="stat-khawatir">0 (0%)</td>
-                                </tr>
-                                <tr>
-                                    <td class="stat-label">
-                                        <span class="stat-dot sangat"></span>Sangat Khawatir
-                                    </td>
-                                    <td class="stat-value" id="stat-sangat">0 (0%)</td>
-                                </tr>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td class="stat-label"><strong>Total</strong></td>
-                                    <td class="stat-value" id="stat-worry-total"><strong>0</strong></td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                        <div class="alert alert-info mt-3 mb-0">
-                            <i class="bi bi-info-circle me-2"></i>
-                            <small>
-                                <strong>Catatan:</strong> Kasus darurat langsung ditangani via WhatsApp petugas dan tidak tercatat di sistem pelaporan.
-                            </small>
+                        <div class="legend-item">
+                            <div class="legend-left">
+                                <span class="legend-dot female"></span>
+                                <span class="legend-label">Perempuan</span>
+                            </div>
+                            <div class="legend-value">
+                                <span class="legend-count" id="stat-female-count">0</span>
+                                <span class="legend-percent" id="stat-female-percent">0%</span>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-lg-6">
-                    <div class="stat-card">
-                        <h3 class="stat-card-title">
-                            <i class="bi bi-clipboard-check me-2"></i>
-                            Berdasarkan Status Penanganan
+                <!-- Worry Level Chart -->
+                <div class="chart-card">
+                    <div class="chart-card-header">
+                        <h3 class="chart-card-title">
+                            <span class="title-icon worry"><i class="bi bi-exclamation-triangle"></i></span>
+                            Tingkat Kekhawatiran
                         </h3>
-                        <div class="chart-container">
-                            <canvas id="statusChart"></canvas>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="worryLevelChart"></canvas>
+                    </div>
+                    <div class="stats-legend">
+                        <div class="legend-item">
+                            <div class="legend-left">
+                                <span class="legend-dot sedikit"></span>
+                                <span class="legend-label">Sedikit Khawatir</span>
+                            </div>
+                            <div class="legend-value">
+                                <span class="legend-count" id="stat-sedikit-count">0</span>
+                                <span class="legend-percent" id="stat-sedikit-percent">0%</span>
+                            </div>
                         </div>
-                        <table class="stats-table">
-                            <tbody>
-                                <tr>
-                                    <td class="stat-label">
-                                        <span class="stat-dot process"></span>Process
-                                    </td>
-                                    <td class="stat-value" id="stat-process">0 (0%)</td>
-                                </tr>
-                                <tr>
-                                    <td class="stat-label">
-                                        <span class="stat-dot investigation"></span>In Progress
-                                    </td>
-                                    <td class="stat-value" id="stat-investigation">0 (0%)</td>
-                                </tr>
-                                <tr>
-                                    <td class="stat-label">
-                                        <span class="stat-dot completed"></span>Completed
-                                    </td>
-                                    <td class="stat-value" id="stat-completed">0 (0%)</td>
-                                </tr>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td class="stat-label"><strong>Total</strong></td>
-                                    <td class="stat-value" id="stat-status-total"><strong>0</strong></td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                        <div class="alert alert-secondary mt-3 mb-0">
-                            <i class="bi bi-lightbulb me-2"></i>
-                            <small>
-                                <strong>Status:</strong> Process (laporan baru), In Progress (sedang ditangani), Completed (selesai).
-                            </small>
+                        <div class="legend-item">
+                            <div class="legend-left">
+                                <span class="legend-dot khawatir"></span>
+                                <span class="legend-label">Khawatir</span>
+                            </div>
+                            <div class="legend-value">
+                                <span class="legend-count" id="stat-khawatir-count">0</span>
+                                <span class="legend-percent" id="stat-khawatir-percent">0%</span>
+                            </div>
                         </div>
+                        <div class="legend-item">
+                            <div class="legend-left">
+                                <span class="legend-dot sangat"></span>
+                                <span class="legend-label">Sangat Khawatir</span>
+                            </div>
+                            <div class="legend-value">
+                                <span class="legend-count" id="stat-sangat-count">0</span>
+                                <span class="legend-percent" id="stat-sangat-percent">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-note">
+                        <i class="bi bi-info-circle"></i>
+                        <p>Kasus darurat (emergency) langsung ditangani via WhatsApp petugas dan tidak tercatat di sistem pelaporan online.</p>
+                    </div>
+                </div>
+
+                <!-- Status Chart - Full Width -->
+                <div class="chart-card full-width">
+                    <div class="chart-card-header">
+                        <h3 class="chart-card-title">
+                            <span class="title-icon status"><i class="bi bi-clipboard-data"></i></span>
+                            Status Penanganan Kasus
+                        </h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="statusChart"></canvas>
+                    </div>
+                    <div class="stats-legend">
+                        <div class="legend-item">
+                            <div class="legend-left">
+                                <span class="legend-dot process"></span>
+                                <span class="legend-label">Process</span>
+                            </div>
+                            <div class="legend-value">
+                                <span class="legend-count" id="stat-process-count">0</span>
+                                <span class="legend-percent" id="stat-process-percent">0%</span>
+                            </div>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-left">
+                                <span class="legend-dot in-progress"></span>
+                                <span class="legend-label">In Progress</span>
+                            </div>
+                            <div class="legend-value">
+                                <span class="legend-count" id="stat-inprogress-count">0</span>
+                                <span class="legend-percent" id="stat-inprogress-percent">0%</span>
+                            </div>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-left">
+                                <span class="legend-dot completed"></span>
+                                <span class="legend-label">Completed</span>
+                            </div>
+                            <div class="legend-value">
+                                <span class="legend-count" id="stat-completed-count">0</span>
+                                <span class="legend-percent" id="stat-completed-percent">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-note">
+                        <i class="bi bi-lightbulb"></i>
+                        <p><strong>Process</strong> = Laporan baru diterima | <strong>In Progress</strong> = Sedang dalam penanganan | <strong>Completed</strong> = Kasus selesai ditangani</p>
                     </div>
                 </div>
             </div>
         </main>
     </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
 
     <script src="../../assets/js/sidebar.js"></script>
     <script src="../../assets/js/statistics.js"></script>
