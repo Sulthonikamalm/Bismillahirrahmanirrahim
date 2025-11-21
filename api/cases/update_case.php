@@ -219,7 +219,8 @@ try {
             'kode_pelaporan' => $updatedCase['kode_pelaporan'],
             'status_laporan' => $updatedCase['status_laporan'],
             'updated_at' => $updatedCase['updated_at']
-        ]
+        ],
+        'csrf_token' => $_SESSION['csrf_token'] ?? ''
     ]);
 
 } catch (PDOException $e) {
