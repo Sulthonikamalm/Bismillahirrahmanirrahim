@@ -32,9 +32,11 @@
     let imagePreview = null;
     let imageUploadLabel = null;
     let postJudul = null;
+    let postKategori = null;
     let postIsi = null;
     let imageError = null;
     let judulError = null;
+    let kategoriError = null;
     let isiError = null;
     let submitBtn = null;
 
@@ -63,9 +65,11 @@
         imagePreview = document.getElementById('imagePreview');
         imageUploadLabel = document.getElementById('imageUploadLabel');
         postJudul = document.getElementById('postJudul');
+        postKategori = document.getElementById('postKategori');
         postIsi = document.getElementById('postIsi');
         imageError = document.getElementById('imageError');
         judulError = document.getElementById('judulError');
+        kategoriError = document.getElementById('kategoriError');
         isiError = document.getElementById('isiError');
         submitBtn = postForm ? postForm.querySelector('button[type="submit"]') : null;
     }
@@ -235,6 +239,10 @@
             postJudul.value = blog.judul;
         }
 
+        if (postKategori && blog.kategori) {
+            postKategori.value = blog.kategori;
+        }
+
         if (postIsi) {
             postIsi.value = blog.isi_postingan;
         }
@@ -257,6 +265,7 @@
 
         // Hide all errors first
         hideError(judulError);
+        hideError(kategoriError);
         hideError(isiError);
         hideError(imageError);
 
@@ -271,6 +280,15 @@
         } else if (judul.length > 255) {
             showError(judulError, 'Judul maksimal 255 karakter.');
             isValid = false;
+        }
+
+        // Validate kategori
+        if (postKategori) {
+            const kategori = postKategori.value;
+            if (kategori === '') {
+                showError(kategoriError, 'Kategori tidak boleh kosong.');
+                isValid = false;
+            }
         }
 
         // Validate isi
@@ -323,7 +341,7 @@
                 judul: postJudul.value.trim(),
                 isi_postingan: postIsi.value.trim(),
                 gambar_header_url: imageUrl || '',
-                kategori: '', // Optional: you can add kategori field
+                kategori: postKategori ? postKategori.value : '',
                 csrf_token: csrfToken
             };
 
