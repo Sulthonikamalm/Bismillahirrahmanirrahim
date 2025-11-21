@@ -83,61 +83,6 @@
     </div>
 
     <script src="../../assets/js/sidebar.js"></script>
-    <script>
-        // Script preview gambar & validasi (Sama seperti sebelumnya)
-        document.addEventListener('DOMContentLoaded', function() {
-            const imageUpload = document.getElementById('imageUpload');
-            const imagePreview = document.getElementById('imagePreview');
-            const imageUploadLabel = document.getElementById('imageUploadLabel');
-            
-            if(imageUpload) {
-                imageUpload.addEventListener('change', function(event) {
-                    const file = event.target.files[0];
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = function(e) {
-                            imagePreview.src = e.target.result;
-                            imageUploadLabel.classList.add('has-image');
-                        }
-                        reader.readAsDataURL(file);
-                    }
-                });
-            }
-
-            const postForm = document.getElementById('postForm');
-            const postJudul = document.getElementById('postJudul');
-            const postIsi = document.getElementById('postIsi');
-            const imageError = document.getElementById('imageError');
-            const judulError = document.getElementById('judulError');
-            const isiError = document.getElementById('isiError');
-
-            if(postForm) {
-                postForm.addEventListener('submit', function(event) {
-                    event.preventDefault();
-                    let isValid = true;
-                    imageError.style.display = 'none';
-                    judulError.style.display = 'none';
-                    isiError.style.display = 'none';
-
-                    if (postJudul.value.trim() === '') {
-                        judulError.style.display = 'block';
-                        isValid = false;
-                    }
-                    if (postIsi.value.trim() === '') {
-                        isiError.style.display = 'block';
-                        isValid = false;
-                    }
-                    if (imageUpload.files.length === 0) {
-                        imageError.style.display = 'block';
-                        isValid = false;
-                    }
-                    if (isValid) {
-                        alert("Postingan berhasil dibuat (Frontend Demo)!");
-                        window.location.href = 'blog-list.html';
-                    }
-                });
-            }
-        });
-    </script>
+    <script src="../../assets/js/blog-form.js"></script>
 </body>
 </html>
