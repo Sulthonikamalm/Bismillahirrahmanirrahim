@@ -41,13 +41,16 @@
     // ========================================
     // INITIALIZATION
     // ========================================
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', async function() {
         initElements();
         detectMode();
         attachEventListeners();
 
         if (isEditMode) {
-            loadBlogData();
+            await loadBlogData();
+        } else {
+            // Get CSRF token for create mode
+            await getCsrfToken();
         }
     });
 
@@ -477,21 +480,23 @@
 
             const data = await response.json();
 
+            // Get CSRF token from response (try both locations)
             if (data.csrf_token) {
                 csrfToken = data.csrf_token;
+            } else if (data.session && data.session.csrf_token) {
+                csrfToken = data.session.csrf_token;
+            }
 
-                if (DEBUG_MODE) {
-                    console.log('CSRF token obtained:', csrfToken);
-                }
+            if (DEBUG_MODE) {
+                console.log('CSRF token obtained:', csrfToken);
+            }
+
+            if (!csrfToken) {
+                console.warn('No CSRF token received from auth_check');
             }
         } catch (error) {
             console.error('Error getting CSRF token:', error);
         }
-    }
-
-    // Get CSRF token on page load (if not in edit mode)
-    if (!isEditMode) {
-        getCsrfToken();
     }
 
 })();
