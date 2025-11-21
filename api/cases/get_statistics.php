@@ -249,13 +249,30 @@ try {
     }, $recentResults);
 
     // 9. Status Summary (Quick stats for dashboard)
-    $statusSummary = ['process' => 0, 'in_progress' => 0, 'completed' => 0];
+    // Handle all status values including NULL and unknown ones
+    $statusSummary = ['process' => 0, 'in_progress' => 0, 'completed' => 0, 'other' => 0];
     foreach ($statistics['by_status'] as $row) {
-        $status = strtolower($row['status_laporan'] ?? '');
-        if ($status === 'process') $statusSummary['process'] = (int) $row['count'];
-        if ($status === 'in progress') $statusSummary['in_progress'] = (int) $row['count'];
-        if ($status === 'completed') $statusSummary['completed'] = (int) $row['count'];
+        $status = strtolower(trim($row['status_laporan'] ?? ''));
+        $count = (int) $row['count'];
+
+        if ($status === 'process') {
+            $statusSummary['process'] = $count;
+        } elseif ($status === 'in progress') {
+            $statusSummary['in_progress'] = $count;
+        } elseif ($status === 'completed') {
+            $statusSummary['completed'] = $count;
+        } else {
+            // Count NULL, empty string, or unknown status values as 'other'
+            $statusSummary['other'] += $count;
+        }
     }
+
+    // For backward compatibility, add process count to 'other' category
+    // (records with NULL status should be treated as new/process)
+    if ($statusSummary['other'] > 0) {
+        // Keep 'other' separate for transparency
+    }
+
     $statistics['summary'] = array_merge(['total' => $statistics['total_cases']], $statusSummary);
 
     // Success response

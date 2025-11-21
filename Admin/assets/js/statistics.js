@@ -211,21 +211,28 @@
     }
 
     function prepareStatusData(byStatus) {
-        const data = { process: 0, inProgress: 0, completed: 0 };
+        const data = { process: 0, inProgress: 0, completed: 0, other: 0 };
 
         if (byStatus && Array.isArray(byStatus)) {
             byStatus.forEach(item => {
-                const status = (item.status_laporan || '').toLowerCase();
+                const status = (item.status_laporan || '').toLowerCase().trim();
                 const count = parseInt(item.count) || 0;
                 if (status === 'process') {
-                    data.process = count;
+                    data.process += count;
                 } else if (status === 'in progress' || status === 'investigation') {
-                    data.inProgress = count;
+                    data.inProgress += count;
                 } else if (status === 'resolved' || status === 'closed' || status === 'completed') {
-                    data.completed = count;
+                    data.completed += count;
+                } else {
+                    // NULL, empty, or unknown status - treat as pending/process
+                    data.other += count;
                 }
             });
         }
+
+        // Add 'other' (unknown/null status) to process count for display
+        // These are records that haven't been assigned a proper status yet
+        data.process += data.other;
 
         return data;
     }
