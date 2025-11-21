@@ -17,7 +17,7 @@ define('DB_PORT', 3306);
 define('DB_CHARSET', 'utf8mb4');
 
 // Ubah ke 'production' saat deploy
-define('APP_ENV', 'development'); 
+define('APP_ENV', 'development');
 
 // Pengaturan Error Reporting
 if (APP_ENV === 'production') {
@@ -53,7 +53,7 @@ $options = [
     PDO::ATTR_PERSISTENT         => false,                 // Non-persistent connection
     PDO::ATTR_TIMEOUT            => 10,                    // Timeout 10 detik
     PDO::ATTR_STRINGIFY_FETCHES  => false,                 // Menjaga tipe data numerik
-    PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true,            
+    PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true,
     PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci"
 ];
 
@@ -65,7 +65,7 @@ try {
     $pdo->exec("SET SESSION time_zone = '+00:00'");
 
 } catch (PDOException $e) {
-    
+
     // Log detail error untuk developer
     error_log("[CRITICAL] Koneksi database gagal: " . $e->getMessage());
 
@@ -106,4 +106,49 @@ try {
 function sanitizeIdentifier($identifier)
 {
     return preg_replace('/[^a-zA-Z0-9_]/', '', $identifier);
+}
+
+/**
+ * Get database connection (singleton pattern)
+ * Returns existing connection or creates new one
+ *
+ * @return PDO Database connection object
+ * @throws Exception If connection fails
+ */
+function getDBConnection()
+{
+    global $pdo;
+
+    // Return existing connection if available
+    if ($pdo instanceof PDO) {
+        return $pdo;
+    }
+
+    // Create new connection
+    $dsn = sprintf(
+        "mysql:host=%s;port=%d;dbname=%s;charset=%s",
+        DB_HOST,
+        DB_PORT,
+        DB_NAME,
+        DB_CHARSET
+    );
+
+    $options = [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        PDO::ATTR_EMULATE_PREPARES => false,
+        PDO::ATTR_PERSISTENT => false,
+        PDO::ATTR_TIMEOUT => 10,
+        PDO::ATTR_STRINGIFY_FETCHES => false,
+        PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true,
+        PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci, sql_mode='STRICT_ALL_TABLES'"
+    ];
+
+    try {
+        $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
+        return $pdo;
+    } catch (PDOException $e) {
+        error_log("[CRITICAL] getDBConnection failed: " . $e->getMessage());
+        throw new Exception('Database connection failed');
+    }
 }
