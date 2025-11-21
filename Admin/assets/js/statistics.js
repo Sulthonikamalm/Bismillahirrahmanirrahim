@@ -1,62 +1,187 @@
 /**
- * SIGAP PPKS - Statistics Page
+ * ============================================================
+ * SIGAP PPKS - Statistics Page JavaScript
  * File: assets/js/statistics.js
- * 
- * Handles charts and statistics visualization
- * Uses Chart.js library
+ * Description: Fetches statistics from API and renders charts
+ * ============================================================
  */
 
-document.addEventListener('DOMContentLoaded', function() {
-    
-    // === DATA INITIALIZATION ===
-    // TODO: Replace with actual data from database via API
-    
-    const statisticsData = {
-        gender: {
-            male: 22,
-            female: 30
-        },
-        worryLevels: {
-            sedikit: 15,
-            khawatir: 25,
-            sangat: 12  // Includes darurat cases
-        },
-        status: {
-            process: 20,
-            investigation: 18,
-            completed: 14
-        }
-    };
-    
-    // Calculate totals
-    const totalReports = Object.values(statisticsData.worryLevels).reduce((a, b) => a + b, 0);
-    
-    // === UPDATE SUMMARY CARD ===
-    updateSummaryCard(totalReports);
-    
-    // === CREATE CHARTS ===
-    createGenderChart(statisticsData.gender);
-    createWorryLevelChart(statisticsData.worryLevels);
-    createStatusChart(statisticsData.status);
+(function() {
+    'use strict';
 
-    // === UPDATE TABLES ===
-    updateGenderTable(statisticsData.gender, totalReports);
-    updateWorryLevelTable(statisticsData.worryLevels, totalReports);
-    updateStatusTable(statisticsData.status, totalReports);
-    
+    // ========================================
+    // CONFIGURATION
+    // ========================================
+    const API_BASE = '../../../api/cases/';
+    const DEBUG_MODE = false;
+
+    // ========================================
+    // STATE
+    // ========================================
+    let statisticsData = null;
+    let genderChart = null;
+    let worryLevelChart = null;
+    let statusChart = null;
+
+    // ========================================
+    // INITIALIZATION
+    // ========================================
+    document.addEventListener('DOMContentLoaded', function() {
+        loadStatistics();
+    });
+
+    // ========================================
+    // API FUNCTIONS
+    // ========================================
+
+    /**
+     * Load statistics from API
+     */
+    async function loadStatistics() {
+        try {
+            showLoadingState();
+
+            const response = await fetch(`${API_BASE}get_statistics.php`, {
+                method: 'GET',
+                credentials: 'same-origin',
+                cache: 'no-store'
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+
+            const data = await response.json();
+
+            if (DEBUG_MODE) {
+                console.log('Statistics API Response:', data);
+            }
+
+            if (data.status === 'success') {
+                statisticsData = data.data;
+                renderStatistics();
+            } else {
+                throw new Error(data.message || 'Failed to load statistics');
+            }
+
+        } catch (error) {
+            console.error('Error loading statistics:', error);
+            showErrorState(error.message);
+        }
+    }
+
+    /**
+     * Render all statistics
+     */
+    function renderStatistics() {
+        if (!statisticsData) return;
+
+        // Update summary card
+        updateSummaryCard(statisticsData.total_cases);
+
+        // Prepare chart data
+        const genderData = prepareGenderData(statisticsData.by_gender);
+        const worryData = prepareWorryData(statisticsData.by_kekhawatiran);
+        const statusData = prepareStatusData(statisticsData.by_status);
+
+        // Create charts
+        createGenderChart(genderData);
+        createWorryLevelChart(worryData);
+        createStatusChart(statusData);
+
+        // Update tables
+        updateGenderTable(genderData, statisticsData.total_cases);
+        updateWorryLevelTable(worryData, statisticsData.total_cases);
+        updateStatusTable(statusData, statisticsData.total_cases);
+
+        hideLoadingState();
+    }
+
+    // ========================================
+    // DATA PREPARATION FUNCTIONS
+    // ========================================
+
+    /**
+     * Prepare gender data for charts
+     */
+    function prepareGenderData(byGender) {
+        const data = { male: 0, female: 0 };
+
+        if (byGender && Array.isArray(byGender)) {
+            byGender.forEach(item => {
+                const gender = (item.gender_korban || '').toLowerCase();
+                if (gender === 'laki-laki' || gender === 'male' || gender === 'pria') {
+                    data.male = item.count;
+                } else if (gender === 'perempuan' || gender === 'female' || gender === 'wanita') {
+                    data.female = item.count;
+                }
+            });
+        }
+
+        return data;
+    }
+
+    /**
+     * Prepare worry level data for charts
+     */
+    function prepareWorryData(byKekhawatiran) {
+        const data = { sedikit: 0, khawatir: 0, sangat: 0 };
+
+        if (byKekhawatiran && Array.isArray(byKekhawatiran)) {
+            byKekhawatiran.forEach(item => {
+                const level = (item.tingkat_kekhawatiran || '').toLowerCase();
+                if (level.includes('sedikit')) {
+                    data.sedikit = item.count;
+                } else if (level.includes('sangat') || level.includes('darurat')) {
+                    data.sangat = item.count;
+                } else if (level.includes('khawatir')) {
+                    data.khawatir = item.count;
+                }
+            });
+        }
+
+        return data;
+    }
+
+    /**
+     * Prepare status data for charts
+     */
+    function prepareStatusData(byStatus) {
+        const data = { process: 0, investigation: 0, completed: 0 };
+
+        if (byStatus && Array.isArray(byStatus)) {
+            byStatus.forEach(item => {
+                const status = (item.status_laporan || '').toLowerCase();
+                if (status === 'process') {
+                    data.process = item.count;
+                } else if (status === 'in progress' || status === 'investigation') {
+                    data.investigation = item.count;
+                } else if (status === 'resolved' || status === 'closed' || status === 'completed') {
+                    data.completed = item.count;
+                }
+            });
+        }
+
+        return data;
+    }
+
     // ========================================
     // CHART CREATION FUNCTIONS
     // ========================================
 
     /**
      * Create Gender Donut Chart
-     * @param {Object} data - Gender data (male, female only)
      */
     function createGenderChart(data) {
         const ctx = document.getElementById('genderChart');
         if (!ctx) return;
 
-        new Chart(ctx.getContext('2d'), {
+        // Destroy existing chart
+        if (genderChart) {
+            genderChart.destroy();
+        }
+
+        genderChart = new Chart(ctx.getContext('2d'), {
             type: 'doughnut',
             data: {
                 labels: ['Laki-laki', 'Perempuan'],
@@ -82,7 +207,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 const label = context.label || '';
                                 const value = context.parsed || 0;
                                 const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                const percentage = ((value / total) * 100).toFixed(1);
+                                const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
                                 return `${label}: ${value} (${percentage}%)`;
                             }
                         }
@@ -94,13 +219,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
     /**
      * Create Worry Level Donut Chart
-     * @param {Object} data - Worry level data
      */
     function createWorryLevelChart(data) {
         const ctx = document.getElementById('worryLevelChart');
         if (!ctx) return;
-        
-        new Chart(ctx.getContext('2d'), {
+
+        // Destroy existing chart
+        if (worryLevelChart) {
+            worryLevelChart.destroy();
+        }
+
+        worryLevelChart = new Chart(ctx.getContext('2d'), {
             type: 'doughnut',
             data: {
                 labels: ['Sedikit Khawatir', 'Khawatir', 'Sangat Khawatir'],
@@ -126,7 +255,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 const label = context.label || '';
                                 const value = context.parsed || 0;
                                 const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                const percentage = ((value / total) * 100).toFixed(1);
+                                const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
                                 return `${label}: ${value} (${percentage}%)`;
                             }
                         }
@@ -135,16 +264,20 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-    
+
     /**
      * Create Status Bar Chart
-     * @param {Object} data - Status data
      */
     function createStatusChart(data) {
         const ctx = document.getElementById('statusChart');
         if (!ctx) return;
-        
-        new Chart(ctx.getContext('2d'), {
+
+        // Destroy existing chart
+        if (statusChart) {
+            statusChart.destroy();
+        }
+
+        statusChart = new Chart(ctx.getContext('2d'), {
             type: 'bar',
             data: {
                 labels: ['Process', 'Investigation', 'Completed'],
@@ -168,7 +301,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             label: function(context) {
                                 const value = context.parsed.y || 0;
                                 const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                const percentage = ((value / total) * 100).toFixed(1);
+                                const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
                                 return `Jumlah: ${value} (${percentage}%)`;
                             }
                         }
@@ -203,26 +336,23 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-    
+
     // ========================================
     // UPDATE FUNCTIONS
     // ========================================
-    
+
     /**
      * Update summary card with total reports
-     * @param {number} total - Total number of reports
      */
     function updateSummaryCard(total) {
         const totalElement = document.getElementById('totalReports');
         if (totalElement) {
-            totalElement.textContent = total;
+            totalElement.textContent = total || 0;
         }
     }
-    
+
     /**
      * Update gender statistics table
-     * @param {Object} data - Gender data (male, female only)
-     * @param {number} total - Total reports
      */
     function updateGenderTable(data, total) {
         const genderTotal = data.male + data.female;
@@ -233,66 +363,104 @@ document.addEventListener('DOMContentLoaded', function() {
 
     /**
      * Update worry level statistics table
-     * @param {Object} data - Worry level data
-     * @param {number} total - Total reports
      */
     function updateWorryLevelTable(data, total) {
-        updateTableCell('stat-sedikit', data.sedikit, total);
-        updateTableCell('stat-khawatir', data.khawatir, total);
-        updateTableCell('stat-sangat', data.sangat, total);
-        updateTableCell('stat-worry-total', total);
+        const worryTotal = data.sedikit + data.khawatir + data.sangat;
+        updateTableCell('stat-sedikit', data.sedikit, worryTotal);
+        updateTableCell('stat-khawatir', data.khawatir, worryTotal);
+        updateTableCell('stat-sangat', data.sangat, worryTotal);
+        updateTableCell('stat-worry-total', worryTotal);
     }
-    
+
     /**
      * Update status statistics table
-     * @param {Object} data - Status data
-     * @param {number} total - Total reports
      */
     function updateStatusTable(data, total) {
-        updateTableCell('stat-process', data.process, total);
-        updateTableCell('stat-investigation', data.investigation, total);
-        updateTableCell('stat-completed', data.completed, total);
-        updateTableCell('stat-status-total', total);
+        const statusTotal = data.process + data.investigation + data.completed;
+        updateTableCell('stat-process', data.process, statusTotal);
+        updateTableCell('stat-investigation', data.investigation, statusTotal);
+        updateTableCell('stat-completed', data.completed, statusTotal);
+        updateTableCell('stat-status-total', statusTotal);
     }
-    
+
     /**
      * Update table cell with value and percentage
-     * @param {string} elementId - ID of the element to update
-     * @param {number} value - Value to display
-     * @param {number} total - Total for percentage calculation (optional)
      */
-    function updateTableCell(elementId, value, total = null) {
+    function updateTableCell(elementId, value, total) {
         const element = document.getElementById(elementId);
         if (!element) return;
-        
+
         if (total && elementId.indexOf('total') === -1) {
-            const percentage = ((value / total) * 100).toFixed(1);
+            const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
             element.textContent = `${value} (${percentage}%)`;
         } else {
             element.textContent = value;
         }
     }
-    
+
     // ========================================
-    // DATA LOADING FUNCTION (For Future Use)
+    // UI STATE FUNCTIONS
     // ========================================
-    
+
     /**
-     * Load statistics from API
-     * TODO: Implement when backend is ready
+     * Show loading state
      */
-    function loadStatistics() {
-        // Example API call structure:
-        /*
-        fetch('api/cases/get-statistics.php')
-            .then(response => response.json())
-            .then(data => {
-                // Update charts and tables with real data
-                console.log('Statistics loaded:', data);
-            })
-            .catch(error => {
-                console.error('Error loading statistics:', error);
-            });
-        */
+    function showLoadingState() {
+        // Add loading class to charts
+        const chartContainers = document.querySelectorAll('.chart-container, .stat-card');
+        chartContainers.forEach(container => {
+            container.style.opacity = '0.5';
+        });
+
+        // Update total with loading indicator
+        const totalElement = document.getElementById('totalReports');
+        if (totalElement) {
+            totalElement.textContent = '...';
+        }
     }
-});
+
+    /**
+     * Hide loading state
+     */
+    function hideLoadingState() {
+        const chartContainers = document.querySelectorAll('.chart-container, .stat-card');
+        chartContainers.forEach(container => {
+            container.style.opacity = '1';
+        });
+    }
+
+    /**
+     * Show error state
+     */
+    function showErrorState(message) {
+        console.error('Statistics error:', message);
+
+        // Show error in total reports
+        const totalElement = document.getElementById('totalReports');
+        if (totalElement) {
+            totalElement.textContent = '-';
+        }
+
+        // Update table cells with error
+        const tableCells = document.querySelectorAll('[id^="stat-"]');
+        tableCells.forEach(cell => {
+            cell.textContent = '-';
+        });
+
+        // Hide loading
+        hideLoadingState();
+
+        // Show toast notification if available
+        if (typeof showToast === 'function') {
+            showToast('Gagal memuat statistik: ' + message, 'error');
+        }
+    }
+
+    // ========================================
+    // EXPORT
+    // ========================================
+    window.StatisticsManager = {
+        loadStatistics: loadStatistics
+    };
+
+})();
