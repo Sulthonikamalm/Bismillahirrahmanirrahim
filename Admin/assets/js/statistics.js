@@ -13,7 +13,7 @@
     // CONFIGURATION
     // ========================================
     const API_BASE = '../../../api/cases/';
-    const DEBUG_MODE = false;
+    const DEBUG_MODE = true; // Temporarily enabled for debugging
 
     // ========================================
     // STATE
@@ -128,16 +128,41 @@
         const data = { sedikit: 0, khawatir: 0, sangat: 0 };
 
         if (byKekhawatiran && Array.isArray(byKekhawatiran)) {
+            if (DEBUG_MODE) {
+                console.log('DEBUG kekhawatiran raw data:', JSON.stringify(byKekhawatiran));
+            }
+
             byKekhawatiran.forEach(item => {
-                const level = (item.tingkat_kekhawatiran || '').toLowerCase();
-                if (level.includes('sedikit')) {
-                    data.sedikit = item.count;
-                } else if (level.includes('sangat') || level.includes('darurat')) {
-                    data.sangat = item.count;
-                } else if (level.includes('khawatir')) {
-                    data.khawatir = item.count;
+                const level = (item.tingkat_kekhawatiran || '').toLowerCase().trim();
+                const count = parseInt(item.count) || 0;
+
+                if (DEBUG_MODE) {
+                    console.log(`DEBUG: level="${level}", count=${count}`);
+                }
+
+                // Exact match first (sesuai nilai di database: sedikit, khawatir, sangat)
+                if (level === 'sedikit') {
+                    data.sedikit += count;
+                } else if (level === 'sangat') {
+                    data.sangat += count;
+                } else if (level === 'khawatir') {
+                    data.khawatir += count;
+                }
+                // Fallback: includes match untuk nilai lain
+                else if (level.includes('sedikit') || level === '1' || level === 'rendah' || level === 'low') {
+                    data.sedikit += count;
+                } else if (level.includes('sangat') || level.includes('darurat') || level === '3' || level === 'tinggi' || level === 'high' || level === 'emergency') {
+                    data.sangat += count;
+                } else if (level.includes('khawatir') || level === '2' || level === 'sedang' || level === 'medium') {
+                    data.khawatir += count;
+                } else if (DEBUG_MODE) {
+                    console.log(`DEBUG: Unmatched level="${level}"`);
                 }
             });
+
+            if (DEBUG_MODE) {
+                console.log('DEBUG kekhawatiran result:', data);
+            }
         }
 
         return data;
