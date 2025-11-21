@@ -291,10 +291,7 @@
         const statusMap = {
             'process': { icon: 'bi-clock-history', text: 'Process', class: 'process' },
             'in-progress': { icon: 'bi-hourglass-split', text: 'In Progress', class: 'in-progress' },
-            'resolved': { icon: 'bi-check-circle', text: 'Resolved', class: 'resolved' },
-            'completed': { icon: 'bi-check-circle', text: 'Completed', class: 'completed' },
-            'closed': { icon: 'bi-lock', text: 'Closed', class: 'closed' },
-            'rejected': { icon: 'bi-x-circle', text: 'Rejected', class: 'rejected' }
+            'completed': { icon: 'bi-check-circle', text: 'Completed', class: 'completed' }
         };
 
         const config = statusMap[statusLower] || statusMap['process'];
