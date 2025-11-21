@@ -50,29 +50,15 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
 }
 
 // ========================================================
-// CSRF TOKEN VALIDATION
+// GET INPUT DATA (POST or JSON)
 // ========================================================
 
-$csrfToken = $_POST['csrf_token'] ?? '';
-
-if (empty($csrfToken) || !isset($_SESSION['csrf_token']) || $csrfToken !== $_SESSION['csrf_token']) {
-    error_log("SECURITY: CSRF token mismatch - Admin ID: " . ($_SESSION['admin_id'] ?? 'unknown'));
-    http_response_code(403);
-    exit(json_encode([
-        'status' => 'error',
-        'message' => 'Invalid security token. Please refresh the page.'
-    ]));
-}
-
-// ========================================================
-// INPUT VALIDATION
-// ========================================================
-
-// Get input from POST or JSON
+// First, try to get data from POST
 $judul = $_POST['judul'] ?? '';
 $isi_postingan = $_POST['isi_postingan'] ?? '';
 $kategori = $_POST['kategori'] ?? '';
 $gambar_header_url = $_POST['gambar_header_url'] ?? '';
+$csrfToken = $_POST['csrf_token'] ?? '';
 
 // If POST is empty, try JSON
 if (empty($judul) && empty($isi_postingan)) {
@@ -83,17 +69,25 @@ if (empty($judul) && empty($isi_postingan)) {
         $kategori = $input['kategori'] ?? '';
         $gambar_header_url = $input['gambar_header_url'] ?? '';
         $csrfToken = $input['csrf_token'] ?? '';
-
-        // Re-validate CSRF for JSON requests
-        if (empty($csrfToken) || !isset($_SESSION['csrf_token']) || $csrfToken !== $_SESSION['csrf_token']) {
-            http_response_code(403);
-            exit(json_encode([
-                'status' => 'error',
-                'message' => 'Invalid security token'
-            ]));
-        }
     }
 }
+
+// ========================================================
+// CSRF TOKEN VALIDATION
+// ========================================================
+
+if (empty($csrfToken) || !isset($_SESSION['csrf_token']) || $csrfToken !== $_SESSION['csrf_token']) {
+    error_log("SECURITY: CSRF token mismatch - Admin ID: " . ($_SESSION['admin_id'] ?? 'unknown') . ", Token received: " . substr($csrfToken, 0, 10) . "...");
+    http_response_code(403);
+    exit(json_encode([
+        'status' => 'error',
+        'message' => 'Invalid security token. Please refresh the page.'
+    ]));
+}
+
+// ========================================================
+// INPUT SANITIZATION
+// ========================================================
 
 // Sanitize input
 $judul = trim($judul);
