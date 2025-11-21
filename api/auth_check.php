@@ -297,6 +297,11 @@ if (!isset($_SESSION['last_regeneration'])) {
 // AUTHENTICATED RESPONSE
 // ========================================================
 
+// Generate CSRF token if not exists
+if (!isset($_SESSION['csrf_token']) || empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
 http_response_code(200);
 echo json_encode([
     'status' => 'authenticated',
@@ -307,10 +312,11 @@ echo json_encode([
         'username' => $_SESSION['admin_username'] ?? ''
     ],
     'session' => [
-        'csrf_token' => $_SESSION['csrf_token'] ?? null,
+        'csrf_token' => $_SESSION['csrf_token'],
         'login_time' => $_SESSION['login_time'] ?? null,
         'last_activity' => $_SESSION['last_activity'] ?? null
-    ]
+    ],
+    'csrf_token' => $_SESSION['csrf_token']
 ]);
 
 exit;

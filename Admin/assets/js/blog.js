@@ -135,7 +135,7 @@
 
             if (data.status === 'success') {
                 renderBlogs(data.data.blogs);
-                renderPagination(data.data.pagination);
+                renderPagination(data.pagination);
 
                 // Store CSRF token if provided
                 if (data.csrf_token) {
