@@ -134,17 +134,12 @@ try {
     ";
     $statusStmt = $pdo->prepare($statusQuery);
     $statusStmt->execute($dateParams);
-    $statusResults = $statusStmt->fetchAll(PDO::FETCH_ASSOC);
-
-    $statistics['by_status'] = [];
-    foreach ($statusResults as $row) {
-        $statistics['by_status'][$row['status_laporan']] = (int) $row['count'];
-    }
+    $statistics['by_status'] = $statusStmt->fetchAll(PDO::FETCH_ASSOC);
 
     // 3. Cases by Gender
     $genderQuery = "
         SELECT
-            COALESCE(gender_korban, 'Tidak Diketahui') as gender,
+            COALESCE(gender_korban, 'Tidak Diketahui') as gender_korban,
             COUNT(*) as count
         FROM Laporan
         " . ($dateCondition ? "WHERE $dateCondition" : "") . "
@@ -153,17 +148,12 @@ try {
     ";
     $genderStmt = $pdo->prepare($genderQuery);
     $genderStmt->execute($dateParams);
-    $genderResults = $genderStmt->fetchAll(PDO::FETCH_ASSOC);
-
-    $statistics['by_gender'] = [];
-    foreach ($genderResults as $row) {
-        $statistics['by_gender'][$row['gender']] = (int) $row['count'];
-    }
+    $statistics['by_gender'] = $genderStmt->fetchAll(PDO::FETCH_ASSOC);
 
     // 4. Cases by Tingkat Kekhawatiran (Type of Violence)
     $kekhawatiranQuery = "
         SELECT
-            COALESCE(tingkat_kekhawatiran, 'Lainnya') as type,
+            COALESCE(tingkat_kekhawatiran, 'Lainnya') as tingkat_kekhawatiran,
             COUNT(*) as count
         FROM Laporan
         " . ($dateCondition ? "WHERE $dateCondition" : "") . "
@@ -172,17 +162,12 @@ try {
     ";
     $kekhawatiranStmt = $pdo->prepare($kekhawatiranQuery);
     $kekhawatiranStmt->execute($dateParams);
-    $kekhawatiranResults = $kekhawatiranStmt->fetchAll(PDO::FETCH_ASSOC);
-
-    $statistics['by_kekhawatiran'] = [];
-    foreach ($kekhawatiranResults as $row) {
-        $statistics['by_kekhawatiran'][$row['type']] = (int) $row['count'];
-    }
+    $statistics['by_kekhawatiran'] = $kekhawatiranStmt->fetchAll(PDO::FETCH_ASSOC);
 
     // 5. Cases by Korban Sebagai (Reporter relationship)
     $korbanQuery = "
         SELECT
-            COALESCE(korban_sebagai, 'Tidak Diketahui') as type,
+            COALESCE(korban_sebagai, 'Tidak Diketahui') as korban_sebagai,
             COUNT(*) as count
         FROM Laporan
         " . ($dateCondition ? "WHERE $dateCondition" : "") . "
@@ -191,12 +176,7 @@ try {
     ";
     $korbanStmt = $pdo->prepare($korbanQuery);
     $korbanStmt->execute($dateParams);
-    $korbanResults = $korbanStmt->fetchAll(PDO::FETCH_ASSOC);
-
-    $statistics['by_korban_sebagai'] = [];
-    foreach ($korbanResults as $row) {
-        $statistics['by_korban_sebagai'][$row['type']] = (int) $row['count'];
-    }
+    $statistics['by_korban_sebagai'] = $korbanStmt->fetchAll(PDO::FETCH_ASSOC);
 
     // 6. Cases Trend (Last 7 days)
     $trendQuery = "
@@ -269,13 +249,14 @@ try {
     }, $recentResults);
 
     // 9. Status Summary (Quick stats for dashboard)
-    $statistics['summary'] = [
-        'total' => $statistics['total_cases'],
-        'process' => $statistics['by_status']['Process'] ?? 0,
-        'in_progress' => $statistics['by_status']['In Progress'] ?? 0,
-        'resolved' => $statistics['by_status']['Resolved'] ?? 0,
-        'closed' => $statistics['by_status']['Closed'] ?? 0
-    ];
+    $statusSummary = ['process' => 0, 'in_progress' => 0, 'completed' => 0];
+    foreach ($statistics['by_status'] as $row) {
+        $status = strtolower($row['status_laporan'] ?? '');
+        if ($status === 'process') $statusSummary['process'] = (int) $row['count'];
+        if ($status === 'in progress') $statusSummary['in_progress'] = (int) $row['count'];
+        if ($status === 'completed') $statusSummary['completed'] = (int) $row['count'];
+    }
+    $statistics['summary'] = array_merge(['total' => $statistics['total_cases']], $statusSummary);
 
     // Success response
     http_response_code(200);
