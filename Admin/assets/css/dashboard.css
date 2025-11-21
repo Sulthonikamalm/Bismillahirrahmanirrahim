@@ -258,6 +258,34 @@ body {
     font-size: 1.1rem;
 }
 
+/* Input Manual Dropdown Item */
+.dropdown-item-input {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: transparent;
+    border: none;
+    color: var(--color-primary);
+    font-weight: 500;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+    font-family: var(--font-body);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.dropdown-item-input:hover {
+    background-color: rgba(75, 138, 123, 0.08);
+    color: var(--color-primary-dark);
+}
+
+.dropdown-item-input i {
+    font-size: 1.1rem;
+}
+
 /* === SIDEBAR TOGGLE === */
 .sidebar-toggle {
     display: none; /* Hidden by default (desktop) */

@@ -7,9 +7,9 @@
  * (Kasus yang masuk via WhatsApp atau jalur lain)
  *
  * Method: POST
- * Content-Type: application/json
+ * Content-Type: multipart/form-data (for file uploads)
  *
- * @version 1.0
+ * @version 2.0
  */
 
 // Start session
@@ -44,18 +44,17 @@ if (!isset($pdo) || !($pdo instanceof PDO)) {
     sendResponse(false, 'Database connection failed', null, 500);
 }
 
+// Upload directory
+define('UPLOAD_DIR', __DIR__ . '/../../uploads/bukti/');
+define('MAX_FILE_SIZE', 10 * 1024 * 1024); // 10MB
+define('ALLOWED_EXTENSIONS', ['jpg', 'jpeg', 'png', 'gif', 'webp', 'mp4', 'mov', 'webm']);
+
 try {
-    // Get JSON input
-    $rawInput = file_get_contents('php://input');
+    // Get form data (multipart/form-data)
+    $input = $_POST;
 
-    if (empty($rawInput)) {
+    if (empty($input)) {
         sendResponse(false, 'Empty request body', null, 400);
-    }
-
-    $input = json_decode($rawInput, true);
-
-    if (json_last_error() !== JSON_ERROR_NONE) {
-        sendResponse(false, 'Invalid JSON', null, 400);
     }
 
     // Validate required fields
@@ -88,6 +87,9 @@ try {
         'catatan_admin' => sanitize($input['catatan_admin'] ?? null),
         'input_by_admin' => $_SESSION['admin_id']
     ];
+
+    // Begin transaction
+    $pdo->beginTransaction();
 
     // Insert to database
     $sql = "INSERT INTO Laporan (
@@ -145,19 +147,110 @@ try {
 
     $laporanId = $pdo->lastInsertId();
 
+    // Handle file uploads
+    $uploadedFiles = [];
+    if (isset($_FILES['bukti']) && !empty($_FILES['bukti']['name'][0])) {
+        $uploadedFiles = handleFileUploads($pdo, $laporanId, $kodePelaporan);
+    }
+
+    // Commit transaction
+    $pdo->commit();
+
     // Send success response
     sendResponse(true, 'Kasus berhasil disimpan', [
         'laporan_id' => $laporanId,
         'kode_pelaporan' => $kodePelaporan,
-        'status_laporan' => $data['status_laporan']
+        'status_laporan' => $data['status_laporan'],
+        'uploaded_files' => count($uploadedFiles)
     ], 201);
 
 } catch (PDOException $e) {
+    if ($pdo->inTransaction()) {
+        $pdo->rollBack();
+    }
     error_log("Manual Input Error: " . $e->getMessage());
     sendResponse(false, 'Database error: ' . $e->getMessage(), null, 500);
 } catch (Exception $e) {
+    if ($pdo->inTransaction()) {
+        $pdo->rollBack();
+    }
     error_log("Manual Input Error: " . $e->getMessage());
-    sendResponse(false, 'Server error', null, 500);
+    sendResponse(false, 'Server error: ' . $e->getMessage(), null, 500);
+}
+
+/**
+ * Handle file uploads
+ */
+function handleFileUploads($pdo, $laporanId, $kodePelaporan) {
+    $uploadedFiles = [];
+    $files = $_FILES['bukti'];
+
+    // Create upload directory if not exists
+    $uploadPath = UPLOAD_DIR . $kodePelaporan . '/';
+    if (!is_dir($uploadPath)) {
+        mkdir($uploadPath, 0755, true);
+    }
+
+    $fileCount = count($files['name']);
+
+    for ($i = 0; $i < $fileCount; $i++) {
+        if ($files['error'][$i] !== UPLOAD_ERR_OK) {
+            continue;
+        }
+
+        $tmpName = $files['tmp_name'][$i];
+        $originalName = $files['name'][$i];
+        $fileSize = $files['size'][$i];
+        $fileType = $files['type'][$i];
+
+        // Validate file size
+        if ($fileSize > MAX_FILE_SIZE) {
+            continue;
+        }
+
+        // Validate extension
+        $extension = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
+        if (!in_array($extension, ALLOWED_EXTENSIONS)) {
+            continue;
+        }
+
+        // Generate unique filename
+        $newFilename = uniqid('bukti_') . '_' . time() . '.' . $extension;
+        $destination = $uploadPath . $newFilename;
+
+        // Move uploaded file
+        if (move_uploaded_file($tmpName, $destination)) {
+            // Determine file type category
+            $fileCategory = in_array($extension, ['jpg', 'jpeg', 'png', 'gif', 'webp']) ? 'image' : 'video';
+
+            // Insert to database (if bukti table exists)
+            try {
+                $sql = "INSERT INTO Bukti (laporan_id, nama_file, nama_asli, tipe_file, ukuran, path)
+                        VALUES (:laporan_id, :nama_file, :nama_asli, :tipe_file, :ukuran, :path)";
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([
+                    'laporan_id' => $laporanId,
+                    'nama_file' => $newFilename,
+                    'nama_asli' => $originalName,
+                    'tipe_file' => $fileCategory,
+                    'ukuran' => $fileSize,
+                    'path' => 'uploads/bukti/' . $kodePelaporan . '/' . $newFilename
+                ]);
+            } catch (PDOException $e) {
+                // Table might not exist, just log and continue
+                error_log("Bukti table insert error: " . $e->getMessage());
+            }
+
+            $uploadedFiles[] = [
+                'filename' => $newFilename,
+                'original' => $originalName,
+                'type' => $fileCategory,
+                'size' => $fileSize
+            ];
+        }
+    }
+
+    return $uploadedFiles;
 }
 
 /**

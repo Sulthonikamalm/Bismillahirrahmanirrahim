@@ -11,19 +11,24 @@
     <link rel="stylesheet" href="../../assets/css/dashboard.css">
     <style>
         /* ================================================
-           MANUAL INPUT PAGE STYLES
+           MANUAL INPUT PAGE - WEBSITE THEME COLORS
            ================================================ */
         :root {
-            --input-primary: #4b8a7b;
-            --input-dark-blue: #132338;
-            --input-success: #1abc9c;
-            --input-warning: #f39c12;
-            --input-danger: #e74c3c;
+            --theme-darkest: #031716;
+            --theme-dark: #032F30;
+            --theme-primary: #0A7075;
+            --theme-secondary: #0C969C;
+            --theme-light: #6BA3BE;
+            --theme-accent: #274D60;
+
             --input-bg: #f8f9fa;
             --input-card-bg: #ffffff;
-            --input-text: #132338;
+            --input-text: #031716;
             --input-text-muted: #6c757d;
             --input-border: #e2e8f0;
+            --input-success: #0C969C;
+            --input-warning: #f59e0b;
+            --input-danger: #dc2626;
         }
 
         .main-content {
@@ -33,7 +38,7 @@
 
         /* Page Header */
         .page-header {
-            background: linear-gradient(135deg, var(--input-warning) 0%, #e67e22 100%);
+            background: linear-gradient(135deg, var(--theme-darkest) 0%, var(--theme-primary) 100%);
             border-radius: 16px;
             padding: 1.75rem 2rem;
             margin-bottom: 1.5rem;
@@ -49,7 +54,7 @@
             right: -5%;
             width: 200px;
             height: 200px;
-            background: rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.08);
             border-radius: 50%;
         }
 
@@ -101,7 +106,7 @@
         }
 
         .section-title i {
-            color: var(--input-primary);
+            color: var(--theme-primary);
         }
 
         /* Form Controls */
@@ -125,8 +130,8 @@
         }
 
         .form-control:focus, .form-select:focus {
-            border-color: var(--input-primary);
-            box-shadow: 0 0 0 3px rgba(75, 138, 123, 0.15);
+            border-color: var(--theme-primary);
+            box-shadow: 0 0 0 3px rgba(10, 112, 117, 0.15);
             outline: none;
         }
 
@@ -187,13 +192,13 @@
         }
 
         .radio-card label:hover {
-            border-color: var(--input-primary);
-            background: rgba(75, 138, 123, 0.05);
+            border-color: var(--theme-primary);
+            background: rgba(10, 112, 117, 0.05);
         }
 
         .radio-card input:checked + label {
-            border-color: var(--input-primary);
-            background: rgba(75, 138, 123, 0.1);
+            border-color: var(--theme-primary);
+            background: rgba(10, 112, 117, 0.1);
         }
 
         .radio-card .radio-icon {
@@ -201,7 +206,7 @@
             margin-bottom: 0.5rem;
         }
 
-        .radio-card.sedikit .radio-icon { color: var(--input-success); }
+        .radio-card.sedikit .radio-icon { color: var(--theme-secondary); }
         .radio-card.khawatir .radio-icon { color: var(--input-warning); }
         .radio-card.sangat .radio-icon { color: var(--input-danger); }
 
@@ -241,9 +246,9 @@
         }
 
         .status-radio input:checked + label {
-            border-color: var(--input-primary);
-            background: rgba(75, 138, 123, 0.1);
-            color: var(--input-primary);
+            border-color: var(--theme-primary);
+            background: rgba(10, 112, 117, 0.1);
+            color: var(--theme-primary);
         }
 
         /* Two Column Grid */
@@ -267,9 +272,110 @@
             }
         }
 
+        /* File Upload Area */
+        .upload-area {
+            border: 2px dashed var(--input-border);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: var(--input-bg);
+        }
+
+        .upload-area:hover {
+            border-color: var(--theme-primary);
+            background: rgba(10, 112, 117, 0.03);
+        }
+
+        .upload-area.dragover {
+            border-color: var(--theme-primary);
+            background: rgba(10, 112, 117, 0.08);
+        }
+
+        .upload-area .upload-icon {
+            font-size: 2.5rem;
+            color: var(--theme-light);
+            margin-bottom: 0.75rem;
+        }
+
+        .upload-area .upload-text {
+            font-size: 0.9rem;
+            color: var(--input-text);
+            margin-bottom: 0.25rem;
+        }
+
+        .upload-area .upload-hint {
+            font-size: 0.8rem;
+            color: var(--input-text-muted);
+        }
+
+        .upload-area input[type="file"] {
+            display: none;
+        }
+
+        /* File Preview */
+        .file-preview-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .file-preview-item {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+        }
+
+        .file-preview-item img,
+        .file-preview-item video {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+        }
+
+        .file-preview-item .file-info {
+            padding: 0.5rem;
+            font-size: 0.75rem;
+            color: var(--input-text-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .file-preview-item .remove-file {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: rgba(220, 38, 38, 0.9);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        .file-preview-item .video-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100px;
+            background: var(--theme-accent);
+            color: white;
+            font-size: 2rem;
+        }
+
         /* Submit Button */
         .btn-submit {
-            background: linear-gradient(135deg, var(--input-primary), #3a6845);
+            background: linear-gradient(135deg, var(--theme-primary), var(--theme-dark));
             color: white;
             border: none;
             padding: 0.85rem 2rem;
@@ -285,7 +391,7 @@
 
         .btn-submit:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(75, 138, 123, 0.3);
+            box-shadow: 0 8px 20px rgba(10, 112, 117, 0.3);
         }
 
         .btn-submit:disabled {
@@ -350,11 +456,31 @@
             opacity: 1;
         }
 
-        .toast.success { border-left: 4px solid var(--input-success); }
+        .toast.success { border-left: 4px solid var(--theme-secondary); }
         .toast.error { border-left: 4px solid var(--input-danger); }
 
         /* Hide default header text */
         .content-header h2 { display: none; }
+
+        /* Dropdown menu item style */
+        .dropdown-item-input {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: none;
+            background: none;
+            color: var(--theme-primary);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            text-decoration: none;
+        }
+
+        .dropdown-item-input:hover {
+            background: rgba(10, 112, 117, 0.1);
+        }
     </style>
 </head>
 <body>
@@ -366,7 +492,6 @@
                 <li class="nav-item"><a class="nav-link" href="cases.html"><i class="bi bi-grid-fill me-2"></i> Data Kasus</a></li>
                 <li class="nav-item"><a class="nav-link" href="statistics.html"><i class="bi bi-bar-chart-fill me-2"></i> Statistik</a></li>
                 <li class="nav-item"><a class="nav-link" href="blog-list.html"><i class="bi bi-file-earmark-text-fill me-2"></i> Blog</a></li>
-                <li class="nav-item"><a class="nav-link active" href="manual-input.html"><i class="bi bi-pencil-square me-2"></i> Input Manual</a></li>
             </ul>
 
             <div class="user-profile-dropdown">
@@ -379,6 +504,10 @@
                     <i class="bi bi-chevron-down ms-auto dropdown-arrow"></i>
                 </div>
                 <div class="user-dropdown-menu" id="userDropdownMenu">
+                    <a href="manual-input.html" class="dropdown-item-input">
+                        <i class="bi bi-pencil-square"></i>
+                        <span>Input Manual</span>
+                    </a>
                     <button id="btnLogout" class="dropdown-item-logout">
                         <i class="bi bi-box-arrow-right me-2"></i>
                         <span>Logout</span>
@@ -402,7 +531,7 @@
 
             <!-- Form Card -->
             <div class="form-card">
-                <form id="manualInputForm">
+                <form id="manualInputForm" enctype="multipart/form-data">
                     <!-- Sumber Laporan -->
                     <div class="form-section">
                         <h3 class="section-title"><i class="bi bi-send"></i> Sumber Laporan</h3>
@@ -518,6 +647,21 @@
                             <label class="form-label">Detail Kejadian <span class="required">*</span></label>
                             <textarea name="detail_kejadian" class="form-control" placeholder="Jelaskan kronologi kejadian secara detail..." required></textarea>
                         </div>
+                    </div>
+
+                    <!-- Bukti/Dokumentasi -->
+                    <div class="form-section">
+                        <h3 class="section-title"><i class="bi bi-camera"></i> Bukti / Dokumentasi</h3>
+                        <p style="font-size: 0.85rem; color: var(--input-text-muted); margin-bottom: 1rem;">
+                            Upload foto atau video sebagai bukti pendukung laporan (opsional)
+                        </p>
+                        <div class="upload-area" id="uploadArea">
+                            <input type="file" name="bukti[]" id="fileInput" multiple accept="image/*,video/*">
+                            <div class="upload-icon"><i class="bi bi-cloud-arrow-up"></i></div>
+                            <div class="upload-text">Klik atau drag file ke sini</div>
+                            <div class="upload-hint">Format: JPG, PNG, MP4, MOV (Maks. 10MB per file)</div>
+                        </div>
+                        <div class="file-preview-list" id="filePreviewList"></div>
                     </div>
 
                     <!-- Status Penanganan -->
