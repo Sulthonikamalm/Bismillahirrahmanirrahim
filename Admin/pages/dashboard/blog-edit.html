@@ -55,21 +55,34 @@
                         <div class="row g-4 mb-4">
                             <div class="col-lg-4">
                                 <div class="image-upload-wrapper">
-                                    <label for="imageUpload" class="image-upload-box has-image" id="imageUploadLabel">
+                                    <label for="imageUpload" class="image-upload-box" id="imageUploadLabel">
                                         <i class="bi bi-image default-icon"></i>
-                                        <img src="https://via.placeholder.com/400x300" alt="Image Preview" id="imagePreview" class="image-preview">
+                                        <img src="#" alt="Image Preview" id="imagePreview" class="image-preview">
                                     </label>
                                     <input type="file" id="imageUpload" accept="image/*" class="d-none">
                                 </div>
                                 <div class="validation-error" id="imageError">Gambar tidak boleh kosong.</div>
                             </div>
                             <div class="col-lg-8">
-                                <input type="text" id="postJudul" class="form-control post-input-judul" value="Memahami Stres: Penyebab dan Solusinya">
+                                <input type="text" id="postJudul" class="form-control post-input-judul" placeholder="Judul">
                                 <div class="validation-error" id="judulError">Judul tidak boleh kosong.</div>
+
+                                <select id="postKategori" class="form-select mt-3">
+                                    <option value="">-- Pilih Kategori --</option>
+                                    <option value="Kesehatan Mental">Kesehatan Mental</option>
+                                    <option value="Pencegahan Kekerasan">Pencegahan Kekerasan</option>
+                                    <option value="Edukasi">Edukasi</option>
+                                    <option value="Konseling">Konseling</option>
+                                    <option value="Tips & Trik">Tips & Trik</option>
+                                    <option value="Berita">Berita</option>
+                                    <option value="Pengumuman">Pengumuman</option>
+                                    <option value="Lainnya">Lainnya</option>
+                                </select>
+                                <div class="validation-error" id="kategoriError">Kategori tidak boleh kosong.</div>
                             </div>
                         </div>
                         <div>
-                            <textarea id="postIsi" class="form-control post-input-isi" rows="10">Lorem ipsum dolor sit amet...</textarea>
+                            <textarea id="postIsi" class="form-control post-input-isi" placeholder="(isi)" rows="10"></textarea>
                             <div class="validation-error" id="isiError">Isi tidak boleh kosong.</div>
                         </div>
                     </div>
