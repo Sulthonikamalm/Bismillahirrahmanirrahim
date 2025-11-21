@@ -3,6 +3,7 @@
  * SIGAP PPKS - Statistics Page JavaScript
  * File: assets/js/statistics.js
  * Description: Fetches statistics from API and renders charts
+ * Version: 2.0 - Professional UI Update
  * ============================================================
  */
 
@@ -14,6 +15,24 @@
     // ========================================
     const API_BASE = '../../../api/cases/';
     const DEBUG_MODE = false;
+
+    // Chart Colors
+    const COLORS = {
+        gender: {
+            male: '#3b82f6',
+            female: '#ec4899'
+        },
+        worry: {
+            sedikit: '#10b981',
+            khawatir: '#f59e0b',
+            sangat: '#ef4444'
+        },
+        status: {
+            process: '#f59e0b',
+            inProgress: '#3b82f6',
+            completed: '#10b981'
+        }
+    };
 
     // ========================================
     // STATE
@@ -76,23 +95,23 @@
     function renderStatistics() {
         if (!statisticsData) return;
 
-        // Update summary card
-        updateSummaryCard(statisticsData.total_cases);
-
         // Prepare chart data
         const genderData = prepareGenderData(statisticsData.by_gender);
         const worryData = prepareWorryData(statisticsData.by_kekhawatiran);
         const statusData = prepareStatusData(statisticsData.by_status);
+
+        // Update summary cards
+        updateSummaryCards(statisticsData.total_cases, statusData);
 
         // Create charts
         createGenderChart(genderData);
         createWorryLevelChart(worryData);
         createStatusChart(statusData);
 
-        // Update tables
-        updateGenderTable(genderData, statisticsData.total_cases);
-        updateWorryLevelTable(worryData, statisticsData.total_cases);
-        updateStatusTable(statusData, statisticsData.total_cases);
+        // Update legends
+        updateGenderLegend(genderData);
+        updateWorryLegend(worryData);
+        updateStatusLegend(statusData);
 
         hideLoadingState();
     }
@@ -110,10 +129,11 @@
         if (byGender && Array.isArray(byGender)) {
             byGender.forEach(item => {
                 const gender = (item.gender_korban || '').toLowerCase();
+                const count = parseInt(item.count) || 0;
                 if (gender === 'laki-laki' || gender === 'male' || gender === 'pria') {
-                    data.male = item.count;
+                    data.male = count;
                 } else if (gender === 'perempuan' || gender === 'female' || gender === 'wanita') {
-                    data.female = item.count;
+                    data.female = count;
                 }
             });
         }
@@ -128,16 +148,39 @@
         const data = { sedikit: 0, khawatir: 0, sangat: 0 };
 
         if (byKekhawatiran && Array.isArray(byKekhawatiran)) {
+            if (DEBUG_MODE) {
+                console.log('DEBUG kekhawatiran raw data:', JSON.stringify(byKekhawatiran));
+            }
+
             byKekhawatiran.forEach(item => {
-                const level = (item.tingkat_kekhawatiran || '').toLowerCase();
-                if (level.includes('sedikit')) {
-                    data.sedikit = item.count;
-                } else if (level.includes('sangat') || level.includes('darurat')) {
-                    data.sangat = item.count;
-                } else if (level.includes('khawatir')) {
-                    data.khawatir = item.count;
+                const level = (item.tingkat_kekhawatiran || '').toLowerCase().trim();
+                const count = parseInt(item.count) || 0;
+
+                if (DEBUG_MODE) {
+                    console.log(`DEBUG: level="${level}", count=${count}`);
+                }
+
+                // Exact match first (database values: sedikit, khawatir, sangat)
+                if (level === 'sedikit') {
+                    data.sedikit += count;
+                } else if (level === 'sangat') {
+                    data.sangat += count;
+                } else if (level === 'khawatir') {
+                    data.khawatir += count;
+                }
+                // Fallback: includes match for other formats
+                else if (level.includes('sedikit') || level === '1' || level === 'rendah' || level === 'low') {
+                    data.sedikit += count;
+                } else if (level.includes('sangat') || level.includes('darurat') || level === '3' || level === 'tinggi' || level === 'high' || level === 'emergency') {
+                    data.sangat += count;
+                } else if (level.includes('khawatir') || level === '2' || level === 'sedang' || level === 'medium') {
+                    data.khawatir += count;
                 }
             });
+
+            if (DEBUG_MODE) {
+                console.log('DEBUG kekhawatiran result:', data);
+            }
         }
 
         return data;
@@ -147,17 +190,18 @@
      * Prepare status data for charts
      */
     function prepareStatusData(byStatus) {
-        const data = { process: 0, investigation: 0, completed: 0 };
+        const data = { process: 0, inProgress: 0, completed: 0 };
 
         if (byStatus && Array.isArray(byStatus)) {
             byStatus.forEach(item => {
                 const status = (item.status_laporan || '').toLowerCase();
+                const count = parseInt(item.count) || 0;
                 if (status === 'process') {
-                    data.process = item.count;
+                    data.process = count;
                 } else if (status === 'in progress' || status === 'investigation') {
-                    data.investigation = item.count;
+                    data.inProgress = count;
                 } else if (status === 'resolved' || status === 'closed' || status === 'completed') {
-                    data.completed = item.count;
+                    data.completed = count;
                 }
             });
         }
@@ -176,19 +220,21 @@
         const ctx = document.getElementById('genderChart');
         if (!ctx) return;
 
-        // Destroy existing chart
         if (genderChart) {
             genderChart.destroy();
         }
+
+        const total = data.male + data.female;
+        const hasData = total > 0;
 
         genderChart = new Chart(ctx.getContext('2d'), {
             type: 'doughnut',
             data: {
                 labels: ['Laki-laki', 'Perempuan'],
                 datasets: [{
-                    data: [data.male, data.female],
-                    backgroundColor: ['#3b82f6', '#ec4899'],
-                    borderColor: ['#ffffff', '#ffffff'],
+                    data: hasData ? [data.male, data.female] : [1],
+                    backgroundColor: hasData ? [COLORS.gender.male, COLORS.gender.female] : ['#e2e8f0'],
+                    borderColor: '#ffffff',
                     borderWidth: 4,
                     hoverOffset: 8
                 }]
@@ -196,24 +242,39 @@
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                cutout: '65%',
+                cutout: '70%',
                 plugins: {
-                    legend: {
-                        display: false
-                    },
+                    legend: { display: false },
                     tooltip: {
+                        enabled: hasData,
+                        backgroundColor: '#1e293b',
+                        titleFont: { size: 13, weight: '600' },
+                        bodyFont: { size: 12 },
+                        padding: 12,
+                        cornerRadius: 8,
                         callbacks: {
                             label: function(context) {
-                                const label = context.label || '';
                                 const value = context.parsed || 0;
-                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
                                 const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
-                                return `${label}: ${value} (${percentage}%)`;
+                                return `${value} laporan (${percentage}%)`;
                             }
                         }
                     }
                 }
-            }
+            },
+            plugins: hasData ? [] : [{
+                id: 'noData',
+                afterDraw: function(chart) {
+                    const { ctx, width, height } = chart;
+                    ctx.save();
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.font = '14px Inter, sans-serif';
+                    ctx.fillStyle = '#94a3b8';
+                    ctx.fillText('Belum ada data', width / 2, height / 2);
+                    ctx.restore();
+                }
+            }]
         });
     }
 
@@ -224,19 +285,21 @@
         const ctx = document.getElementById('worryLevelChart');
         if (!ctx) return;
 
-        // Destroy existing chart
         if (worryLevelChart) {
             worryLevelChart.destroy();
         }
+
+        const total = data.sedikit + data.khawatir + data.sangat;
+        const hasData = total > 0;
 
         worryLevelChart = new Chart(ctx.getContext('2d'), {
             type: 'doughnut',
             data: {
                 labels: ['Sedikit Khawatir', 'Khawatir', 'Sangat Khawatir'],
                 datasets: [{
-                    data: [data.sedikit, data.khawatir, data.sangat],
-                    backgroundColor: ['#1abc9c', '#f39c12', '#e74c3c'],
-                    borderColor: ['#ffffff', '#ffffff', '#ffffff'],
+                    data: hasData ? [data.sedikit, data.khawatir, data.sangat] : [1],
+                    backgroundColor: hasData ? [COLORS.worry.sedikit, COLORS.worry.khawatir, COLORS.worry.sangat] : ['#e2e8f0'],
+                    borderColor: '#ffffff',
                     borderWidth: 4,
                     hoverOffset: 8
                 }]
@@ -244,24 +307,39 @@
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                cutout: '65%',
+                cutout: '70%',
                 plugins: {
-                    legend: {
-                        display: false
-                    },
+                    legend: { display: false },
                     tooltip: {
+                        enabled: hasData,
+                        backgroundColor: '#1e293b',
+                        titleFont: { size: 13, weight: '600' },
+                        bodyFont: { size: 12 },
+                        padding: 12,
+                        cornerRadius: 8,
                         callbacks: {
                             label: function(context) {
-                                const label = context.label || '';
                                 const value = context.parsed || 0;
-                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
                                 const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
-                                return `${label}: ${value} (${percentage}%)`;
+                                return `${value} laporan (${percentage}%)`;
                             }
                         }
                     }
                 }
-            }
+            },
+            plugins: hasData ? [] : [{
+                id: 'noData',
+                afterDraw: function(chart) {
+                    const { ctx, width, height } = chart;
+                    ctx.save();
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.font = '14px Inter, sans-serif';
+                    ctx.fillStyle = '#94a3b8';
+                    ctx.fillText('Belum ada data', width / 2, height / 2);
+                    ctx.restore();
+                }
+            }]
         });
     }
 
@@ -272,7 +350,6 @@
         const ctx = document.getElementById('statusChart');
         if (!ctx) return;
 
-        // Destroy existing chart
         if (statusChart) {
             statusChart.destroy();
         }
@@ -283,26 +360,34 @@
                 labels: ['Process', 'In Progress', 'Completed'],
                 datasets: [{
                     label: 'Jumlah Laporan',
-                    data: [data.process, data.investigation, data.completed],
-                    backgroundColor: ['#f39c12', '#2196f3', '#1abc9c'],
+                    data: [data.process, data.inProgress, data.completed],
+                    backgroundColor: [
+                        COLORS.status.process,
+                        COLORS.status.inProgress,
+                        COLORS.status.completed
+                    ],
                     borderRadius: 8,
-                    barThickness: 60
+                    barThickness: 80,
+                    maxBarThickness: 100
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: {
-                        display: false
-                    },
+                    legend: { display: false },
                     tooltip: {
+                        backgroundColor: '#1e293b',
+                        titleFont: { size: 13, weight: '600' },
+                        bodyFont: { size: 12 },
+                        padding: 12,
+                        cornerRadius: 8,
                         callbacks: {
                             label: function(context) {
                                 const value = context.parsed.y || 0;
                                 const total = context.dataset.data.reduce((a, b) => a + b, 0);
                                 const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
-                                return `Jumlah: ${value} (${percentage}%)`;
+                                return `${value} laporan (${percentage}%)`;
                             }
                         }
                     }
@@ -311,25 +396,20 @@
                     y: {
                         beginAtZero: true,
                         ticks: {
-                            stepSize: 5,
-                            font: {
-                                size: 12
-                            }
+                            stepSize: 1,
+                            font: { size: 12, family: 'Inter' },
+                            color: '#64748b'
                         },
                         grid: {
-                            display: true,
+                            color: '#e2e8f0',
                             drawBorder: false
                         }
                     },
                     x: {
-                        grid: {
-                            display: false
-                        },
+                        grid: { display: false },
                         ticks: {
-                            font: {
-                                size: 12,
-                                weight: 'bold'
-                            }
+                            font: { size: 13, weight: '500', family: 'Inter' },
+                            color: '#1e293b'
                         }
                     }
                 }
@@ -342,60 +422,64 @@
     // ========================================
 
     /**
-     * Update summary card with total reports
+     * Update summary cards
      */
-    function updateSummaryCard(total) {
-        const totalElement = document.getElementById('totalReports');
-        if (totalElement) {
-            totalElement.textContent = total || 0;
+    function updateSummaryCards(total, statusData) {
+        updateElement('totalReports', total || 0);
+        updateElement('summaryProcess', statusData.process || 0);
+        updateElement('summaryInProgress', statusData.inProgress || 0);
+        updateElement('summaryCompleted', statusData.completed || 0);
+    }
+
+    /**
+     * Update gender legend
+     */
+    function updateGenderLegend(data) {
+        const total = data.male + data.female;
+        updateLegendItem('stat-male', data.male, total);
+        updateLegendItem('stat-female', data.female, total);
+    }
+
+    /**
+     * Update worry level legend
+     */
+    function updateWorryLegend(data) {
+        const total = data.sedikit + data.khawatir + data.sangat;
+        updateLegendItem('stat-sedikit', data.sedikit, total);
+        updateLegendItem('stat-khawatir', data.khawatir, total);
+        updateLegendItem('stat-sangat', data.sangat, total);
+    }
+
+    /**
+     * Update status legend
+     */
+    function updateStatusLegend(data) {
+        const total = data.process + data.inProgress + data.completed;
+        updateLegendItem('stat-process', data.process, total);
+        updateLegendItem('stat-inprogress', data.inProgress, total);
+        updateLegendItem('stat-completed', data.completed, total);
+    }
+
+    /**
+     * Update legend item (count and percent)
+     */
+    function updateLegendItem(baseId, value, total) {
+        const countEl = document.getElementById(`${baseId}-count`);
+        const percentEl = document.getElementById(`${baseId}-percent`);
+
+        if (countEl) countEl.textContent = value;
+        if (percentEl) {
+            const percent = total > 0 ? ((value / total) * 100).toFixed(0) : 0;
+            percentEl.textContent = `${percent}%`;
         }
     }
 
     /**
-     * Update gender statistics table
+     * Update element text content
      */
-    function updateGenderTable(data, total) {
-        const genderTotal = data.male + data.female;
-        updateTableCell('stat-male', data.male, genderTotal);
-        updateTableCell('stat-female', data.female, genderTotal);
-        updateTableCell('stat-gender-total', genderTotal);
-    }
-
-    /**
-     * Update worry level statistics table
-     */
-    function updateWorryLevelTable(data, total) {
-        const worryTotal = data.sedikit + data.khawatir + data.sangat;
-        updateTableCell('stat-sedikit', data.sedikit, worryTotal);
-        updateTableCell('stat-khawatir', data.khawatir, worryTotal);
-        updateTableCell('stat-sangat', data.sangat, worryTotal);
-        updateTableCell('stat-worry-total', worryTotal);
-    }
-
-    /**
-     * Update status statistics table
-     */
-    function updateStatusTable(data, total) {
-        const statusTotal = data.process + data.investigation + data.completed;
-        updateTableCell('stat-process', data.process, statusTotal);
-        updateTableCell('stat-investigation', data.investigation, statusTotal);
-        updateTableCell('stat-completed', data.completed, statusTotal);
-        updateTableCell('stat-status-total', statusTotal);
-    }
-
-    /**
-     * Update table cell with value and percentage
-     */
-    function updateTableCell(elementId, value, total) {
-        const element = document.getElementById(elementId);
-        if (!element) return;
-
-        if (total && elementId.indexOf('total') === -1) {
-            const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
-            element.textContent = `${value} (${percentage}%)`;
-        } else {
-            element.textContent = value;
-        }
+    function updateElement(id, value) {
+        const el = document.getElementById(id);
+        if (el) el.textContent = value;
     }
 
     // ========================================
@@ -406,26 +490,25 @@
      * Show loading state
      */
     function showLoadingState() {
-        // Add loading class to charts
-        const chartContainers = document.querySelectorAll('.chart-container, .stat-card');
-        chartContainers.forEach(container => {
-            container.style.opacity = '0.5';
+        const cards = document.querySelectorAll('.summary-card, .chart-card');
+        cards.forEach(card => {
+            card.style.opacity = '0.6';
         });
 
-        // Update total with loading indicator
-        const totalElement = document.getElementById('totalReports');
-        if (totalElement) {
-            totalElement.textContent = '...';
-        }
+        // Show loading in summary cards
+        ['totalReports', 'summaryProcess', 'summaryInProgress', 'summaryCompleted'].forEach(id => {
+            updateElement(id, '...');
+        });
     }
 
     /**
      * Hide loading state
      */
     function hideLoadingState() {
-        const chartContainers = document.querySelectorAll('.chart-container, .stat-card');
-        chartContainers.forEach(container => {
-            container.style.opacity = '1';
+        const cards = document.querySelectorAll('.summary-card, .chart-card');
+        cards.forEach(card => {
+            card.style.opacity = '1';
+            card.style.transition = 'opacity 0.3s ease';
         });
     }
 
@@ -435,32 +518,55 @@
     function showErrorState(message) {
         console.error('Statistics error:', message);
 
-        // Show error in total reports
-        const totalElement = document.getElementById('totalReports');
-        if (totalElement) {
-            totalElement.textContent = '-';
-        }
-
-        // Update table cells with error
-        const tableCells = document.querySelectorAll('[id^="stat-"]');
-        tableCells.forEach(cell => {
-            cell.textContent = '-';
+        // Update summary cards with error
+        ['totalReports', 'summaryProcess', 'summaryInProgress', 'summaryCompleted'].forEach(id => {
+            updateElement(id, '-');
         });
 
-        // Hide loading
-        hideLoadingState();
+        // Update legends with error
+        document.querySelectorAll('[id$="-count"]').forEach(el => {
+            el.textContent = '-';
+        });
+        document.querySelectorAll('[id$="-percent"]').forEach(el => {
+            el.textContent = '-';
+        });
 
-        // Show toast notification if available
-        if (typeof showToast === 'function') {
-            showToast('Gagal memuat statistik: ' + message, 'error');
-        }
+        hideLoadingState();
+        showToast('Gagal memuat statistik: ' + message, 'error');
+    }
+
+    /**
+     * Show toast notification
+     */
+    function showToast(message, type = 'info') {
+        const container = document.getElementById('toastContainer');
+        if (!container) return;
+
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        toast.innerHTML = `
+            <i class="bi bi-${type === 'error' ? 'exclamation-circle' : 'check-circle'}"></i>
+            <span>${message}</span>
+        `;
+
+        container.appendChild(toast);
+
+        // Trigger animation
+        setTimeout(() => toast.classList.add('show'), 10);
+
+        // Remove after delay
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 300);
+        }, 4000);
     }
 
     // ========================================
     // EXPORT
     // ========================================
     window.StatisticsManager = {
-        loadStatistics: loadStatistics
+        loadStatistics: loadStatistics,
+        showToast: showToast
     };
 
 })();
