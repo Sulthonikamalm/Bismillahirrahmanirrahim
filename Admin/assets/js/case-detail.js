@@ -360,6 +360,13 @@
             const fileName = bukti.file_url ? bukti.file_url.split('/').pop() : 'Bukti';
             const iconConfig = getFileIconConfig(fileType);
 
+            // Adjust path based on whether it's absolute or relative
+            let fileUrl = bukti.file_url;
+            if (fileUrl && !fileUrl.startsWith('http') && !fileUrl.startsWith('/')) {
+                // Relative path from database - add base path from current location
+                fileUrl = '../../../' + fileUrl;
+            }
+
             return `
                 <div class="evidence-item">
                     <div class="evidence-icon ${iconConfig.class}">
@@ -370,10 +377,10 @@
                         <div class="evidence-meta">${fileType.toUpperCase()} - ${formatDate(bukti.created_at)}</div>
                     </div>
                     <div class="evidence-actions">
-                        <button class="evidence-btn" onclick="window.open('${bukti.file_url}', '_blank')" title="Lihat">
+                        <button class="evidence-btn" onclick="window.open('${fileUrl}', '_blank')" title="Lihat">
                             <i class="bi bi-eye"></i>
                         </button>
-                        <a href="${bukti.file_url}" download class="evidence-btn" title="Download">
+                        <a href="${fileUrl}" download class="evidence-btn" title="Download">
                             <i class="bi bi-download"></i>
                         </a>
                     </div>

@@ -203,8 +203,8 @@ function handleFileUploads($pdo, $laporanId, $kodePelaporan) {
 
             // Insert to Bukti table
             try {
-                // Use absolute path from web root instead of relative path
-                $fileUrl = '/uploads/bukti/' . $kodePelaporan . '/' . $newFilename;
+                // Use relative path (without leading slash) for better compatibility
+                $fileUrl = 'uploads/bukti/' . $kodePelaporan . '/' . $newFilename;
 
                 $sql = "INSERT INTO Bukti (laporan_id, file_url, file_type) VALUES (:laporan_id, :file_url, :file_type)";
                 $stmt = $pdo->prepare($sql);
