@@ -5,10 +5,397 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SIGAP - Edit Postingan</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../assets/css/dashboard.css">
+
+    <style>
+        /* ========== RICH TEXT EDITOR STYLES ========== */
+        :root {
+            --editor-bg: #F8F9FA;
+            --editor-paper: #FFFFFF;
+            --editor-text: #202124;
+            --editor-secondary: #5F6368;
+            --editor-border: #DADCE0;
+            --editor-hover: #F1F3F4;
+            --editor-active: #E8EAED;
+            --editor-primary: #1A73E8;
+            --editor-shadow-sm: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+            --editor-shadow-md: 0 2px 6px rgba(0, 0, 0, 0.15);
+            --editor-shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Editor Container */
+        .editor-wrapper {
+            background: var(--editor-bg);
+            border-radius: 8px;
+            padding: 0;
+            margin-top: 16px;
+            position: relative;
+        }
+
+        /* Editor Toolbar */
+        .editor-toolbar {
+            background: var(--editor-paper);
+            border-bottom: 1px solid var(--editor-border);
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            flex-wrap: wrap;
+            border-radius: 8px 8px 0 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .toolbar-group {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            padding: 0 6px;
+            border-right: 1px solid var(--editor-border);
+        }
+
+        .toolbar-group:last-child {
+            border-right: none;
+        }
+
+        .toolbar-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: transparent;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--editor-secondary);
+            transition: all 0.15s ease;
+        }
+
+        .toolbar-btn:hover {
+            background: var(--editor-hover);
+            color: var(--editor-text);
+        }
+
+        .toolbar-btn.active {
+            background: var(--editor-active);
+            color: var(--editor-primary);
+        }
+
+        .toolbar-btn .material-icons {
+            font-size: 20px;
+        }
+
+        .font-select-wrapper {
+            position: relative;
+            min-width: 120px;
+        }
+
+        .font-dropdown {
+            width: 100%;
+            height: 32px;
+            padding: 0 28px 0 10px;
+            border: 1px solid var(--editor-border);
+            border-radius: 4px;
+            background: var(--editor-paper);
+            font-size: 13px;
+            color: var(--editor-text);
+            cursor: pointer;
+            appearance: none;
+        }
+
+        .font-dropdown:hover {
+            background: var(--editor-hover);
+        }
+
+        .font-select-wrapper::after {
+            content: '▼';
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 9px;
+            color: var(--editor-secondary);
+            pointer-events: none;
+        }
+
+        /* Paper View */
+        .editor-paper {
+            background: var(--editor-paper);
+            min-height: 500px;
+            box-shadow: var(--editor-shadow-md);
+            margin: 20px auto;
+            max-width: 800px;
+            padding: 60px 72px;
+            border-radius: 2px;
+        }
+
+        .editor-content {
+            outline: none;
+            font-size: 11pt;
+            line-height: 1.6;
+            color: var(--editor-text);
+            font-family: 'Roboto', Arial, sans-serif;
+            min-height: 400px;
+        }
+
+        .editor-content:empty::before {
+            content: 'Mulai menulis konten...';
+            color: #999;
+            font-style: italic;
+        }
+
+        /* Floating Toolbar */
+        .floating-toolbar {
+            position: absolute;
+            background: var(--editor-text);
+            color: white;
+            border-radius: 8px;
+            padding: 6px 8px;
+            display: none;
+            gap: 4px;
+            box-shadow: var(--editor-shadow-lg);
+            z-index: 10000;
+            animation: floatIn 0.2s ease;
+        }
+
+        @keyframes floatIn {
+            from {
+                opacity: 0;
+                transform: translateY(5px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .floating-toolbar.show {
+            display: flex;
+        }
+
+        .floating-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.8);
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s ease;
+        }
+
+        .floating-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .floating-btn.active {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .floating-btn .material-icons {
+            font-size: 18px;
+        }
+
+        .floating-divider {
+            width: 1px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.2);
+            margin: 0 4px;
+        }
+
+        /* Text Styles */
+        .editor-content h1 {
+            font-size: 28pt;
+            font-weight: 600;
+            margin: 16px 0 12px;
+            line-height: 1.3;
+        }
+
+        .editor-content h2 {
+            font-size: 20pt;
+            font-weight: 600;
+            margin: 14px 0 10px;
+            line-height: 1.3;
+        }
+
+        .editor-content h3 {
+            font-size: 16pt;
+            font-weight: 600;
+            margin: 12px 0 8px;
+            line-height: 1.4;
+        }
+
+        .editor-content p {
+            margin: 6px 0;
+        }
+
+        .editor-content blockquote {
+            border-left: 4px solid var(--editor-primary);
+            padding-left: 16px;
+            margin: 12px 0;
+            color: var(--editor-secondary);
+            font-style: italic;
+        }
+
+        .editor-content hr {
+            border: none;
+            border-top: 1px solid var(--editor-border);
+            margin: 24px 0;
+        }
+
+        .editor-content ul,
+        .editor-content ol {
+            margin: 8px 0;
+            padding-left: 32px;
+        }
+
+        .editor-content li {
+            margin: 4px 0;
+        }
+
+        .editor-content img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+
+        .editor-content a {
+            color: var(--editor-primary);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+        }
+
+        .editor-content a:hover {
+            border-bottom-color: var(--editor-primary);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10001;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal-box {
+            background: white;
+            border-radius: 8px;
+            padding: 24px;
+            min-width: 400px;
+            box-shadow: var(--editor-shadow-lg);
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .modal-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--editor-border);
+            border-radius: 4px;
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+
+        .modal-input:focus {
+            outline: none;
+            border-color: var(--editor-primary);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+
+        .modal-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .modal-btn-cancel {
+            background: transparent;
+            color: var(--editor-secondary);
+        }
+
+        .modal-btn-cancel:hover {
+            background: var(--editor-hover);
+        }
+
+        .modal-btn-primary {
+            background: var(--editor-primary);
+            color: white;
+        }
+
+        .modal-btn-primary:hover {
+            background: #1557b0;
+        }
+
+        /* Tooltip */
+        .tooltip-btn {
+            position: relative;
+        }
+
+        .tooltip-btn::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-4px);
+            background: rgba(0, 0, 0, 0.85);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+            z-index: 10002;
+        }
+
+        .tooltip-btn:hover::after {
+            opacity: 1;
+        }
+
+        /* Hide default textarea */
+        #postIsi {
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <div class="d-flex">
@@ -85,10 +472,128 @@
                                 <div class="validation-error" id="kategoriError">Kategori tidak boleh kosong.</div>
                             </div>
                         </div>
-                        <div>
-                            <textarea id="postIsi" class="form-control post-input-isi" placeholder="(isi)" rows="10"></textarea>
-                            <div class="validation-error" id="isiError">Isi tidak boleh kosong.</div>
+
+                        <!-- Rich Text Editor -->
+                        <div class="editor-wrapper">
+                            <!-- Toolbar -->
+                            <div class="editor-toolbar">
+                                <!-- History -->
+                                <div class="toolbar-group">
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="undoBtn" data-tooltip="Undo">
+                                        <span class="material-icons">undo</span>
+                                    </button>
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="redoBtn" data-tooltip="Redo">
+                                        <span class="material-icons">redo</span>
+                                    </button>
+                                </div>
+
+                                <!-- Font -->
+                                <div class="toolbar-group">
+                                    <div class="font-select-wrapper">
+                                        <select class="font-dropdown" id="fontSelect">
+                                            <option value="Roboto">Roboto</option>
+                                            <option value="Arial">Arial</option>
+                                            <option value="Georgia">Georgia</option>
+                                            <option value="Times New Roman">Times New Roman</option>
+                                            <option value="Courier New">Courier New</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Text Formatting -->
+                                <div class="toolbar-group">
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="boldBtn" data-tooltip="Bold">
+                                        <span class="material-icons">format_bold</span>
+                                    </button>
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="italicBtn" data-tooltip="Italic">
+                                        <span class="material-icons">format_italic</span>
+                                    </button>
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="underlineBtn" data-tooltip="Underline">
+                                        <span class="material-icons">format_underlined</span>
+                                    </button>
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="strikeBtn" data-tooltip="Strikethrough">
+                                        <span class="material-icons">strikethrough_s</span>
+                                    </button>
+                                </div>
+
+                                <!-- Headings -->
+                                <div class="toolbar-group">
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="h1Btn" data-tooltip="Heading 1">
+                                        <span style="font-weight: 600; font-size: 13px;">H1</span>
+                                    </button>
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="h2Btn" data-tooltip="Heading 2">
+                                        <span style="font-weight: 600; font-size: 13px;">H2</span>
+                                    </button>
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="h3Btn" data-tooltip="Heading 3">
+                                        <span style="font-weight: 600; font-size: 13px;">H3</span>
+                                    </button>
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="pBtn" data-tooltip="Paragraph">
+                                        <span style="font-weight: 500; font-size: 13px;">P</span>
+                                    </button>
+                                </div>
+
+                                <!-- Alignment -->
+                                <div class="toolbar-group">
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="alignLeftBtn" data-tooltip="Align Left">
+                                        <span class="material-icons">format_align_left</span>
+                                    </button>
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="alignCenterBtn" data-tooltip="Align Center">
+                                        <span class="material-icons">format_align_center</span>
+                                    </button>
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="alignRightBtn" data-tooltip="Align Right">
+                                        <span class="material-icons">format_align_right</span>
+                                    </button>
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="alignJustifyBtn" data-tooltip="Justify">
+                                        <span class="material-icons">format_align_justify</span>
+                                    </button>
+                                </div>
+
+                                <!-- Lists -->
+                                <div class="toolbar-group">
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="bulletBtn" data-tooltip="Bullet List">
+                                        <span class="material-icons">format_list_bulleted</span>
+                                    </button>
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="numberBtn" data-tooltip="Numbered List">
+                                        <span class="material-icons">format_list_numbered</span>
+                                    </button>
+                                </div>
+
+                                <!-- Indent -->
+                                <div class="toolbar-group">
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="outdentBtn" data-tooltip="Decrease Indent">
+                                        <span class="material-icons">format_indent_decrease</span>
+                                    </button>
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="indentBtn" data-tooltip="Increase Indent">
+                                        <span class="material-icons">format_indent_increase</span>
+                                    </button>
+                                </div>
+
+                                <!-- Insert -->
+                                <div class="toolbar-group">
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="linkBtn" data-tooltip="Insert Link">
+                                        <span class="material-icons">link</span>
+                                    </button>
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="imageBtn" data-tooltip="Insert Image">
+                                        <span class="material-icons">image</span>
+                                    </button>
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="quoteBtn" data-tooltip="Blockquote">
+                                        <span class="material-icons">format_quote</span>
+                                    </button>
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="hrBtn" data-tooltip="Horizontal Line">
+                                        <span class="material-icons">horizontal_rule</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Paper View -->
+                            <div class="editor-paper">
+                                <div class="editor-content" contenteditable="true" id="editorContent"></div>
+                            </div>
                         </div>
+
+                        <!-- Hidden textarea for form submission -->
+                        <textarea id="postIsi" class="form-control post-input-isi" placeholder="(isi)" rows="10"></textarea>
+                        <div class="validation-error" id="isiError">Isi tidak boleh kosong.</div>
                     </div>
                 </div>
 
@@ -99,7 +604,281 @@
         </main>
     </div>
 
+    <!-- Floating Toolbar -->
+    <div class="floating-toolbar" id="floatingToolbar">
+        <button type="button" class="floating-btn" data-command="bold">
+            <span class="material-icons">format_bold</span>
+        </button>
+        <button type="button" class="floating-btn" data-command="italic">
+            <span class="material-icons">format_italic</span>
+        </button>
+        <button type="button" class="floating-btn" data-command="underline">
+            <span class="material-icons">format_underlined</span>
+        </button>
+
+        <div class="floating-divider"></div>
+
+        <button type="button" class="floating-btn" data-command="justifyLeft">
+            <span class="material-icons">format_align_left</span>
+        </button>
+        <button type="button" class="floating-btn" data-command="justifyCenter">
+            <span class="material-icons">format_align_center</span>
+        </button>
+        <button type="button" class="floating-btn" data-command="justifyRight">
+            <span class="material-icons">format_align_right</span>
+        </button>
+        <button type="button" class="floating-btn" data-command="justifyFull">
+            <span class="material-icons">format_align_justify</span>
+        </button>
+
+        <div class="floating-divider"></div>
+
+        <button type="button" class="floating-btn" data-command="insertUnorderedList">
+            <span class="material-icons">format_list_bulleted</span>
+        </button>
+        <button type="button" class="floating-btn" data-command="insertOrderedList">
+            <span class="material-icons">format_list_numbered</span>
+        </button>
+
+        <div class="floating-divider"></div>
+
+        <button type="button" class="floating-btn" data-command="outdent">
+            <span class="material-icons">format_indent_decrease</span>
+        </button>
+        <button type="button" class="floating-btn" data-command="indent">
+            <span class="material-icons">format_indent_increase</span>
+        </button>
+    </div>
+
+    <!-- Link Modal -->
+    <div class="modal-overlay" id="linkModal">
+        <div class="modal-box">
+            <h3 class="modal-title">Insert Link</h3>
+            <input type="text" class="modal-input" id="linkText" placeholder="Link text (optional)">
+            <input type="url" class="modal-input" id="linkUrl" placeholder="https://example.com">
+            <div class="modal-actions">
+                <button type="button" class="modal-btn modal-btn-cancel" id="cancelLink">Cancel</button>
+                <button type="button" class="modal-btn modal-btn-primary" id="insertLink">Insert</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Modal -->
+    <div class="modal-overlay" id="imageModal">
+        <div class="modal-box">
+            <h3 class="modal-title">Insert Image</h3>
+            <input type="url" class="modal-input" id="imageUrl" placeholder="https://example.com/image.jpg">
+            <input type="text" class="modal-input" id="imageAlt" placeholder="Alt text (optional)">
+            <div class="modal-actions">
+                <button type="button" class="modal-btn modal-btn-cancel" id="cancelImage">Cancel</button>
+                <button type="button" class="modal-btn modal-btn-primary" id="insertImage">Insert</button>
+            </div>
+        </div>
+    </div>
+
     <script src="../../assets/js/sidebar.js"></script>
     <script src="../../assets/js/blog-form.js"></script>
+
+    <script>
+        // Rich Text Editor Functionality
+        (function() {
+            const editorContent = document.getElementById('editorContent');
+            const postIsi = document.getElementById('postIsi');
+            const floatingToolbar = document.getElementById('floatingToolbar');
+
+            // Sync editor content to hidden textarea
+            function syncContent() {
+                if (editorContent && postIsi) {
+                    postIsi.value = editorContent.innerHTML;
+                }
+            }
+
+            // Execute command
+            function execCommand(command, value = null) {
+                document.execCommand(command, false, value);
+                editorContent.focus();
+                syncContent();
+            }
+
+            // Format block
+            function formatBlock(tag) {
+                execCommand('formatBlock', tag);
+            }
+
+            // Toolbar buttons
+            document.getElementById('undoBtn')?.addEventListener('click', () => execCommand('undo'));
+            document.getElementById('redoBtn')?.addEventListener('click', () => execCommand('redo'));
+            document.getElementById('boldBtn')?.addEventListener('click', () => execCommand('bold'));
+            document.getElementById('italicBtn')?.addEventListener('click', () => execCommand('italic'));
+            document.getElementById('underlineBtn')?.addEventListener('click', () => execCommand('underline'));
+            document.getElementById('strikeBtn')?.addEventListener('click', () => execCommand('strikeThrough'));
+
+            document.getElementById('h1Btn')?.addEventListener('click', () => formatBlock('h1'));
+            document.getElementById('h2Btn')?.addEventListener('click', () => formatBlock('h2'));
+            document.getElementById('h3Btn')?.addEventListener('click', () => formatBlock('h3'));
+            document.getElementById('pBtn')?.addEventListener('click', () => formatBlock('p'));
+
+            document.getElementById('alignLeftBtn')?.addEventListener('click', () => execCommand('justifyLeft'));
+            document.getElementById('alignCenterBtn')?.addEventListener('click', () => execCommand('justifyCenter'));
+            document.getElementById('alignRightBtn')?.addEventListener('click', () => execCommand('justifyRight'));
+            document.getElementById('alignJustifyBtn')?.addEventListener('click', () => execCommand('justifyFull'));
+
+            document.getElementById('bulletBtn')?.addEventListener('click', () => execCommand('insertUnorderedList'));
+            document.getElementById('numberBtn')?.addEventListener('click', () => execCommand('insertOrderedList'));
+
+            document.getElementById('indentBtn')?.addEventListener('click', () => execCommand('indent'));
+            document.getElementById('outdentBtn')?.addEventListener('click', () => execCommand('outdent'));
+
+            document.getElementById('quoteBtn')?.addEventListener('click', () => formatBlock('blockquote'));
+            document.getElementById('hrBtn')?.addEventListener('click', () => execCommand('insertHorizontalRule'));
+
+            document.getElementById('fontSelect')?.addEventListener('change', function() {
+                execCommand('fontName', this.value);
+            });
+
+            // Floating toolbar
+            document.addEventListener('mouseup', function(e) {
+                setTimeout(() => {
+                    const selection = window.getSelection();
+                    const selectedText = selection.toString().trim();
+
+                    if (selectedText.length > 0 && editorContent.contains(selection.anchorNode)) {
+                        const range = selection.getRangeAt(0);
+                        const rect = range.getBoundingClientRect();
+
+                        floatingToolbar.classList.add('show');
+                        floatingToolbar.style.left = `${rect.left + (rect.width / 2) - (floatingToolbar.offsetWidth / 2)}px`;
+                        floatingToolbar.style.top = `${rect.top + window.scrollY - floatingToolbar.offsetHeight - 10}px`;
+                    } else {
+                        floatingToolbar.classList.remove('show');
+                    }
+                }, 10);
+            });
+
+            floatingToolbar.querySelectorAll('.floating-btn').forEach(btn => {
+                btn.addEventListener('mousedown', function(e) {
+                    e.preventDefault();
+                    const command = this.getAttribute('data-command');
+                    execCommand(command);
+                });
+            });
+
+            // Link modal
+            const linkModal = document.getElementById('linkModal');
+            const linkTextInput = document.getElementById('linkText');
+            const linkUrlInput = document.getElementById('linkUrl');
+
+            document.getElementById('linkBtn')?.addEventListener('click', () => {
+                const selection = window.getSelection();
+                linkTextInput.value = selection.toString();
+                linkUrlInput.value = '';
+                linkModal.classList.add('show');
+            });
+
+            document.getElementById('cancelLink')?.addEventListener('click', () => {
+                linkModal.classList.remove('show');
+            });
+
+            document.getElementById('insertLink')?.addEventListener('click', () => {
+                const url = linkUrlInput.value.trim();
+                const text = linkTextInput.value.trim();
+
+                if (url) {
+                    if (text) {
+                        execCommand('insertHTML', `<a href="${url}" target="_blank">${text}</a>`);
+                    } else {
+                        execCommand('createLink', url);
+                    }
+                    linkModal.classList.remove('show');
+                }
+            });
+
+            // Image modal
+            const imageModal = document.getElementById('imageModal');
+            const imageUrlInput = document.getElementById('imageUrl');
+            const imageAltInput = document.getElementById('imageAlt');
+
+            document.getElementById('imageBtn')?.addEventListener('click', () => {
+                imageUrlInput.value = '';
+                imageAltInput.value = '';
+                imageModal.classList.add('show');
+            });
+
+            document.getElementById('cancelImage')?.addEventListener('click', () => {
+                imageModal.classList.remove('show');
+            });
+
+            document.getElementById('insertImage')?.addEventListener('click', () => {
+                const url = imageUrlInput.value.trim();
+                const alt = imageAltInput.value.trim();
+
+                if (url) {
+                    execCommand('insertHTML', `<img src="${url}" alt="${alt || 'Image'}" />`);
+                    imageModal.classList.remove('show');
+                }
+            });
+
+            // Close modals on overlay click
+            [linkModal, imageModal].forEach(modal => {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        this.classList.remove('show');
+                    }
+                });
+            });
+
+            // Sync content on input
+            editorContent.addEventListener('input', syncContent);
+            editorContent.addEventListener('paste', () => setTimeout(syncContent, 10));
+
+            // Keyboard shortcuts
+            editorContent.addEventListener('keydown', function(e) {
+                if (e.ctrlKey || e.metaKey) {
+                    switch(e.key.toLowerCase()) {
+                        case 'b':
+                            e.preventDefault();
+                            execCommand('bold');
+                            break;
+                        case 'i':
+                            e.preventDefault();
+                            execCommand('italic');
+                            break;
+                        case 'u':
+                            e.preventDefault();
+                            execCommand('underline');
+                            break;
+                        case 'z':
+                            e.preventDefault();
+                            execCommand('undo');
+                            break;
+                        case 'y':
+                            e.preventDefault();
+                            execCommand('redo');
+                            break;
+                    }
+                }
+            });
+
+            // Prevent floating toolbar from disappearing
+            floatingToolbar.addEventListener('mousedown', function(e) {
+                e.preventDefault();
+            });
+
+            // Hide floating toolbar when clicking outside
+            document.addEventListener('mousedown', function(e) {
+                if (!floatingToolbar.contains(e.target) && e.target !== editorContent) {
+                    setTimeout(() => {
+                        const selection = window.getSelection();
+                        if (selection.toString().trim().length === 0) {
+                            floatingToolbar.classList.remove('show');
+                        }
+                    }, 10);
+                }
+            });
+
+            // Expose for blog-form.js to populate on edit
+            window.editorContent = editorContent;
+        })();
+    </script>
 </body>
 </html>
