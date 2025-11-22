@@ -247,6 +247,11 @@
             postIsi.value = blog.isi_postingan;
         }
 
+        // Populate rich text editor if available
+        if (window.editorContent && blog.isi_postingan) {
+            window.editorContent.innerHTML = blog.isi_postingan;
+        }
+
         if (blog.gambar_header_url) {
             uploadedImageUrl = blog.gambar_header_url;
 
