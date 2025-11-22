@@ -1,6 +1,6 @@
 /* ============================================
    DOKUMENTASI UMUM STYLE.CSS
-   File ini berisi styling untuk situs Satgas PPKS, termasuk variabel warna, reset dasar, typography, utilities, dan styling per section. 
+   File ini berisi styling untuk situs Satgas PPKPT, termasuk variabel warna, reset dasar, typography, utilities, dan styling per section. 
    Responsivitas ditangani melalui media queries, dengan breakpoint utama di 1015px untuk navbar, 769px untuk card overlay, dan lebih kecil untuk mobile.
    Fitur utama: Smooth transitions, reveal on scroll, dan hover effects untuk user experience yang calm.
    ============================================ */

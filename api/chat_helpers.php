@@ -395,7 +395,7 @@ class ChatHelpers {
     }
     
     /**
-     * Detect if message is off-topic (non-PPKS)
+     * Detect if message is off-topic (non-PPKPT)
      */
     public static function isOffTopic($message) {
         $message = strtolower(trim($message));
@@ -406,7 +406,7 @@ class ChatHelpers {
             'program.*java', 'program.*python', 'buatkan.*program',
             'script.*php', 'function.*javascript',
             
-            // General questions not related to PPKS
+            // General questions not related to PPKPT
             'apa itu.*', 'jelaskan tentang.*', 'ceritakan tentang.*',
             'bagaimana cara.*membuat', 'tutorial.*',
             

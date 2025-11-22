@@ -1,7 +1,7 @@
 <?php
 /**
  * ========================================================
- * SIGAP PPKS - ULTRA SECURE Authentication System
+ * SIGAP PPKPT - ULTRA SECURE Authentication System
  * File: auth_login_secure.php
  * ========================================================
  * 

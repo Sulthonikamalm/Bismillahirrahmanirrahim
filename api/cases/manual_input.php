@@ -308,7 +308,7 @@ function validateInput($input) {
  * Generate unique kode pelaporan
  */
 function generateKodePelaporan($pdo) {
-    $prefix = 'PPKS';
+    $prefix = 'PPKPT';
     $maxAttempts = 10;
 
     for ($i = 0; $i < $maxAttempts; $i++) {

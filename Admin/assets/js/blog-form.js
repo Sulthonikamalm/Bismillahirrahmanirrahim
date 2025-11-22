@@ -1,6 +1,6 @@
 /**
  * ============================================================
- * SIGAP PPKS - Blog Form JavaScript (Create & Edit)
+ * SIGAP PPKPT - Blog Form JavaScript (Create & Edit)
  * File: assets/js/blog-form.js
  * Description: Handles blog create and edit forms with API
  * ============================================================

@@ -1,7 +1,7 @@
 <?php
 /**
  * ========================================================
- * SIGAP PPKS - Update Blog API
+ * SIGAP PPKPT - Update Blog API
  * File: api/blog/update_blog.php
  * ========================================================
  *

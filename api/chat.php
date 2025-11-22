@@ -149,7 +149,7 @@ try {
         error_log("🚫 Off-topic message detected");
         
         $offTopicResponse = "Maaf ya, aku khusus untuk membantu kamu yang mengalami atau menyaksikan kekerasan seksual. Untuk pertanyaan lain, aku nggak bisa bantu 💙\n\n" .
-                           "Kalau kamu ada cerita atau butuh bantuan terkait PPKS, aku di sini mendengarkan.";
+                           "Kalau kamu ada cerita atau butuh bantuan terkait PPKPT, aku di sini mendengarkan.";
         
         // Still save to history and database
         $_SESSION['conversation_history'][] = [
@@ -344,7 +344,7 @@ try {
             try {
                 error_log("Creating report...");
                 
-                $kodeLaporan = 'PPKS' . date('ymd') . rand(100, 999);
+                $kodeLaporan = 'PPKPT' . date('ymd') . rand(100, 999);
                 $labels = $_SESSION['extracted_labels'];
                 
                 $stmt = $pdo->prepare("
@@ -381,7 +381,7 @@ try {
                 $finalResponse = "✅ Terima kasih atas keberanianmu. Laporan kamu udah aku catatkan dengan aman.\n\n" .
                                 "**Kode Laporan:** `{$kodeLaporan}`\n\n" .
                                 "Kamu bisa cek status laporan di halaman **Monitoring** pakai kode ini ya.\n\n" .
-                                "Tim Satgas PPKS akan follow up dengan penuh kerahasiaan dan profesionalisme. 🔒";
+                                "Tim Satgas PPKPT akan follow up dengan penuh kerahasiaan dan profesionalisme. 🔒";
                 
                 $_SESSION['conversation_history'][] = [
                     'role' => 'assistant',

@@ -4,13 +4,13 @@
  * API GET LAPORAN - DUAL SEARCH VERSION
  * ==========================================================
  * Endpoint untuk mendapatkan detail laporan berdasarkan:
- * - Kode Pelaporan (PPKS123456789) ATAU
+ * - Kode Pelaporan (PPKPT123456789) ATAU
  * - Email Korban (user@example.com)
  * 
  * Method: GET
  * Parameter: query (bisa kode atau email)
  * Example: 
- * - /api/get_laporan.php?query=PPKS228236148
+ * - /api/get_laporan.php?query=PPKPT228236148
  * - /api/get_laporan.php?query=test@student.itb.ac.id
  * 
  * @version 2.0 (Dual Search)
@@ -60,7 +60,7 @@ try {
     if (empty($query)) {
         sendResponse(false, 'Parameter query (kode atau email) wajib diisi', [
             'examples' => [
-                'By kode: ?query=PPKS228236148',
+                'By kode: ?query=PPKPT228236148',
                 'By email: ?query=test@student.itb.ac.id'
             ]
         ], 400);
@@ -130,7 +130,7 @@ try {
             'search_type' => 'email'
         ] : [
             'kode' => $query,
-            'hint' => 'Periksa kembali kode pelaporan Anda (format: PPKS123456789)',
+            'hint' => 'Periksa kembali kode pelaporan Anda (format: PPKPT123456789)',
             'search_type' => 'kode'
         ];
         
@@ -212,7 +212,7 @@ function generateTimeline($laporan) {
     $timeline[] = [
         'id' => 1,
         'title' => 'Laporan Diterima',
-        'description' => 'Laporan Anda telah berhasil diterima oleh sistem Satgas PPKS. Tim kami akan segera memverifikasi informasi yang Anda berikan.',
+        'description' => 'Laporan Anda telah berhasil diterima oleh sistem Satgas PPKPT. Tim kami akan segera memverifikasi informasi yang Anda berikan.',
         'status' => 'success',
         'date' => $createdAt,
         'icon' => '✓'
@@ -274,7 +274,7 @@ function generateTimeline($laporan) {
         $timeline[] = [
             'id' => 4,
             'title' => 'Tindak Lanjut Selesai',
-            'description' => 'Laporan Anda telah selesai ditindaklanjuti. Terima kasih atas kepercayaan Anda kepada Satgas PPKS. Jika ada pertanyaan lebih lanjut, silakan hubungi kami.',
+            'description' => 'Laporan Anda telah selesai ditindaklanjuti. Terima kasih atas kepercayaan Anda kepada Satgas PPKPT. Jika ada pertanyaan lebih lanjut, silakan hubungi kami.',
             'status' => 'success',
             'date' => $laporan['updated_at'],
             'icon' => '🎉'

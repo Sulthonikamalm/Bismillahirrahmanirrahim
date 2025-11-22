@@ -1,7 +1,7 @@
 <?php
 /**
  * ========================================================
- * SIGAP PPKS - Secure Image Upload API
+ * SIGAP PPKPT - Secure Image Upload API
  * File: api/blog/upload_image.php
  * ========================================================
  *

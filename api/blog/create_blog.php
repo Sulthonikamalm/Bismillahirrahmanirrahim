@@ -1,7 +1,7 @@
 <?php
 /**
  * ========================================================
- * SIGAP PPKS - Create Blog API
+ * SIGAP PPKPT - Create Blog API
  * File: api/blog/create_blog.php
  * ========================================================
  *
