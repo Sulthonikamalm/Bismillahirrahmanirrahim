@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Editor - Google Docs Style</title>
+
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-main: #F8F9FA;
+            --bg-paper: #FFFFFF;
+            --text-primary: #202124;
+            --text-secondary: #5F6368;
+            --border-color: #DADCE0;
+            --hover-bg: #F1F3F4;
+            --active-bg: #E8EAED;
+            --primary-blue: #1A73E8;
+            --shadow-sm: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+            --shadow-md: 0 1px 3px 0 rgba(60, 64, 67, 0.3), 0 4px 8px 3px rgba(60, 64, 67, 0.15);
+            --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-main);
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        /* ========== TOP TOOLBAR ========== */
+        .top-toolbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 56px;
+            background: var(--bg-paper);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            gap: 8px;
+            z-index: 1000;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .toolbar-group {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            padding: 0 8px;
+            border-right: 1px solid var(--border-color);
+        }
+
+        .toolbar-group:last-child {
+            border-right: none;
+        }
+
+        .toolbar-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: transparent;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            transition: all 0.15s ease;
+            position: relative;
+        }
+
+        .toolbar-btn:hover {
+            background: var(--hover-bg);
+            color: var(--text-primary);
+        }
+
+        .toolbar-btn:active,
+        .toolbar-btn.active {
+            background: var(--active-bg);
+            color: var(--primary-blue);
+        }
+
+        .toolbar-btn .material-icons {
+            font-size: 20px;
+        }
+
+        /* Font Dropdown */
+        .font-select {
+            position: relative;
+        }
+
+        .font-dropdown {
+            min-width: 140px;
+            height: 32px;
+            padding: 0 32px 0 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: var(--bg-paper);
+            font-size: 14px;
+            color: var(--text-primary);
+            cursor: pointer;
+            appearance: none;
+            transition: all 0.15s ease;
+        }
+
+        .font-dropdown:hover {
+            background: var(--hover-bg);
+            border-color: var(--text-secondary);
+        }
+
+        .font-dropdown:focus {
+            outline: 2px solid var(--primary-blue);
+            outline-offset: 1px;
+        }
+
+        .font-select::after {
+            content: '▼';
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 10px;
+            color: var(--text-secondary);
+            pointer-events: none;
+        }
+
+        /* ========== EDITOR CONTAINER ========== */
+        .editor-container {
+            margin-top: 56px;
+            padding: 40px 20px;
+            min-height: calc(100vh - 56px);
+            display: flex;
+            justify-content: center;
+        }
+
+        .paper-wrapper {
+            width: 100%;
+            max-width: 850px;
+            background: var(--bg-paper);
+            min-height: 1056px; /* A4 size */
+            box-shadow: var(--shadow-md);
+            border-radius: 2px;
+            padding: 96px 72px;
+            position: relative;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .editor-content {
+            min-height: 800px;
+            outline: none;
+            font-size: 11pt;
+            line-height: 1.6;
+            color: var(--text-primary);
+            font-family: 'Roboto', Arial, sans-serif;
+        }
+
+        .editor-content:empty::before {
+            content: 'Mulai mengetik...';
+            color: #999;
+            font-style: italic;
+        }
+
+        /* ========== FLOATING TOOLBAR ========== */
+        .floating-toolbar {
+            position: absolute;
+            background: var(--text-primary);
+            color: white;
+            border-radius: 8px;
+            padding: 6px 8px;
+            display: none;
+            gap: 4px;
+            box-shadow: var(--shadow-lg);
+            z-index: 10000;
+            animation: floatIn 0.2s ease;
+        }
+
+        @keyframes floatIn {
+            from {
+                opacity: 0;
+                transform: translateY(5px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .floating-toolbar.show {
+            display: flex;
+        }
+
+        .floating-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.8);
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s ease;
+        }
+
+        .floating-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .floating-btn.active {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .floating-btn .material-icons {
+            font-size: 18px;
+        }
+
+        .floating-divider {
+            width: 1px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.2);
+            margin: 0 4px;
+        }
+
+        /* ========== TEXT STYLES ========== */
+        .editor-content h1 {
+            font-size: 28pt;
+            font-weight: 600;
+            margin: 16px 0 12px;
+            line-height: 1.3;
+        }
+
+        .editor-content h2 {
+            font-size: 20pt;
+            font-weight: 600;
+            margin: 14px 0 10px;
+            line-height: 1.3;
+        }
+
+        .editor-content h3 {
+            font-size: 16pt;
+            font-weight: 600;
+            margin: 12px 0 8px;
+            line-height: 1.4;
+        }
+
+        .editor-content p {
+            margin: 6px 0;
+        }
+
+        .editor-content blockquote {
+            border-left: 4px solid var(--primary-blue);
+            padding-left: 16px;
+            margin: 12px 0;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .editor-content hr {
+            border: none;
+            border-top: 1px solid var(--border-color);
+            margin: 24px 0;
+        }
+
+        .editor-content ul,
+        .editor-content ol {
+            margin: 8px 0;
+            padding-left: 32px;
+        }
+
+        .editor-content li {
+            margin: 4px 0;
+        }
+
+        .editor-content img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+
+        .editor-content a {
+            color: var(--primary-blue);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.15s ease;
+        }
+
+        .editor-content a:hover {
+            border-bottom-color: var(--primary-blue);
+        }
+
+        /* Text Alignment */
+        .text-left { text-align: left; }
+        .text-center { text-align: center; }
+        .text-right { text-align: right; }
+        .text-justify { text-align: justify; }
+
+        /* ========== MODAL/DIALOG ========== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10001;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal-box {
+            background: var(--bg-paper);
+            border-radius: 8px;
+            padding: 24px;
+            min-width: 400px;
+            max-width: 500px;
+            box-shadow: var(--shadow-lg);
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+
+        .modal-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 14px;
+            margin-bottom: 16px;
+            transition: all 0.15s ease;
+        }
+
+        .modal-input:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.1);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+
+        .modal-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .modal-btn-cancel {
+            background: transparent;
+            color: var(--text-secondary);
+        }
+
+        .modal-btn-cancel:hover {
+            background: var(--hover-bg);
+        }
+
+        .modal-btn-primary {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .modal-btn-primary:hover {
+            background: #1557b0;
+        }
+
+        /* ========== TOOLTIP ========== */
+        .tooltip {
+            position: relative;
+        }
+
+        .tooltip::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-4px);
+            background: rgba(0, 0, 0, 0.85);
+            color: white;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+            z-index: 10002;
+        }
+
+        .tooltip:hover::after {
+            opacity: 1;
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 768px) {
+            .paper-wrapper {
+                padding: 48px 24px;
+                box-shadow: none;
+                border-radius: 0;
+            }
+
+            .top-toolbar {
+                padding: 0 8px;
+            }
+
+            .toolbar-group {
+                padding: 0 4px;
+            }
+
+            .font-dropdown {
+                min-width: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Toolbar -->
+    <div class="top-toolbar">
+        <!-- History -->
+        <div class="toolbar-group">
+            <button class="toolbar-btn tooltip" id="undoBtn" data-tooltip="Undo (Ctrl+Z)">
+                <span class="material-icons">undo</span>
+            </button>
+            <button class="toolbar-btn tooltip" id="redoBtn" data-tooltip="Redo (Ctrl+Y)">
+                <span class="material-icons">redo</span>
+            </button>
+        </div>
+
+        <!-- Font Family -->
+        <div class="toolbar-group">
+            <div class="font-select">
+                <select class="font-dropdown" id="fontSelect">
+                    <option value="Roboto">Roboto</option>
+                    <option value="Arial">Arial</option>
+                    <option value="Georgia">Georgia</option>
+                    <option value="Times New Roman">Times New Roman</option>
+                    <option value="Courier New">Courier New</option>
+                    <option value="Verdana">Verdana</option>
+                    <option value="Inter">Inter</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Text Formatting -->
+        <div class="toolbar-group">
+            <button class="toolbar-btn tooltip" id="boldBtn" data-tooltip="Bold (Ctrl+B)">
+                <span class="material-icons">format_bold</span>
+            </button>
+            <button class="toolbar-btn tooltip" id="italicBtn" data-tooltip="Italic (Ctrl+I)">
+                <span class="material-icons">format_italic</span>
+            </button>
+            <button class="toolbar-btn tooltip" id="underlineBtn" data-tooltip="Underline (Ctrl+U)">
+                <span class="material-icons">format_underlined</span>
+            </button>
+            <button class="toolbar-btn tooltip" id="strikeBtn" data-tooltip="Strikethrough">
+                <span class="material-icons">strikethrough_s</span>
+            </button>
+        </div>
+
+        <!-- Heading Styles -->
+        <div class="toolbar-group">
+            <button class="toolbar-btn tooltip" id="h1Btn" data-tooltip="Heading 1">
+                <span style="font-weight: 600; font-size: 14px;">H1</span>
+            </button>
+            <button class="toolbar-btn tooltip" id="h2Btn" data-tooltip="Heading 2">
+                <span style="font-weight: 600; font-size: 14px;">H2</span>
+            </button>
+            <button class="toolbar-btn tooltip" id="h3Btn" data-tooltip="Heading 3">
+                <span style="font-weight: 600; font-size: 14px;">H3</span>
+            </button>
+            <button class="toolbar-btn tooltip" id="pBtn" data-tooltip="Paragraph">
+                <span style="font-weight: 500; font-size: 14px;">P</span>
+            </button>
+        </div>
+
+        <!-- Alignment -->
+        <div class="toolbar-group">
+            <button class="toolbar-btn tooltip" id="alignLeftBtn" data-tooltip="Align Left">
+                <span class="material-icons">format_align_left</span>
+            </button>
+            <button class="toolbar-btn tooltip" id="alignCenterBtn" data-tooltip="Align Center">
+                <span class="material-icons">format_align_center</span>
+            </button>
+            <button class="toolbar-btn tooltip" id="alignRightBtn" data-tooltip="Align Right">
+                <span class="material-icons">format_align_right</span>
+            </button>
+            <button class="toolbar-btn tooltip" id="alignJustifyBtn" data-tooltip="Justify">
+                <span class="material-icons">format_align_justify</span>
+            </button>
+        </div>
+
+        <!-- Lists -->
+        <div class="toolbar-group">
+            <button class="toolbar-btn tooltip" id="bulletBtn" data-tooltip="Bullet List">
+                <span class="material-icons">format_list_bulleted</span>
+            </button>
+            <button class="toolbar-btn tooltip" id="numberBtn" data-tooltip="Numbered List">
+                <span class="material-icons">format_list_numbered</span>
+            </button>
+        </div>
+
+        <!-- Indent -->
+        <div class="toolbar-group">
+            <button class="toolbar-btn tooltip" id="outdentBtn" data-tooltip="Decrease Indent">
+                <span class="material-icons">format_indent_decrease</span>
+            </button>
+            <button class="toolbar-btn tooltip" id="indentBtn" data-tooltip="Increase Indent">
+                <span class="material-icons">format_indent_increase</span>
+            </button>
+        </div>
+
+        <!-- Insert -->
+        <div class="toolbar-group">
+            <button class="toolbar-btn tooltip" id="linkBtn" data-tooltip="Insert Link">
+                <span class="material-icons">link</span>
+            </button>
+            <button class="toolbar-btn tooltip" id="imageBtn" data-tooltip="Insert Image">
+                <span class="material-icons">image</span>
+            </button>
+            <button class="toolbar-btn tooltip" id="quoteBtn" data-tooltip="Blockquote">
+                <span class="material-icons">format_quote</span>
+            </button>
+            <button class="toolbar-btn tooltip" id="hrBtn" data-tooltip="Horizontal Line">
+                <span class="material-icons">horizontal_rule</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Editor Container -->
+    <div class="editor-container">
+        <div class="paper-wrapper">
+            <div class="editor-content" contenteditable="true" id="editor">
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Toolbar (appears on text selection) -->
+    <div class="floating-toolbar" id="floatingToolbar">
+        <button class="floating-btn" data-command="bold">
+            <span class="material-icons">format_bold</span>
+        </button>
+        <button class="floating-btn" data-command="italic">
+            <span class="material-icons">format_italic</span>
+        </button>
+        <button class="floating-btn" data-command="underline">
+            <span class="material-icons">format_underlined</span>
+        </button>
+
+        <div class="floating-divider"></div>
+
+        <button class="floating-btn" data-command="justifyLeft">
+            <span class="material-icons">format_align_left</span>
+        </button>
+        <button class="floating-btn" data-command="justifyCenter">
+            <span class="material-icons">format_align_center</span>
+        </button>
+        <button class="floating-btn" data-command="justifyRight">
+            <span class="material-icons">format_align_right</span>
+        </button>
+        <button class="floating-btn" data-command="justifyFull">
+            <span class="material-icons">format_align_justify</span>
+        </button>
+
+        <div class="floating-divider"></div>
+
+        <button class="floating-btn" data-command="insertUnorderedList">
+            <span class="material-icons">format_list_bulleted</span>
+        </button>
+        <button class="floating-btn" data-command="insertOrderedList">
+            <span class="material-icons">format_list_numbered</span>
+        </button>
+
+        <div class="floating-divider"></div>
+
+        <button class="floating-btn" data-command="outdent">
+            <span class="material-icons">format_indent_decrease</span>
+        </button>
+        <button class="floating-btn" data-command="indent">
+            <span class="material-icons">format_indent_increase</span>
+        </button>
+    </div>
+
+    <!-- Link Modal -->
+    <div class="modal-overlay" id="linkModal">
+        <div class="modal-box">
+            <h3 class="modal-title">Insert Link</h3>
+            <input type="text" class="modal-input" id="linkText" placeholder="Link text (optional)">
+            <input type="url" class="modal-input" id="linkUrl" placeholder="https://example.com">
+            <div class="modal-actions">
+                <button class="modal-btn modal-btn-cancel" id="cancelLink">Cancel</button>
+                <button class="modal-btn modal-btn-primary" id="insertLink">Insert</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Modal -->
+    <div class="modal-overlay" id="imageModal">
+        <div class="modal-box">
+            <h3 class="modal-title">Insert Image</h3>
+            <input type="url" class="modal-input" id="imageUrl" placeholder="https://example.com/image.jpg">
+            <input type="text" class="modal-input" id="imageAlt" placeholder="Alt text (optional)">
+            <div class="modal-actions">
+                <button class="modal-btn modal-btn-cancel" id="cancelImage">Cancel</button>
+                <button class="modal-btn modal-btn-primary" id="insertImage">Insert</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Editor Instance
+        const editor = document.getElementById('editor');
+        const floatingToolbar = document.getElementById('floatingToolbar');
+
+        // Command execution
+        function execCommand(command, value = null) {
+            document.execCommand(command, false, value);
+            editor.focus();
+        }
+
+        // Format Block
+        function formatBlock(tag) {
+            execCommand('formatBlock', tag);
+        }
+
+        // Top Toolbar Buttons
+        document.getElementById('undoBtn').addEventListener('click', () => execCommand('undo'));
+        document.getElementById('redoBtn').addEventListener('click', () => execCommand('redo'));
+
+        document.getElementById('boldBtn').addEventListener('click', () => execCommand('bold'));
+        document.getElementById('italicBtn').addEventListener('click', () => execCommand('italic'));
+        document.getElementById('underlineBtn').addEventListener('click', () => execCommand('underline'));
+        document.getElementById('strikeBtn').addEventListener('click', () => execCommand('strikeThrough'));
+
+        document.getElementById('h1Btn').addEventListener('click', () => formatBlock('h1'));
+        document.getElementById('h2Btn').addEventListener('click', () => formatBlock('h2'));
+        document.getElementById('h3Btn').addEventListener('click', () => formatBlock('h3'));
+        document.getElementById('pBtn').addEventListener('click', () => formatBlock('p'));
+
+        document.getElementById('alignLeftBtn').addEventListener('click', () => execCommand('justifyLeft'));
+        document.getElementById('alignCenterBtn').addEventListener('click', () => execCommand('justifyCenter'));
+        document.getElementById('alignRightBtn').addEventListener('click', () => execCommand('justifyRight'));
+        document.getElementById('alignJustifyBtn').addEventListener('click', () => execCommand('justifyFull'));
+
+        document.getElementById('bulletBtn').addEventListener('click', () => execCommand('insertUnorderedList'));
+        document.getElementById('numberBtn').addEventListener('click', () => execCommand('insertOrderedList'));
+
+        document.getElementById('indentBtn').addEventListener('click', () => execCommand('indent'));
+        document.getElementById('outdentBtn').addEventListener('click', () => execCommand('outdent'));
+
+        document.getElementById('quoteBtn').addEventListener('click', () => formatBlock('blockquote'));
+        document.getElementById('hrBtn').addEventListener('click', () => execCommand('insertHorizontalRule'));
+
+        // Font Family
+        document.getElementById('fontSelect').addEventListener('change', function() {
+            execCommand('fontName', this.value);
+        });
+
+        // Floating Toolbar
+        document.addEventListener('mouseup', function(e) {
+            setTimeout(() => {
+                const selection = window.getSelection();
+                const selectedText = selection.toString().trim();
+
+                if (selectedText.length > 0) {
+                    const range = selection.getRangeAt(0);
+                    const rect = range.getBoundingClientRect();
+
+                    floatingToolbar.classList.add('show');
+                    floatingToolbar.style.left = `${rect.left + (rect.width / 2) - (floatingToolbar.offsetWidth / 2)}px`;
+                    floatingToolbar.style.top = `${rect.top + window.scrollY - floatingToolbar.offsetHeight - 10}px`;
+                } else {
+                    floatingToolbar.classList.remove('show');
+                }
+            }, 10);
+        });
+
+        // Floating Toolbar Buttons
+        floatingToolbar.querySelectorAll('.floating-btn').forEach(btn => {
+            btn.addEventListener('mousedown', function(e) {
+                e.preventDefault();
+                const command = this.getAttribute('data-command');
+                execCommand(command);
+
+                // Update active state
+                setTimeout(() => {
+                    updateToolbarState();
+                }, 10);
+            });
+        });
+
+        // Update toolbar active states
+        function updateToolbarState() {
+            const buttons = {
+                'bold': document.getElementById('boldBtn'),
+                'italic': document.getElementById('italicBtn'),
+                'underline': document.getElementById('underlineBtn'),
+                'strikeThrough': document.getElementById('strikeBtn')
+            };
+
+            Object.keys(buttons).forEach(command => {
+                if (document.queryCommandState(command)) {
+                    buttons[command].classList.add('active');
+                } else {
+                    buttons[command].classList.remove('active');
+                }
+            });
+        }
+
+        editor.addEventListener('keyup', updateToolbarState);
+        editor.addEventListener('mouseup', updateToolbarState);
+
+        // Link Modal
+        const linkModal = document.getElementById('linkModal');
+        const linkTextInput = document.getElementById('linkText');
+        const linkUrlInput = document.getElementById('linkUrl');
+
+        document.getElementById('linkBtn').addEventListener('click', () => {
+            const selection = window.getSelection();
+            linkTextInput.value = selection.toString();
+            linkUrlInput.value = '';
+            linkModal.classList.add('show');
+            linkUrlInput.focus();
+        });
+
+        document.getElementById('cancelLink').addEventListener('click', () => {
+            linkModal.classList.remove('show');
+        });
+
+        document.getElementById('insertLink').addEventListener('click', () => {
+            const url = linkUrlInput.value.trim();
+            const text = linkTextInput.value.trim();
+
+            if (url) {
+                if (text) {
+                    execCommand('insertHTML', `<a href="${url}" target="_blank">${text}</a>`);
+                } else {
+                    execCommand('createLink', url);
+                }
+                linkModal.classList.remove('show');
+            }
+        });
+
+        // Image Modal
+        const imageModal = document.getElementById('imageModal');
+        const imageUrlInput = document.getElementById('imageUrl');
+        const imageAltInput = document.getElementById('imageAlt');
+
+        document.getElementById('imageBtn').addEventListener('click', () => {
+            imageUrlInput.value = '';
+            imageAltInput.value = '';
+            imageModal.classList.add('show');
+            imageUrlInput.focus();
+        });
+
+        document.getElementById('cancelImage').addEventListener('click', () => {
+            imageModal.classList.remove('show');
+        });
+
+        document.getElementById('insertImage').addEventListener('click', () => {
+            const url = imageUrlInput.value.trim();
+            const alt = imageAltInput.value.trim();
+
+            if (url) {
+                execCommand('insertHTML', `<img src="${url}" alt="${alt || 'Image'}" />`);
+                imageModal.classList.remove('show');
+            }
+        });
+
+        // Close modals on overlay click
+        [linkModal, imageModal].forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('show');
+                }
+            });
+        });
+
+        // Keyboard shortcuts
+        editor.addEventListener('keydown', function(e) {
+            if (e.ctrlKey || e.metaKey) {
+                switch(e.key.toLowerCase()) {
+                    case 'b':
+                        e.preventDefault();
+                        execCommand('bold');
+                        break;
+                    case 'i':
+                        e.preventDefault();
+                        execCommand('italic');
+                        break;
+                    case 'u':
+                        e.preventDefault();
+                        execCommand('underline');
+                        break;
+                    case 'z':
+                        e.preventDefault();
+                        execCommand('undo');
+                        break;
+                    case 'y':
+                        e.preventDefault();
+                        execCommand('redo');
+                        break;
+                }
+            }
+        });
+
+        // Auto-save to localStorage (optional)
+        let saveTimeout;
+        editor.addEventListener('input', function() {
+            clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(() => {
+                localStorage.setItem('editorContent', editor.innerHTML);
+            }, 1000);
+        });
+
+        // Load saved content
+        window.addEventListener('load', function() {
+            const savedContent = localStorage.getItem('editorContent');
+            if (savedContent) {
+                editor.innerHTML = savedContent;
+            }
+        });
+
+        // Prevent floating toolbar from disappearing when clicking on it
+        floatingToolbar.addEventListener('mousedown', function(e) {
+            e.preventDefault();
+        });
+
+        // Hide floating toolbar when clicking outside
+        document.addEventListener('mousedown', function(e) {
+            if (!floatingToolbar.contains(e.target) && e.target !== editor) {
+                setTimeout(() => {
+                    const selection = window.getSelection();
+                    if (selection.toString().trim().length === 0) {
+                        floatingToolbar.classList.remove('show');
+                    }
+                }, 10);
+            }
+        });
+    </script>
+</body>
+</html>
