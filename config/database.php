@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Konfigurasi Database SIGAP PPKS
+ * Konfigurasi Database SIGAP PPKPT
  * Menggunakan PDO dengan fitur keamanan (Prepared Statements, Strict Mode).
  */
 

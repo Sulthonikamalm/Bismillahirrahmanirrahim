@@ -1,7 +1,7 @@
 <?php
 /**
  * ========================================================
- * SIGAP PPKS - Delete Blog API (Supports Bulk Delete)
+ * SIGAP PPKPT - Delete Blog API (Supports Bulk Delete)
  * File: api/blog/delete_blog.php
  * ========================================================
  *

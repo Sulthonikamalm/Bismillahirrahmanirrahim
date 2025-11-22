@@ -1,6 +1,6 @@
 /**
  * ============================================================
- * SIGAP PPKS - Cases Page JavaScript
+ * SIGAP PPKPT - Cases Page JavaScript
  * File: assets/js/cases.js
  * Description: Handles case management functionality
  * ============================================================

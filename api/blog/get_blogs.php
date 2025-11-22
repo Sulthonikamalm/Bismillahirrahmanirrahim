@@ -1,7 +1,7 @@
 <?php
 /**
  * ========================================================
- * SIGAP PPKS - Get All Blogs API
+ * SIGAP PPKPT - Get All Blogs API
  * File: api/blog/get_blogs.php
  * ========================================================
  *

@@ -84,7 +84,7 @@
         State.searchType = 'email';
       } else {
         // User typing kode
-        DOM.reportIdInput.placeholder = 'Contoh: PPKS228236148';
+        DOM.reportIdInput.placeholder = 'Contoh: PPKPT228236148';
         DOM.reportIdInput.value = value.toUpperCase(); // Auto uppercase for kode
         State.searchType = 'kode';
       }

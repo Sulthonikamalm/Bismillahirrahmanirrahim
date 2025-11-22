@@ -1,6 +1,6 @@
 /**
  * ============================================================
- * SIGAP PPKS - Blog Management JavaScript
+ * SIGAP PPKPT - Blog Management JavaScript
  * File: assets/js/blog.js
  * Description: Handles blog list, CRUD operations with API
  * ============================================================

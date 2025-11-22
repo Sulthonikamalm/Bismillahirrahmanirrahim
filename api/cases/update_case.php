@@ -1,7 +1,7 @@
 <?php
 /**
  * ========================================================
- * SIGAP PPKS - Update Case API
+ * SIGAP PPKPT - Update Case API
  * File: api/cases/update_case.php
  * ========================================================
  *

@@ -1,6 +1,6 @@
 /**
  * ============================================================
- * SIGAP PPKS - Statistics Page JavaScript
+ * SIGAP PPKPT - Statistics Page JavaScript
  * File: assets/js/statistics.js
  * Version: 2.1 - Fixed resize bug & website theme colors
  * ============================================================

@@ -1,7 +1,7 @@
 <?php
 /**
  * ========================================================
- * SIGAP PPKS - Delete Case API
+ * SIGAP PPKPT - Delete Case API
  * File: api/cases/delete_case.php
  * ========================================================
  *

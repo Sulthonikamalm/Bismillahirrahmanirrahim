@@ -396,7 +396,7 @@ function insertLaporan($pdo, $data) {
  */
 function generateKodePelaporan($pdo) {
     $maxAttempts = 10;
-    $prefix = 'PPKS';
+    $prefix = 'PPKPT';
 
     for ($attempt = 0; $attempt < $maxAttempts; $attempt++) {
         $timestamp = substr((string)time(), -6);

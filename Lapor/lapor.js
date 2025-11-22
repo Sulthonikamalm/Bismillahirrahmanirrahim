@@ -109,7 +109,7 @@
 
     function redirectToWhatsApp() {
         const phoneNumber = '6281234567890';
-        const message = encodeURIComponent('🚨 DARURAT! Saya membutuhkan bantuan segera dari Satgas PPKS.');
+        const message = encodeURIComponent('🚨 DARURAT! Saya membutuhkan bantuan segera dari Satgas PPKPT.');
         window.location.href = `https://wa.me/${phoneNumber}?text=${message}`;
     }
 

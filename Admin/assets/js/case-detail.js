@@ -1,6 +1,6 @@
 /**
  * ============================================================
- * SIGAP PPKS - Case Detail Page JavaScript
+ * SIGAP PPKPT - Case Detail Page JavaScript
  * File: assets/js/case-detail.js
  * Description: Fetches and displays case details from API
  * ============================================================

@@ -1,6 +1,6 @@
 /**
  * ============================================================
- * SIGAP PPKS - Manual Input JavaScript
+ * SIGAP PPKPT - Manual Input JavaScript
  * File: assets/js/manual-input.js
  * Description: Handles manual case input form with file upload
  * ============================================================

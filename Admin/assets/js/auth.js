@@ -1,5 +1,5 @@
 /**
- * SIGAP PPKS - Login Logic (Final Version)
+ * SIGAP PPKPT - Login Logic (Final Version)
  * File: Admin/assets/js/auth.js
  */
 

@@ -1,7 +1,7 @@
 <?php
 /**
  * ========================================================
- * SIGAP PPKS - SECURE Session Check & Authentication
+ * SIGAP PPKPT - SECURE Session Check & Authentication
  * File: auth_check_secure.php
  * ========================================================
  * 

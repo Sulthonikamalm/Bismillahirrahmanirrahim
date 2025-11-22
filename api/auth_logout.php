@@ -1,7 +1,7 @@
 <?php
 /**
  * ========================================================
- * SIGAP PPKS - ULTRA SECURE Logout System
+ * SIGAP PPKPT - ULTRA SECURE Logout System
  * File: auth_logout.php
  * ========================================================
  *
