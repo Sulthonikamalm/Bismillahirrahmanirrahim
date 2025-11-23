@@ -20,6 +20,9 @@
     <link rel="stylesheet" href="search-animation.css" />
 </head>
 <body>
+    <!-- Skip to main content link for accessibility -->
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
     <!-- ============================================
          ANIMATED PARTICLES BACKGROUND
          ============================================ -->
@@ -44,9 +47,9 @@
             </div>
             
             <div class="nav-actions">
-                <button class="btn btn-outline-light" onclick="window.location.href='../Lapor/lapor.html'">LAPOR</button>
-                <div class="social-icons">
-                    <img src="" alt="Gambar Difabel" />
+                <button class="btn btn-outline-light js-lapor-monitoring" aria-label="Buka halaman pelaporan">LAPOR</button>
+                <div class="social-icons" aria-label="Ikon aksesibilitas">
+                    <i class="fas fa-universal-access" aria-hidden="true"></i>
                 </div>
             </div>
             
@@ -59,7 +62,7 @@
     <!-- ============================================
          HERO SECTION with VIDEO
          ============================================ -->
-    <section class="monitoring-hero header-bg section-padding">
+    <section class="monitoring-hero header-bg section-padding" id="main-content">
         <div class="main-container monitoring-hero-grid">
             <!-- Left: Text Content -->
             <div class="monitoring-hero-text reveal" data-reveal>

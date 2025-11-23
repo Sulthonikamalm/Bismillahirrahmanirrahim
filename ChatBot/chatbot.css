@@ -23,7 +23,7 @@
 }
 
 .chatbot-modal-overlay.active {
-    display: flex !important;
+    display: flex;
 }
 
 .chatbot-modal {
@@ -236,10 +236,14 @@
    TYPING INDICATOR
    ============================================ */
 .typing-indicator {
-    display: flex;
+    display: none;
     align-items: center;
     padding: 0 20px;
     margin-bottom: 12px;
+}
+
+.typing-indicator.active {
+    display: flex;
 }
 
 .typing-bubble {
@@ -616,11 +620,24 @@
    HIDE MODE SELECTION (DIRECT TO CHAT)
    ============================================ */
 .mode-selection-screen {
-    display: none !important;
+    display: none;
 }
 
 .chat-interface-screen {
-    display: flex !important;
+    display: flex;
     flex-direction: column;
     height: 100%;
+}
+
+/* Voice Recording Mode - Hidden by default */
+.voice-recording-mode {
+    display: none;
+}
+
+.voice-recording-mode.active {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 24px;
 }

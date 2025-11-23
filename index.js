@@ -317,10 +317,32 @@
   // ============================================
   const boxBlue = document.querySelector('.box-blue');
   if (boxBlue && !prefersReduced) {
-    const onScroll = () => { 
-      boxBlue.style.transform = `translateY(${window.scrollY * 0.06}px)`; 
+    const onScroll = () => {
+      boxBlue.style.transform = `translateY(${window.scrollY * 0.06}px)`;
     };
     window.addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  // ============================================
+  // LAPOR BUTTON NAVIGATION
+  // Dokumentasi: Event listeners untuk tombol LAPOR yang mengarah ke halaman pelaporan.
+  // Menggantikan inline onclick handlers untuk clean code dan aksesibilitas.
+  // ============================================
+  const laporButtons = document.querySelectorAll('.js-lapor-nav, .js-lapor-hero, .js-lapor-monitoring');
+  laporButtons.forEach(button => {
+    button.addEventListener('click', function(e) {
+      e.preventDefault();
+      window.location.href = '../Lapor/lapor.html';
+    });
+  });
+
+  // LAPOR button on the Lapor page itself (stays on same page)
+  const laporBtnSamePage = document.querySelector('.js-lapor-btn');
+  if (laporBtnSamePage) {
+    laporBtnSamePage.addEventListener('click', function(e) {
+      e.preventDefault();
+      window.location.href = 'lapor.html';
+    });
   }
 
 })();

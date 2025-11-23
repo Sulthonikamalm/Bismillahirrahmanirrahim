@@ -15,6 +15,9 @@
     <link rel="stylesheet" href="../ChatBot/chatbot.css" />
   </head>
   <body>
+    <!-- Skip to main content link for accessibility -->
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
     <!-- NAVBAR START -->
     <!-- Dokumentasi: Navbar ini adalah navigasi utama situs, dengan logo, link navigasi, tombol lapor, dan ikon sosial. Mendukung mode mobile dengan hamburger menu. -->
     <nav
@@ -33,9 +36,9 @@
         </div>
 
         <div class="nav-actions">
-          <button class="btn btn-outline-light" onclick="window.location.href='../Lapor/lapor.html'">LAPOR</button>
-          <div class="social-icons">
-            <img src="" alt="Gambar Difabel" />
+          <button class="btn btn-outline-light js-lapor-nav">LAPOR</button>
+          <div class="social-icons" aria-label="Ikon aksesibilitas">
+            <i class="fas fa-universal-access" aria-hidden="true"></i>
           </div>
         </div>
 
@@ -53,7 +56,7 @@
 
     <!-- HERO START -->
     <!-- Dokumentasi: Bagian hero ini menampilkan judul utama, deskripsi, tombol lapor, dan ilustrasi dengan overlay card untuk visual menarik. Overlay hilang pada layar kecil untuk responsivitas. -->
-    <header class="header-bg hero-section">
+    <header class="header-bg hero-section" id="main-content">
       <div class="main-container hero-content reveal" data-reveal>
         <div class="hero-text reveal" data-reveal>
           <h1 class="main-title">Satgas PPKPT</h1>
@@ -63,14 +66,14 @@
             bebas dari kekerasan seksual, sesuai dengan Permendikbudristek No.
             30 Tahun 2021.
           </p>
-          <button class="btn btn-lg btn-outline-light mt-2" onclick="window.location.href='../Lapor/lapor.html'">LAPOR</button>
+          <button class="btn btn-lg btn-outline-light mt-2 js-lapor-hero">LAPOR</button>
         </div>
 
         <div class="hero-illustration reveal" data-reveal>
           <img src="../Gambar/Gambar4.png" alt="Gambar Ilustrasi" class="box-blue"/>
           <div></div>
           <div class="card-overlay card-overlay-top">Kapan Harus Lapor</div>
-          <img src="../Gambar/Gambar5.png" alt="" srcset="" class="card-overlay2 card-overlay-middle" style="width: 300px ; height: 220px; ">
+          <img src="../Gambar/Gambar5.png" alt="Ilustrasi pendukung keamanan" class="card-overlay2 card-overlay-middle">
           <div class="card-overlay card-overlay-bottom">
             <div class="">
               Lorem Ipsum has been the industry's standard dummy text ever since
@@ -318,52 +321,48 @@
               <button
                 class="faq-button"
                 aria-expanded="false"
-                aria-controls="faq-3"
+                aria-controls="faq-4"
               >
-                Apakah identitas pelapor dirahasiakan?
+                Berapa lama proses penanganan kasus?
               </button>
-              <div class="faq-answer" id="faq-3" role="region">
-                Ya, kami menjamin kerahasiaan identitas pelapor dan korban
-                sesuai prosedur.
+              <div class="faq-answer" id="faq-4" role="region">
+                Waktu penanganan bervariasi tergantung kompleksitas kasus, biasanya 14-30 hari kerja dengan update berkala.
               </div>
             </div>
             <div class="faq-item">
               <button
                 class="faq-button"
                 aria-expanded="false"
-                aria-controls="faq-3"
+                aria-controls="faq-5"
               >
-                Apakah identitas pelapor dirahasiakan?
+                Apakah ada biaya untuk melapor?
               </button>
-              <div class="faq-answer" id="faq-3" role="region">
-                Ya, kami menjamin kerahasiaan identitas pelapor dan korban
-                sesuai prosedur.
+              <div class="faq-answer" id="faq-5" role="region">
+                Tidak, seluruh layanan Satgas PPKPT gratis dan tidak dipungut biaya apapun.
               </div>
             </div>
             <div class="faq-item">
               <button
                 class="faq-button"
                 aria-expanded="false"
-                aria-controls="faq-3"
+                aria-controls="faq-6"
               >
-                Apakah identitas pelapor dirahasiakan?
+                Bagaimana jika saya trauma saat menceritakan kejadian?
               </button>
-              <div class="faq-answer" id="faq-3" role="region">
-                Ya, kami menjamin kerahasiaan identitas pelapor dan korban
-                sesuai prosedur.
+              <div class="faq-answer" id="faq-6" role="region">
+                Tim kami terlatih menangani trauma. Anda bisa berhenti kapan saja dan kami menyediakan konseling psikologis.
               </div>
             </div>
             <div class="faq-item">
               <button
                 class="faq-button"
                 aria-expanded="false"
-                aria-controls="faq-3"
+                aria-controls="faq-7"
               >
-                Apakah identitas pelapor dirahasiakan?
+                Bagaimana cara mendapatkan dukungan hukum?
               </button>
-              <div class="faq-answer" id="faq-3" role="region">
-                Ya, kami menjamin kerahasiaan identitas pelapor dan korban
-                sesuai prosedur.
+              <div class="faq-answer" id="faq-7" role="region">
+                Satgas PPKPT dapat memfasilitasi akses ke layanan bantuan hukum melalui mitra yang terpercaya dan berpengalaman.
               </div>
             </div>
           </div>
@@ -423,7 +422,7 @@
     <div class="chatbot-modal-overlay" id="chatbotModalOverlay">
         <div class="chatbot-modal">
             <!-- Mode Selection Screen -->
-            <div class="chatbot-screen mode-selection-screen" id="modeSelectionScreen" style="display: none;">
+            <div class="chatbot-screen mode-selection-screen" id="modeSelectionScreen">
                 <div class="chatbot-modal-header">
                     <h2>Pilih Mode Chat</h2>
                     <button class="btn-close-chatbot" id="btnCloseChatbot">
@@ -486,7 +485,7 @@
                     </div>
 
                     <!-- Typing Indicator -->
-                    <div class="typing-indicator" id="typingIndicator" style="display: none;">
+                    <div class="typing-indicator" id="typingIndicator">
                         <div class="typing-bubble">
                             <div class="typing-dots">
                                 <span></span>
@@ -500,7 +499,7 @@
                 <!-- Chat Input Area -->
                 <div class="chat-input-area">
                     <!-- Voice Recording Mode -->
-                    <div class="voice-recording-mode" id="voiceRecordingMode" style="display: none;">
+                    <div class="voice-recording-mode" id="voiceRecordingMode">
                         <div class="recording-animation">
                             <div class="recording-circle">
                                 <i class="fas fa-microphone"></i>
