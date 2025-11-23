@@ -79,14 +79,6 @@
   --font-nav: "Campton", sans-serif;
   --font-body: "Campton", sans-serif;
 
-  /* Warna & lainnya */
-  --color-dark-blue: #132338;
-  --color-teal: #4b8a7b;
-  --color-text-dark: #333;
-  --color-text-light: #fff;
-  --ease-calm: cubic-bezier(0.22, 0.61, 0.36, 1);
-  --dur-calm: 720ms;
-  --dur-quick: 400ms;
 }
 
 * {
@@ -100,6 +92,28 @@ body {
   font-weight: 400;
   line-height: 1.7;
   color: var(--color-text-dark);
+}
+
+/* === ACCESSIBILITY: Skip to Content Link === */
+.skip-to-content {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  background-color: var(--color-dark-blue);
+  color: var(--color-text-light);
+  padding: 0.75rem 1.5rem;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  z-index: 9999;
+  border-radius: 0 0 8px 0;
+  transition: top var(--dur-quick) var(--ease-calm);
+}
+
+.skip-to-content:focus {
+  top: 0;
+  outline: 3px solid var(--color-teal);
+  outline-offset: 2px;
 }
 
 img {
@@ -504,7 +518,9 @@ li,
 .card-overlay-middle {
   bottom: 150px;
   left: -10%;
-  width: 50%;
+  width: 300px;
+  height: 220px;
+  object-fit: cover;
 }
 
 .card-overlay-bottom {

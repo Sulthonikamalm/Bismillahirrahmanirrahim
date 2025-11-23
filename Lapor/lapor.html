@@ -15,6 +15,9 @@
     <link rel="stylesheet" href="lapor.css" />
 </head>
 <body>
+    <!-- Skip to main content link for accessibility -->
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
     <!-- ============================================
          NAVBAR (Sama seperti landing page)
          ============================================ -->
@@ -30,7 +33,7 @@
             </div>
             
             <div class="nav-actions">
-                <button class="btn btn-outline-light" onclick="window.location.href='lapor.html'">LAPOR</button>
+                <button class="btn btn-outline-light js-lapor-btn" aria-label="Tombol untuk halaman pelaporan">LAPOR</button>
             </div>
             
             <button class="hamburger" aria-label="Buka menu" aria-controls="primary-navigation" aria-expanded="false">
@@ -42,7 +45,7 @@
     <!-- ============================================
          FORM SECTION
          ============================================ -->
-    <section class="lapor-section">
+    <section class="lapor-section" id="main-content">
         <div class="main-container">
             
             <!-- Progress Indicator -->
