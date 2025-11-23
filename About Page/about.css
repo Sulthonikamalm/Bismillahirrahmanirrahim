@@ -61,7 +61,7 @@
 
 /* Judul Utama - Besar, Putih, Center */
 .about-hero-title {
-  font-family: var(--font-heading);
+  font-family: var(--font-body);
   font-size: clamp(3rem, 8vw, 6rem);
   font-weight: 800;
   color: #ffffff;
