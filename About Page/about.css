@@ -32,22 +32,29 @@
   z-index: -2;
 }
 
-/* Overlay dengan warna #558198 opacity 30% + Smooth Gradient Fade - Layer 2 */
+/* Overlay dengan Premium Radial Gradient + Vignette Effect - Layer 2 */
 .about-hero-overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    to bottom,
-    rgba(85, 129, 152, 0.3) 0%,
-    rgba(85, 129, 152, 0.3) 60%,
-    rgba(85, 129, 152, 0.4) 75%,
-    rgba(85, 129, 152, 0.6) 88%,
-    rgba(255, 255, 255, 0.9) 97%,
-    rgba(255, 255, 255, 1) 100%
-  );
+  background:
+    /* Radial gradient untuk vignette effect (focus di center) */
+    radial-gradient(
+      ellipse at center,
+      rgba(85, 129, 152, 0.25) 0%,
+      rgba(85, 129, 152, 0.35) 50%,
+      rgba(85, 129, 152, 0.45) 100%
+    ),
+    /* Linear gradient untuk smooth fade ke section berikutnya */
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      transparent 75%,
+      rgba(255, 255, 255, 0.15) 90%,
+      rgba(255, 255, 255, 0.4) 100%
+    );
   z-index: -1;
 }
 
