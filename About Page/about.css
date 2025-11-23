@@ -10,8 +10,8 @@
 .about-hero {
   position: relative;
   width: 100%;
-  height: 100vh;
-  min-height: 700px;
+  height: 80vh;
+  min-height: 560px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -494,8 +494,8 @@
 /* Tablet & Medium Screens */
 @media (max-width: 992px) {
   .about-hero {
-    min-height: 600px;
-    height: 90vh;
+    min-height: 480px;
+    height: 70vh;
   }
 
   .about-hero-title {
@@ -532,8 +532,8 @@
 /* Mobile Screens */
 @media (max-width: 768px) {
   .about-hero {
-    min-height: 550px;
-    height: 100vh;
+    min-height: 440px;
+    height: 80vh;
   }
 
   .about-hero-content {
@@ -580,7 +580,7 @@
 /* Extra Small Mobile */
 @media (max-width: 480px) {
   .about-hero {
-    min-height: 500px;
+    min-height: 400px;
   }
 
   .about-hero-title {
@@ -610,7 +610,7 @@
 @media (max-height: 500px) and (orientation: landscape) {
   .about-hero {
     height: auto;
-    min-height: 450px;
+    min-height: 360px;
     padding: 100px 0 60px;
   }
 
