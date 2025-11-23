@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>About - Sigap PPKPT</title>
+  <title>Tentang Kami - Sigap PPKPT</title>
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
@@ -26,14 +26,17 @@
       <a class="logo" href="../Landing Page/Landing_Page.html">Sigap</a>
 
       <div class="nav-links" id="primary-navigation">
-        <a class="nav-item active" href="about.html" class="active">ABOUT</a>
+        <a class="nav-item active" href="about.html">TENTANG KAMI</a>
         <a class="nav-item" href="../Cara Lapor/cara-lapor.html">CARA LAPOR</a>
-        <a class="nav-item" href="#r">KAPAN HARUS LAPOR?</a>
+        <a class="nav-item" href="../Landing Page/Landing_Page.html#kapanLapor">KAPAN HARUS LAPOR?</a>
         <a class="nav-item" href="../Monitoring/monitoring.html">MONITORING</a>
       </div>
 
       <div class="nav-actions">
-        <button class="btn btn-outline-light" onclick="window.location.href='../Lapor/lapor.html'">LAPOR</button>
+        <button class="btn btn-outline-light js-lapor-about" aria-label="Buka halaman pelaporan">LAPOR</button>
+        <div class="social-icons" aria-label="Ikon aksesibilitas">
+          <i class="fas fa-universal-access" aria-hidden="true"></i>
+        </div>
       </div>
 
       <button class="hamburger" aria-label="Buka menu" aria-controls="primary-navigation" aria-expanded="false">
@@ -42,27 +45,48 @@
     </div>
   </nav>
 
-  <!-- HERO ABOUT -->
-  <section class="about-hero section-padding">
-    <div class="main-container about-hero-grid">
-      <div class="about-hero-text reveal" data-reveal>
-        <h1 class="main-title">Satgas PPKPT</h1>
-        <p class="description">
-          Satgas PPKPT Telkom University Surabaya adalah lembaga kampus yang memastikan terciptanya lingkungan akademik yang aman, setara, dan bebas dari kekerasan seksual, sesuai dengan Permendikbudristek No. 30 Tahun 2021.
-        </p>
-        <div class="tulisan">
-          <a class="logo" href="#">Sigap</a>
-          <div class="social-icons">
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-youtube"></i></a>
+  <!-- Skip to main content link for accessibility -->
+  <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+  <!-- HERO ABOUT - REDESIGNED WITH VIDEO BACKGROUND -->
+  <section class="about-hero" id="main-content">
+    <!-- Background Video -->
+    <video class="about-hero-video" autoplay muted loop playsinline>
+      <source src="../Video/background.webm" type="video/webm">
+      Your browser does not support the video tag.
+    </video>
+
+    <!-- Overlay with #558198 at 30% opacity -->
+    <div class="about-hero-overlay"></div>
+
+    <!-- Content -->
+    <div class="about-hero-content">
+      <div class="main-container">
+        <div class="about-hero-text-center reveal" data-reveal>
+          <h1 class="about-hero-title">Tentang Kami</h1>
+          <p class="about-hero-subtitle">
+            Satgas PPKPT Telkom University Surabaya
+          </p>
+          <p class="about-hero-description">
+            Lembaga kampus yang memastikan terciptanya lingkungan akademik yang aman, setara,
+            dan bebas dari kekerasan seksual, sesuai dengan Permendikbudristek No. 30 Tahun 2021.
+          </p>
+          <div class="about-hero-socials">
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
           </div>
         </div>
       </div>
-      <div class="about-hero-img reveal" data-reveal>
-        <img src="../Gambar/Gambar1.png" alt="Ilustrasi Satgas PPKPT" />
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator">
+      <div class="scroll-mouse">
+        <div class="scroll-wheel"></div>
       </div>
+      <p>Scroll untuk lebih lanjut</p>
     </div>
   </section>
 
@@ -207,7 +231,7 @@
     <div class="chatbot-modal-overlay" id="chatbotModalOverlay">
         <div class="chatbot-modal">
             <!-- Mode Selection Screen -->
-            <div class="chatbot-screen mode-selection-screen" id="modeSelectionScreen" style="display: none;">
+            <div class="chatbot-screen mode-selection-screen" id="modeSelectionScreen">
                 <div class="chatbot-modal-header">
                     <h2>Pilih Mode Chat</h2>
                     <button class="btn-close-chatbot" id="btnCloseChatbot">
@@ -270,7 +294,7 @@
                     </div>
 
                     <!-- Typing Indicator -->
-                    <div class="typing-indicator" id="typingIndicator" style="display: none;">
+                    <div class="typing-indicator" id="typingIndicator">
                         <div class="typing-bubble">
                             <div class="typing-dots">
                                 <span></span>
@@ -284,7 +308,7 @@
                 <!-- Chat Input Area -->
                 <div class="chat-input-area">
                     <!-- Voice Recording Mode -->
-                    <div class="voice-recording-mode" id="voiceRecordingMode" style="display: none;">
+                    <div class="voice-recording-mode" id="voiceRecordingMode">
                         <div class="recording-animation">
                             <div class="recording-circle">
                                 <i class="fas fa-microphone"></i>
