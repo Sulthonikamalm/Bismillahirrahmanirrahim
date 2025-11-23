@@ -5,7 +5,7 @@
    Fitur utama: Smooth transitions, reveal on scroll, dan hover effects untuk user experience yang calm.
    ============================================ */
 
-   /* ============================================
+/* ============================================
    FONT LOKAL – F37 CASLON & CAMPTON
    Path: ../Font/...
    Format: woff2 (ringan & modern)
@@ -13,9 +13,9 @@
 
 /* F37 Caslon – ExtraBold (Logo) */
 @font-face {
-  font-family: 'F37 Caslon';
-  src: url('../Font/Caslon/F37Caslon-ExtraBold.woff2') format('woff2'),
-       url('../Font/Caslon/F37Caslon-ExtraBold.woff') format('woff');
+  font-family: "F37 Caslon";
+  src: url("../Font/Caslon/F37Caslon-ExtraBold.woff2") format("woff2"),
+    url("../Font/Caslon/F37Caslon-ExtraBold.woff") format("woff");
   font-weight: 800;
   font-style: normal;
   font-display: swap;
@@ -23,9 +23,9 @@
 
 /* F37 Caslon – SemiBold (Heading) */
 @font-face {
-  font-family: 'F37 Caslon';
-  src: url('../Font/Caslon/F37Caslon-SemiBold.woff2') format('woff2'),
-       url('../Font/Caslon/F37Caslon-SemiBold.woff') format('woff');
+  font-family: "F37 Caslon";
+  src: url("../Font/Caslon/F37Caslon-SemiBold.woff2") format("woff2"),
+    url("../Font/Caslon/F37Caslon-SemiBold.woff") format("woff");
   font-weight: 600;
   font-style: normal;
   font-display: swap;
@@ -33,9 +33,9 @@
 
 /* Campton – Medium (Navbar & Button) */
 @font-face {
-  font-family: 'Campton';
-  src: url('../Font/campton full/Campton-Medium.woff2') format('woff2'),
-       url('../Font/campton full/Campton-Medium.woff') format('woff');
+  font-family: "Campton";
+  src: url("../Font/campton full/Campton-Medium.woff2") format("woff2"),
+    url("../Font/campton full/Campton-Medium.woff") format("woff");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -43,9 +43,9 @@
 
 /* Campton – Book / Regular (Body) */
 @font-face {
-  font-family: 'Campton';
-  src: url('../Font/campton full/Campton-Book.woff2') format('woff2'),
-       url('../Font/campton full/Campton-Book.woff') format('woff');
+  font-family: "Campton";
+  src: url("../Font/campton full/Campton-Book.woff2") format("woff2"),
+    url("../Font/campton full/Campton-Book.woff") format("woff");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -66,20 +66,20 @@
   --color-text-light: #fff;
 
   --max-width: 1200px;
-  --padding-x: 5vw; /* Unit Relatif untuk Padding Horizontal */
+  --padding-x: 5vw;
+  /* Unit Relatif untuk Padding Horizontal */
   /* Calm motion tokens */
   --ease-calm: cubic-bezier(0.22, 0.61, 0.36, 1);
   --dur-quick: 400ms;
   --dur-calm: 720ms;
 
   /* Font */
-  --font-logo: 'F37 Caslon', serif;
-  --font-heading: 'F37 Caslon', serif;
-  --font-nav: 'Campton', sans-serif;
-  --font-body: 'Campton', sans-serif;
+  --font-logo: "F37 Caslon", serif;
+  --font-heading: "F37 Caslon", serif;
+  --font-nav: "Campton", sans-serif;
+  --font-body: "Campton", sans-serif;
 
 }
-
 
 * {
   margin: 0;
@@ -150,6 +150,7 @@ img {
   font-weight: 800;
   margin-bottom: 1rem;
 }
+
 .description,
 p,
 li,
@@ -168,15 +169,19 @@ li,
 .fw-bold {
   font-weight: bold;
 }
+
 .text-white {
   color: var(--color-text-light);
 }
+
 .text-muted {
   color: #000000;
 }
+
 .mt-20 {
   margin-top: 20px;
 }
+
 .mt-40 {
   margin-top: 40px;
 }
@@ -198,6 +203,7 @@ li,
   background-color: var(--color-teal);
   color: var(--color-text-light);
 }
+
 .btn-primary:hover {
   background-color: var(--color-dark-blue);
   color: var(--color-text-light);
@@ -208,6 +214,7 @@ li,
   background: transparent;
   color: var(--color-text-light);
 }
+
 .btn-outline-light:hover {
   background-color: var(--color-text-light);
   color: var(--color-dark-blue);
@@ -218,6 +225,7 @@ li,
   color: var(--color-dark-blue);
   background: transparent;
 }
+
 .btn-outline-dark:hover {
   background-color: #132338;
   color: var(--color-text-light);
@@ -230,7 +238,10 @@ li,
 .card-lapor,
 .card-info,
 .card-pelapor {
-  transition: transform var(--dur-calm) var(--ease-calm), box-shadow var(--dur-calm) var(--ease-calm), background-color var(--dur-calm) var(--ease-calm), color var(--dur-calm) var(--ease-calm);
+  transition: transform var(--dur-calm) var(--ease-calm),
+    box-shadow var(--dur-calm) var(--ease-calm),
+    background-color var(--dur-calm) var(--ease-calm),
+    color var(--dur-calm) var(--ease-calm);
 }
 
 .card:hover,
@@ -249,18 +260,22 @@ li,
   font-size: 1.1rem;
   text-decoration: none;
 }
+
 .clean-list {
   list-style: none;
   padding: 0;
   margin: 0;
 }
+
 .clean-list li {
   margin-bottom: 10px;
   font-size: 1.1rem;
 }
+
 .icon-green {
   color: var(--color-teal);
 }
+
 .icon-primary {
   color: var(--color-teal);
   font-size: 3rem;
@@ -272,17 +287,16 @@ li,
 .asw-footer a {
   display: none !important;
 }
+
 .asw-footer span {
   display: none !important;
 }
 
 .header-bg {
-  background: linear-gradient(
-    135deg,
-    var(--color-dark-blue) 0%,
-    #4a71a5 40%,
-    #8c9da2 100%
-  );
+  background: linear-gradient(135deg,
+      var(--color-dark-blue) 0%,
+      #4a71a5 40%,
+      #8c9da2 100%);
   color: var(--color-text-light);
 }
 
@@ -293,7 +307,8 @@ li,
   width: 100%;
   z-index: 1000;
   padding: 10px 0;
-  transition: background var(--dur-calm) var(--ease-calm), backdrop-filter var(--dur-calm) var(--ease-calm);
+  transition: background var(--dur-calm) var(--ease-calm),
+    backdrop-filter var(--dur-calm) var(--ease-calm);
 }
 
 /* Navbar transparency on scroll (calm) */
@@ -313,7 +328,7 @@ li,
    Tanpa garis bawah | Hitam | F37 Caslon ExtraBold
    ============================================ */
 .logo {
-  font-family: 'F37 Caslon', serif !important;
+  font-family: "F37 Caslon", serif !important;
   font-weight: 800 !important;
   font-size: 2.2rem !important;
   letter-spacing: -1px;
@@ -371,7 +386,8 @@ li,
 }
 
 .hamburger {
-  display: none; /* Sembunyikan di desktop */
+  display: none;
+  /* Sembunyikan di desktop */
   font-size: 1.5rem;
   background: none;
   border: none;
@@ -384,7 +400,8 @@ li,
 .hero-section {
   padding-top: 120px;
   min-height: 80vh;
-  display: flex; /* Memastikan konten hero berada di tengah secara vertikal */
+  display: flex;
+  /* Memastikan konten hero berada di tengah secara vertikal */
   align-items: center;
 }
 
@@ -423,6 +440,7 @@ li,
   z-index: 5;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
+
 .box-green {
   background-color: var(--color-green);
   width: 100%;
@@ -432,6 +450,7 @@ li,
   z-index: 20;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
+
 .box-teal {
   background-color: var(--color-teal);
   width: 75%;
@@ -458,8 +477,15 @@ li,
 }
 
 @keyframes floatSoft {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
 }
 
 .card-overlay {
@@ -471,6 +497,7 @@ li,
   position: absolute;
   z-index: 20;
 }
+
 .card-overlay2 {
   padding: 5px 15px;
   height: 150px;
@@ -481,11 +508,13 @@ li,
   position: absolute;
   z-index: 20;
 }
+
 .card-overlay-top {
   bottom: 370px;
   left: -10%;
   width: 40%;
 }
+
 .card-overlay-middle {
   bottom: 150px;
   left: -10%;
@@ -493,6 +522,7 @@ li,
   height: 220px;
   object-fit: cover;
 }
+
 .card-overlay-bottom {
   bottom: 40px;
   left: -10%;
@@ -517,9 +547,11 @@ li,
 .card-blue-light {
   background-color: var(--color-mid-blue);
 }
+
 .card-green-teal {
   background-color: var(--color-teal);
 }
+
 .card-purple-dark {
   background-color: var(--color-purple);
 }
@@ -542,12 +574,15 @@ li,
   font-size: 1.5rem;
   margin-right: 20px;
 }
+
 .pelapor-icon-circle .fa-users {
   color: var(--color-mid-blue);
 }
+
 .pelapor-icon-circle .fa-hand-holding-heart {
   color: var(--color-teal);
 }
+
 .pelapor-icon-circle .fa-shield-alt {
   color: var(--color-purple);
 }
@@ -563,15 +598,18 @@ li,
   margin: 0;
   font-size: 0.9rem;
 }
-.gambar{
+
+.gambar {
   height: 100px;
 }
+
 /* === Reveal on Scroll (calm fade-in) === */
 /* Dokumentasi: Efek reveal menggunakan IntersectionObserver untuk animasi masuk elemen saat scroll. */
 .reveal {
   opacity: 0;
   transform: translateY(16px);
-  transition: opacity var(--dur-calm) var(--ease-calm), transform var(--dur-calm) var(--ease-calm);
+  transition: opacity var(--dur-calm) var(--ease-calm),
+    transform var(--dur-calm) var(--ease-calm);
 }
 
 .reveal.is-visible {
@@ -598,10 +636,12 @@ li,
   background: transparent;
   padding: 8px 20px;
 }
+
 .btn-tab:hover {
   background-color: var(--color-dark-blue);
   color: var(--color-text-light);
 }
+
 .btn-tab.active {
   background-color: var(--color-teal);
   color: var(--color-text-light);
@@ -621,6 +661,7 @@ li,
   text-align: center;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
+
 .step-number {
   font-weight: bold;
 }
@@ -659,9 +700,11 @@ li,
   font-weight: bold;
   margin-bottom: 10px;
 }
+
 .card-text {
   margin-bottom: 20px;
 }
+
 /* === 7. MONITORING (FLEXBOX) === */
 /* Dokumentasi: Layout flex untuk form monitoring dan deskripsi, dengan input group responsif. */
 .section-purple {
@@ -771,13 +814,17 @@ li,
 .faq-answer {
   padding: 15px;
   background-color: var(--color-text-light);
-  display: none; /* default hidden */
+  display: none;
+  /* default hidden */
   overflow: hidden;
   opacity: 0;
-  transition: height var(--dur-calm) var(--ease-calm), opacity var(--dur-quick) var(--ease-calm);
+  transition: height var(--dur-calm) var(--ease-calm),
+    opacity var(--dur-quick) var(--ease-calm);
 }
+
 .faq-answer.show {
-  display: block; /* Tampilkan default yang pertama */
+  display: block;
+  /* Tampilkan default yang pertama */
   opacity: 1;
 }
 
@@ -812,6 +859,7 @@ li,
   text-decoration: none;
   font-size: 0.95rem;
 }
+
 .footer-col a:hover {
   text-decoration: underline;
 }
@@ -828,6 +876,7 @@ li,
 
 /* === BARU: Hilangkan card overlay di bawah 770px === */
 @media (max-width: 769px) {
+
   .card-overlay-top,
   .card-overlay-middle,
   .card-overlay-bottom,
@@ -839,7 +888,8 @@ li,
 /* === BARU: Rapikan navbar di bawah 1016px (breakpoint utama untuk mode responsive) === */
 @media (max-width: 1015px) {
   .hamburger {
-    display: flex !important; /* Tampilkan hamburger lebih awal */
+    display: flex !important;
+    /* Tampilkan hamburger lebih awal */
     align-items: center;
     justify-content: center;
     width: 44px;
@@ -859,7 +909,8 @@ li,
   }
 
   .nav-links {
-    display: none; /* Sembunyikan nav-links di desktop mode, tapi akan ditampilkan via JS untuk mobile */
+    display: none;
+    /* Sembunyikan nav-links di desktop mode, tapi akan ditampilkan via JS untuk mobile */
     flex-direction: column;
     position: absolute;
     top: 100%;
@@ -867,7 +918,8 @@ li,
     background: rgba(19, 35, 56, 0.95);
     width: 100%;
     padding: 20px;
-    gap: 10px; /* Kurangi gap untuk lebih rapi */
+    gap: 10px;
+    /* Kurangi gap untuk lebih rapi */
     text-align: center;
     transition: transform 0.3s ease;
   }
@@ -877,28 +929,34 @@ li,
   }
 
   .nav-links .nav-item {
-    padding: 10px 15px; /* Kurangi padding untuk compact */
-    font-size: 1rem; /* Kurangi font size */
+    padding: 10px 15px;
+    /* Kurangi padding untuk compact */
+    font-size: 1rem;
+    /* Kurangi font size */
     border-radius: 8px;
   }
 
   .nav-actions {
-    gap: 10px; /* Kurangi gap untuk rapi */
+    gap: 10px;
+    /* Kurangi gap untuk rapi */
   }
 
   .nav-actions .btn {
-    padding: 8px 16px; /* Compact button */
+    padding: 8px 16px;
+    /* Compact button */
     font-size: 0.95rem;
   }
 
   .nav-content {
-    padding: 0 16px; /* Tambah padding sisi untuk rapi */
-    gap: 10px; /* Kurangi gap keseluruhan */
+    padding: 0 16px;
+    /* Tambah padding sisi untuk rapi */
+    gap: 10px;
+    /* Kurangi gap keseluruhan */
   }
 
   /* Overlay when menu open */
   body.menu-open::before {
-    content: '';
+    content: "";
     position: fixed;
     top: 0;
     left: 0;
@@ -910,8 +968,13 @@ li,
   }
 
   @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
   }
 
   body.menu-open {
@@ -927,6 +990,7 @@ li,
 
 /* === TABLET (768px and below) - Adjust existing for better responsiveness === */
 @media (max-width: 768px) {
+
   /* Hero adjustments */
   .hero-section {
     padding-top: 100px;
@@ -1105,12 +1169,14 @@ li,
   .logo {
     font-size: 1.4rem;
   }
-.navbar,
-.nav-links .nav-item,
-.nav-actions .btn {
-  font-family: var(--font-nav) !important;
-  font-weight: 500 !important;
-}
+
+  .navbar,
+  .nav-links .nav-item,
+  .nav-actions .btn {
+    font-family: var(--font-nav) !important;
+    font-weight: 500 !important;
+  }
+
   .nav-links {
     padding: 70px 20px 20px 20px;
   }
@@ -1144,13 +1210,20 @@ li,
   .main-title {
     font-size: 1.8rem;
   }
+
   .main-title,
-.section-title,
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading) !important;
-  font-weight: 600 !important;
-  line-height: 1.3;
-}
+  .section-title,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading) !important;
+    font-weight: 600 !important;
+    line-height: 1.3;
+  }
+
   .hero-illustration {
     height: 250px;
   }
@@ -1289,6 +1362,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* === ACCESSIBILITY - TOUCH TARGETS === */
 @media (hover: none) and (pointer: coarse) {
+
   .btn,
   .nav-item,
   .faq-button {
@@ -1309,6 +1383,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* === PRINT STYLES === */
 @media print {
+
   .navbar,
   .hamburger,
   .btn,
@@ -1332,6 +1407,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* === PERFORMANCE - REDUCE ANIMATIONS ON LOW-END === */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -1389,6 +1465,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Fix for any stray tooltips or dropdowns */
 @media (max-width: 1015px) {
+
   [role="tooltip"],
   .tooltip,
   [data-tooltip] {
