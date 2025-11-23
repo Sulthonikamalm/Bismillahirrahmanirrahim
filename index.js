@@ -328,7 +328,7 @@
   // Dokumentasi: Event listeners untuk tombol LAPOR yang mengarah ke halaman pelaporan.
   // Menggantikan inline onclick handlers untuk clean code dan aksesibilitas.
   // ============================================
-  const laporButtons = document.querySelectorAll('.js-lapor-nav, .js-lapor-hero, .js-lapor-monitoring');
+  const laporButtons = document.querySelectorAll('.js-lapor-nav, .js-lapor-hero, .js-lapor-monitoring, .js-lapor-about');
   laporButtons.forEach(button => {
     button.addEventListener('click', function(e) {
       e.preventDefault();
