@@ -1,1310 +1,428 @@
 <!DOCTYPE html>
 <html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SIGAP PPKPT - Satgas Pencegahan dan Penanganan Kekerasan</title>
-    <meta name="description" content="Sistem Informasi Gangguan dan Penanganan Perlindungan Perempuan dan Perlindungan Anak Terpadu">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Satgas PPKPT</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
     <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="../About Page/about.css" />
+
+    <!-- FAB Sigap Styles -->
     <link rel="stylesheet" href="../FABsigap/fabsigap.css" />
+
+    <!-- ChatBot Styles -->
     <link rel="stylesheet" href="../ChatBot/chatbot.css" />
-
-    <style>
-        /* Modern Landing Page Styles with Parallax */
-        :root {
-            --brand-darkest: #031716;
-            --brand-dark: #032F30;
-            --brand-teal: #0A7075;
-            --brand-cyan: #0C969C;
-            --brand-blue: #6BA3BE;
-            --brand-navy: #274D60;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            overflow-x: hidden;
-        }
-
-        /* Navbar with backdrop blur */
-        .modern-navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            padding: 1.2rem 5%;
-            background: rgba(3, 23, 22, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .modern-navbar.scrolled {
-            background: rgba(3, 23, 22, 0.95);
-            padding: 0.8rem 5%;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-        }
-
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: white;
-            text-decoration: none;
-            letter-spacing: 1px;
-        }
-
-        .nav-menu {
-            display: flex;
-            gap: 2.5rem;
-            align-items: center;
-        }
-
-        .nav-link {
-            color: rgba(255, 255, 255, 0.9);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.95rem;
-            position: relative;
-            transition: color 0.3s;
-        }
-
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--brand-cyan);
-            transition: width 0.3s;
-        }
-
-        .nav-link:hover {
-            color: var(--brand-cyan);
-        }
-
-        .nav-link:hover::after {
-            width: 100%;
-        }
-
-        .btn-report {
-            padding: 0.7rem 1.8rem;
-            background: linear-gradient(135deg, var(--brand-cyan), var(--brand-teal));
-            color: white;
-            border: none;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(12, 150, 156, 0.3);
-        }
-
-        .btn-report:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(12, 150, 156, 0.4);
-        }
-
-        .hamburger {
-            display: none;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-
-        /* Parallax Hero Section */
-        .parallax-hero {
-            position: relative;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            overflow: hidden;
-            background: linear-gradient(135deg, var(--brand-darkest) 0%, var(--brand-dark) 50%, var(--brand-teal) 100%);
-        }
-
-        .parallax-layer {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-        }
-
-        .parallax-bg {
-            background-image:
-                radial-gradient(circle at 20% 30%, rgba(12, 150, 156, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(107, 163, 190, 0.15) 0%, transparent 50%);
-        }
-
-        .floating-shape {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.03);
-            animation: float 20s infinite ease-in-out;
-        }
-
-        .shape-1 { width: 400px; height: 400px; top: 10%; left: 5%; animation-delay: 0s; }
-        .shape-2 { width: 300px; height: 300px; top: 60%; right: 10%; animation-delay: 3s; }
-        .shape-3 { width: 250px; height: 250px; bottom: 10%; left: 30%; animation-delay: 6s; }
-
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(30px, -30px) scale(1.1); }
-            66% { transform: translate(-20px, 20px) scale(0.9); }
-        }
-
-        .hero-content-wrapper {
-            position: relative;
-            z-index: 10;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 5%;
-            display: grid;
-            grid-template-columns: 1.2fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        .hero-text {
-            animation: fadeInUp 1s ease-out;
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .hero-subtitle {
-            display: inline-block;
-            padding: 0.5rem 1.2rem;
-            background: rgba(12, 150, 156, 0.2);
-            border: 1px solid rgba(12, 150, 156, 0.3);
-            border-radius: 50px;
-            color: var(--brand-cyan);
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            backdrop-filter: blur(10px);
-        }
-
-        .hero-title {
-            font-size: 4.5rem;
-            font-weight: 800;
-            color: white;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, #ffffff, var(--brand-blue));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero-description {
-            font-size: 1.25rem;
-            color: rgba(255, 255, 255, 0.85);
-            line-height: 1.8;
-            margin-bottom: 2.5rem;
-            max-width: 600px;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-        }
-
-        .btn-primary-lg {
-            padding: 1rem 2.5rem;
-            background: linear-gradient(135deg, var(--brand-cyan), var(--brand-teal));
-            color: white;
-            border: none;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 8px 25px rgba(12, 150, 156, 0.3);
-        }
-
-        .btn-primary-lg:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(12, 150, 156, 0.4);
-        }
-
-        .btn-secondary-lg {
-            padding: 1rem 2.5rem;
-            background: transparent;
-            color: white;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            backdrop-filter: blur(10px);
-        }
-
-        .btn-secondary-lg:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: white;
-        }
-
-        .hero-visual {
-            position: relative;
-            animation: fadeInRight 1s ease-out 0.3s backwards;
-        }
-
-        @keyframes fadeInRight {
-            from { opacity: 0; transform: translateX(40px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        .hero-image-main {
-            width: 100%;
-            border-radius: 30px;
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
-        }
-
-        .floating-card {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 1.5rem;
-            border-radius: 20px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
-            animation: floatCard 6s infinite ease-in-out;
-        }
-
-        @keyframes floatCard {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-
-        .card-top-left {
-            top: -20px;
-            left: -30px;
-            animation-delay: 0s;
-        }
-
-        .card-bottom-right {
-            bottom: -20px;
-            right: -30px;
-            animation-delay: 3s;
-        }
-
-        .card-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--brand-cyan), var(--brand-teal));
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            margin-bottom: 0.8rem;
-        }
-
-        .card-stat {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: var(--brand-darkest);
-            margin-bottom: 0.3rem;
-        }
-
-        .card-label {
-            font-size: 0.85rem;
-            color: #666;
-            font-weight: 500;
-        }
-
-        /* Stats Section with Counter Animation */
-        .stats-section {
-            padding: 5rem 5%;
-            background: #f8f9fa;
-            position: relative;
-        }
-
-        .stats-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 3rem;
-        }
-
-        .stat-card {
-            background: white;
-            padding: 3rem 2rem;
-            border-radius: 24px;
-            text-align: center;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            cursor: pointer;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-            border-color: var(--brand-cyan);
-        }
-
-        .stat-icon-wrapper {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 1.5rem;
-            background: linear-gradient(135deg, var(--brand-cyan), var(--brand-teal));
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            color: white;
-            transition: transform 0.4s;
-        }
-
-        .stat-card:hover .stat-icon-wrapper {
-            transform: scale(1.1) rotate(5deg);
-        }
-
-        .stat-number {
-            font-size: 3.5rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--brand-cyan), var(--brand-teal));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-text {
-            font-size: 1.1rem;
-            color: #666;
-            font-weight: 500;
-        }
-
-        /* How to Report Section */
-        .how-to-section {
-            padding: 6rem 5%;
-            background: linear-gradient(135deg, var(--brand-darkest), var(--brand-dark));
-            position: relative;
-            overflow: hidden;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .section-tag {
-            display: inline-block;
-            padding: 0.5rem 1.2rem;
-            background: rgba(12, 150, 156, 0.2);
-            border: 1px solid rgba(12, 150, 156, 0.3);
-            border-radius: 50px;
-            color: var(--brand-cyan);
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-
-        .section-title {
-            font-size: 3rem;
-            font-weight: 800;
-            color: white;
-            margin-bottom: 1rem;
-        }
-
-        .section-desc {
-            font-size: 1.2rem;
-            color: rgba(255, 255, 255, 0.7);
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .steps-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2rem;
-        }
-
-        .step-item {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
-            padding: 2.5rem 2rem;
-            text-align: center;
-            transition: all 0.4s;
-            position: relative;
-        }
-
-        .step-item::before {
-            content: '';
-            position: absolute;
-            top: -1px;
-            left: -1px;
-            right: -1px;
-            bottom: -1px;
-            border-radius: 24px;
-            background: linear-gradient(135deg, var(--brand-cyan), var(--brand-teal));
-            opacity: 0;
-            transition: opacity 0.4s;
-            z-index: -1;
-        }
-
-        .step-item:hover::before {
-            opacity: 1;
-        }
-
-        .step-item:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .step-number {
-            width: 60px;
-            height: 60px;
-            margin: 0 auto 1.5rem;
-            background: linear-gradient(135deg, var(--brand-cyan), var(--brand-teal));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: white;
-        }
-
-        .step-icon {
-            font-size: 2.5rem;
-            color: var(--brand-cyan);
-            margin-bottom: 1rem;
-        }
-
-        .step-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 0.8rem;
-        }
-
-        .step-desc {
-            font-size: 0.95rem;
-            color: rgba(255, 255, 255, 0.7);
-            line-height: 1.6;
-        }
-
-        /* When to Report Section */
-        .when-section {
-            padding: 6rem 5%;
-            background: white;
-        }
-
-        .when-container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .when-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2.5rem;
-            margin-top: 3rem;
-        }
-
-        .when-card {
-            background: white;
-            border-radius: 24px;
-            overflow: hidden;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-            transition: all 0.4s;
-            border: 1px solid rgba(0, 0, 0, 0.05);
-        }
-
-        .when-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
-        }
-
-        .when-img {
-            width: 100%;
-            height: 240px;
-            object-fit: cover;
-        }
-
-        .when-content {
-            padding: 2rem;
-        }
-
-        .when-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--brand-darkest);
-            margin-bottom: 1rem;
-        }
-
-        .when-text {
-            font-size: 1rem;
-            color: #666;
-            line-height: 1.7;
-            margin-bottom: 1.5rem;
-        }
-
-        .learn-more {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--brand-cyan);
-            font-weight: 600;
-            text-decoration: none;
-            transition: gap 0.3s;
-        }
-
-        .learn-more:hover {
-            gap: 1rem;
-        }
-
-        /* Monitoring Section */
-        .monitoring-section {
-            padding: 6rem 5%;
-            background: linear-gradient(135deg, var(--brand-teal), var(--brand-cyan));
-            position: relative;
-        }
-
-        .monitoring-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        .monitoring-content h2 {
-            font-size: 3rem;
-            font-weight: 800;
-            color: white;
-            margin-bottom: 1.5rem;
-        }
-
-        .monitoring-content p {
-            font-size: 1.2rem;
-            color: rgba(255, 255, 255, 0.9);
-            line-height: 1.8;
-            margin-bottom: 2rem;
-        }
-
-        .monitoring-features {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .feature-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            color: white;
-            font-size: 1.1rem;
-        }
-
-        .feature-icon {
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .monitoring-card {
-            background: white;
-            padding: 3rem;
-            border-radius: 24px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-        }
-
-        .monitoring-card h3 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--brand-darkest);
-            margin-bottom: 1rem;
-        }
-
-        .input-group-modern {
-            display: flex;
-            gap: 1rem;
-            margin-top: 2rem;
-        }
-
-        .input-modern {
-            flex: 1;
-            padding: 1rem 1.5rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            font-size: 1rem;
-            transition: all 0.3s;
-        }
-
-        .input-modern:focus {
-            outline: none;
-            border-color: var(--brand-cyan);
-            box-shadow: 0 0 0 4px rgba(12, 150, 156, 0.1);
-        }
-
-        .btn-check {
-            padding: 1rem 2rem;
-            background: linear-gradient(135deg, var(--brand-cyan), var(--brand-teal));
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-
-        .btn-check:hover {
-            transform: translateX(5px);
-        }
-
-        /* FAQ Section */
-        .faq-section {
-            padding: 6rem 5%;
-            background: #f8f9fa;
-        }
-
-        .faq-container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .faq-list {
-            margin-top: 3rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .faq-item {
-            background: white;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            transition: box-shadow 0.3s;
-        }
-
-        .faq-item:hover {
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-        }
-
-        .faq-question {
-            width: 100%;
-            padding: 1.5rem 2rem;
-            background: white;
-            border: none;
-            text-align: left;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--brand-darkest);
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: background 0.3s;
-        }
-
-        .faq-question:hover {
-            background: #f8f9fa;
-        }
-
-        .faq-icon {
-            transition: transform 0.3s;
-            color: var(--brand-cyan);
-        }
-
-        .faq-item.active .faq-icon {
-            transform: rotate(180deg);
-        }
-
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out;
-        }
-
-        .faq-item.active .faq-answer {
-            max-height: 300px;
-        }
-
-        .faq-answer-content {
-            padding: 0 2rem 1.5rem;
-            color: #666;
-            line-height: 1.7;
-        }
-
-        /* Footer */
-        .modern-footer {
-            background: var(--brand-darkest);
-            color: white;
-            padding: 4rem 5% 2rem;
-        }
-
-        .footer-grid {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 3rem;
-            margin-bottom: 3rem;
-        }
-
-        .footer-brand h3 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
-
-        .footer-brand p {
-            color: rgba(255, 255, 255, 0.7);
-            line-height: 1.7;
-            margin-bottom: 1.5rem;
-        }
-
-        .footer-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-        }
-
-        .footer-links {
-            display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
-        }
-
-        .footer-link {
-            color: rgba(255, 255, 255, 0.7);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .footer-link:hover {
-            color: var(--brand-cyan);
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .social-icon {
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-
-        .social-icon:hover {
-            background: var(--brand-cyan);
-            transform: translateY(-3px);
-        }
-
-        .footer-bottom {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            text-align: center;
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        /* Scroll to Top Button */
-        .scroll-top {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--brand-cyan), var(--brand-teal));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            cursor: pointer;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(12, 150, 156, 0.3);
-            z-index: 999;
-        }
-
-        .scroll-top.show {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .scroll-top:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 25px rgba(12, 150, 156, 0.4);
-        }
-
-        /* Responsive Design */
-        @media (max-width: 1200px) {
-            .hero-title { font-size: 3.5rem; }
-            .hero-content-wrapper { gap: 3rem; }
-            .stats-container { grid-template-columns: repeat(3, 1fr); }
-            .steps-container { grid-template-columns: repeat(2, 1fr); }
-        }
-
-        @media (max-width: 968px) {
-            .nav-menu {
-                position: fixed;
-                top: 80px;
-                left: -100%;
-                flex-direction: column;
-                background: rgba(3, 23, 22, 0.98);
-                width: 100%;
-                padding: 2rem;
-                transition: left 0.3s;
-                align-items: flex-start;
-            }
-
-            .nav-menu.active {
-                left: 0;
-            }
-
-            .hamburger {
-                display: block;
-            }
-
-            .hero-content-wrapper {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-
-            .hero-text {
-                order: 2;
-            }
-
-            .hero-visual {
-                order: 1;
-            }
-
-            .hero-title { font-size: 2.8rem; }
-            .hero-buttons { justify-content: center; }
-
-            .stats-container { grid-template-columns: 1fr; }
-            .steps-container { grid-template-columns: 1fr; }
-            .when-grid { grid-template-columns: 1fr; }
-            .monitoring-container { grid-template-columns: 1fr; }
-            .footer-grid { grid-template-columns: 1fr; }
-        }
-
-        @media (max-width: 640px) {
-            .hero-title { font-size: 2.2rem; }
-            .section-title { font-size: 2rem; }
-            .btn-primary-lg, .btn-secondary-lg {
-                padding: 0.8rem 1.8rem;
-                font-size: 1rem;
-            }
-        }
-
-        /* Animations for scroll reveal */
-        .scroll-reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease-out;
-        }
-
-        .scroll-reveal.revealed {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    </style>
-</head>
-<body>
-    <!-- Modern Navbar -->
-    <nav class="modern-navbar">
-        <div class="nav-container">
-            <a href="#" class="logo">SIGAP</a>
-            <div class="nav-menu" id="navMenu">
-                <a href="../About Page/about.html" class="nav-link">Tentang</a>
-                <a href="../Cara Lapor/cara-lapor.html" class="nav-link">Cara Lapor</a>
-                <a href="#when-to-report" class="nav-link">Kapan Lapor</a>
-                <a href="../Monitoring/monitoring.html" class="nav-link">Monitoring</a>
-                <button class="btn-report" onclick="window.location.href='../Lapor/lapor.html'">LAPOR SEKARANG</button>
-            </div>
-            <button class="hamburger" id="hamburger">
-                <i class="fas fa-bars"></i>
-            </button>
+  </head>
+  <body>
+    <!-- NAVBAR START -->
+    <!-- Dokumentasi: Navbar ini adalah navigasi utama situs, dengan logo, link navigasi, tombol lapor, dan ikon sosial. Mendukung mode mobile dengan hamburger menu. -->
+    <nav
+      class="navbar header-bg fixed-top"
+      role="navigation"
+      aria-label="Navigasi Utama"
+    >
+      <div class="main-container nav-content">
+        <a class="logo" href="#">Sigap</a>
+
+        <div class="nav-links" id="primary-navigation">
+          <a class="nav-item" href="../About Page/about.html">ABOUT</a>
+          <a class="nav-item" href="../Cara Lapor/cara-lapor.html">CARA LAPOR</a>
+          <a class="nav-item" href="#kapanLapor">KAPAN HARUS LAPOR?</a>
+          <a class="nav-item" href="../Monitoring/monitoring.html">MONITORING</a>
         </div>
+
+        <div class="nav-actions">
+          <button class="btn btn-outline-light" onclick="window.location.href='../Lapor/lapor.html'">LAPOR</button>
+          <div class="social-icons">
+            <img src="" alt="Gambar Difabel" />
+          </div>
+        </div>
+
+        <button
+          class="hamburger"
+          aria-label="Buka menu"
+          aria-controls="primary-navigation"
+          aria-expanded="false"
+        >
+          &#9776;
+        </button>
+      </div>
     </nav>
+    <!-- NAVBAR END -->
 
-    <!-- Parallax Hero Section -->
-    <section class="parallax-hero">
-        <div class="parallax-layer parallax-bg"></div>
-        <div class="floating-shape shape-1"></div>
-        <div class="floating-shape shape-2"></div>
-        <div class="floating-shape shape-3"></div>
-
-        <div class="hero-content-wrapper">
-            <div class="hero-text">
-                <div class="hero-subtitle">Satgas PPKPT Telkom University</div>
-                <h1 class="hero-title">Lingkungan Kampus Aman dan Bebas Kekerasan</h1>
-                <p class="hero-description">
-                    Kami berkomitmen menciptakan lingkungan akademik yang aman, setara, dan bebas dari kekerasan seksual sesuai Permendikbudristek No. 30 Tahun 2021.
-                </p>
-                <div class="hero-buttons">
-                    <button class="btn-primary-lg" onclick="window.location.href='../Lapor/lapor.html'">
-                        <i class="fas fa-shield-alt"></i> Laporkan Sekarang
-                    </button>
-                    <button class="btn-secondary-lg" onclick="window.location.href='../Monitoring/monitoring.html'">
-                        <i class="fas fa-search"></i> Lacak Laporan
-                    </button>
-                </div>
-            </div>
-
-            <div class="hero-visual">
-                <img src="../Gambar/Gambar4.png" alt="Safe Campus Illustration" class="hero-image-main">
-                <div class="floating-card card-top-left">
-                    <div class="card-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <div class="card-stat" data-count="390">0</div>
-                    <div class="card-label">Korban Terlindungi</div>
-                </div>
-                <div class="floating-card card-bottom-right">
-                    <div class="card-icon">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <div class="card-stat" data-count="120">0</div>
-                    <div class="card-label">Kasus Ditangani</div>
-                </div>
-            </div>
+    <!-- HERO START -->
+    <!-- Dokumentasi: Bagian hero ini menampilkan judul utama, deskripsi, tombol lapor, dan ilustrasi dengan overlay card untuk visual menarik. Overlay hilang pada layar kecil untuk responsivitas. -->
+    <header class="header-bg hero-section">
+      <div class="main-container hero-content reveal" data-reveal>
+        <div class="hero-text reveal" data-reveal>
+          <h1 class="main-title">Satgas PPKPT</h1>
+          <p class="description">
+            Satgas PPKPT Telkom University Surabaya adalah lembaga kampus yang
+            memastikan terciptanya lingkungan akademik yang aman, setara, dan
+            bebas dari kekerasan seksual, sesuai dengan Permendikbudristek No.
+            30 Tahun 2021.
+          </p>
+          <button class="btn btn-lg btn-outline-light mt-2" onclick="window.location.href='../Lapor/lapor.html'">LAPOR</button>
         </div>
+
+        <div class="hero-illustration reveal" data-reveal>
+          <img src="../Gambar/Gambar4.png" alt="Gambar Ilustrasi" class="box-blue"/>
+          <div></div>
+          <div class="card-overlay card-overlay-top">Kapan Harus Lapor</div>
+          <img src="../Gambar/Gambar5.png" alt="" srcset="" class="card-overlay2 card-overlay-middle" style="width: 300px ; height: 220px; ">
+          <div class="card-overlay card-overlay-bottom">
+            <div class="">
+              Lorem Ipsum has been the industry's standard dummy text ever since
+              the 1500s, when an unknown printer
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- HERO END -->
+
+    <!-- Dokumentasi: Bagian ini menampilkan statistik jumlah pelapor dalam bentuk grid card, dengan animasi reveal on scroll untuk efek visual. -->
+    <section class="section-padding">
+      <div class="main-container">
+        <h2 class="section-title text-center">Jumlah Pelapor</h2>
+        <div class="stats-grid">
+          <div class="card card-pelapor card-blue-light reveal" data-reveal>
+            <div class="card-inner-flex">
+              <div class="pelapor-icon-circle bg-white">
+                <i class="fas fa-users"></i>
+              </div>
+              <div class="text-content">
+                <h3 class="stat-number" aria-live="polite">6.239</h3>
+                <p class="stat-label">Jumlah Korban Berani Bicara</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card card-pelapor card-green-teal reveal" data-reveal>
+            <div class="card-inner-flex">
+              <div class="pelapor-icon-circle bg-white">
+                <i class="fas fa-hand-holding-heart"></i>
+              </div>
+              <div class="text-content">
+                <h3 class="stat-number" aria-live="polite">120</h3>
+                <p class="stat-label">Pelaporan Diterima</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card card-pelapor card-purple-dark reveal" data-reveal>
+            <div class="card-inner-flex">
+              <div class="pelapor-icon-circle bg-white">
+                <i class="fas fa-shield-alt"></i>
+              </div>
+              <div class="text-content">
+                <h3 class="stat-number" aria-live="polite">390</h3>
+                <p class="stat-label">Korban dalam Perlindungan</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <!-- Statistics Section -->
-    <section class="stats-section">
-        <div class="stats-container">
-            <div class="stat-card scroll-reveal">
-                <div class="stat-icon-wrapper">
-                    <i class="fas fa-users"></i>
-                </div>
-                <div class="stat-number" data-count="6239">0</div>
-                <div class="stat-text">Korban Berani Bicara</div>
-            </div>
-            <div class="stat-card scroll-reveal">
-                <div class="stat-icon-wrapper">
-                    <i class="fas fa-hand-holding-heart"></i>
-                </div>
-                <div class="stat-number" data-count="120">0</div>
-                <div class="stat-text">Pelaporan Diterima</div>
-            </div>
-            <div class="stat-card scroll-reveal">
-                <div class="stat-icon-wrapper">
-                    <i class="fas fa-shield-alt"></i>
-                </div>
-                <div class="stat-number" data-count="390">0</div>
-                <div class="stat-text">Dalam Perlindungan</div>
-            </div>
+    <!-- Dokumentasi: Bagian ini menjelaskan cara lapor dengan tab navigasi dan grid langkah-langkah, mendukung ARIA untuk aksesibilitas. -->
+    <section class="section-yellow section-padding">
+      <div class="main-container">
+        <h2 class="section-title text-center" id="caraLapor">Cara Lapor</h2>
+
+        <div class="tab-nav" role="tablist" aria-label="Cara Lapor">
+          <button class="btn btn-tab" role="tab" aria-selected="true">
+            LAPOR DARING
+          </button>
+          <button class="btn btn-tab" role="tab" aria-selected="false">
+            LAPOR LANGSUNG
+          </button>
+          <button class="btn btn-tab" role="tab" aria-selected="false">
+            LANGKAH PENTING
+          </button>
         </div>
+
+        <div class="steps-grid">
+          <div class="card card-lapor reveal" data-reveal>
+            <i class="fas fa-file-alt icon-primary"></i>
+            <p class="step-number">Langkah 1</p>
+            <p>Isi formulir online yang telah disediakan.</p>
+          </div>
+          <div class="card card-lapor reveal" data-reveal>
+            <i class="fas fa-upload icon-primary"></i>
+            <p class="step-number">Langkah 2</p>
+            <p>Unggah bukti atau informasi pendukung.</p>
+          </div>
+          <div class="card card-lapor reveal" data-reveal>
+            <i class="fas fa-check-circle icon-primary"></i>
+            <p class="step-number">Langkah 3</p>
+            <p>Terima kode pelaporan unik Anda.</p>
+          </div>
+          <div class="card card-lapor reveal" data-reveal>
+            <i class="fas fa-hourglass-half icon-primary"></i>
+            <p class="step-number">Langkah 4</p>
+            <p>Tunggu proses verifikasi dan tindak lanjut.</p>
+          </div>
+        </div>
+
+        <div class="text-center mt-40">
+          <button class="btn btn-outline-dark">Selengkapnya</button>
+        </div>
+      </div>
     </section>
 
-    <!-- How to Report Section -->
-    <section class="how-to-section">
-        <div class="section-header">
-            <div class="section-tag">Panduan Lengkap</div>
-            <h2 class="section-title">Cara Melaporkan</h2>
-            <p class="section-desc">Proses pelaporan yang mudah, aman, dan terpercaya untuk memastikan setiap korban mendapat perlindungan yang layak</p>
-        </div>
+    <!-- Dokumentasi: Bagian ini menjelaskan kapan harus lapor dengan grid card informasi, termasuk gambar ilustrasi untuk setiap kondisi. -->
+    <section class="section-teal section-padding">
+      <div class="main-container">
+        <h2 class="section-title text-center text-white" id="kapanLapor">
+          Kapan Harus Lapor?
+        </h2>
+        <div class="info-grid">
+          <div class="card card-info reveal" data-reveal>
+            <img
+              src="https://via.placeholder.com/400x200.png?text=Ilustrasi+A"
+              alt="Kondisi A"
+            />
+            <div class="card-body">
+              <h5 class="card-title">Kekerasan Verbal</h5>
+              <p class="card-text">
+                Penting untuk segera melapor saat terjadi penghinaan, ancaman,
+                atau ujaran yang merendahkan martabat.
+              </p>
+              <a href="#" class="btn btn-primary">Baca Selengkapnya</a>
+            </div>
+          </div>
 
-        <div class="steps-container">
-            <div class="step-item scroll-reveal">
-                <div class="step-number">1</div>
-                <div class="step-icon"><i class="fas fa-file-alt"></i></div>
-                <div class="step-title">Isi Formulir</div>
-                <div class="step-desc">Lengkapi formulir online dengan informasi yang diperlukan secara aman dan terenkripsi</div>
+          <div class="card card-info reveal" data-reveal>
+            <img
+              src="https://via.placeholder.com/400x200.png?text=Ilustrasi+B"
+              alt="Kondisi B"
+            />
+            <div class="card-body">
+              <h5 class="card-title">Kekerasan Fisik</h5>
+              <p class="card-text">
+                Setiap bentuk kekerasan fisik, baik langsung maupun tidak
+                langsung, harus segera dilaporkan.
+              </p>
+              <a href="#" class="btn btn-primary">Baca Selengkapnya</a>
             </div>
-            <div class="step-item scroll-reveal">
-                <div class="step-number">2</div>
-                <div class="step-icon"><i class="fas fa-upload"></i></div>
-                <div class="step-title">Unggah Bukti</div>
-                <div class="step-desc">Upload dokumen atau bukti pendukung untuk memperkuat laporan Anda</div>
+          </div>
+
+          <div class="card card-info reveal" data-reveal>
+            <img
+              src="https://via.placeholder.com/400x200.png?text=Ilustrasi+C"
+              alt="Kondisi C"
+            />
+            <div class="card-body">
+              <h5 class="card-title">Kekerasan Digital</h5>
+              <p class="card-text">
+                Pelaporan penting dilakukan untuk kasus penyebaran konten intim
+                atau pelecehan online.
+              </p>
+              <a href="#" class="btn btn-primary">Baca Selengkapnya</a>
             </div>
-            <div class="step-item scroll-reveal">
-                <div class="step-number">3</div>
-                <div class="step-icon"><i class="fas fa-check-circle"></i></div>
-                <div class="step-title">Terima Kode</div>
-                <div class="step-desc">Dapatkan kode pelaporan unik untuk memantau perkembangan kasus</div>
-            </div>
-            <div class="step-item scroll-reveal">
-                <div class="step-number">4</div>
-                <div class="step-icon"><i class="fas fa-user-shield"></i></div>
-                <div class="step-title">Tindak Lanjut</div>
-                <div class="step-desc">Tim kami akan segera memverifikasi dan menindaklanjuti laporan Anda</div>
-            </div>
+          </div>
         </div>
+      </div>
     </section>
 
-    <!-- When to Report Section -->
-    <section class="when-section" id="when-to-report">
-        <div class="when-container">
-            <div class="section-header">
-                <div class="section-tag" style="color: var(--brand-cyan); background: rgba(12, 150, 156, 0.1); border-color: var(--brand-cyan);">Informasi Penting</div>
-                <h2 class="section-title" style="color: var(--brand-darkest);">Kapan Harus Melaporkan?</h2>
-                <p class="section-desc" style="color: #666;">Kenali berbagai bentuk kekerasan dan ketahui kapan waktu yang tepat untuk melaporkan</p>
+    <!-- Dokumentasi: Bagian monitoring untuk melacak progress laporan dengan form input dan deskripsi proses. -->
+    <section class="section-purple section-padding" id="monitoring">
+      <div class="main-container monitoring-layout">
+        <div class="monitoring-form-wrapper">
+          <div class="card card-monitoring reveal" data-reveal>
+            <div class="icon-large">🔍</div>
+            <h5 class="fw-bold">Lacak Laporan Anda</h5>
+            <p class="text-muted">
+              Masukkan kode pelaporan Anda untuk memonitor perkembangan kasus.
+            </p>
+
+            <div class="input-group">
+              <input type="text" placeholder="Kode Laporan" id="kodeLaporan" />
+              <button
+                class="btn btn-primary"
+                type="button"
+                id="checkProgressBtn"
+              >
+                Cek Progress
+              </button>
             </div>
-
-            <div class="when-grid">
-                <div class="when-card scroll-reveal">
-                    <img src="../Gambar/Gambar5.png" alt="Kekerasan Verbal" class="when-img">
-                    <div class="when-content">
-                        <h3 class="when-title">Kekerasan Verbal</h3>
-                        <p class="when-text">Penghinaan, ancaman, atau ujaran yang merendahkan martabat harus segera dilaporkan untuk mencegah trauma berkepanjangan.</p>
-                        <a href="#" class="learn-more">
-                            Selengkapnya <i class="fas fa-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="when-card scroll-reveal">
-                    <img src="../Gambar/Gambar3.png" alt="Kekerasan Fisik" class="when-img">
-                    <div class="when-content">
-                        <h3 class="when-title">Kekerasan Fisik</h3>
-                        <p class="when-text">Setiap bentuk kekerasan fisik baik langsung maupun tidak langsung memerlukan penanganan segera dari pihak berwenang.</p>
-                        <a href="#" class="learn-more">
-                            Selengkapnya <i class="fas fa-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="when-card scroll-reveal">
-                    <img src="../Gambar/Gambar4.png" alt="Kekerasan Digital" class="when-img">
-                    <div class="when-content">
-                        <h3 class="when-title">Kekerasan Digital</h3>
-                        <p class="when-text">Penyebaran konten intim tanpa izin atau pelecehan online perlu ditindak untuk melindungi privasi korban.</p>
-                        <a href="#" class="learn-more">
-                            Selengkapnya <i class="fas fa-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
+            <div id="progressStatus" class="mt-20" aria-live="polite"></div>
+          </div>
         </div>
+
+        <div class="monitoring-text-content reveal" data-reveal>
+          <h2 class="main-title">Monitoring Progress Laporan</h2>
+          <h3>Proses Terjamin Aman</h3>
+          <p>
+            Kami menjamin kerahasiaan dan keamanan data pelapor. Sistem
+            monitoring ini dirancang untuk memberikan transparansi tahapan
+            proses tanpa mengungkapkan detail sensitif.
+          </p>
+
+          <ul class="clean-list">
+            <li>
+              <i class="fas fa-check-circle icon-green"></i> Verifikasi Cepat
+            </li>
+            <li><i class="fas fa-lock icon-green"></i> Kerahasiaan Data</li>
+            <li><i class="fas fa-clock icon-green"></i> Pembaruan Real-time</li>
+          </ul>
+
+          <button class="btn btn-outline-light mt-20">Hubungi Satgas</button>
+        </div>
+      </div>
     </section>
 
-    <!-- Monitoring Section -->
-    <section class="monitoring-section">
-        <div class="monitoring-container">
-            <div class="monitoring-content scroll-reveal">
-                <h2>Pantau Perkembangan Laporan Anda</h2>
-                <p>Sistem monitoring transparan yang memungkinkan Anda melacak setiap tahap penanganan kasus secara real-time dengan keamanan data terjamin.</p>
+    <!-- Dokumentasi: Bagian FAQ dengan accordion untuk pertanyaan umum, disertai ilustrasi bantuan. -->
+    <section class="section-grid section-padding">
+      <div class="main-container assistance-layout">
+        <h2 class="section-title text-center">Butuh Bantuan?</h2>
 
-                <div class="monitoring-features">
-                    <div class="feature-item">
-                        <div class="feature-icon">
-                            <i class="fas fa-shield-alt"></i>
-                        </div>
-                        <span>Kerahasiaan data terjamin 100%</span>
-                    </div>
-                    <div class="feature-item">
-                        <div class="feature-icon">
-                            <i class="fas fa-clock"></i>
-                        </div>
-                        <span>Update status real-time</span>
-                    </div>
-                    <div class="feature-item">
-                        <div class="feature-icon">
-                            <i class="fas fa-check-circle"></i>
-                        </div>
-                        <span>Verifikasi cepat dan profesional</span>
-                    </div>
-                </div>
+        <div class="assistance-content">
+          <div class="" data-reveal>
+            <img class=""
+              src="../Gambar/Gambar3.png"
+              alt="Ilustrasi Bantuan"
+            />
+          </div>
+          <div class="faq-list reveal" data-reveal>
+            <div class="faq-item">
+              <button
+                class="faq-button"
+                aria-expanded="true"
+                aria-controls="faq-1"
+              >
+                Apa itu Satgas PPKPT?
+              </button>
+              <div class="faq-answer show" id="faq-1" role="region">
+                Satgas PPKPT (Pencegahan dan Penanganan Kekerasan Seksual) adalah
+                unit di kampus yang bertugas mencegah, menangani, dan memulihkan
+                korban kekerasan seksual.
+              </div>
             </div>
-
-            <div class="monitoring-card scroll-reveal">
-                <h3>Lacak Status Laporan</h3>
-                <p style="color: #666; margin-bottom: 1rem;">Masukkan kode pelaporan Anda untuk melihat perkembangan terkini</p>
-
-                <div class="input-group-modern">
-                    <input type="text" class="input-modern" placeholder="Masukkan kode laporan..." id="trackCode">
-                    <button class="btn-check" id="checkStatusBtn">
-                        <i class="fas fa-search"></i> Cek Status
-                    </button>
-                </div>
-                <div id="statusResult" style="margin-top: 1rem;"></div>
+            <div class="faq-item">
+              <button
+                class="faq-button"
+                aria-expanded="false"
+                aria-controls="faq-2"
+              >
+                Siapa yang bisa melapor?
+              </button>
+              <div class="faq-answer" id="faq-2" role="region">
+                Semua anggota komunitas kampus (mahasiswa, dosen, tendik) yang
+                menjadi korban, saksi, atau mengetahui adanya kasus.
+              </div>
             </div>
+            <div class="faq-item">
+              <button
+                class="faq-button"
+                aria-expanded="false"
+                aria-controls="faq-3"
+              >
+                Apakah identitas pelapor dirahasiakan?
+              </button>
+              <div class="faq-answer" id="faq-3" role="region">
+                Ya, kami menjamin kerahasiaan identitas pelapor dan korban
+                sesuai prosedur.
+              </div>
+            </div>
+            <div class="faq-item">
+              <button
+                class="faq-button"
+                aria-expanded="false"
+                aria-controls="faq-3"
+              >
+                Apakah identitas pelapor dirahasiakan?
+              </button>
+              <div class="faq-answer" id="faq-3" role="region">
+                Ya, kami menjamin kerahasiaan identitas pelapor dan korban
+                sesuai prosedur.
+              </div>
+            </div>
+            <div class="faq-item">
+              <button
+                class="faq-button"
+                aria-expanded="false"
+                aria-controls="faq-3"
+              >
+                Apakah identitas pelapor dirahasiakan?
+              </button>
+              <div class="faq-answer" id="faq-3" role="region">
+                Ya, kami menjamin kerahasiaan identitas pelapor dan korban
+                sesuai prosedur.
+              </div>
+            </div>
+            <div class="faq-item">
+              <button
+                class="faq-button"
+                aria-expanded="false"
+                aria-controls="faq-3"
+              >
+                Apakah identitas pelapor dirahasiakan?
+              </button>
+              <div class="faq-answer" id="faq-3" role="region">
+                Ya, kami menjamin kerahasiaan identitas pelapor dan korban
+                sesuai prosedur.
+              </div>
+            </div>
+          </div>
         </div>
+
+        <div class="text-center mt-40">
+          <button class="btn btn-lg btn-primary">Lihat FAQ Lengkap</button>
+        </div>
+      </div>
     </section>
 
-    <!-- FAQ Section -->
-    <section class="faq-section">
-        <div class="faq-container">
-            <div class="section-header">
-                <div class="section-tag" style="color: var(--brand-cyan); background: rgba(12, 150, 156, 0.1); border-color: var(--brand-cyan);">FAQ</div>
-                <h2 class="section-title" style="color: var(--brand-darkest);">Pertanyaan Umum</h2>
-                <p class="section-desc" style="color: #666;">Temukan jawaban atas pertanyaan yang sering diajukan</p>
-            </div>
-
-            <div class="faq-list">
-                <div class="faq-item scroll-reveal">
-                    <button class="faq-question">
-                        <span>Apa itu Satgas PPKPT?</span>
-                        <i class="fas fa-chevron-down faq-icon"></i>
-                    </button>
-                    <div class="faq-answer">
-                        <div class="faq-answer-content">
-                            Satgas PPKPT (Pencegahan dan Penanganan Kekerasan Seksual) adalah unit di kampus yang bertugas mencegah, menangani, dan memulihkan korban kekerasan seksual sesuai dengan Permendikbudristek No. 30 Tahun 2021.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="faq-item scroll-reveal">
-                    <button class="faq-question">
-                        <span>Siapa saja yang bisa melaporkan?</span>
-                        <i class="fas fa-chevron-down faq-icon"></i>
-                    </button>
-                    <div class="faq-answer">
-                        <div class="faq-answer-content">
-                            Semua anggota komunitas kampus (mahasiswa, dosen, tendik) yang menjadi korban, saksi, atau mengetahui adanya kasus kekerasan seksual dapat melaporkan melalui sistem kami.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="faq-item scroll-reveal">
-                    <button class="faq-question">
-                        <span>Apakah identitas pelapor dirahasiakan?</span>
-                        <i class="fas fa-chevron-down faq-icon"></i>
-                    </button>
-                    <div class="faq-answer">
-                        <div class="faq-answer-content">
-                            Ya, kami menjamin 100% kerahasiaan identitas pelapor dan korban sesuai prosedur keamanan data yang ketat. Informasi Anda hanya dapat diakses oleh tim yang berwenang.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="faq-item scroll-reveal">
-                    <button class="faq-question">
-                        <span>Berapa lama proses penanganan kasus?</span>
-                        <i class="fas fa-chevron-down faq-icon"></i>
-                    </button>
-                    <div class="faq-answer">
-                        <div class="faq-answer-content">
-                            Waktu penanganan bervariasi tergantung kompleksitas kasus. Namun, kami berkomitmen untuk memberikan respon awal dalam 1x24 jam dan update berkala melalui sistem monitoring.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="faq-item scroll-reveal">
-                    <button class="faq-question">
-                        <span>Apa saja layanan yang tersedia untuk korban?</span>
-                        <i class="fas fa-chevron-down faq-icon"></i>
-                    </button>
-                    <div class="faq-answer">
-                        <div class="faq-answer-content">
-                            Kami menyediakan layanan konseling, pendampingan hukum, perlindungan keamanan, dukungan medis, dan pemulihan psikologis bagi korban kekerasan seksual.
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <!-- Dokumentasi: Footer dengan link layanan, kontak, dan sosial media, ditampilkan dalam grid responsif. -->
+    <footer class="main-footer">
+      <div class="main-container footer-grid">
+        <div class="footer-col">
+          <h5>Sigap PPKPT</h5>
+          <ul class="clean-list">
+            <li><a href="#">Tentang Kami</a></li>
+            <li><a href="#">Program</a></li>
+            <li><a href="#">Publikasi</a></li>
+          </ul>
         </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="modern-footer">
-        <div class="footer-grid">
-            <div class="footer-brand">
-                <h3>SIGAP PPKPT</h3>
-                <p>Bersama menciptakan lingkungan kampus yang aman, setara, dan bebas dari segala bentuk kekerasan seksual.</p>
-                <div class="social-links">
-                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
-                </div>
-            </div>
-
-            <div class="footer-col">
-                <h4 class="footer-title">Tentang</h4>
-                <div class="footer-links">
-                    <a href="../About Page/about.html" class="footer-link">Tentang Kami</a>
-                    <a href="#" class="footer-link">Visi & Misi</a>
-                    <a href="#" class="footer-link">Tim Satgas</a>
-                    <a href="#" class="footer-link">Publikasi</a>
-                </div>
-            </div>
-
-            <div class="footer-col">
-                <h4 class="footer-title">Layanan</h4>
-                <div class="footer-links">
-                    <a href="../Lapor/lapor.html" class="footer-link">Lapor Daring</a>
-                    <a href="../Monitoring/monitoring.html" class="footer-link">Cek Status</a>
-                    <a href="#" class="footer-link">Konseling</a>
-                    <a href="#" class="footer-link">Bantuan Hukum</a>
-                </div>
-            </div>
-
-            <div class="footer-col">
-                <h4 class="footer-title">Kontak</h4>
-                <div class="footer-links">
-                    <a href="mailto:ppkpt@telkomuniversity.ac.id" class="footer-link">
-                        <i class="fas fa-envelope"></i> ppkpt@telkomuniversity.ac.id
-                    </a>
-                    <a href="tel:+628123456789" class="footer-link">
-                        <i class="fas fa-phone"></i> +62 812-3456-7890
-                    </a>
-                    <p class="footer-link" style="margin-top: 1rem;">
-                        <i class="fas fa-map-marker-alt"></i> Telkom University Surabaya<br>
-                        Jl. Ketintang No. 156, Surabaya
-                    </p>
-                </div>
-            </div>
+        <div class="footer-col">
+          <h5>Layanan</h5>
+          <ul class="clean-list">
+            <li><a href="#">Lapor Daring</a></li>
+            <li><a href="#">Cek Status</a></li>
+            <li><a href="#">Konseling</a></li>
+          </ul>
         </div>
-
-        <div class="footer-bottom">
-            <p>&copy; 2025 SIGAP PPKPT Telkom University. All rights reserved.</p>
+        <div class="footer-col">
+          <h5>Hubungi Kami</h5>
+          <p><i class="fas fa-envelope me-2"></i> email@ppks.ac.id</p>
+          <p><i class="fas fa-phone me-2"></i> +62-812-3456-7890</p>
         </div>
+        <div class="footer-col social-footer">
+          <h5>Ikuti Kami</h5>
+          <div class="social-icons-footer">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="main-container">
+          <small
+            >Hak Cipta &copy; 2025. Satgas PPKPT. Dibuat dengan &hearts; oleh Tim
+            IT.</small
+          >
+        </div>
+      </div>
     </footer>
 
-    <!-- Scroll to Top Button -->
-    <div class="scroll-top" id="scrollTop">
-        <i class="fas fa-arrow-up"></i>
-    </div>
-
-    <!-- ChatBot Modal -->
+    <!-- ChatBot Modal (Triggered by FABsigap "Chat TemanKu" button) -->
     <div class="chatbot-modal-overlay" id="chatbotModalOverlay">
         <div class="chatbot-modal">
+            <!-- Mode Selection Screen -->
             <div class="chatbot-screen mode-selection-screen" id="modeSelectionScreen" style="display: none;">
                 <div class="chatbot-modal-header">
                     <h2>Pilih Mode Chat</h2>
@@ -1312,27 +430,29 @@
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
-                <p class="mode-subtitle">Kami siap membantu Anda</p>
+                <p class="mode-subtitle">Kami siap membantu Anda dengan berbagai cara</p>
 
                 <div class="mode-cards-container">
+                    <!-- Chat Guided -->
                     <div class="mode-card" data-mode="guided">
                         <div class="mode-icon guided">
                             <i class="fas fa-list-check"></i>
                         </div>
                         <h3>Chat Guided</h3>
-                        <p>Panduan langkah demi langkah untuk membuat laporan</p>
+                        <p>Kami akan memandu Anda langkah demi langkah untuk membuat laporan dengan pertanyaan terstruktur</p>
                         <button class="btn-select-mode">
                             <span>Pilih Mode</span>
                             <i class="fas fa-arrow-right"></i>
                         </button>
                     </div>
 
+                    <!-- Chat Curhat -->
                     <div class="mode-card" data-mode="curhat">
                         <div class="mode-icon curhat">
                             <i class="fas fa-heart"></i>
                         </div>
                         <h3>Chat Curhat</h3>
-                        <p>Butuh dukungan emosional? Kami siap mendengarkan</p>
+                        <p>Butuh tempat untuk bercerita atau dukungan emosional? Kami siap mendengarkan dan memberikan dukungan</p>
                         <button class="btn-select-mode">
                             <span>Pilih Mode</span>
                             <i class="fas fa-arrow-right"></i>
@@ -1341,7 +461,9 @@
                 </div>
             </div>
 
+            <!-- Chat Interface Screen -->
             <div class="chatbot-screen chat-interface-screen" id="chatInterfaceScreen">
+                <!-- Chat Header -->
                 <div class="chat-header">
                     <div class="chat-header-info">
                         <h3 id="chatModeTitle">Chat</h3>
@@ -1357,8 +479,13 @@
                     </div>
                 </div>
 
+                <!-- Chat Messages Container -->
                 <div class="chat-messages-container" id="chatMessagesContainer">
-                    <div class="chat-messages" id="chatMessages"></div>
+                    <div class="chat-messages" id="chatMessages">
+                        <!-- Welcome message will be inserted here -->
+                    </div>
+
+                    <!-- Typing Indicator -->
                     <div class="typing-indicator" id="typingIndicator" style="display: none;">
                         <div class="typing-bubble">
                             <div class="typing-dots">
@@ -1370,7 +497,9 @@
                     </div>
                 </div>
 
+                <!-- Chat Input Area -->
                 <div class="chat-input-area">
+                    <!-- Voice Recording Mode -->
                     <div class="voice-recording-mode" id="voiceRecordingMode" style="display: none;">
                         <div class="recording-animation">
                             <div class="recording-circle">
@@ -1391,11 +520,18 @@
                         </button>
                     </div>
 
+                    <!-- Normal Input Mode -->
                     <div class="chat-input-wrapper" id="chatInputWrapper">
                         <button class="btn-voice-input" id="btnVoiceInput" title="Rekam suara">
                             <i class="fas fa-microphone"></i>
                         </button>
-                        <input type="text" class="chat-input" id="chatInput" placeholder="Ketik pesan..." autocomplete="off"/>
+                        <input
+                            type="text"
+                            class="chat-input"
+                            id="chatInput"
+                            placeholder="Ketik pesan..."
+                            autocomplete="off"
+                        />
                         <button class="btn-send-chat" id="btnSendChat" disabled>
                             <i class="fas fa-paper-plane"></i>
                         </button>
@@ -1405,177 +541,21 @@
         </div>
     </div>
 
-    <!-- Scripts -->
+    <!-- Main Website Scripts -->
+    <script src="../index.js" defer></script>
+
+    <!-- ChatBot Scripts -->
     <script src="../ChatBot/config.js"></script>
     <script src="../ChatBot/chatbot.js"></script>
+
+    <!-- FAB Sigap Scripts (Load in Order) -->
     <script src="../FABsigap/modules/breathing.js" defer></script>
     <script src="../FABsigap/modules/text_to_speech.js" defer></script>
     <script src="../FABsigap/fabsigap.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/sienna-accessibility@latest/dist/sienna-accessibility.umd.js" defer></script>
 
-    <script>
-        // Hamburger Menu
-        const hamburger = document.getElementById('hamburger');
-        const navMenu = document.getElementById('navMenu');
-
-        hamburger.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
-            const icon = hamburger.querySelector('i');
-            icon.classList.toggle('fa-bars');
-            icon.classList.toggle('fa-times');
-        });
-
-        // Navbar scroll effect
-        const navbar = document.querySelector('.modern-navbar');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
-
-        // Parallax effect for hero
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const parallaxBg = document.querySelector('.parallax-bg');
-            if (parallaxBg) {
-                parallaxBg.style.transform = `translateY(${scrolled * 0.5}px)`;
-            }
-        });
-
-        // Counter animation
-        function animateCounter(element) {
-            const target = parseInt(element.getAttribute('data-count'));
-            const duration = 2000;
-            const step = target / (duration / 16);
-            let current = 0;
-
-            const timer = setInterval(() => {
-                current += step;
-                if (current >= target) {
-                    element.textContent = target.toLocaleString();
-                    clearInterval(timer);
-                } else {
-                    element.textContent = Math.floor(current).toLocaleString();
-                }
-            }, 16);
-        }
-
-        // Scroll reveal
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('revealed');
-
-                    // Animate counters when visible
-                    const counters = entry.target.querySelectorAll('[data-count]');
-                    counters.forEach(counter => {
-                        if (!counter.classList.contains('counted')) {
-                            counter.classList.add('counted');
-                            animateCounter(counter);
-                        }
-                    });
-                }
-            });
-        }, observerOptions);
-
-        // Observe all scroll reveal elements
-        document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
-
-        // Animate stat counters
-        document.querySelectorAll('.stat-number[data-count]').forEach(counter => {
-            observer.observe(counter.closest('.stat-card'));
-        });
-
-        // Animate floating card counters
-        document.querySelectorAll('.card-stat[data-count]').forEach(counter => {
-            animateCounter(counter);
-        });
-
-        // FAQ Accordion
-        document.querySelectorAll('.faq-question').forEach(button => {
-            button.addEventListener('click', () => {
-                const faqItem = button.parentElement;
-                const isActive = faqItem.classList.contains('active');
-
-                // Close all FAQ items
-                document.querySelectorAll('.faq-item').forEach(item => {
-                    item.classList.remove('active');
-                });
-
-                // Toggle current item
-                if (!isActive) {
-                    faqItem.classList.add('active');
-                }
-            });
-        });
-
-        // Scroll to top button
-        const scrollTopBtn = document.getElementById('scrollTop');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) {
-                scrollTopBtn.classList.add('show');
-            } else {
-                scrollTopBtn.classList.remove('show');
-            }
-        });
-
-        scrollTopBtn.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-
-        // Monitoring status check
-        document.getElementById('checkStatusBtn').addEventListener('click', function() {
-            const code = document.getElementById('trackCode').value.trim();
-            const resultDiv = document.getElementById('statusResult');
-
-            if (code) {
-                resultDiv.innerHTML = '<p style="color: white;">Memeriksa status...</p>';
-
-                fetch(`../api/check_progress.php?kode=${encodeURIComponent(code)}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.status === 'success') {
-                            resultDiv.innerHTML = `
-                                <div style="background: rgba(255,255,255,0.2); padding: 1rem; border-radius: 12px; color: white;">
-                                    <strong>Status:</strong> ${data.data.status}<br>
-                                    <strong>Tanggal:</strong> ${new Date(data.data.tanggal_pelaporan).toLocaleDateString('id-ID')}
-                                </div>
-                            `;
-                        } else {
-                            resultDiv.innerHTML = `<p style="color: #ffcccc;">${data.message}</p>`;
-                        }
-                    })
-                    .catch(error => {
-                        resultDiv.innerHTML = '<p style="color: #ffcccc;">Terjadi kesalahan. Silakan coba lagi.</p>';
-                    });
-            } else {
-                resultDiv.innerHTML = '<p style="color: #ffcccc;">Masukkan kode laporan</p>';
-            }
-        });
-
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-    </script>
-</body>
+    <!-- Accessibility Library -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/sienna-accessibility@latest/dist/sienna-accessibility.umd.js"
+      defer></script>
+  </body>
 </html>
