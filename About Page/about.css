@@ -652,6 +652,98 @@
   }
 }
 
+/* ============================================
+   SCROLL VELOCITY SECTION
+   Harmony, Excellence, Integrity
+   ============================================ */
+
+.scroll-velocity-section {
+  position: relative;
+  background: #ffffff;
+  padding: 60px 0;
+  overflow: hidden;
+}
+
+.scroll-velocity-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.scroll-velocity-track {
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.scroll-velocity-content {
+  display: inline-flex;
+  white-space: nowrap;
+  will-change: transform;
+}
+
+.scroll-velocity-text {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-heading);
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  padding: 0 30px;
+  flex-shrink: 0;
+}
+
+/* Color variations matching website theme */
+.scroll-velocity-text.harmony {
+  color: #558198;
+}
+
+.scroll-velocity-text.excellence {
+  color: #1a1a2e;
+}
+
+.scroll-velocity-text.integrity {
+  color: #1f57bf;
+}
+
+/* Dot separator */
+.scroll-velocity-text::after {
+  content: '•';
+  margin-left: 30px;
+  opacity: 0.3;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .scroll-velocity-section {
+    padding: 40px 0;
+  }
+
+  .scroll-velocity-text {
+    font-size: clamp(2rem, 10vw, 4rem);
+    padding: 0 20px;
+  }
+
+  .scroll-velocity-text::after {
+    margin-left: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .scroll-velocity-section {
+    padding: 30px 0;
+  }
+
+  .scroll-velocity-text {
+    font-size: clamp(1.5rem, 12vw, 2.5rem);
+    padding: 0 15px;
+  }
+
+  .scroll-velocity-text::after {
+    margin-left: 15px;
+  }
+}
+
 /* Tugas */
 .tugas-grid {
   display: grid;
