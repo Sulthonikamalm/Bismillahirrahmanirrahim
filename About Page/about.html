@@ -74,27 +74,31 @@
     <div class="sigap-ppkpt-container">
       <!-- Left Content -->
       <div class="sigap-ppkpt-content reveal" data-reveal>
-        <h2 class="sigap-ppkpt-title">SIGAP PPKPT</h2>
+        <h2 class="sigap-ppkpt-title"><span>SIGAP</span> <span>PPKPT</span></h2>
         <p class="sigap-ppkpt-description">
           Satuan Tugas Pencegahan dan Penanganan Kekerasan Seksual Telkom University berkomitmen untuk menciptakan lingkungan kampus yang aman, nyaman, dan bebas dari segala bentuk kekerasan seksual. Kami hadir sebagai wadah perlindungan dan pendampingan bagi seluruh civitas akademika.
         </p>
-        <div class="sigap-ppkpt-cta">
-          <a href="../Lapor/lapor.html" class="btn btn-primary sigap-btn">
-            <i class="fas fa-paper-plane"></i>
-            Laporkan Sekarang
-          </a>
-        </div>
       </div>
 
-      <!-- Right Image -->
+      <!-- Right Image with SVG Shape -->
       <div class="sigap-ppkpt-image reveal" data-reveal>
-        <div class="sigap-image-wrapper">
-          <img src="assets/Sesepuh.jpg" alt="Tim Pimpinan Telkom University" class="sesepuh-image" />
-          <div class="image-overlay"></div>
-        </div>
-        <!-- Logo Badge -->
-        <div class="sigap-logo-badge">
-          <img src="assets/Logo.png" alt="Logo Telkom University" />
+        <div class="sigap-svg-container">
+          <!-- SVG Shape with Image -->
+          <svg class="sigap-svg-shape" viewBox="0 0 723 737" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <clipPath id="sesepuhClip">
+                <path d="M639 41C639 63.0914 656.909 81 679 81H723V677C723 710.137 696.137 737 663 737H87.2178V529C87.2178 495.863 60.3549 469 27.2178 469H0.217773C0.145151 469 0.0725616 469.001 0 469.001V283H58.3477C91.4845 283 118.348 256.137 118.348 223V0H639V41Z"/>
+              </clipPath>
+            </defs>
+            <!-- Background Shape -->
+            <path d="M639 41C639 63.0914 656.909 81 679 81H723V677C723 710.137 696.137 737 663 737H87.2178V529C87.2178 495.863 60.3549 469 27.2178 469H0.217773C0.145151 469 0.0725616 469.001 0 469.001V283H58.3477C91.4845 283 118.348 256.137 118.348 223V0H639V41Z" fill="#4347F2"/>
+            <!-- Image clipped to shape -->
+            <image href="assets/Sesepuh.jpg" x="0" y="0" width="723" height="737" preserveAspectRatio="xMidYMid slice" clip-path="url(#sesepuhClip)"/>
+          </svg>
+          <!-- Logo Badge on Right -->
+          <div class="sigap-logo-badge">
+            <img src="assets/Logo.png" alt="Logo Telkom University" />
+          </div>
         </div>
       </div>
     </div>
