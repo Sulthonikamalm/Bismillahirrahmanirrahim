@@ -363,45 +363,71 @@
 
 /* ============================================
    VISI MISI SECTION
-   Professional Design with Large Background Text
+   Professional Design Like indonesia2045.go.id
    ============================================ */
 
 .visi-misi-section {
   position: relative;
-  background: linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
-  padding: 120px 0;
+  background: linear-gradient(135deg, #f5f7e8 0%, #f8faf0 50%, #fafbfc 100%);
+  padding: 100px 0 120px;
   overflow: hidden;
+  min-height: 100vh;
+}
+
+/* Grid Pattern - Left Half Only */
+.visi-misi-grid-pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.06) 1px, transparent 1px);
+  background-size: 50px 50px;
+  opacity: 0.8;
+  pointer-events: none;
+  z-index: 0;
+  mask-image: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 70%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 70%, transparent 100%);
 }
 
 /* Large Background Text - VISI MISI */
 .visi-misi-bg-text {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 15%;
+  left: 5%;
+  right: 5%;
   display: flex;
-  gap: 40px;
+  justify-content: center;
+  gap: 30px;
   white-space: nowrap;
   pointer-events: none;
-  z-index: 0;
+  z-index: 1;
 }
 
 .visi-misi-bg-text span {
   font-family: var(--font-heading);
-  font-size: clamp(8rem, 20vw, 18rem);
+  font-size: clamp(10rem, 22vw, 20rem);
   font-weight: 900;
   letter-spacing: -0.02em;
-  background: linear-gradient(180deg, #d4e3ed 0%, #e8f0f5 50%, #f0f5f9 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(200, 215, 230, 0.9) 0%,
+    rgba(215, 228, 240, 0.7) 30%,
+    rgba(230, 240, 248, 0.5) 60%,
+    rgba(245, 248, 252, 0.3) 100%
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  opacity: 0.7;
   user-select: none;
+  line-height: 0.85;
 }
 
 /* Container */
 .visi-misi-container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 5%;
   position: relative;
@@ -410,188 +436,218 @@
 
 /* Header */
 .visi-misi-header {
-  text-align: center;
   margin-bottom: 60px;
+  position: relative;
+  z-index: 3;
 }
 
 .visi-misi-label {
-  display: inline-block;
-  font-size: 0.8rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: #558198;
-  margin-bottom: 16px;
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin-bottom: 12px;
+  font-style: italic;
 }
 
 .visi-misi-title {
   font-family: var(--font-heading);
-  font-size: clamp(2.5rem, 5vw, 4rem);
-  font-weight: 700;
+  font-size: clamp(2.8rem, 6vw, 5rem);
+  font-weight: 800;
   color: #1a1a2e;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
 }
 
 .visi-misi-title span {
-  color: #558198;
+  color: #2563eb;
 }
 
-/* Grid Layout */
-.visi-misi-grid {
+/* Content Layout - Image Left, Items Right */
+.visi-misi-content {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
-}
-
-/* Cards */
-.visi-misi-card {
-  background: #ffffff;
-  border-radius: 20px;
-  padding: 40px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.06);
-  border: 1px solid rgba(0, 0, 0, 0.04);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.visi-misi-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
-}
-
-.visi-misi-card-header {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 24px;
-}
-
-.visi-misi-number {
-  font-family: var(--font-heading);
-  font-size: 3rem;
-  font-weight: 800;
-  background: linear-gradient(135deg, #558198 0%, #4B8A7B 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  line-height: 1;
-}
-
-.visi-misi-card-title {
-  font-family: var(--font-heading);
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #1a1a2e;
-}
-
-.visi-misi-card-text {
-  font-size: 1.05rem;
-  color: #4a5568;
-  line-height: 1.8;
-}
-
-/* Misi List */
-.visi-misi-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.visi-misi-list li {
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 60px;
+  align-items: start;
   position: relative;
-  padding-left: 28px;
-  margin-bottom: 16px;
+  z-index: 3;
+}
+
+/* Image */
+.visi-misi-image {
+  position: relative;
+}
+
+.visi-misi-image img {
+  width: 100%;
+  max-width: 450px;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Visi Misi Items */
+.visi-misi-items {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding-top: 20px;
+}
+
+.visi-misi-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+/* Pill Badge */
+.visi-misi-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 70px;
+  padding: 10px 24px;
   font-size: 1rem;
-  color: #4a5568;
+  font-weight: 600;
+  color: #1a1a2e;
+  background: #ffffff;
+  border: 2px solid #1a1a2e;
+  border-radius: 100px;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.visi-misi-item:hover .visi-misi-pill {
+  background: #1a1a2e;
+  color: #ffffff;
+}
+
+/* Text Content */
+.visi-misi-text {
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: #1a1a2e;
   line-height: 1.7;
 }
 
-.visi-misi-list li:last-child {
+.visi-misi-text p {
+  margin: 0 0 8px 0;
+}
+
+.visi-misi-text p:last-child {
   margin-bottom: 0;
 }
 
-.visi-misi-list li::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 10px;
-  width: 8px;
-  height: 8px;
-  background: linear-gradient(135deg, #558198 0%, #4B8A7B 100%);
-  border-radius: 50%;
+/* Responsive */
+@media (max-width: 1200px) {
+  .visi-misi-bg-text span {
+    font-size: clamp(8rem, 18vw, 14rem);
+  }
 }
 
-/* Responsive */
 @media (max-width: 992px) {
   .visi-misi-section {
-    padding: 100px 0;
+    padding: 80px 0 100px;
+    min-height: auto;
+  }
+
+  .visi-misi-grid-pattern {
+    width: 100%;
+    opacity: 0.4;
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, transparent 50%);
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, transparent 50%);
+  }
+
+  .visi-misi-bg-text {
+    top: 5%;
   }
 
   .visi-misi-bg-text span {
-    font-size: clamp(6rem, 18vw, 12rem);
+    font-size: clamp(5rem, 15vw, 10rem);
   }
 
-  .visi-misi-grid {
+  .visi-misi-content {
     grid-template-columns: 1fr;
-    gap: 30px;
+    gap: 40px;
+    text-align: center;
   }
 
-  .visi-misi-card {
-    padding: 32px;
+  .visi-misi-header {
+    text-align: center;
+  }
+
+  .visi-misi-image {
+    order: 1;
+    display: flex;
+    justify-content: center;
+  }
+
+  .visi-misi-image img {
+    max-width: 350px;
+  }
+
+  .visi-misi-items {
+    order: 2;
+    align-items: center;
+  }
+
+  .visi-misi-item {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
   }
 }
 
 @media (max-width: 768px) {
   .visi-misi-section {
-    padding: 80px 0;
-  }
-
-  .visi-misi-bg-text {
-    gap: 20px;
+    padding: 60px 0 80px;
   }
 
   .visi-misi-bg-text span {
-    font-size: clamp(4rem, 16vw, 8rem);
-  }
-
-  .visi-misi-header {
-    margin-bottom: 40px;
+    font-size: clamp(4rem, 14vw, 7rem);
   }
 
   .visi-misi-title {
-    font-size: clamp(2rem, 6vw, 2.5rem);
+    font-size: clamp(2rem, 7vw, 3rem);
   }
 
-  .visi-misi-number {
-    font-size: 2.5rem;
+  .visi-misi-text {
+    font-size: 1rem;
   }
 
-  .visi-misi-card-title {
-    font-size: 1.3rem;
+  .visi-misi-pill {
+    padding: 8px 20px;
+    font-size: 0.9rem;
   }
 }
 
 @media (max-width: 480px) {
   .visi-misi-section {
-    padding: 60px 0;
+    padding: 50px 0 60px;
+  }
+
+  .visi-misi-bg-text {
+    gap: 15px;
   }
 
   .visi-misi-bg-text span {
-    font-size: clamp(3rem, 14vw, 5rem);
+    font-size: clamp(3rem, 12vw, 5rem);
   }
 
-  .visi-misi-card {
-    padding: 24px;
-    border-radius: 16px;
+  .visi-misi-label {
+    font-size: 0.8rem;
   }
 
-  .visi-misi-number {
-    font-size: 2rem;
+  .visi-misi-title {
+    font-size: clamp(1.8rem, 8vw, 2.5rem);
   }
 
-  .visi-misi-card-text,
-  .visi-misi-list li {
+  .visi-misi-text {
     font-size: 0.95rem;
+  }
+
+  .visi-misi-image img {
+    max-width: 280px;
   }
 }
 
