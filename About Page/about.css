@@ -646,7 +646,7 @@
 .sigap-ppkpt-section {
   position: relative;
   background: #ffffff;
-  padding: 80px 3vw;
+  padding: 80px 4vw;
   overflow: hidden;
 }
 
@@ -654,8 +654,8 @@
   max-width: 100%;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 0.55fr 1fr;
-  gap: 20px;
+  grid-template-columns: 0.65fr 1fr;
+  gap: 30px;
   align-items: center;
   position: relative;
   z-index: 2;
@@ -665,16 +665,16 @@
 .sigap-ppkpt-content {
   animation: slideInLeft 1s var(--ease-calm) both;
   padding-right: 0;
-  padding-left: 5vw;
+  padding-left: 4vw;
 }
 
 .sigap-ppkpt-title {
   font-family: var(--font-heading);
-  font-size: clamp(2.5rem, 4.5vw, 4.5rem);
+  font-size: clamp(3rem, 5vw, 5.5rem);
   font-weight: 800;
   color: #4A4545;
   line-height: 1;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
   letter-spacing: -0.02em;
   position: relative;
   transition: all 0.4s var(--ease-calm);
@@ -710,12 +710,12 @@
 
 .sigap-ppkpt-description {
   font-family: var(--font-body);
-  font-size: clamp(0.9rem, 1.1vw, 1rem);
+  font-size: clamp(1rem, 1.2vw, 1.1rem);
   font-weight: 500;
   color: #2F2F2F;
-  line-height: 1.7;
+  line-height: 1.8;
   margin-bottom: 0;
-  max-width: 420px;
+  max-width: 480px;
 }
 
 /* Right Image Section with SVG */
@@ -845,21 +845,21 @@
 /* Extra Large Desktop */
 @media (min-width: 1600px) {
   .sigap-ppkpt-section {
-    padding: 100px 2vw;
+    padding: 100px 4vw;
   }
 
   .sigap-ppkpt-container {
-    grid-template-columns: 0.5fr 1fr;
-    gap: 30px;
+    grid-template-columns: 0.6fr 1fr;
+    gap: 40px;
   }
 
   .sigap-ppkpt-title {
-    font-size: 5rem;
+    font-size: 6rem;
   }
 
   .sigap-ppkpt-description {
-    font-size: 1.1rem;
-    max-width: 480px;
+    font-size: 1.15rem;
+    max-width: 520px;
   }
 
   .sigap-logo-badge {
@@ -872,11 +872,38 @@
 /* Large Desktop */
 @media (min-width: 1200px) and (max-width: 1599px) {
   .sigap-ppkpt-section {
-    padding: 80px 2vw;
+    padding: 80px 4vw;
   }
 
   .sigap-ppkpt-container {
-    grid-template-columns: 0.55fr 1fr;
+    grid-template-columns: 0.65fr 1fr;
+    gap: 35px;
+  }
+
+  .sigap-ppkpt-title {
+    font-size: 5rem;
+  }
+
+  .sigap-ppkpt-description {
+    font-size: 1.05rem;
+    max-width: 480px;
+  }
+
+  .sigap-logo-badge {
+    width: 50px;
+    top: 0%;
+    right: 0%;
+  }
+}
+
+/* Medium Desktop */
+@media (min-width: 993px) and (max-width: 1199px) {
+  .sigap-ppkpt-section {
+    padding: 70px 3vw;
+  }
+
+  .sigap-ppkpt-container {
+    grid-template-columns: 0.7fr 1fr;
     gap: 25px;
   }
 
@@ -890,34 +917,7 @@
   }
 
   .sigap-logo-badge {
-    width: 48px;
-    top: 0%;
-    right: 0%;
-  }
-}
-
-/* Medium Desktop */
-@media (min-width: 993px) and (max-width: 1199px) {
-  .sigap-ppkpt-section {
-    padding: 70px 2vw;
-  }
-
-  .sigap-ppkpt-container {
-    grid-template-columns: 0.6fr 1fr;
-    gap: 20px;
-  }
-
-  .sigap-ppkpt-title {
-    font-size: 3rem;
-  }
-
-  .sigap-ppkpt-description {
-    font-size: 0.95rem;
-    max-width: 380px;
-  }
-
-  .sigap-logo-badge {
-    width: 42px;
+    width: 45px;
     top: 1%;
     right: 1%;
   }
@@ -944,7 +944,7 @@
   }
 
   .sigap-ppkpt-title {
-    font-size: clamp(2.2rem, 8vw, 3.5rem);
+    font-size: clamp(2.5rem, 8vw, 4rem);
     white-space: nowrap;
   }
 
@@ -961,7 +961,7 @@
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
-    font-size: 1rem;
+    font-size: 1.05rem;
   }
 
   .sigap-svg-container {
@@ -983,14 +983,14 @@
   }
 
   .sigap-ppkpt-title {
-    font-size: clamp(1.8rem, 8vw, 2.8rem);
-    margin-bottom: 15px;
+    font-size: clamp(2rem, 8vw, 3rem);
+    margin-bottom: 20px;
     white-space: nowrap;
   }
 
   .sigap-ppkpt-description {
-    font-size: 0.95rem;
-    line-height: 1.6;
+    font-size: 1rem;
+    line-height: 1.7;
   }
 
   .sigap-logo-badge {
@@ -1011,12 +1011,12 @@
   }
 
   .sigap-ppkpt-title {
-    font-size: clamp(1.6rem, 10vw, 2.2rem);
+    font-size: clamp(1.8rem, 10vw, 2.5rem);
     white-space: nowrap;
   }
 
   .sigap-ppkpt-description {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
   }
 
   .sigap-logo-badge {
@@ -1035,6 +1035,6 @@
   }
 
   .sigap-ppkpt-title {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
   }
 }
