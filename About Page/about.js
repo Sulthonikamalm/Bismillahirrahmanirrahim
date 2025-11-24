@@ -40,80 +40,50 @@ document.addEventListener('DOMContentLoaded', () => {
   const scrollVelocityTracks = document.querySelectorAll('.scroll-velocity-track');
 
   if (scrollVelocityTracks.length > 0) {
-    let lastScrollY = window.scrollY;
-    let scrollVelocity = 0;
-    const baseVelocity = 0.8;
-
-    // Track positions for each content
     const trackData = [];
 
     scrollVelocityTracks.forEach((track) => {
       const content = track.querySelector('.scroll-velocity-content');
       if (!content) return;
 
-      const direction = track.dataset.direction === 'right' ? -1 : 1;
+      const direction = track.dataset.direction === 'right' ? 1 : -1;
 
-      // Clone content for seamless loop
-      const clone = content.cloneNode(true);
-      track.appendChild(clone);
+      // Clone content multiple times for seamless loop
+      const clone1 = content.cloneNode(true);
+      const clone2 = content.cloneNode(true);
+      track.appendChild(clone1);
+      track.appendChild(clone2);
 
-      // Set initial position for right-moving track
-      const initialPos = direction === -1 ? -content.offsetWidth : 0;
+      const totalWidth = content.offsetWidth;
 
       trackData.push({
-        content: content,
-        clone: clone,
+        track: track,
         direction: direction,
-        position: initialPos,
-        width: content.offsetWidth
+        position: direction === 1 ? -totalWidth : 0,
+        width: totalWidth,
+        speed: 0.5
       });
-
-      // Apply initial transform
-      const transform = `translateX(${-initialPos}px)`;
-      content.style.transform = transform;
-      clone.style.transform = transform;
-    });
-
-    // Update scroll velocity on scroll
-    window.addEventListener('scroll', () => {
-      const currentScrollY = window.scrollY;
-      scrollVelocity = (currentScrollY - lastScrollY) * 0.08;
-      lastScrollY = currentScrollY;
     });
 
     // Animation loop
     function animateScrollVelocity() {
-      scrollVelocity *= 0.92;
-
       trackData.forEach((data) => {
-        const movement = (baseVelocity + Math.abs(scrollVelocity)) * data.direction;
-        data.position += movement;
+        data.position += data.speed * data.direction;
 
         // Reset position for seamless loop
-        if (data.direction === 1 && data.position >= data.width) {
-          data.position = data.position - data.width;
-        } else if (data.direction === -1 && data.position <= -data.width) {
-          data.position = data.position + data.width;
+        if (data.direction === -1 && Math.abs(data.position) >= data.width) {
+          data.position = 0;
+        } else if (data.direction === 1 && data.position >= 0) {
+          data.position = -data.width;
         }
 
-        // Apply transform
-        const transform = `translateX(${-data.position}px)`;
-        data.content.style.transform = transform;
-        data.clone.style.transform = transform;
+        data.track.style.transform = `translateX(${data.position}px)`;
       });
 
       requestAnimationFrame(animateScrollVelocity);
     }
 
-    // Start animation
     animateScrollVelocity();
-
-    // Update widths on resize
-    window.addEventListener('resize', () => {
-      trackData.forEach((data) => {
-        data.width = data.content.offsetWidth;
-      });
-    });
   }
 });
 
