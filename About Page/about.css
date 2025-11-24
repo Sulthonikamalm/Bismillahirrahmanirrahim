@@ -646,16 +646,16 @@
 .sigap-ppkpt-section {
   position: relative;
   background: #ffffff;
-  padding: 100px 5vw;
-  overflow: hidden;
+  padding: 100px 8vw;
+  overflow: visible;
 }
 
 .sigap-ppkpt-container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 60px;
+  grid-template-columns: 1.3fr 0.7fr;
+  gap: 40px;
   align-items: center;
   position: relative;
   z-index: 2;
@@ -713,7 +713,7 @@
   color: #2F2F2F;
   line-height: 1.8;
   margin-bottom: 35px;
-  max-width: 550px;
+  max-width: 600px;
 }
 
 /* Right Image Section with SVG */
@@ -724,9 +724,9 @@
 
 .sigap-svg-container {
   position: relative;
-  width: 100%;
-  max-width: 100%;
-  margin: 0 auto;
+  width: 150%;
+  max-width: 150%;
+  margin: 0 0 0 -30%;
 }
 
 .sigap-svg-shape {
@@ -745,9 +745,9 @@
 /* Logo Badge - Positioned at top-right curve (transparent) */
 .sigap-logo-badge {
   position: absolute;
-  top: 10%;
-  right: 0;
-  width: 60px;
+  top: -1%;
+  right: -1%;
+  width: 45px;
   height: auto;
   padding: 0;
   background: transparent;
@@ -880,13 +880,13 @@
   }
 
   .sigap-svg-container {
-    max-width: 100%;
+    max-width: 100%; width: 100%; margin: 0 auto;
   }
 
   .sigap-logo-badge {
-    width: 50px;
-    top: 8%;
-    right: 0;
+    width: 42px;
+    top: 2%;
+    right: 3%;
   }
 }
 
@@ -907,13 +907,13 @@
   }
 
   .sigap-svg-container {
-    max-width: 100%;
+    max-width: 100%; width: 100%; margin: 0 auto;
   }
 
   .sigap-logo-badge {
-    width: 45px;
-    top: 10%;
-    right: 0;
+    width: 38px;
+    top: 3%;
+    right: 5%;
   }
 
   .sigap-decoration-1,
@@ -937,12 +937,44 @@
   }
 
   .sigap-svg-container {
-    max-width: 100%;
+    max-width: 100%; width: 100%; margin: 0 auto;
   }
 
   .sigap-logo-badge {
-    width: 35px;
-    top: 8%;
-    right: 0;
+    width: 32px;
+    top: 4%;
+    right: 6%;
+  }
+}
+/* Extra Large Desktop - Logo adjustment */
+@media (min-width: 1600px) {
+  .sigap-logo-badge {
+    width: 50px;
+    top: -0.5%;
+    right: 0.5%;
+  }
+}
+
+/* Large Desktop - Logo adjustment */
+@media (min-width: 1200px) and (max-width: 1599px) {
+  .sigap-logo-badge {
+    width: 45px;
+    top: -1%;
+    right: -1%;
+  }
+}
+
+/* Extra Small Mobile - Logo adjustment */
+@media (max-width: 360px) {
+  .sigap-logo-badge {
+    width: 28px;
+    top: 5%;
+    right: 8%;
+  }
+  
+  .sigap-svg-container {
+    max-width: 100%;
+    width: 100%;
+    margin: 0 auto;
   }
 }
