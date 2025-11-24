@@ -424,6 +424,7 @@
 /* Header - Professional Style */
 .visi-misi-header {
   margin-bottom: 50px;
+  padding-top: 180px;
   position: relative;
   z-index: 3;
 }
@@ -438,7 +439,7 @@
   background: rgba(85, 129, 152, 0.1);
   padding: 8px 18px;
   border-radius: 100px;
-  margin-bottom: 5px;
+  margin-bottom: 0;
 }
 
 .visi-misi-title {
@@ -564,6 +565,7 @@
 
   .visi-misi-header {
     text-align: center;
+    padding-top: 140px;
   }
 
   .visi-misi-image {
@@ -594,6 +596,10 @@
     padding: 60px 0 80px;
   }
 
+  .visi-misi-header {
+    padding-top: 100px;
+  }
+
   .visi-misi-bg-text span {
     font-size: clamp(5rem, 15vw, 9rem);
   }
@@ -615,6 +621,10 @@
 @media (max-width: 480px) {
   .visi-misi-section {
     padding: 50px 0 60px;
+  }
+
+  .visi-misi-header {
+    padding-top: 70px;
   }
 
   .visi-misi-bg-text {
