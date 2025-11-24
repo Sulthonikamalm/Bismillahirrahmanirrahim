@@ -692,17 +692,36 @@
   text-transform: uppercase;
   padding: 0 clamp(8px, 1.5vw, 15px);
   flex-shrink: 0;
-  line-height: 1.1;
+  line-height: 0.9;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-/* Row 1 - Teal tones */
+/* Row 1 - Same as VISI MISI gradient */
 .scroll-velocity-text.row1 {
-  color: #558198;
+  background: linear-gradient(
+    180deg,
+    rgba(31, 87, 191, 0.5) 0%,
+    rgba(31, 87, 191, 0.35) 50%,
+    rgba(31, 87, 191, 0.15) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-/* Row 2 - Dark tones */
+/* Row 2 - Teal gradient #30ABB0 */
 .scroll-velocity-text.row2 {
-  color: #1a1a2e;
+  background: linear-gradient(
+    180deg,
+    rgba(48, 171, 176, 0.6) 0%,
+    rgba(48, 171, 176, 0.4) 50%,
+    rgba(48, 171, 176, 0.2) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 /* Responsive */
