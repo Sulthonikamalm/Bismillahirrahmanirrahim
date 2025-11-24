@@ -368,61 +368,48 @@
 
 .visi-misi-section {
   position: relative;
-  background: linear-gradient(135deg, #f5f7e8 0%, #f8faf0 50%, #fafbfc 100%);
+  background: #fafbfc;
   padding: 100px 0 120px;
   overflow: hidden;
   min-height: 100vh;
 }
 
-/* Grid Pattern - Left Half Only */
-.visi-misi-grid-pattern {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 50%;
-  height: 100%;
-  background-image:
-    linear-gradient(rgba(0, 0, 0, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.06) 1px, transparent 1px);
-  background-size: 50px 50px;
-  opacity: 0.8;
-  pointer-events: none;
-  z-index: 0;
-  mask-image: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 70%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0.5) 70%, transparent 100%);
-}
-
-/* Large Background Text - VISI MISI */
+/* Large Background Text - VISI MISI (Higher Position) */
 .visi-misi-bg-text {
   position: absolute;
-  top: 15%;
-  left: 5%;
-  right: 5%;
+  top: 5%;
+  left: 0;
+  right: 0;
   display: flex;
   justify-content: center;
-  gap: 30px;
+  gap: 20px;
   white-space: nowrap;
   pointer-events: none;
-  z-index: 1;
+  z-index: 0;
 }
 
 .visi-misi-bg-text span {
   font-family: var(--font-heading);
-  font-size: clamp(10rem, 22vw, 20rem);
+  font-size: clamp(12rem, 25vw, 22rem);
   font-weight: 900;
   letter-spacing: -0.02em;
   background: linear-gradient(
     180deg,
-    rgba(200, 215, 230, 0.9) 0%,
-    rgba(215, 228, 240, 0.7) 30%,
-    rgba(230, 240, 248, 0.5) 60%,
-    rgba(245, 248, 252, 0.3) 100%
+    rgba(190, 210, 230, 0.85) 0%,
+    rgba(210, 225, 240, 0.6) 40%,
+    rgba(235, 245, 250, 0.35) 70%,
+    rgba(250, 251, 252, 0.1) 100%
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   user-select: none;
-  line-height: 0.85;
+  line-height: 0.9;
+}
+
+/* Hide grid pattern in Visi Misi - it's in SIGAP section */
+.visi-misi-grid-pattern {
+  display: none;
 }
 
 /* Container */
@@ -434,33 +421,37 @@
   z-index: 2;
 }
 
-/* Header */
+/* Header - Professional Style */
 .visi-misi-header {
-  margin-bottom: 60px;
+  margin-bottom: 50px;
   position: relative;
   z-index: 3;
 }
 
 .visi-misi-label {
-  display: block;
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: #1a1a2e;
-  margin-bottom: 12px;
-  font-style: italic;
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #558198;
+  background: rgba(85, 129, 152, 0.1);
+  padding: 8px 18px;
+  border-radius: 100px;
+  margin-bottom: 20px;
 }
 
 .visi-misi-title {
   font-family: var(--font-heading);
-  font-size: clamp(2.8rem, 6vw, 5rem);
-  font-weight: 800;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 700;
   color: #1a1a2e;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
 }
 
 .visi-misi-title span {
-  color: #2563eb;
+  color: #558198;
 }
 
 /* Content Layout - Image Left, Items Right */
@@ -903,36 +894,22 @@
   overflow: hidden;
 }
 
-/* Subtle Grid Background */
-.sigap-ppkpt-section::before {
-  content: '';
+/* Grid Pattern - Left Half Only (50%) */
+.sigap-grid-pattern {
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
+  width: 50%;
+  height: 100%;
   background-image:
-    linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
-  background-size: 60px 60px;
-  opacity: 0.5;
+    linear-gradient(rgba(0, 0, 0, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.08) 1px, transparent 1px);
+  background-size: 50px 50px;
+  opacity: 0.7;
   pointer-events: none;
   z-index: 0;
-}
-
-/* Gradient fade on edges */
-.sigap-ppkpt-section::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background:
-    linear-gradient(to right, #fafbfc 0%, transparent 15%, transparent 85%, #fafbfc 100%),
-    linear-gradient(to bottom, #fafbfc 0%, transparent 10%, transparent 90%, #fafbfc 100%);
-  pointer-events: none;
-  z-index: 1;
+  mask-image: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 60%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0.6) 60%, transparent 100%);
 }
 
 .sigap-ppkpt-container {
