@@ -654,18 +654,20 @@
 
 /* ============================================
    SCROLL VELOCITY SECTION
-   HARMONY • EXCELLENCE • INTEGRITY
+   HARMONY  EXCELLENCE  INTEGRITY
    ============================================ */
 
 .scroll-velocity-section {
   position: relative;
   background: #ffffff;
-  padding: 50px 0;
+  padding: 20px 0 40px;
   overflow: hidden;
 }
 
 .scroll-velocity-wrapper {
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .scroll-velocity-track {
@@ -681,68 +683,50 @@
   will-change: transform;
 }
 
-.scroll-velocity-item {
-  display: inline-flex;
-  align-items: center;
+.scroll-velocity-text {
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0 clamp(25px, 4vw, 50px);
   flex-shrink: 0;
 }
 
-.scroll-velocity-text {
-  font-family: var(--font-heading);
-  font-size: clamp(2.5rem, 5vw, 4rem);
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-}
-
-.scroll-velocity-dot {
-  font-size: clamp(1.5rem, 3vw, 2.5rem);
-  color: #cbd5e1;
-  padding: 0 clamp(20px, 4vw, 40px);
-  font-weight: 400;
-}
-
-/* Colors */
-.scroll-velocity-text.harmony {
+/* Row 1 - Teal/Blue tones */
+.scroll-velocity-text.row1 {
   color: #558198;
 }
 
-.scroll-velocity-text.excellence {
+/* Row 2 - Dark/Navy tones */
+.scroll-velocity-text.row2 {
   color: #1a1a2e;
-}
-
-.scroll-velocity-text.integrity {
-  color: #1f57bf;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
   .scroll-velocity-section {
-    padding: 35px 0;
+    padding: 15px 0 30px;
+  }
+
+  .scroll-velocity-wrapper {
+    gap: 5px;
   }
 
   .scroll-velocity-text {
-    font-size: clamp(1.8rem, 6vw, 2.5rem);
-  }
-
-  .scroll-velocity-dot {
-    font-size: clamp(1rem, 4vw, 1.5rem);
-    padding: 0 15px;
+    font-size: clamp(1.5rem, 5vw, 2.2rem);
+    padding: 0 20px;
   }
 }
 
 @media (max-width: 480px) {
   .scroll-velocity-section {
-    padding: 25px 0;
+    padding: 10px 0 25px;
   }
 
   .scroll-velocity-text {
-    font-size: clamp(1.4rem, 7vw, 2rem);
-  }
-
-  .scroll-velocity-dot {
-    font-size: 1rem;
-    padding: 0 12px;
+    font-size: clamp(1.2rem, 6vw, 1.8rem);
+    padding: 0 15px;
   }
 }
 
