@@ -424,7 +424,7 @@
 /* Header - Professional Style */
 .visi-misi-header {
   margin-bottom: 50px;
-  padding-top: 180px;
+  padding-top: 100px;
   position: relative;
   z-index: 3;
 }
@@ -565,7 +565,7 @@
 
   .visi-misi-header {
     text-align: center;
-    padding-top: 140px;
+    padding-top: 80px;
   }
 
   .visi-misi-image {
@@ -597,7 +597,7 @@
   }
 
   .visi-misi-header {
-    padding-top: 100px;
+    padding-top: 60px;
   }
 
   .visi-misi-bg-text span {
@@ -624,7 +624,7 @@
   }
 
   .visi-misi-header {
-    padding-top: 70px;
+    padding-top: 40px;
   }
 
   .visi-misi-bg-text {
