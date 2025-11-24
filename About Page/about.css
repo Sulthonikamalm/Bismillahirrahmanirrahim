@@ -725,7 +725,7 @@
 .sigap-svg-container {
   position: relative;
   width: 100%;
-  max-width: 850px;
+  max-width: 100%;
   margin: 0 auto;
 }
 
@@ -745,8 +745,8 @@
 /* Logo Badge - Positioned at top-right curve (transparent) */
 .sigap-logo-badge {
   position: absolute;
-  top: 3%;
-  right: -2%;
+  top: 10%;
+  right: 0;
   width: 60px;
   height: auto;
   padding: 0;
@@ -880,13 +880,13 @@
   }
 
   .sigap-svg-container {
-    max-width: 650px;
+    max-width: 100%;
   }
 
   .sigap-logo-badge {
     width: 50px;
-    top: 2%;
-    right: -1%;
+    top: 8%;
+    right: 0;
   }
 }
 
@@ -907,12 +907,12 @@
   }
 
   .sigap-svg-container {
-    max-width: 550px;
+    max-width: 100%;
   }
 
   .sigap-logo-badge {
     width: 45px;
-    top: 2%;
+    top: 10%;
     right: 0;
   }
 
@@ -937,12 +937,12 @@
   }
 
   .sigap-svg-container {
-    max-width: 400px;
+    max-width: 100%;
   }
 
   .sigap-logo-badge {
     width: 35px;
-    top: 1%;
+    top: 8%;
     right: 0;
   }
 }
