@@ -660,8 +660,8 @@
 .scroll-velocity-section {
   position: relative;
   background: #ffffff;
-  padding: 0 0 30px;
-  margin-top: -50px;
+  padding: 0 0 50px;
+  margin-top: -60px;
   overflow: hidden;
 }
 
@@ -685,25 +685,24 @@
 }
 
 .scroll-velocity-text {
-  font-family: var(--font-heading);
-  font-size: clamp(2.5rem, 5vw, 4rem);
-  font-weight: 900;
-  letter-spacing: -0.02em;
+  font-family: 'Impact', 'Arial Black', 'Haettenschweiler', sans-serif;
+  font-size: clamp(3rem, 6vw, 5rem);
+  font-weight: 400;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding: 0 clamp(8px, 1.5vw, 15px);
+  padding: 0 clamp(12px, 2vw, 25px);
   flex-shrink: 0;
-  line-height: 0.9;
+  line-height: 1;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* Row 1 - Same as VISI MISI gradient */
+/* Row 1 - Soft blue gradient */
 .scroll-velocity-text.row1 {
   background: linear-gradient(
     180deg,
-    rgba(31, 87, 191, 0.5) 0%,
-    rgba(31, 87, 191, 0.35) 50%,
+    rgba(31, 87, 191, 0.25) 0%,
     rgba(31, 87, 191, 0.15) 100%
   );
   -webkit-background-clip: text;
@@ -711,13 +710,12 @@
   background-clip: text;
 }
 
-/* Row 2 - Teal gradient #30ABB0 */
+/* Row 2 - Purple/Blue gradient #728af7 */
 .scroll-velocity-text.row2 {
   background: linear-gradient(
     180deg,
-    rgba(48, 171, 176, 0.6) 0%,
-    rgba(48, 171, 176, 0.4) 50%,
-    rgba(48, 171, 176, 0.2) 100%
+    rgba(114, 138, 247, 0.3) 0%,
+    rgba(114, 138, 247, 0.18) 100%
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -727,25 +725,25 @@
 /* Responsive */
 @media (max-width: 768px) {
   .scroll-velocity-section {
-    padding: 0 0 20px;
-    margin-top: -35px;
+    padding: 0 0 35px;
+    margin-top: -45px;
   }
 
   .scroll-velocity-text {
-    font-size: clamp(1.8rem, 5vw, 2.5rem);
-    padding: 0 8px;
+    font-size: clamp(2rem, 6vw, 3rem);
+    padding: 0 10px;
   }
 }
 
 @media (max-width: 480px) {
   .scroll-velocity-section {
-    padding: 0 0 15px;
-    margin-top: -25px;
+    padding: 0 0 25px;
+    margin-top: -30px;
   }
 
   .scroll-velocity-text {
-    font-size: clamp(1.4rem, 6vw, 1.8rem);
-    padding: 0 6px;
+    font-size: clamp(1.5rem, 7vw, 2rem);
+    padding: 0 8px;
   }
 }
 
