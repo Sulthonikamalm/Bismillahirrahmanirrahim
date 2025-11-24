@@ -783,8 +783,8 @@
 /* Logo Badge */
 .sigap-logo-badge {
   position: absolute;
-  top: 2%;
-  right: 2%;
+  top: -1%;
+  right: -1%;
   width: 48px;
   height: auto;
   padding: 0;
