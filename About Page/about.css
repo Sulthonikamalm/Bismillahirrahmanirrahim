@@ -361,41 +361,238 @@
 }
 /* SOCIAL ICON FOOTER */
 
-/* Visi Misi */
-.visi-misi {
-  background: #fff;
+/* ============================================
+   VISI MISI SECTION
+   Professional Design with Large Background Text
+   ============================================ */
+
+.visi-misi-section {
+  position: relative;
+  background: linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
+  padding: 120px 0;
+  overflow: hidden;
 }
+
+/* Large Background Text - VISI MISI */
+.visi-misi-bg-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  gap: 40px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.visi-misi-bg-text span {
+  font-family: var(--font-heading);
+  font-size: clamp(8rem, 20vw, 18rem);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  background: linear-gradient(180deg, #d4e3ed 0%, #e8f0f5 50%, #f0f5f9 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  opacity: 0.7;
+  user-select: none;
+}
+
+/* Container */
+.visi-misi-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 5%;
+  position: relative;
+  z-index: 2;
+}
+
+/* Header */
+.visi-misi-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.visi-misi-label {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #558198;
+  margin-bottom: 16px;
+}
+
+.visi-misi-title {
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 700;
+  color: #1a1a2e;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.visi-misi-title span {
+  color: #558198;
+}
+
+/* Grid Layout */
 .visi-misi-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 60px;
-  align-items: center;
+  gap: 40px;
 }
-.visi-list {
-  font-size: 1.1rem;
+
+/* Cards */
+.visi-misi-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.visi-misi-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+}
+
+.visi-misi-card-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.visi-misi-number {
+  font-family: var(--font-heading);
+  font-size: 3rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #558198 0%, #4B8A7B 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+}
+
+.visi-misi-card-title {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1a1a2e;
+}
+
+.visi-misi-card-text {
+  font-size: 1.05rem;
+  color: #4a5568;
   line-height: 1.8;
 }
-.progress-bars {
-  display: flex;
-  gap: 10px;
-  margin-top: 30px;
+
+/* Misi List */
+.visi-misi-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
-.progress-item {
-  flex: 1;
+
+.visi-misi-list li {
+  position: relative;
+  padding-left: 28px;
+  margin-bottom: 16px;
+  font-size: 1rem;
+  color: #4a5568;
+  line-height: 1.7;
+}
+
+.visi-misi-list li:last-child {
+  margin-bottom: 0;
+}
+
+.visi-misi-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 8px;
   height: 8px;
-  background: #ddd;
-  border-radius: 4px;
-  overflow: hidden;
+  background: linear-gradient(135deg, #558198 0%, #4B8A7B 100%);
+  border-radius: 50%;
 }
-.bar {
-  height: 100%;
-  background: var(--color-teal);
-  border-radius: 4px;
-  transition: width 1.2s ease;
+
+/* Responsive */
+@media (max-width: 992px) {
+  .visi-misi-section {
+    padding: 100px 0;
+  }
+
+  .visi-misi-bg-text span {
+    font-size: clamp(6rem, 18vw, 12rem);
+  }
+
+  .visi-misi-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .visi-misi-card {
+    padding: 32px;
+  }
 }
-.visi-misi-img img {
-  border-radius: 20px;
-  max-width: 100%;
+
+@media (max-width: 768px) {
+  .visi-misi-section {
+    padding: 80px 0;
+  }
+
+  .visi-misi-bg-text {
+    gap: 20px;
+  }
+
+  .visi-misi-bg-text span {
+    font-size: clamp(4rem, 16vw, 8rem);
+  }
+
+  .visi-misi-header {
+    margin-bottom: 40px;
+  }
+
+  .visi-misi-title {
+    font-size: clamp(2rem, 6vw, 2.5rem);
+  }
+
+  .visi-misi-number {
+    font-size: 2.5rem;
+  }
+
+  .visi-misi-card-title {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .visi-misi-section {
+    padding: 60px 0;
+  }
+
+  .visi-misi-bg-text span {
+    font-size: clamp(3rem, 14vw, 5rem);
+  }
+
+  .visi-misi-card {
+    padding: 24px;
+    border-radius: 16px;
+  }
+
+  .visi-misi-number {
+    font-size: 2rem;
+  }
+
+  .visi-misi-card-text,
+  .visi-misi-list li {
+    font-size: 0.95rem;
+  }
 }
 
 /* Tugas */
