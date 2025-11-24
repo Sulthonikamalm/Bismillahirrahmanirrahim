@@ -368,21 +368,21 @@
 
 .visi-misi-section {
   position: relative;
-  background: #fafbfc;
+  background: #ffffff;
   padding: 100px 0 120px;
   overflow: hidden;
   min-height: 100vh;
 }
 
-/* Large Background Text - VISI MISI (Higher Position) */
+/* Large Background Text - VISI MISI */
 .visi-misi-bg-text {
   position: absolute;
-  top: 5%;
+  top: 8%;
   left: 0;
   right: 0;
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 25px;
   white-space: nowrap;
   pointer-events: none;
   z-index: 0;
@@ -390,15 +390,15 @@
 
 .visi-misi-bg-text span {
   font-family: var(--font-heading);
-  font-size: clamp(12rem, 25vw, 22rem);
+  font-size: clamp(8rem, 18vw, 16rem);
   font-weight: 900;
   letter-spacing: -0.02em;
   background: linear-gradient(
     180deg,
-    rgba(190, 210, 230, 0.85) 0%,
-    rgba(210, 225, 240, 0.6) 40%,
-    rgba(235, 245, 250, 0.35) 70%,
-    rgba(250, 251, 252, 0.1) 100%
+    rgba(180, 200, 220, 0.95) 0%,
+    rgba(195, 215, 235, 0.75) 35%,
+    rgba(220, 235, 248, 0.45) 70%,
+    rgba(245, 250, 255, 0.15) 100%
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -531,7 +531,7 @@
 /* Responsive */
 @media (max-width: 1200px) {
   .visi-misi-bg-text span {
-    font-size: clamp(8rem, 18vw, 14rem);
+    font-size: clamp(6rem, 15vw, 12rem);
   }
 }
 
