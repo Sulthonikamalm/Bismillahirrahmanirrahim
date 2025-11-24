@@ -660,20 +660,22 @@
 .scroll-velocity-section {
   position: relative;
   background: #ffffff;
-  padding: 20px 0 40px;
+  padding: 0 0 30px;
+  margin-top: -40px;
   overflow: hidden;
 }
 
 .scroll-velocity-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 0;
 }
 
 .scroll-velocity-track {
   position: relative;
   overflow: hidden;
   white-space: nowrap;
+  line-height: 1.2;
 }
 
 .scroll-velocity-content {
@@ -685,20 +687,20 @@
 
 .scroll-velocity-text {
   font-family: var(--font-heading);
-  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
-  padding: 0 clamp(25px, 4vw, 50px);
+  padding: 0 clamp(15px, 2.5vw, 30px);
   flex-shrink: 0;
 }
 
-/* Row 1 - Teal/Blue tones */
+/* Row 1 - Teal tones */
 .scroll-velocity-text.row1 {
   color: #558198;
 }
 
-/* Row 2 - Dark/Navy tones */
+/* Row 2 - Dark tones */
 .scroll-velocity-text.row2 {
   color: #1a1a2e;
 }
@@ -706,27 +708,25 @@
 /* Responsive */
 @media (max-width: 768px) {
   .scroll-velocity-section {
-    padding: 15px 0 30px;
-  }
-
-  .scroll-velocity-wrapper {
-    gap: 5px;
+    padding: 0 0 20px;
+    margin-top: -30px;
   }
 
   .scroll-velocity-text {
-    font-size: clamp(1.5rem, 5vw, 2.2rem);
-    padding: 0 20px;
+    font-size: clamp(1.4rem, 4.5vw, 2rem);
+    padding: 0 12px;
   }
 }
 
 @media (max-width: 480px) {
   .scroll-velocity-section {
-    padding: 10px 0 25px;
+    padding: 0 0 15px;
+    margin-top: -20px;
   }
 
   .scroll-velocity-text {
-    font-size: clamp(1.2rem, 6vw, 1.8rem);
-    padding: 0 15px;
+    font-size: clamp(1.1rem, 5vw, 1.5rem);
+    padding: 0 10px;
   }
 }
 
