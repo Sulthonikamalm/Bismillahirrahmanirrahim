@@ -390,7 +390,7 @@
 
 .visi-misi-bg-text span {
   font-family: var(--font-heading);
-  font-size: clamp(8rem, 18vw, 16rem);
+  font-size: clamp(10rem, 22vw, 20rem);
   font-weight: 900;
   letter-spacing: -0.02em;
   background: linear-gradient(
@@ -531,7 +531,7 @@
 /* Responsive */
 @media (max-width: 1200px) {
   .visi-misi-bg-text span {
-    font-size: clamp(6rem, 15vw, 12rem);
+    font-size: clamp(8rem, 18vw, 15rem);
   }
 }
 
@@ -553,7 +553,7 @@
   }
 
   .visi-misi-bg-text span {
-    font-size: clamp(5rem, 15vw, 10rem);
+    font-size: clamp(6rem, 17vw, 12rem);
   }
 
   .visi-misi-content {
@@ -595,7 +595,7 @@
   }
 
   .visi-misi-bg-text span {
-    font-size: clamp(4rem, 14vw, 7rem);
+    font-size: clamp(5rem, 15vw, 9rem);
   }
 
   .visi-misi-title {
@@ -622,7 +622,7 @@
   }
 
   .visi-misi-bg-text span {
-    font-size: clamp(3rem, 12vw, 5rem);
+    font-size: clamp(4rem, 14vw, 6rem);
   }
 
   .visi-misi-label {
