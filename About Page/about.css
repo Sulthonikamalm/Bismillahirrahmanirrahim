@@ -725,7 +725,7 @@
 .sigap-svg-container {
   position: relative;
   width: 100%;
-  max-width: 600px;
+  max-width: 700px;
   margin: 0 auto;
 }
 
@@ -742,25 +742,24 @@
   filter: drop-shadow(0 30px 60px rgba(67, 71, 242, 0.35));
 }
 
-/* Logo Badge - Positioned on Right Side */
+/* Logo Badge - Positioned at top-right curve (transparent) */
 .sigap-logo-badge {
   position: absolute;
-  top: 40px;
-  right: -30px;
-  width: 70px;
+  top: 3%;
+  right: -2%;
+  width: 60px;
   height: auto;
-  padding: 12px;
-  background: rgba(255, 255, 255, 0.98);
-  border-radius: 16px;
-  box-shadow: 0 8px 30px rgba(25, 76, 159, 0.35);
+  padding: 0;
+  background: transparent;
+  z-index: 10;
   animation: floatBadge 4s ease-in-out infinite;
   transition: all 0.3s var(--ease-calm);
-  z-index: 10;
+  filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.2));
 }
 
 .sigap-logo-badge:hover {
-  transform: scale(1.15) rotate(5deg);
-  box-shadow: 0 12px 40px rgba(25, 76, 159, 0.5);
+  transform: scale(1.15);
+  filter: drop-shadow(0 8px 25px rgba(0, 0, 0, 0.3));
 }
 
 .sigap-logo-badge img {
@@ -881,13 +880,13 @@
   }
 
   .sigap-svg-container {
-    max-width: 500px;
+    max-width: 550px;
   }
 
   .sigap-logo-badge {
-    width: 55px;
-    top: 20px;
-    right: -15px;
+    width: 50px;
+    top: 2%;
+    right: -1%;
   }
 }
 
@@ -908,14 +907,13 @@
   }
 
   .sigap-svg-container {
-    max-width: 400px;
+    max-width: 450px;
   }
 
   .sigap-logo-badge {
-    width: 50px;
-    top: 15px;
-    right: -10px;
-    padding: 10px;
+    width: 45px;
+    top: 2%;
+    right: 0;
   }
 
   .sigap-decoration-1,
@@ -939,13 +937,12 @@
   }
 
   .sigap-svg-container {
-    max-width: 320px;
+    max-width: 350px;
   }
 
   .sigap-logo-badge {
-    width: 40px;
-    padding: 8px;
-    top: 10px;
-    right: -5px;
+    width: 35px;
+    top: 1%;
+    right: 0;
   }
 }
