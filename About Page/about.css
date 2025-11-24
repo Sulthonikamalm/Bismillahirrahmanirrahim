@@ -725,7 +725,7 @@
 .sigap-svg-container {
   position: relative;
   width: 100%;
-  max-width: 700px;
+  max-width: 850px;
   margin: 0 auto;
 }
 
@@ -880,7 +880,7 @@
   }
 
   .sigap-svg-container {
-    max-width: 550px;
+    max-width: 650px;
   }
 
   .sigap-logo-badge {
@@ -907,7 +907,7 @@
   }
 
   .sigap-svg-container {
-    max-width: 450px;
+    max-width: 550px;
   }
 
   .sigap-logo-badge {
@@ -937,7 +937,7 @@
   }
 
   .sigap-svg-container {
-    max-width: 350px;
+    max-width: 400px;
   }
 
   .sigap-logo-badge {
