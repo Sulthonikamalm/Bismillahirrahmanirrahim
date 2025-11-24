@@ -435,7 +435,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: #558198;
+  color: #557398;
   background: rgba(85, 129, 152, 0.1);
   padding: 8px 18px;
   border-radius: 100px;
@@ -1115,8 +1115,8 @@
 /* Logo Badge */
 .sigap-logo-badge {
   position: absolute;
-  top: 2%;
-  right: 2%;
+  top: -1%;
+  right: -1%;
   width: 48px;
   height: auto;
   padding: 0;
