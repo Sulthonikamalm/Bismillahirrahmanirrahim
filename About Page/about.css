@@ -646,16 +646,16 @@
 .sigap-ppkpt-section {
   position: relative;
   background: #ffffff;
-  padding: 100px 8vw;
-  overflow: visible;
+  padding: 100px 5vw;
+  overflow: hidden;
 }
 
 .sigap-ppkpt-container {
-  max-width: 1400px;
+  max-width: 1600px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1.3fr 0.7fr;
-  gap: 40px;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 60px;
   align-items: center;
   position: relative;
   z-index: 2;
@@ -664,11 +664,12 @@
 /* Left Content */
 .sigap-ppkpt-content {
   animation: slideInLeft 1s var(--ease-calm) both;
+  padding-right: 20px;
 }
 
 .sigap-ppkpt-title {
   font-family: var(--font-heading);
-  font-size: clamp(3.5rem, 8vw, 7rem);
+  font-size: clamp(3rem, 6vw, 5.5rem);
   font-weight: 800;
   color: #4A4545;
   line-height: 1;
@@ -708,12 +709,12 @@
 
 .sigap-ppkpt-description {
   font-family: var(--font-body);
-  font-size: clamp(1rem, 1.5vw, 1.25rem);
+  font-size: clamp(1rem, 1.3vw, 1.15rem);
   font-weight: 500;
   color: #2F2F2F;
   line-height: 1.8;
   margin-bottom: 35px;
-  max-width: 600px;
+  max-width: 520px;
 }
 
 /* Right Image Section with SVG */
@@ -724,9 +725,9 @@
 
 .sigap-svg-container {
   position: relative;
-  width: 150%;
-  max-width: 150%;
-  margin: 0 0 0 -30%;
+  width: 100%;
+  max-width: 700px;
+  margin: 0;
 }
 
 .sigap-svg-shape {
@@ -840,6 +841,88 @@
    SIGAP PPKPT RESPONSIVE
    ============================================ */
 
+/* Extra Large Desktop */
+@media (min-width: 1600px) {
+  .sigap-ppkpt-section {
+    padding: 120px 8vw;
+  }
+
+  .sigap-ppkpt-container {
+    max-width: 1800px;
+    gap: 80px;
+  }
+
+  .sigap-ppkpt-title {
+    font-size: 5.5rem;
+  }
+
+  .sigap-ppkpt-description {
+    font-size: 1.2rem;
+    max-width: 580px;
+  }
+
+  .sigap-svg-container {
+    max-width: 800px;
+  }
+
+  .sigap-logo-badge {
+    width: 55px;
+    top: 0%;
+    right: 0%;
+  }
+}
+
+/* Large Desktop */
+@media (min-width: 1200px) and (max-width: 1599px) {
+  .sigap-ppkpt-section {
+    padding: 100px 6vw;
+  }
+
+  .sigap-ppkpt-title {
+    font-size: 4.5rem;
+  }
+
+  .sigap-svg-container {
+    max-width: 650px;
+  }
+
+  .sigap-logo-badge {
+    width: 48px;
+    top: 0%;
+    right: 0%;
+  }
+}
+
+/* Medium Desktop */
+@media (min-width: 993px) and (max-width: 1199px) {
+  .sigap-ppkpt-section {
+    padding: 80px 5vw;
+  }
+
+  .sigap-ppkpt-container {
+    gap: 40px;
+  }
+
+  .sigap-ppkpt-title {
+    font-size: 3.5rem;
+  }
+
+  .sigap-ppkpt-description {
+    font-size: 1rem;
+    max-width: 450px;
+  }
+
+  .sigap-svg-container {
+    max-width: 550px;
+  }
+
+  .sigap-logo-badge {
+    width: 42px;
+    top: 1%;
+    right: 1%;
+  }
+}
+
 @media (max-width: 992px) {
   .sigap-ppkpt-section {
     padding: 80px 5vw;
@@ -853,6 +936,7 @@
 
   .sigap-ppkpt-content {
     order: 1;
+    padding-right: 0;
   }
 
   .sigap-ppkpt-image {
@@ -860,7 +944,7 @@
   }
 
   .sigap-ppkpt-title {
-    font-size: clamp(2.5rem, 10vw, 5rem);
+    font-size: clamp(2.5rem, 10vw, 4rem);
     white-space: nowrap;
   }
 
@@ -874,19 +958,22 @@
   }
 
   .sigap-ppkpt-description {
-    max-width: 100%;
+    max-width: 600px;
     margin-left: auto;
     margin-right: auto;
+    font-size: 1.05rem;
   }
 
   .sigap-svg-container {
-    max-width: 100%; width: 100%; margin: 0 auto;
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto;
   }
 
   .sigap-logo-badge {
-    width: 42px;
-    top: 2%;
-    right: 3%;
+    width: 45px;
+    top: 1%;
+    right: 2%;
   }
 }
 
@@ -896,7 +983,7 @@
   }
 
   .sigap-ppkpt-title {
-    font-size: clamp(2rem, 10vw, 3.5rem);
+    font-size: clamp(2rem, 10vw, 3rem);
     margin-bottom: 20px;
     white-space: nowrap;
   }
@@ -904,16 +991,19 @@
   .sigap-ppkpt-description {
     font-size: 1rem;
     line-height: 1.7;
+    max-width: 500px;
   }
 
   .sigap-svg-container {
-    max-width: 100%; width: 100%; margin: 0 auto;
+    max-width: 500px;
+    width: 100%;
+    margin: 0 auto;
   }
 
   .sigap-logo-badge {
-    width: 38px;
-    top: 3%;
-    right: 5%;
+    width: 40px;
+    top: 2%;
+    right: 3%;
   }
 
   .sigap-decoration-1,
@@ -937,41 +1027,30 @@
   }
 
   .sigap-svg-container {
-    max-width: 100%; width: 100%; margin: 0 auto;
+    max-width: 100%;
+    width: 100%;
+    margin: 0 auto;
   }
 
   .sigap-logo-badge {
-    width: 32px;
-    top: 4%;
-    right: 6%;
-  }
-}
-/* Extra Large Desktop - Logo adjustment */
-@media (min-width: 1600px) {
-  .sigap-logo-badge {
-    width: 50px;
-    top: -0.5%;
-    right: 0.5%;
+    width: 35px;
+    top: 3%;
+    right: 4%;
   }
 }
 
-/* Large Desktop - Logo adjustment */
-@media (min-width: 1200px) and (max-width: 1599px) {
-  .sigap-logo-badge {
-    width: 45px;
-    top: -1%;
-    right: -1%;
-  }
-}
-
-/* Extra Small Mobile - Logo adjustment */
+/* Extra Small Mobile */
 @media (max-width: 360px) {
   .sigap-logo-badge {
-    width: 28px;
-    top: 5%;
-    right: 8%;
+    width: 30px;
+    top: 4%;
+    right: 5%;
   }
-  
+
+  .sigap-ppkpt-title {
+    font-size: 1.6rem;
+  }
+
   .sigap-svg-container {
     max-width: 100%;
     width: 100%;
