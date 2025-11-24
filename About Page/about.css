@@ -424,7 +424,7 @@
 /* Header - Professional Style */
 .visi-misi-header {
   margin-bottom: 50px;
-  padding-top: 180px;
+  padding-top: 75px;
   position: relative;
   z-index: 3;
 }
@@ -435,7 +435,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: #558198;
+  color: #557398;
   background: rgba(85, 129, 152, 0.1);
   padding: 8px 18px;
   border-radius: 100px;
