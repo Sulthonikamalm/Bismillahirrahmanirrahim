@@ -377,12 +377,12 @@
 /* Large Background Text - VISI MISI */
 .visi-misi-bg-text {
   position: absolute;
-  top: 8%;
+  top: 3%;
   left: 0;
   right: 0;
   display: flex;
   justify-content: center;
-  gap: 25px;
+  gap: 15px;
   white-space: nowrap;
   pointer-events: none;
   z-index: 0;
@@ -438,7 +438,7 @@
   background: rgba(85, 129, 152, 0.1);
   padding: 8px 18px;
   border-radius: 100px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .visi-misi-title {
