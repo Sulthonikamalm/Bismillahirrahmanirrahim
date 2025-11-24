@@ -676,6 +676,12 @@
   letter-spacing: -0.02em;
   position: relative;
   transition: all 0.4s var(--ease-calm);
+  white-space: nowrap;
+  display: inline-block;
+}
+
+.sigap-ppkpt-title span {
+  display: inline;
 }
 
 .sigap-ppkpt-title:hover {
@@ -710,129 +716,51 @@
   max-width: 550px;
 }
 
-/* CTA Button */
-.sigap-ppkpt-cta {
-  margin-top: 20px;
-}
-
-.sigap-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  padding: 16px 32px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  border-radius: 50px;
-  background: linear-gradient(135deg, var(--color-teal), #3a6845);
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  transition: all 0.4s var(--ease-calm);
-  box-shadow: 0 4px 20px rgba(75, 138, 123, 0.3);
-  position: relative;
-  overflow: hidden;
-}
-
-.sigap-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-  transition: left 0.6s ease;
-}
-
-.sigap-btn:hover::before {
-  left: 100%;
-}
-
-.sigap-btn:hover {
-  transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 8px 30px rgba(75, 138, 123, 0.5);
-}
-
-.sigap-btn i {
-  font-size: 1rem;
-  transition: transform 0.3s ease;
-}
-
-.sigap-btn:hover i {
-  transform: translateX(5px);
-}
-
-/* Right Image Section */
+/* Right Image Section with SVG */
 .sigap-ppkpt-image {
   position: relative;
   animation: slideInRight 1s var(--ease-calm) 0.2s both;
 }
 
-.sigap-image-wrapper {
+.sigap-svg-container {
   position: relative;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-  transition: all 0.5s var(--ease-calm);
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
-.sigap-image-wrapper:hover {
-  transform: scale(1.02) rotate(1deg);
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.2);
-}
-
-.sesepuh-image {
+.sigap-svg-shape {
   width: 100%;
   height: auto;
   display: block;
-  transition: transform 0.6s var(--ease-calm);
+  filter: drop-shadow(0 20px 40px rgba(67, 71, 242, 0.25));
+  transition: all 0.5s var(--ease-calm);
 }
 
-.sigap-image-wrapper:hover .sesepuh-image {
-  transform: scale(1.05);
+.sigap-svg-shape:hover {
+  transform: scale(1.02);
+  filter: drop-shadow(0 30px 60px rgba(67, 71, 242, 0.35));
 }
 
-/* Image Overlay */
-.sigap-image-wrapper .image-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    135deg,
-    rgba(19, 35, 56, 0.1) 0%,
-    transparent 50%,
-    rgba(75, 138, 123, 0.1) 100%
-  );
-  opacity: 0;
-  transition: opacity 0.4s var(--ease-calm);
-  pointer-events: none;
-}
-
-.sigap-image-wrapper:hover .image-overlay {
-  opacity: 1;
-}
-
-/* Logo Badge */
+/* Logo Badge - Positioned on Right Side */
 .sigap-logo-badge {
   position: absolute;
-  top: 20px;
-  right: 20px;
-  width: 60px;
+  top: 40px;
+  right: -30px;
+  width: 70px;
   height: auto;
-  padding: 10px;
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(25, 76, 159, 0.3);
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.98);
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(25, 76, 159, 0.35);
   animation: floatBadge 4s ease-in-out infinite;
   transition: all 0.3s var(--ease-calm);
   z-index: 10;
 }
 
 .sigap-logo-badge:hover {
-  transform: scale(1.1) rotate(5deg);
-  box-shadow: 0 8px 30px rgba(25, 76, 159, 0.4);
+  transform: scale(1.15) rotate(5deg);
+  box-shadow: 0 12px 40px rgba(25, 76, 159, 0.5);
 }
 
 .sigap-logo-badge img {
@@ -933,7 +861,8 @@
   }
 
   .sigap-ppkpt-title {
-    font-size: clamp(3rem, 10vw, 5rem);
+    font-size: clamp(2.5rem, 10vw, 5rem);
+    white-space: nowrap;
   }
 
   .sigap-ppkpt-title:hover {
@@ -951,10 +880,14 @@
     margin-right: auto;
   }
 
+  .sigap-svg-container {
+    max-width: 500px;
+  }
+
   .sigap-logo-badge {
-    width: 50px;
-    top: 15px;
-    right: 15px;
+    width: 55px;
+    top: 20px;
+    right: -15px;
   }
 }
 
@@ -964,8 +897,9 @@
   }
 
   .sigap-ppkpt-title {
-    font-size: clamp(2.5rem, 12vw, 4rem);
+    font-size: clamp(2rem, 10vw, 3.5rem);
     margin-bottom: 20px;
+    white-space: nowrap;
   }
 
   .sigap-ppkpt-description {
@@ -973,13 +907,15 @@
     line-height: 1.7;
   }
 
-  .sigap-btn {
-    padding: 14px 28px;
-    font-size: 1rem;
+  .sigap-svg-container {
+    max-width: 400px;
   }
 
-  .sigap-image-wrapper {
-    border-radius: 15px;
+  .sigap-logo-badge {
+    width: 50px;
+    top: 15px;
+    right: -10px;
+    padding: 10px;
   }
 
   .sigap-decoration-1,
@@ -994,22 +930,22 @@
   }
 
   .sigap-ppkpt-title {
-    font-size: clamp(2rem, 14vw, 3rem);
+    font-size: clamp(1.8rem, 12vw, 2.5rem);
+    white-space: nowrap;
   }
 
   .sigap-ppkpt-description {
     font-size: 0.95rem;
   }
 
-  .sigap-btn {
-    padding: 12px 24px;
-    font-size: 0.95rem;
-    width: 100%;
-    justify-content: center;
+  .sigap-svg-container {
+    max-width: 320px;
   }
 
   .sigap-logo-badge {
-    width: 45px;
+    width: 40px;
     padding: 8px;
+    top: 10px;
+    right: -5px;
   }
 }
