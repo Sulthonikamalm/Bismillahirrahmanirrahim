@@ -980,15 +980,15 @@
 /* Label Badge - Like Visi Misi */
 .pilar-label {
   display: inline-block;
-  font-size: 0.8rem;
+  font-size: 0.95rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   color: #558198;
   background: rgba(85, 129, 152, 0.1);
-  padding: 8px 18px;
+  padding: 10px 24px;
   border-radius: 100px;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
 .pilar-title {
@@ -1000,6 +1000,7 @@
   letter-spacing: -0.02em;
   max-width: 900px;
   margin: 0 auto;
+  margin-top: -4px;
 }
 
 /* Content Grid - 4 Pillars */
@@ -1092,12 +1093,14 @@
   }
 
   .pilar-label {
-    font-size: 0.75rem;
-    padding: 7px 16px;
+    font-size: 0.9rem;
+    padding: 9px 22px;
+    margin-bottom: 22px;
   }
 
   .pilar-title {
     font-size: clamp(1.6rem, 3.5vw, 2.3rem);
+    margin-top: -3px;
   }
 }
 
@@ -1112,12 +1115,14 @@
   }
 
   .pilar-label {
-    font-size: 0.7rem;
-    padding: 6px 14px;
+    font-size: 0.85rem;
+    padding: 8px 20px;
+    margin-bottom: 20px;
   }
 
   .pilar-title {
     font-size: clamp(1.4rem, 4vw, 2rem);
+    margin-top: -2px;
   }
 
   .pilar-bg-text span {
@@ -1153,12 +1158,14 @@
   }
 
   .pilar-label {
-    font-size: 0.65rem;
-    padding: 6px 12px;
+    font-size: 0.8rem;
+    padding: 7px 18px;
+    margin-bottom: 18px;
   }
 
   .pilar-title {
     font-size: clamp(1.2rem, 5vw, 1.8rem);
+    margin-top: -2px;
   }
 
   .pilar-item-title {
