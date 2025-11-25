@@ -811,7 +811,7 @@
   min-height: 100vh;
 }
 
-/* Elegant Batik-Inspired Pattern */
+/* Elegant Batik-Inspired Pattern - Only visible in title area */
 .pilar-pattern {
   position: absolute;
   top: 0;
@@ -824,27 +824,30 @@
       45deg,
       transparent 0px,
       transparent 15px,
-      rgba(31, 87, 191, 0.025) 15px,
-      rgba(31, 87, 191, 0.025) 18px,
+      rgba(31, 87, 191, 0.012) 15px,
+      rgba(31, 87, 191, 0.012) 18px,
       transparent 18px,
       transparent 35px,
-      rgba(114, 138, 247, 0.03) 35px,
-      rgba(114, 138, 247, 0.03) 37px
+      rgba(114, 138, 247, 0.015) 35px,
+      rgba(114, 138, 247, 0.015) 37px
     ),
     repeating-linear-gradient(
       -45deg,
       transparent 0px,
       transparent 20px,
-      rgba(31, 87, 191, 0.02) 20px,
-      rgba(31, 87, 191, 0.02) 22px,
+      rgba(31, 87, 191, 0.01) 20px,
+      rgba(31, 87, 191, 0.01) 22px,
       transparent 22px,
       transparent 40px,
-      rgba(114, 138, 247, 0.028) 40px,
-      rgba(114, 138, 247, 0.028) 42px
+      rgba(114, 138, 247, 0.013) 40px,
+      rgba(114, 138, 247, 0.013) 42px
     );
   opacity: 1;
   pointer-events: none;
   z-index: 0;
+  /* Mask to show pattern only in title area (top 35%) */
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 25%, rgba(0,0,0,0.5) 30%, transparent 35%);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 25%, rgba(0,0,0,0.5) 30%, transparent 35%);
 }
 
 /* Floral dots pattern - batik style */
@@ -858,17 +861,17 @@
   background-image:
     radial-gradient(
       circle at 25% 25%,
-      rgba(31, 87, 191, 0.04) 2px,
+      rgba(31, 87, 191, 0.018) 2px,
       transparent 2px
     ),
     radial-gradient(
       circle at 75% 75%,
-      rgba(114, 138, 247, 0.035) 2.5px,
+      rgba(114, 138, 247, 0.016) 2.5px,
       transparent 2.5px
     ),
     radial-gradient(
       circle at 50% 50%,
-      rgba(31, 87, 191, 0.03) 1.5px,
+      rgba(31, 87, 191, 0.014) 1.5px,
       transparent 1.5px
     );
   background-size: 60px 60px, 80px 80px, 40px 40px;
@@ -890,8 +893,8 @@
       60deg,
       transparent 0px,
       transparent 25px,
-      rgba(114, 138, 247, 0.035) 25px,
-      rgba(114, 138, 247, 0.035) 27px,
+      rgba(114, 138, 247, 0.016) 25px,
+      rgba(114, 138, 247, 0.016) 27px,
       transparent 27px,
       transparent 50px
     ),
@@ -899,8 +902,8 @@
       120deg,
       transparent 0px,
       transparent 30px,
-      rgba(31, 87, 191, 0.028) 30px,
-      rgba(31, 87, 191, 0.028) 32px,
+      rgba(31, 87, 191, 0.013) 30px,
+      rgba(31, 87, 191, 0.013) 32px,
       transparent 32px,
       transparent 60px
     );
@@ -926,10 +929,10 @@
   letter-spacing: -0.02em;
   background: linear-gradient(
     180deg,
-    rgba(31, 87, 191, 0.35) 0%,
-    rgba(31, 87, 191, 0.22) 35%,
-    rgba(31, 87, 191, 0.12) 70%,
-    rgba(31, 87, 191, 0.03) 100%
+    rgba(31, 87, 191, 0.42) 0%,
+    rgba(31, 87, 191, 0.28) 35%,
+    rgba(31, 87, 191, 0.16) 70%,
+    rgba(31, 87, 191, 0.05) 100%
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -977,7 +980,7 @@
 }
 
 .pilar-item {
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 2px solid rgba(31, 87, 191, 0.15);
@@ -991,7 +994,7 @@
 
 .pilar-item:hover {
   transform: translateY(-10px);
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 1);
   border-color: rgba(31, 87, 191, 0.35);
   box-shadow: 0 20px 40px rgba(31, 87, 191, 0.15);
 }
