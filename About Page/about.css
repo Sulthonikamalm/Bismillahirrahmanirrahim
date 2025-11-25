@@ -811,7 +811,7 @@
   min-height: 100vh;
 }
 
-/* Modern Geometric Pattern - More Visible */
+/* Elegant Batik-Inspired Pattern */
 .pilar-pattern {
   position: absolute;
   top: 0;
@@ -819,26 +819,35 @@
   right: 0;
   bottom: 0;
   background-image:
+    /* Organic curved lines - main batik pattern */
     repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 40px,
-      rgba(31, 87, 191, 0.08) 40px,
-      rgba(31, 87, 191, 0.08) 41px
+      45deg,
+      transparent 0px,
+      transparent 15px,
+      rgba(31, 87, 191, 0.06) 15px,
+      rgba(31, 87, 191, 0.06) 18px,
+      transparent 18px,
+      transparent 35px,
+      rgba(114, 138, 247, 0.08) 35px,
+      rgba(114, 138, 247, 0.08) 37px
     ),
     repeating-linear-gradient(
-      90deg,
-      transparent,
+      -45deg,
+      transparent 0px,
+      transparent 20px,
+      rgba(31, 87, 191, 0.05) 20px,
+      rgba(31, 87, 191, 0.05) 22px,
+      transparent 22px,
       transparent 40px,
-      rgba(114, 138, 247, 0.06) 40px,
-      rgba(114, 138, 247, 0.06) 41px
+      rgba(114, 138, 247, 0.07) 40px,
+      rgba(114, 138, 247, 0.07) 42px
     );
-  opacity: 0.8;
+  opacity: 1;
   pointer-events: none;
-  z-index: 0;
+  z-index: 1;
 }
 
-/* Diagonal accent lines */
+/* Floral dots pattern - batik style */
 .pilar-pattern::before {
   content: '';
   position: absolute;
@@ -847,18 +856,28 @@
   right: 0;
   bottom: 0;
   background-image:
-    repeating-linear-gradient(
-      135deg,
-      transparent,
-      transparent 80px,
-      rgba(31, 87, 191, 0.04) 80px,
-      rgba(31, 87, 191, 0.04) 82px
+    radial-gradient(
+      circle at 25% 25%,
+      rgba(31, 87, 191, 0.12) 2px,
+      transparent 2px
+    ),
+    radial-gradient(
+      circle at 75% 75%,
+      rgba(114, 138, 247, 0.1) 2.5px,
+      transparent 2.5px
+    ),
+    radial-gradient(
+      circle at 50% 50%,
+      rgba(31, 87, 191, 0.08) 1.5px,
+      transparent 1.5px
     );
-  opacity: 0.9;
-  z-index: 0;
+  background-size: 60px 60px, 80px 80px, 40px 40px;
+  background-position: 0 0, 30px 30px, 15px 15px;
+  opacity: 1;
+  z-index: 1;
 }
 
-/* Dots pattern overlay */
+/* Organic wave lines - batik accent */
 .pilar-pattern::after {
   content: '';
   position: absolute;
@@ -866,14 +885,27 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: radial-gradient(
-    circle,
-    rgba(114, 138, 247, 0.12) 1.5px,
-    transparent 1.5px
-  );
-  background-size: 30px 30px;
-  opacity: 0.7;
-  z-index: 0;
+  background-image:
+    repeating-linear-gradient(
+      60deg,
+      transparent 0px,
+      transparent 25px,
+      rgba(114, 138, 247, 0.09) 25px,
+      rgba(114, 138, 247, 0.09) 27px,
+      transparent 27px,
+      transparent 50px
+    ),
+    repeating-linear-gradient(
+      120deg,
+      transparent 0px,
+      transparent 30px,
+      rgba(31, 87, 191, 0.07) 30px,
+      rgba(31, 87, 191, 0.07) 32px,
+      transparent 32px,
+      transparent 60px
+    );
+  opacity: 1;
+  z-index: 1;
 }
 
 /* Large Background Text - PILAR (Same size as VISI MISI) */
@@ -945,18 +977,23 @@
 }
 
 .pilar-item {
-  background: #ffffff;
-  border: 2px solid rgba(31, 87, 191, 0.1);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 2px solid rgba(31, 87, 191, 0.15);
   border-radius: 20px;
   padding: 40px 30px;
   text-align: center;
   transition: all 0.4s ease;
+  position: relative;
+  z-index: 2;
 }
 
 .pilar-item:hover {
   transform: translateY(-10px);
-  border-color: rgba(31, 87, 191, 0.3);
-  box-shadow: 0 20px 40px rgba(31, 87, 191, 0.12);
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(31, 87, 191, 0.35);
+  box-shadow: 0 20px 40px rgba(31, 87, 191, 0.15);
 }
 
 .pilar-icon {
