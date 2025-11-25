@@ -824,27 +824,27 @@
       45deg,
       transparent 0px,
       transparent 15px,
-      rgba(31, 87, 191, 0.06) 15px,
-      rgba(31, 87, 191, 0.06) 18px,
+      rgba(31, 87, 191, 0.025) 15px,
+      rgba(31, 87, 191, 0.025) 18px,
       transparent 18px,
       transparent 35px,
-      rgba(114, 138, 247, 0.08) 35px,
-      rgba(114, 138, 247, 0.08) 37px
+      rgba(114, 138, 247, 0.03) 35px,
+      rgba(114, 138, 247, 0.03) 37px
     ),
     repeating-linear-gradient(
       -45deg,
       transparent 0px,
       transparent 20px,
-      rgba(31, 87, 191, 0.05) 20px,
-      rgba(31, 87, 191, 0.05) 22px,
+      rgba(31, 87, 191, 0.02) 20px,
+      rgba(31, 87, 191, 0.02) 22px,
       transparent 22px,
       transparent 40px,
-      rgba(114, 138, 247, 0.07) 40px,
-      rgba(114, 138, 247, 0.07) 42px
+      rgba(114, 138, 247, 0.028) 40px,
+      rgba(114, 138, 247, 0.028) 42px
     );
   opacity: 1;
   pointer-events: none;
-  z-index: 1;
+  z-index: 0;
 }
 
 /* Floral dots pattern - batik style */
@@ -858,23 +858,23 @@
   background-image:
     radial-gradient(
       circle at 25% 25%,
-      rgba(31, 87, 191, 0.12) 2px,
+      rgba(31, 87, 191, 0.04) 2px,
       transparent 2px
     ),
     radial-gradient(
       circle at 75% 75%,
-      rgba(114, 138, 247, 0.1) 2.5px,
+      rgba(114, 138, 247, 0.035) 2.5px,
       transparent 2.5px
     ),
     radial-gradient(
       circle at 50% 50%,
-      rgba(31, 87, 191, 0.08) 1.5px,
+      rgba(31, 87, 191, 0.03) 1.5px,
       transparent 1.5px
     );
   background-size: 60px 60px, 80px 80px, 40px 40px;
   background-position: 0 0, 30px 30px, 15px 15px;
   opacity: 1;
-  z-index: 1;
+  z-index: 0;
 }
 
 /* Organic wave lines - batik accent */
@@ -890,8 +890,8 @@
       60deg,
       transparent 0px,
       transparent 25px,
-      rgba(114, 138, 247, 0.09) 25px,
-      rgba(114, 138, 247, 0.09) 27px,
+      rgba(114, 138, 247, 0.035) 25px,
+      rgba(114, 138, 247, 0.035) 27px,
       transparent 27px,
       transparent 50px
     ),
@@ -899,13 +899,13 @@
       120deg,
       transparent 0px,
       transparent 30px,
-      rgba(31, 87, 191, 0.07) 30px,
-      rgba(31, 87, 191, 0.07) 32px,
+      rgba(31, 87, 191, 0.028) 30px,
+      rgba(31, 87, 191, 0.028) 32px,
       transparent 32px,
       transparent 60px
     );
   opacity: 1;
-  z-index: 1;
+  z-index: 0;
 }
 
 /* Large Background Text - PILAR (Same size as VISI MISI) */
@@ -916,7 +916,7 @@
   transform: translateX(-50%);
   white-space: nowrap;
   pointer-events: none;
-  z-index: 0;
+  z-index: 1;
 }
 
 .pilar-bg-text span {
