@@ -85,5 +85,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
     animateScrollVelocity();
   }
+
+  // ============================================
+  // PILAR BACKGROUND TEXT SCROLL ANIMATION
+  // ============================================
+
+  const pilarBgText = document.querySelector('.pilar-bg-text');
+
+  if (pilarBgText) {
+    const pilarObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          pilarBgText.classList.add('animate-in');
+          pilarObserver.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.2,
+      rootMargin: '0px 0px -100px 0px'
+    });
+
+    const pilarSection = document.querySelector('.pilar-section');
+    if (pilarSection) {
+      pilarObserver.observe(pilarSection);
+    }
+  }
 });
 

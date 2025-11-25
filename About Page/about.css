@@ -911,7 +911,7 @@
   z-index: 0;
 }
 
-/* Large Background Text - PILAR (Same size as VISI MISI) */
+/* Large Background Text - PILAR with Scroll Animation */
 .pilar-bg-text {
   position: absolute;
   top: 3%;
@@ -920,6 +920,24 @@
   white-space: nowrap;
   pointer-events: none;
   z-index: 1;
+  opacity: 0;
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.pilar-bg-text.animate-in {
+  opacity: 1;
+  animation: pilarFadeIn 1s ease-out forwards;
+}
+
+@keyframes pilarFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
 }
 
 .pilar-bg-text span {
@@ -959,11 +977,25 @@
   z-index: 3;
 }
 
+/* Label Badge - Like Visi Misi */
+.pilar-label {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #558198;
+  background: rgba(85, 129, 152, 0.1);
+  padding: 8px 18px;
+  border-radius: 100px;
+  margin-bottom: 20px;
+}
+
 .pilar-title {
   font-family: var(--font-heading);
-  font-size: clamp(1.8rem, 3.5vw, 3rem);
+  font-size: clamp(2rem, 4vw, 3.5rem);
   font-weight: 700;
-  color: #1a1a2e;
+  color: #558198;
   line-height: 1.3;
   letter-spacing: -0.02em;
   max-width: 900px;
@@ -1059,6 +1091,11 @@
     font-size: clamp(6rem, 17vw, 12rem);
   }
 
+  .pilar-label {
+    font-size: 0.75rem;
+    padding: 7px 16px;
+  }
+
   .pilar-title {
     font-size: clamp(1.6rem, 3.5vw, 2.3rem);
   }
@@ -1072,6 +1109,11 @@
   .pilar-header {
     padding-top: 80px;
     margin-bottom: 50px;
+  }
+
+  .pilar-label {
+    font-size: 0.7rem;
+    padding: 6px 14px;
   }
 
   .pilar-title {
@@ -1108,6 +1150,11 @@
 
   .pilar-bg-text span {
     font-size: clamp(4rem, 14vw, 6rem);
+  }
+
+  .pilar-label {
+    font-size: 0.65rem;
+    padding: 6px 12px;
   }
 
   .pilar-title {
