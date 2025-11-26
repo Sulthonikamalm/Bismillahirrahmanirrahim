@@ -968,7 +968,7 @@
   z-index: 2;
 }
 
-/* Header - Centered, Similar to VISI MISI */
+/* Header - Centered, Similar to VISI MISI with Animation */
 .pilar-header {
   text-align: center;
   margin-bottom: 80px;
@@ -980,6 +980,26 @@
   justify-content: center;
   gap: 20px;
   flex-wrap: wrap;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.pilar-header.animate-in {
+  opacity: 1;
+  transform: translateY(0);
+  animation: headerFadeIn 1s ease-out forwards;
+}
+
+@keyframes headerFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Label Badge - Inline with Title */
@@ -1050,29 +1070,41 @@
     0 10px 40px rgba(31, 87, 191, 0.08);
 }
 
-/* Outer border shape - Sleek modern outline */
+/* Outer border shape - Sleek modern outline with rounded corners */
 .pilar-shape-outer {
   position: absolute;
   width: 380px;
   height: 460px;
   left: 0;
   top: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(114, 138, 247, 0.03) 0%,
-    transparent 100%
-  );
-  border: 2.5px solid;
-  border-image: linear-gradient(
-    135deg,
-    rgba(114, 138, 247, 0.4) 0%,
-    rgba(85, 129, 152, 0.6) 50%,
-    rgba(31, 87, 191, 0.4) 100%
-  ) 1;
+  background: transparent;
+  border: 2.5px solid rgba(85, 129, 152, 0.5);
   border-bottom-right-radius: 95px;
   border-bottom-left-radius: 95px;
   z-index: 2;
-  box-shadow: 0 8px 32px rgba(31, 87, 191, 0.1);
+  box-shadow:
+    0 8px 32px rgba(31, 87, 191, 0.1),
+    inset 0 0 0 1px rgba(114, 138, 247, 0.15);
+}
+
+/* Gradient overlay for modern look */
+.pilar-shape-outer::before {
+  content: '';
+  position: absolute;
+  top: -2.5px;
+  left: -2.5px;
+  right: -2.5px;
+  bottom: -2.5px;
+  background: linear-gradient(
+    135deg,
+    rgba(114, 138, 247, 0.03) 0%,
+    transparent 50%,
+    rgba(31, 87, 191, 0.02) 100%
+  );
+  border-bottom-right-radius: 95px;
+  border-bottom-left-radius: 95px;
+  pointer-events: none;
+  z-index: -1;
 }
 
 /* Image inside shape - Modern positioning */
