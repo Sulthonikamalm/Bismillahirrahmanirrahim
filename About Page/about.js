@@ -87,16 +87,24 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ============================================
-  // PILAR BACKGROUND TEXT SCROLL ANIMATION
+  // PILAR BACKGROUND TEXT & HEADER SCROLL ANIMATION
+  // Both animate together when section appears
   // ============================================
 
   const pilarBgText = document.querySelector('.pilar-bg-text');
+  const pilarHeader = document.querySelector('.pilar-header');
 
-  if (pilarBgText) {
+  if (pilarBgText || pilarHeader) {
     const pilarObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          pilarBgText.classList.add('animate-in');
+          // Animate both PILAR text and header together
+          if (pilarBgText) {
+            pilarBgText.classList.add('animate-in');
+          }
+          if (pilarHeader) {
+            pilarHeader.classList.add('animate-in');
+          }
           pilarObserver.unobserve(entry.target);
         }
       });
