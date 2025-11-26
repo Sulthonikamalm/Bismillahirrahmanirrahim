@@ -1029,13 +1029,31 @@
   flex-shrink: 1;
 }
 
-/* Telkom-Style Shape Container - Modern & Aesthetic */
-.pilar-shape-container {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 70px;
+/* 3-Column Layout: Cards - Image - Cards */
+.pilar-content-wrapper {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 50px;
+  align-items: center;
+  max-width: 1400px;
+  margin: 0 auto;
   position: relative;
   z-index: 3;
+}
+
+/* Left and Right Card Columns */
+.pilar-cards-left,
+.pilar-cards-right {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+/* Center Image Container */
+.pilar-center-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .pilar-shape-wrapper {
@@ -1137,73 +1155,145 @@
   filter: drop-shadow(0 24px 50px rgba(31, 87, 191, 0.22));
 }
 
-/* Content Grid - 4 Pillars */
-.pilar-content {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 40px;
+/* Flip Card Design - Modern & Aesthetic */
+.pilar-card {
   position: relative;
-  z-index: 3;
+  width: 100%;
+  max-width: 280px;
+  height: 240px;
+  margin: 0 auto;
+  perspective: 1000px;
 }
 
-.pilar-item {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 2px solid rgba(31, 87, 191, 0.15);
-  border-radius: 20px;
-  padding: 40px 30px;
-  text-align: center;
-  transition: all 0.4s ease;
-  position: relative;
-  z-index: 2;
-}
-
-.pilar-item:hover {
-  transform: translateY(-10px);
-  background: rgba(255, 255, 255, 1);
-  border-color: rgba(31, 87, 191, 0.35);
-  box-shadow: 0 20px 40px rgba(31, 87, 191, 0.15);
-}
-
-.pilar-icon {
-  width: 100px;
-  height: 100px;
-  margin: 0 auto 25px;
+.pilar-card-front,
+.pilar-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 16px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 30px 25px;
+  box-sizing: border-box;
+  transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.pilar-icon img {
+/* Front Side */
+.pilar-card-front {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(255, 255, 255, 0.9) 100%
+  );
+  border: 2px solid rgba(85, 129, 152, 0.2);
+  box-shadow:
+    0 0 0 4px rgba(114, 138, 247, 0.08),
+    0 8px 24px rgba(31, 87, 191, 0.12);
+  transform: rotateX(0deg);
+}
+
+.pilar-card:hover .pilar-card-front {
+  transform: rotateX(-90deg);
+}
+
+/* Back Side */
+.pilar-card-back {
+  background: linear-gradient(
+    135deg,
+    rgba(114, 138, 247, 0.95) 0%,
+    rgba(85, 129, 152, 0.95) 100%
+  );
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow:
+    0 0 0 4px rgba(31, 87, 191, 0.15),
+    0 12px 32px rgba(31, 87, 191, 0.25);
+  transform: rotateX(90deg);
+  transform-origin: bottom;
+}
+
+.pilar-card:hover .pilar-card-back {
+  transform: rotateX(0deg);
+}
+
+/* Card Icon */
+.pilar-card-icon {
+  width: 90px;
+  height: 90px;
+  margin-bottom: 20px;
+  transition: scale 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.pilar-card:hover .pilar-card-icon {
+  scale: 0;
+}
+
+.pilar-card-icon img {
   width: 100%;
-  height: auto;
+  height: 100%;
   object-fit: contain;
+  filter: drop-shadow(0 4px 12px rgba(31, 87, 191, 0.2));
 }
 
-.pilar-item-title {
+/* Card Title */
+.pilar-card-title {
   font-family: var(--font-heading);
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 700;
-  color: #1a1a2e;
-  margin-bottom: 15px;
   text-transform: uppercase;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.05em;
+  margin: 0;
+  color: #1a1a2e;
+  text-align: center;
 }
 
-.pilar-item-text {
+.pilar-card-front .pilar-card-title {
+  color: #558198;
+}
+
+.pilar-card-back .pilar-card-title {
+  color: #ffffff;
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+}
+
+/* Card Description */
+.pilar-card-description {
   font-family: var(--font-body);
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 400;
-  color: #4a5568;
-  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.95);
+  line-height: 1.6;
+  text-align: center;
   margin: 0;
+}
+
+/* Card Hover Effect */
+.pilar-card {
+  transition: transform 0.4s ease;
+}
+
+.pilar-card:hover {
+  transform: scale(1.05);
 }
 
 /* Responsive */
 @media (max-width: 1200px) {
   .pilar-bg-text span {
     font-size: clamp(8rem, 18vw, 15rem);
+  }
+}
+
+@media (max-width: 1200px) {
+  .pilar-content-wrapper {
+    gap: 35px;
+  }
+
+  .pilar-card {
+    max-width: 250px;
+    height: 220px;
   }
 }
 
@@ -1218,9 +1308,20 @@
     gap: 18px;
   }
 
-  .pilar-content {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
+  .pilar-content-wrapper {
+    grid-template-columns: 1fr;
+    gap: 50px;
+  }
+
+  .pilar-cards-left,
+  .pilar-cards-right {
+    flex-direction: row;
+    gap: 20px;
+    justify-content: center;
+  }
+
+  .pilar-center-image {
+    order: -1;
   }
 
   .pilar-bg-text span {
@@ -1291,6 +1392,17 @@
     font-size: clamp(5rem, 15vw, 9rem);
   }
 
+  .pilar-cards-left,
+  .pilar-cards-right {
+    flex-direction: column;
+    gap: 25px;
+  }
+
+  .pilar-card {
+    max-width: 100%;
+    height: 200px;
+  }
+
   .pilar-shape-wrapper {
     width: 260px;
     height: 330px;
@@ -1319,15 +1431,6 @@
 
   .pilar-shape-image img {
     max-width: 220px;
-  }
-
-  .pilar-item {
-    padding: 30px 20px;
-  }
-
-  .pilar-icon {
-    width: 80px;
-    height: 80px;
   }
 }
 
@@ -1391,12 +1494,22 @@
     max-width: 200px;
   }
 
-  .pilar-item-title {
-    font-size: 1.1rem;
+  .pilar-card {
+    height: 190px;
   }
 
-  .pilar-item-text {
-    font-size: 0.95rem;
+  .pilar-card-icon {
+    width: 70px;
+    height: 70px;
+    margin-bottom: 15px;
+  }
+
+  .pilar-card-title {
+    font-size: 1rem;
+  }
+
+  .pilar-card-description {
+    font-size: 0.85rem;
   }
 }
 
