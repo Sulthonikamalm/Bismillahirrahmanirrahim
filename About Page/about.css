@@ -1009,53 +1009,73 @@
   flex-shrink: 1;
 }
 
-/* Telkom-Style Shape Container */
+/* Telkom-Style Shape Container - Modern & Aesthetic */
 .pilar-shape-container {
   display: flex;
   justify-content: center;
-  margin-bottom: 60px;
+  margin-bottom: 70px;
   position: relative;
   z-index: 3;
 }
 
 .pilar-shape-wrapper {
   position: relative;
-  width: 450px;
-  height: 560px;
-}
-
-/* Inner filled shape - Soft blue background */
-.pilar-shape-inner {
-  position: absolute;
   width: 380px;
   height: 480px;
-  left: 35px;
-  top: 40px;
-  background: linear-gradient(
-    135deg,
-    rgba(114, 138, 247, 0.15) 0%,
-    rgba(31, 87, 191, 0.12) 100%
-  );
-  border-bottom-right-radius: 100px;
-  border-bottom-left-radius: 100px;
-  z-index: 1;
+  transition: transform 0.4s ease;
 }
 
-/* Outer border shape - Blue outline */
+.pilar-shape-wrapper:hover {
+  transform: translateY(-5px);
+}
+
+/* Inner filled shape - Modern gradient */
+.pilar-shape-inner {
+  position: absolute;
+  width: 320px;
+  height: 410px;
+  left: 30px;
+  top: 35px;
+  background: linear-gradient(
+    160deg,
+    rgba(114, 138, 247, 0.08) 0%,
+    rgba(85, 129, 152, 0.06) 50%,
+    rgba(31, 87, 191, 0.08) 100%
+  );
+  border-bottom-right-radius: 90px;
+  border-bottom-left-radius: 90px;
+  z-index: 1;
+  box-shadow:
+    inset 0 2px 20px rgba(114, 138, 247, 0.1),
+    0 10px 40px rgba(31, 87, 191, 0.08);
+}
+
+/* Outer border shape - Sleek modern outline */
 .pilar-shape-outer {
   position: absolute;
-  width: 450px;
-  height: 540px;
+  width: 380px;
+  height: 460px;
   left: 0;
   top: 0;
-  background: transparent;
-  border: 3px solid #558198;
-  border-bottom-right-radius: 110px;
-  border-bottom-left-radius: 110px;
+  background: linear-gradient(
+    135deg,
+    rgba(114, 138, 247, 0.03) 0%,
+    transparent 100%
+  );
+  border: 2.5px solid;
+  border-image: linear-gradient(
+    135deg,
+    rgba(114, 138, 247, 0.4) 0%,
+    rgba(85, 129, 152, 0.6) 50%,
+    rgba(31, 87, 191, 0.4) 100%
+  ) 1;
+  border-bottom-right-radius: 95px;
+  border-bottom-left-radius: 95px;
   z-index: 2;
+  box-shadow: 0 8px 32px rgba(31, 87, 191, 0.1);
 }
 
-/* Image inside shape */
+/* Image inside shape - Modern positioning */
 .pilar-shape-image {
   position: absolute;
   width: 100%;
@@ -1063,16 +1083,22 @@
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  padding: 0 40px 40px;
+  padding: 0 35px 35px;
   z-index: 3;
 }
 
 .pilar-shape-image img {
   width: 100%;
   height: auto;
-  max-width: 380px;
+  max-width: 320px;
   object-fit: contain;
-  filter: drop-shadow(0 10px 30px rgba(31, 87, 191, 0.15));
+  filter: drop-shadow(0 15px 35px rgba(31, 87, 191, 0.12));
+  transition: transform 0.4s ease, filter 0.4s ease;
+}
+
+.pilar-shape-wrapper:hover .pilar-shape-image img {
+  transform: scale(1.02);
+  filter: drop-shadow(0 20px 45px rgba(31, 87, 191, 0.18));
 }
 
 /* Content Grid - 4 Pillars */
@@ -1175,28 +1201,32 @@
   }
 
   .pilar-shape-wrapper {
-    width: 400px;
-    height: 500px;
+    width: 340px;
+    height: 430px;
   }
 
   .pilar-shape-inner {
-    width: 340px;
-    height: 430px;
-    left: 30px;
-    top: 35px;
+    width: 290px;
+    height: 370px;
+    left: 25px;
+    top: 30px;
+    border-bottom-right-radius: 80px;
+    border-bottom-left-radius: 80px;
   }
 
   .pilar-shape-outer {
-    width: 400px;
-    height: 480px;
+    width: 340px;
+    height: 410px;
+    border-bottom-right-radius: 85px;
+    border-bottom-left-radius: 85px;
   }
 
   .pilar-shape-image {
-    padding: 0 35px 35px;
+    padding: 0 30px 30px;
   }
 
   .pilar-shape-image img {
-    max-width: 340px;
+    max-width: 290px;
   }
 }
 
@@ -1226,33 +1256,33 @@
   }
 
   .pilar-shape-wrapper {
-    width: 350px;
-    height: 450px;
+    width: 300px;
+    height: 380px;
   }
 
   .pilar-shape-inner {
-    width: 300px;
-    height: 380px;
-    left: 25px;
-    top: 30px;
-    border-bottom-right-radius: 80px;
-    border-bottom-left-radius: 80px;
+    width: 260px;
+    height: 330px;
+    left: 20px;
+    top: 25px;
+    border-bottom-right-radius: 70px;
+    border-bottom-left-radius: 70px;
   }
 
   .pilar-shape-outer {
-    width: 350px;
-    height: 430px;
-    border-bottom-right-radius: 90px;
-    border-bottom-left-radius: 90px;
-    border-width: 2.5px;
+    width: 300px;
+    height: 360px;
+    border-bottom-right-radius: 75px;
+    border-bottom-left-radius: 75px;
+    border-width: 2px;
   }
 
   .pilar-shape-image {
-    padding: 0 30px 30px;
+    padding: 0 25px 25px;
   }
 
   .pilar-shape-image img {
-    max-width: 300px;
+    max-width: 260px;
   }
 
   .pilar-item {
@@ -1296,33 +1326,33 @@
   }
 
   .pilar-shape-wrapper {
-    width: 300px;
-    height: 400px;
+    width: 260px;
+    height: 340px;
   }
 
   .pilar-shape-inner {
-    width: 260px;
-    height: 330px;
-    left: 20px;
-    top: 25px;
-    border-bottom-right-radius: 70px;
-    border-bottom-left-radius: 70px;
+    width: 230px;
+    height: 290px;
+    left: 15px;
+    top: 20px;
+    border-bottom-right-radius: 60px;
+    border-bottom-left-radius: 60px;
   }
 
   .pilar-shape-outer {
-    width: 300px;
-    height: 380px;
-    border-bottom-right-radius: 80px;
-    border-bottom-left-radius: 80px;
+    width: 260px;
+    height: 320px;
+    border-bottom-right-radius: 65px;
+    border-bottom-left-radius: 65px;
     border-width: 2px;
   }
 
   .pilar-shape-image {
-    padding: 0 25px 25px;
+    padding: 0 20px 20px;
   }
 
   .pilar-shape-image img {
-    max-width: 260px;
+    max-width: 230px;
   }
 
   .pilar-item-title {
