@@ -118,5 +118,42 @@ document.addEventListener('DOMContentLoaded', () => {
       pilarObserver.observe(pilarSection);
     }
   }
+
+  // ============================================
+  // SINERGI BACKGROUND TEXT & HEADER & DESCRIPTION ANIMATION
+  // All animate together when section appears
+  // ============================================
+
+  const sinergiBgText = document.querySelector('.sinergi-bg-text');
+  const sinergiHeader = document.querySelector('.sinergi-header');
+  const sinergiDescription = document.querySelector('.sinergi-description');
+
+  if (sinergiBgText || sinergiHeader || sinergiDescription) {
+    const sinergiObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Animate all elements together
+          if (sinergiBgText) {
+            sinergiBgText.classList.add('animate-in');
+          }
+          if (sinergiHeader) {
+            sinergiHeader.classList.add('animate-in');
+          }
+          if (sinergiDescription) {
+            sinergiDescription.classList.add('animate-in');
+          }
+          sinergiObserver.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.2,
+      rootMargin: '0px 0px -100px 0px'
+    });
+
+    const sinergiSection = document.querySelector('.sinergi-section');
+    if (sinergiSection) {
+      sinergiObserver.observe(sinergiSection);
+    }
+  }
 });
 
