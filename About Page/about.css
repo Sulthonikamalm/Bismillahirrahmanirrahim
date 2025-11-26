@@ -1181,17 +1181,16 @@
   transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* Front Side */
+/* Front Side - Light blue background for white image visibility */
 .pilar-card-front {
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.95) 0%,
-    rgba(255, 255, 255, 0.9) 100%
+    rgba(240, 245, 255, 0.98) 0%,
+    rgba(230, 240, 255, 0.95) 100%
   );
-  border: 2px solid rgba(85, 129, 152, 0.2);
+  border: 2px solid rgba(85, 129, 152, 0.25);
   box-shadow:
-    0 0 0 4px rgba(114, 138, 247, 0.08),
-    0 8px 24px rgba(31, 87, 191, 0.12);
+    0 8px 24px rgba(31, 87, 191, 0.1);
   transform: rotateX(0deg);
 }
 
@@ -1199,17 +1198,15 @@
   transform: rotateX(-90deg);
 }
 
-/* Back Side */
+/* Back Side - Clean modern look */
 .pilar-card-back {
   background: linear-gradient(
     135deg,
-    rgba(114, 138, 247, 0.95) 0%,
-    rgba(85, 129, 152, 0.95) 100%
+    rgba(114, 138, 247, 0.96) 0%,
+    rgba(85, 129, 152, 0.96) 100%
   );
   border: 2px solid rgba(255, 255, 255, 0.3);
-  box-shadow:
-    0 0 0 4px rgba(31, 87, 191, 0.15),
-    0 12px 32px rgba(31, 87, 191, 0.25);
+  box-shadow: 0 12px 32px rgba(31, 87, 191, 0.2);
   transform: rotateX(90deg);
   transform-origin: bottom;
 }
