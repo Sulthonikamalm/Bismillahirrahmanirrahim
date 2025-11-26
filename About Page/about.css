@@ -1040,51 +1040,55 @@
 
 .pilar-shape-wrapper {
   position: relative;
-  width: 380px;
-  height: 480px;
+  width: 320px;
+  height: 410px;
   transition: transform 0.4s ease;
 }
 
 .pilar-shape-wrapper:hover {
-  transform: translateY(-5px);
+  transform: translateY(-8px);
 }
 
-/* Inner filled shape - Modern gradient */
+/* Inner filled shape - Modern gradient with better visibility */
 .pilar-shape-inner {
   position: absolute;
-  width: 320px;
-  height: 410px;
-  left: 30px;
-  top: 35px;
+  width: 270px;
+  height: 350px;
+  left: 25px;
+  top: 30px;
   background: linear-gradient(
     160deg,
-    rgba(114, 138, 247, 0.08) 0%,
-    rgba(85, 129, 152, 0.06) 50%,
-    rgba(31, 87, 191, 0.08) 100%
+    rgba(114, 138, 247, 0.18) 0%,
+    rgba(85, 129, 152, 0.14) 50%,
+    rgba(31, 87, 191, 0.16) 100%
   );
-  border-bottom-right-radius: 90px;
-  border-bottom-left-radius: 90px;
+  border-bottom-right-radius: 80px;
+  border-bottom-left-radius: 80px;
   z-index: 1;
   box-shadow:
-    inset 0 2px 20px rgba(114, 138, 247, 0.1),
-    0 10px 40px rgba(31, 87, 191, 0.08);
+    inset 0 4px 24px rgba(114, 138, 247, 0.15),
+    inset 0 -2px 16px rgba(31, 87, 191, 0.1),
+    0 12px 48px rgba(31, 87, 191, 0.12),
+    0 4px 16px rgba(114, 138, 247, 0.08);
 }
 
 /* Outer border shape - Sleek modern outline with rounded corners */
 .pilar-shape-outer {
   position: absolute;
-  width: 380px;
-  height: 460px;
+  width: 320px;
+  height: 390px;
   left: 0;
   top: 0;
   background: transparent;
-  border: 2.5px solid rgba(85, 129, 152, 0.5);
-  border-bottom-right-radius: 95px;
-  border-bottom-left-radius: 95px;
+  border: 2.5px solid rgba(85, 129, 152, 0.6);
+  border-bottom-right-radius: 85px;
+  border-bottom-left-radius: 85px;
   z-index: 2;
   box-shadow:
-    0 8px 32px rgba(31, 87, 191, 0.1),
-    inset 0 0 0 1px rgba(114, 138, 247, 0.15);
+    0 10px 40px rgba(31, 87, 191, 0.15),
+    0 4px 20px rgba(114, 138, 247, 0.1),
+    inset 0 0 0 1px rgba(114, 138, 247, 0.2),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3);
 }
 
 /* Gradient overlay for modern look */
@@ -1097,12 +1101,12 @@
   bottom: -2.5px;
   background: linear-gradient(
     135deg,
-    rgba(114, 138, 247, 0.03) 0%,
+    rgba(114, 138, 247, 0.05) 0%,
     transparent 50%,
-    rgba(31, 87, 191, 0.02) 100%
+    rgba(31, 87, 191, 0.04) 100%
   );
-  border-bottom-right-radius: 95px;
-  border-bottom-left-radius: 95px;
+  border-bottom-right-radius: 85px;
+  border-bottom-left-radius: 85px;
   pointer-events: none;
   z-index: -1;
 }
@@ -1115,22 +1119,22 @@
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  padding: 0 35px 35px;
+  padding: 0 30px 30px;
   z-index: 3;
 }
 
 .pilar-shape-image img {
   width: 100%;
   height: auto;
-  max-width: 320px;
+  max-width: 270px;
   object-fit: contain;
-  filter: drop-shadow(0 15px 35px rgba(31, 87, 191, 0.12));
+  filter: drop-shadow(0 18px 40px rgba(31, 87, 191, 0.16));
   transition: transform 0.4s ease, filter 0.4s ease;
 }
 
 .pilar-shape-wrapper:hover .pilar-shape-image img {
-  transform: scale(1.02);
-  filter: drop-shadow(0 20px 45px rgba(31, 87, 191, 0.18));
+  transform: scale(1.03);
+  filter: drop-shadow(0 24px 50px rgba(31, 87, 191, 0.22));
 }
 
 /* Content Grid - 4 Pillars */
@@ -1233,32 +1237,32 @@
   }
 
   .pilar-shape-wrapper {
-    width: 340px;
-    height: 430px;
+    width: 290px;
+    height: 370px;
   }
 
   .pilar-shape-inner {
-    width: 290px;
-    height: 370px;
-    left: 25px;
-    top: 30px;
-    border-bottom-right-radius: 80px;
-    border-bottom-left-radius: 80px;
+    width: 245px;
+    height: 315px;
+    left: 22px;
+    top: 27px;
+    border-bottom-right-radius: 70px;
+    border-bottom-left-radius: 70px;
   }
 
   .pilar-shape-outer {
-    width: 340px;
-    height: 410px;
-    border-bottom-right-radius: 85px;
-    border-bottom-left-radius: 85px;
+    width: 290px;
+    height: 350px;
+    border-bottom-right-radius: 75px;
+    border-bottom-left-radius: 75px;
   }
 
   .pilar-shape-image {
-    padding: 0 30px 30px;
+    padding: 0 27px 27px;
   }
 
   .pilar-shape-image img {
-    max-width: 290px;
+    max-width: 245px;
   }
 }
 
@@ -1288,33 +1292,33 @@
   }
 
   .pilar-shape-wrapper {
-    width: 300px;
-    height: 380px;
+    width: 260px;
+    height: 330px;
   }
 
   .pilar-shape-inner {
-    width: 260px;
-    height: 330px;
+    width: 220px;
+    height: 285px;
     left: 20px;
-    top: 25px;
-    border-bottom-right-radius: 70px;
-    border-bottom-left-radius: 70px;
+    top: 22px;
+    border-bottom-right-radius: 60px;
+    border-bottom-left-radius: 60px;
   }
 
   .pilar-shape-outer {
-    width: 300px;
-    height: 360px;
-    border-bottom-right-radius: 75px;
-    border-bottom-left-radius: 75px;
+    width: 260px;
+    height: 310px;
+    border-bottom-right-radius: 65px;
+    border-bottom-left-radius: 65px;
     border-width: 2px;
   }
 
   .pilar-shape-image {
-    padding: 0 25px 25px;
+    padding: 0 22px 22px;
   }
 
   .pilar-shape-image img {
-    max-width: 260px;
+    max-width: 220px;
   }
 
   .pilar-item {
@@ -1358,33 +1362,33 @@
   }
 
   .pilar-shape-wrapper {
-    width: 260px;
-    height: 340px;
+    width: 230px;
+    height: 300px;
   }
 
   .pilar-shape-inner {
-    width: 230px;
-    height: 290px;
+    width: 200px;
+    height: 260px;
     left: 15px;
-    top: 20px;
-    border-bottom-right-radius: 60px;
-    border-bottom-left-radius: 60px;
+    top: 18px;
+    border-bottom-right-radius: 55px;
+    border-bottom-left-radius: 55px;
   }
 
   .pilar-shape-outer {
-    width: 260px;
-    height: 320px;
-    border-bottom-right-radius: 65px;
-    border-bottom-left-radius: 65px;
+    width: 230px;
+    height: 280px;
+    border-bottom-right-radius: 60px;
+    border-bottom-left-radius: 60px;
     border-width: 2px;
   }
 
   .pilar-shape-image {
-    padding: 0 20px 20px;
+    padding: 0 18px 18px;
   }
 
   .pilar-shape-image img {
-    max-width: 230px;
+    max-width: 200px;
   }
 
   .pilar-item-title {
