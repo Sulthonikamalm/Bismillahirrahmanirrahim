@@ -1182,17 +1182,17 @@
   overflow: hidden;
 }
 
-/* Front Side - Soft beige/cream for better white image visibility */
+/* Front Side - Cyan/Turquoise for better white image visibility */
 .pilar-card-front {
   background: linear-gradient(
     135deg,
-    rgba(255, 248, 240, 1) 0%,
-    rgba(252, 243, 232, 1) 100%
+    #10c4cb 0%,
+    #0da8af 100%
   );
-  border: 1.5px solid rgba(220, 200, 180, 0.3);
+  border: 1.5px solid rgba(16, 196, 203, 0.4);
   box-shadow:
-    0 8px 24px rgba(0, 0, 0, 0.06),
-    0 2px 8px rgba(0, 0, 0, 0.03);
+    0 8px 24px rgba(16, 196, 203, 0.2),
+    0 2px 8px rgba(16, 196, 203, 0.1);
   transform: rotateX(0deg);
   transform-style: flat;
 }
@@ -1201,8 +1201,9 @@
   transform: rotateX(-90deg);
 }
 
-/* Back Side - Clean modern look */
+/* Back Side - Clean modern look with grid pattern */
 .pilar-card-back {
+  position: relative;
   background: linear-gradient(
     135deg,
     rgba(114, 138, 247, 0.96) 0%,
@@ -1213,6 +1214,30 @@
   transform: rotateX(90deg);
   transform-origin: center;
   transform-style: flat;
+}
+
+/* Grid pattern overlay for back card */
+.pilar-card-back::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 20px 20px;
+  border-radius: 16px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Ensure content is above the grid pattern */
+.pilar-card-back .pilar-card-title,
+.pilar-card-back .pilar-card-description {
+  position: relative;
+  z-index: 1;
 }
 
 .pilar-card:hover .pilar-card-back {
@@ -1251,7 +1276,7 @@
 }
 
 .pilar-card-front .pilar-card-title {
-  color: #6b4423;
+  color: #ffffff;
 }
 
 .pilar-card-back .pilar-card-title {
