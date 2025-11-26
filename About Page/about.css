@@ -1182,18 +1182,19 @@
   overflow: hidden;
 }
 
-/* Front Side - Clean neutral for better image visibility */
+/* Front Side - Soft beige/cream for better white image visibility */
 .pilar-card-front {
   background: linear-gradient(
     135deg,
-    rgba(250, 250, 252, 1) 0%,
-    rgba(245, 246, 250, 1) 100%
+    rgba(255, 248, 240, 1) 0%,
+    rgba(252, 243, 232, 1) 100%
   );
-  border: 1.5px solid rgba(200, 205, 215, 0.4);
+  border: 1.5px solid rgba(220, 200, 180, 0.3);
   box-shadow:
-    0 8px 24px rgba(0, 0, 0, 0.04),
-    0 2px 8px rgba(0, 0, 0, 0.02);
+    0 8px 24px rgba(0, 0, 0, 0.06),
+    0 2px 8px rgba(0, 0, 0, 0.03);
   transform: rotateX(0deg);
+  transform-style: flat;
 }
 
 .pilar-card:hover .pilar-card-front {
@@ -1208,9 +1209,10 @@
     rgba(85, 129, 152, 0.96) 100%
   );
   border: 2px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 12px 32px rgba(31, 87, 191, 0.2);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
   transform: rotateX(90deg);
-  transform-origin: bottom;
+  transform-origin: center;
+  transform-style: flat;
 }
 
 .pilar-card:hover .pilar-card-back {
@@ -1249,7 +1251,7 @@
 }
 
 .pilar-card-front .pilar-card-title {
-  color: #2c3e50;
+  color: #6b4423;
 }
 
 .pilar-card-back .pilar-card-title {
