@@ -2246,9 +2246,9 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 16px;
-  margin-bottom: 40px;
-  margin-top: 180px;
+  gap: 5px;
+  margin-bottom: 28px;
+  margin-top: 50px;
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 0.8s ease-out, transform 0.8s ease-out;
@@ -2288,7 +2288,7 @@
   line-height: 1.2;
   color: #1a1a2e;
   margin: 0;
-  margin-top: 4px;
+  margin-top: 0px;
   width: 100%;
   text-align: left;
 }
@@ -2302,8 +2302,8 @@
   color: #4a5568;
   max-width: 1000px;
   margin: 0 auto;
-  margin-top: 24px;
-  text-align: left;
+  margin-top: -10px;
+  text-align: center;
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.8s ease-out 0.2s, transform 0.8s ease-out 0.2s;
