@@ -2246,8 +2246,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: 24px;
   margin-bottom: 40px;
+  margin-top: 80px;
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 0.8s ease-out, transform 0.8s ease-out;
@@ -2263,15 +2264,16 @@
 .sinergi-label {
   display: inline-block;
   font-family: var(--font-heading);
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: #557398;
   background: rgba(85, 129, 152, 0.1);
-  padding: 8px 18px;
+  padding: 10px 24px;
   border-radius: 100px;
   border: 1.5px solid rgba(85, 129, 152, 0.25);
+  margin-bottom: 0;
 }
 
 /* Title */
@@ -2282,6 +2284,7 @@
   line-height: 1.2;
   color: #1a1a2e;
   margin: 0;
+  margin-top: 8px;
 }
 
 /* Description */
@@ -2293,6 +2296,7 @@
   color: #4a5568;
   max-width: 900px;
   margin: 0 auto;
+  margin-top: 32px;
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.8s ease-out 0.2s, transform 0.8s ease-out 0.2s;
