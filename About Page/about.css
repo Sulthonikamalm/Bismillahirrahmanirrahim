@@ -2511,28 +2511,32 @@
 
 /* Image container with white background */
 .struktur-card-image {
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 100%;
+  height: calc(100% - 80px);
   background:#7ba8dc85;
-  overflow: hidden;
+  overflow: visible;
   z-index: 2;
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  padding-bottom: 80px;
+  padding: 0 10px 0 10px;
 }
 
 .struktur-card-image img {
   width: 100%;
-  height: calc(100% + 10px);
+  height: auto;
+  max-height: 100%;
   object-fit: contain;
+  object-position: bottom;
   transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-  margin-bottom: -10px;
+  transform: translateY(10px);
 }
 
 .struktur-card:hover .struktur-card-image img {
-  transform: scale(1.05);
+  transform: translateY(10px) scale(1.05);
 }
 
 /* Bottom section #A3A5FE */
@@ -2561,8 +2565,12 @@
   }
 
   .struktur-card-image {
-    height: 100%;
-    padding-bottom: 75px;
+    height: calc(100% - 75px);
+    padding: 0 10px 0 10px;
+  }
+
+  .struktur-card-image img {
+    max-height: 100%;
   }
 
   .struktur-card::after {
@@ -2585,8 +2593,12 @@
   }
 
   .struktur-card-image {
-    height: 100%;
-    padding-bottom: 70px;
+    height: calc(100% - 70px);
+    padding: 0 10px 0 10px;
+  }
+
+  .struktur-card-image img {
+    max-height: 100%;
   }
 
   .struktur-card::after {
@@ -2615,8 +2627,12 @@
   }
 
   .struktur-card-image {
-    height: 100%;
-    padding-bottom: 65px;
+    height: calc(100% - 65px);
+    padding: 0 8px 0 8px;
+  }
+
+  .struktur-card-image img {
+    max-height: 100%;
   }
 
   .struktur-card::after {
