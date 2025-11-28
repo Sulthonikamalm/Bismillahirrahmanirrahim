@@ -2540,47 +2540,9 @@
   left: 0;
   width: 100%;
   height: 80px;
-  background:
-    linear-gradient(135deg, #A3A5FE 0%, #b8baff 100%);
+  background: linear-gradient(135deg, #A3A5FE 0%, #b8baff 100%);
   border-bottom-right-radius: 20px;
   border-bottom-left-radius: 20px;
-  z-index: 3;
-  /* Subtle pattern overlay */
-  background-image:
-    /* Dots pattern */
-    radial-gradient(circle, rgba(255, 255, 255, 0.15) 1px, transparent 1px),
-    radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px),
-    /* Gradient overlay */
-    linear-gradient(135deg, #A3A5FE 0%, #b8baff 100%);
-  background-size:
-    20px 20px,
-    30px 30px,
-    100% 100%;
-  background-position:
-    0 0,
-    10px 10px,
-    0 0;
-  box-shadow:
-    inset 0 2px 8px rgba(255, 255, 255, 0.2),
-    inset 0 -1px 3px rgba(0, 0, 0, 0.1);
-}
-
-/* Decorative corner elements - Modern touches */
-.struktur-card-image::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(163, 165, 254, 0.3) 20%,
-    rgba(163, 165, 254, 0.5) 50%,
-    rgba(163, 165, 254, 0.3) 80%,
-    transparent 100%
-  );
   z-index: 3;
 }
 
