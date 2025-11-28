@@ -2155,7 +2155,7 @@
 
 .sinergi-section {
   position: relative;
-  padding: 100px 0 100px;
+  padding: 100px 0 20px;
   background: #ffffff;
   overflow: hidden;
 }
@@ -2323,7 +2323,7 @@
 
 @media (max-width: 992px) {
   .sinergi-section {
-    padding: 80px 0 80px;
+    padding: 80px 0 18px;
   }
 
   .sinergi-header {
@@ -2347,7 +2347,7 @@
 
 @media (max-width: 768px) {
   .sinergi-section {
-    padding: 60px 0 60px;
+    padding: 60px 0 15px;
   }
 
   .sinergi-header {
@@ -2376,7 +2376,7 @@
 
 @media (max-width: 480px) {
   .sinergi-section {
-    padding: 50px 0 50px;
+    padding: 50px 0 12px;
   }
 
   .sinergi-container {
@@ -2410,7 +2410,7 @@
 .struktur-carousel-section {
   position: relative;
   background: #ffffff;
-  padding: 15px 0 80px;
+  padding: 0 0 80px;
   overflow: hidden;
 }
 
@@ -2420,7 +2420,7 @@
   margin: 0 auto;
   padding: 0 5%;
   z-index: 2;
-  margin-top: 30px;
+  margin-top: 0;
 }
 
 /* Carousel Wrapper - Horizontal Scroll Container */
@@ -2513,20 +2513,22 @@
 .struktur-card-image {
   position: relative;
   width: 100%;
-  height: calc(100% - 80px);
-  background:#7ba8dc85;;
+  height: 100%;
+  background:#7ba8dc85;
   overflow: hidden;
   z-index: 2;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
+  padding-bottom: 80px;
 }
 
 .struktur-card-image img {
   width: 100%;
-  height: 100%;
+  height: calc(100% + 10px);
   object-fit: contain;
   transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  margin-bottom: -10px;
 }
 
 .struktur-card:hover .struktur-card-image img {
@@ -2550,7 +2552,7 @@
 /* Responsive Design */
 @media (max-width: 992px) {
   .struktur-carousel-section {
-    padding: 12px 0 70px;
+    padding: 0 0 70px;
   }
 
   .struktur-card {
@@ -2559,7 +2561,8 @@
   }
 
   .struktur-card-image {
-    height: calc(100% - 75px);
+    height: 100%;
+    padding-bottom: 75px;
   }
 
   .struktur-card::after {
@@ -2573,7 +2576,7 @@
 
 @media (max-width: 768px) {
   .struktur-carousel-section {
-    padding: 10px 0 60px;
+    padding: 0 0 60px;
   }
 
   .struktur-card {
@@ -2582,7 +2585,8 @@
   }
 
   .struktur-card-image {
-    height: calc(100% - 70px);
+    height: 100%;
+    padding-bottom: 70px;
   }
 
   .struktur-card::after {
@@ -2601,7 +2605,7 @@
 
 @media (max-width: 480px) {
   .struktur-carousel-section {
-    padding: 8px 0 50px;
+    padding: 0 0 50px;
   }
 
   .struktur-card {
@@ -2611,7 +2615,8 @@
   }
 
   .struktur-card-image {
-    height: calc(100% - 65px);
+    height: 100%;
+    padding-bottom: 65px;
   }
 
   .struktur-card::after {
