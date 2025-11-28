@@ -2410,7 +2410,7 @@
 .struktur-carousel-section {
   position: relative;
   background: #ffffff;
-  padding: 40px 0 80px;
+  padding: 15px 0 80px;
   overflow: hidden;
 }
 
@@ -2549,7 +2549,7 @@
 /* Responsive Design */
 @media (max-width: 992px) {
   .struktur-carousel-section {
-    padding: 35px 0 70px;
+    padding: 12px 0 70px;
   }
 
   .struktur-card {
@@ -2572,7 +2572,7 @@
 
 @media (max-width: 768px) {
   .struktur-carousel-section {
-    padding: 30px 0 60px;
+    padding: 10px 0 60px;
   }
 
   .struktur-card {
@@ -2600,7 +2600,7 @@
 
 @media (max-width: 480px) {
   .struktur-carousel-section {
-    padding: 25px 0 50px;
+    padding: 8px 0 50px;
   }
 
   .struktur-card {
