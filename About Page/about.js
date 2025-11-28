@@ -191,39 +191,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Update on window resize
     window.addEventListener('resize', updateScrollIndicator);
-
-    // Enable smooth scrolling on touch devices
-    let isDown = false;
-    let startX;
-    let scrollLeftStart;
-
-    carouselTrack.addEventListener('mousedown', (e) => {
-      isDown = true;
-      carouselTrack.style.cursor = 'grabbing';
-      startX = e.pageX - carouselTrack.offsetLeft;
-      scrollLeftStart = carouselTrack.scrollLeft;
-    });
-
-    carouselTrack.addEventListener('mouseleave', () => {
-      isDown = false;
-      carouselTrack.style.cursor = 'grab';
-    });
-
-    carouselTrack.addEventListener('mouseup', () => {
-      isDown = false;
-      carouselTrack.style.cursor = 'grab';
-    });
-
-    carouselTrack.addEventListener('mousemove', (e) => {
-      if (!isDown) return;
-      e.preventDefault();
-      const x = e.pageX - carouselTrack.offsetLeft;
-      const walk = (x - startX) * 1.5; // Scroll speed multiplier
-      carouselTrack.scrollLeft = scrollLeftStart - walk;
-    });
-
-    // Set initial cursor
-    carouselTrack.style.cursor = 'grab';
   }
 });
 

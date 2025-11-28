@@ -2408,36 +2408,9 @@
 
 .struktur-carousel-section {
   position: relative;
-  background: linear-gradient(
-    to bottom,
-    #B6D8F4 0%,
-    #B6D8F4 calc(100% - 276px),
-    #A3A5FE calc(100% - 276px),
-    #A3A5FE 100%
-  );
-  border-radius: 30px;
-  padding: 80px 0 60px;
-  margin: 0 5%;
-  overflow: hidden;
-}
-
-/* Grid Pattern - Only on bottom section (#A3A5FE), not reaching cards */
-.struktur-grid-pattern {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 276px;
-  background-image:
-    linear-gradient(rgba(0, 0, 0, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.08) 1px, transparent 1px);
-  background-size: 30px 30px;
-  opacity: 0.5;
-  pointer-events: none;
-  z-index: 0;
-  /* Mask to not reach the cards */
-  mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 50%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 50%, transparent 100%);
+  background: #ffffff;
+  padding: 80px 0 80px;
+  overflow: visible;
 }
 
 .struktur-carousel-container {
@@ -2483,48 +2456,70 @@
 .struktur-carousel-wrapper {
   position: relative;
   width: 100%;
-  overflow: hidden;
   margin-bottom: 40px;
+  padding: 20px 0;
 }
 
 .struktur-carousel-track {
   display: flex;
-  gap: 25px;
-  overflow-x: auto;
+  gap: 30px;
+  overflow-x: scroll;
   overflow-y: hidden;
   scroll-behavior: smooth;
-  padding: 20px 0 30px;
-  /* Hide scrollbar but keep functionality */
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE and Edge */
+  padding: 20px 20px 30px 20px;
+  cursor: grab;
+  user-select: none;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
 }
 
+.struktur-carousel-track:active {
+  cursor: grabbing;
+}
+
+/* Show scrollbar for better UX */
 .struktur-carousel-track::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
+  height: 8px;
 }
 
-/* Cards */
+.struktur-carousel-track::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+}
+
+.struktur-carousel-track::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+.struktur-carousel-track::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* Cards - Design sesuai spesifikasi */
 .struktur-card {
   position: relative;
   flex: 0 0 auto;
-  width: 400px;
-  height: 500px;
-  background: #ffffff;
-  border-radius: 20px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+  width: 600px;
+  height: 800px;
+  background: #B6D8F4;
+  border-radius: 30px;
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
 }
 
 .struktur-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
 }
 
+/* Image container - fills the top part */
 .struktur-card-image {
+  position: relative;
   width: 100%;
-  height: 100%;
+  height: calc(100% - 170px); /* Leave space for bottom section */
   overflow: hidden;
+  z-index: 2;
 }
 
 .struktur-card-image img {
@@ -2536,6 +2531,24 @@
 
 .struktur-card:hover .struktur-card-image img {
   transform: scale(1.05);
+}
+
+/* Bottom section #A3A5FE with grid pattern */
+.struktur-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 170px;
+  background: #A3A5FE;
+  border-bottom-right-radius: 30px;
+  border-bottom-left-radius: 30px;
+  z-index: 1;
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.08) 1px, transparent 1px);
+  background-size: 20px 20px;
 }
 
 /* Custom Scroll Progress Track */
@@ -2564,13 +2577,20 @@
 /* Responsive */
 @media (max-width: 992px) {
   .struktur-carousel-section {
-    padding: 60px 0 50px;
-    margin: 0 3%;
+    padding: 60px 0;
   }
 
   .struktur-card {
-    width: 350px;
-    height: 450px;
+    width: 500px;
+    height: 700px;
+  }
+
+  .struktur-card-image {
+    height: calc(100% - 150px);
+  }
+
+  .struktur-card::after {
+    height: 150px;
   }
 
   .struktur-title {
@@ -2580,9 +2600,7 @@
 
 @media (max-width: 768px) {
   .struktur-carousel-section {
-    padding: 50px 0 40px;
-    margin: 0 2%;
-    border-radius: 20px;
+    padding: 50px 0;
   }
 
   .struktur-header {
@@ -2599,12 +2617,21 @@
   }
 
   .struktur-card {
-    width: 300px;
-    height: 400px;
+    width: 400px;
+    height: 600px;
+  }
+
+  .struktur-card-image {
+    height: calc(100% - 130px);
+  }
+
+  .struktur-card::after {
+    height: 130px;
+    background-size: 15px 15px;
   }
 
   .struktur-carousel-track {
-    gap: 20px;
+    gap: 25px;
   }
 
   .struktur-scroll-track {
@@ -2614,9 +2641,7 @@
 
 @media (max-width: 480px) {
   .struktur-carousel-section {
-    padding: 40px 0 35px;
-    margin: 0 15px;
-    border-radius: 15px;
+    padding: 40px 0;
   }
 
   .struktur-header {
@@ -2633,13 +2658,22 @@
   }
 
   .struktur-card {
-    width: 280px;
-    height: 380px;
+    width: 320px;
+    height: 500px;
+  }
+
+  .struktur-card-image {
+    height: calc(100% - 110px);
+  }
+
+  .struktur-card::after {
+    height: 110px;
+    background-size: 12px 12px;
   }
 
   .struktur-carousel-track {
-    gap: 15px;
-    padding: 15px 0 25px;
+    gap: 20px;
+    padding: 15px 15px 25px 15px;
   }
 
   .struktur-scroll-track {
