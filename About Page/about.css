@@ -2404,13 +2404,47 @@
 
 /* ============================================
    STRUKTUR ORGANISASI CAROUSEL SECTION
+   Modern & Aesthetic Design
    ============================================ */
 
 .struktur-carousel-section {
   position: relative;
-  background: #ffffff;
-  padding: 80px 0 80px;
-  overflow: visible;
+  background: linear-gradient(135deg, #B6D8F4 0%, #d4e9fa 100%);
+  padding: 80px 0;
+  overflow: hidden;
+  border-radius: 0;
+}
+
+/* Grid Pattern Background - Like SIGAP PPKPT Section */
+.struktur-carousel-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+  background-size: 50px 50px;
+  opacity: 0.6;
+  pointer-events: none;
+  z-index: 0;
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 70%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 70%, transparent 100%);
+}
+
+/* Decorative Elements - Modern Touch */
+.struktur-carousel-section::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 150px;
+  background: linear-gradient(to top, rgba(163, 165, 254, 0.2) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 0;
 }
 
 .struktur-carousel-container {
@@ -2421,26 +2455,35 @@
   z-index: 2;
 }
 
-/* Header */
+/* Header - Modern Design */
 .struktur-header {
   text-align: center;
-  margin-bottom: 50px;
+  margin-bottom: 60px;
   animation: fadeInUp 0.8s ease-out both;
 }
 
 .struktur-label {
   display: inline-block;
   font-family: var(--font-heading);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   color: #1a1a2e;
-  background: rgba(255, 255, 255, 0.4);
-  padding: 8px 20px;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 10px 24px;
   border-radius: 100px;
-  border: 1.5px solid rgba(255, 255, 255, 0.6);
-  margin-bottom: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  margin-bottom: 18px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.struktur-label:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.12);
 }
 
 .struktur-title {
@@ -2450,147 +2493,148 @@
   color: #1a1a2e;
   margin: 0;
   line-height: 1.2;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 
 /* Carousel Wrapper - Horizontal Scroll Container */
 .struktur-carousel-wrapper {
   position: relative;
   width: 100%;
-  margin-bottom: 40px;
-  padding: 20px 0;
+  padding: 30px 0;
 }
 
 .struktur-carousel-track {
   display: flex;
-  gap: 30px;
+  gap: 35px;
   overflow-x: scroll;
   overflow-y: hidden;
   scroll-behavior: smooth;
-  padding: 20px 20px 30px 20px;
+  padding: 20px 25px 35px 25px;
   cursor: grab;
   user-select: none;
-  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x proximity;
 }
 
 .struktur-carousel-track:active {
   cursor: grabbing;
 }
 
-/* Show scrollbar for better UX */
+/* Elegant Scrollbar Design */
 .struktur-carousel-track::-webkit-scrollbar {
-  height: 8px;
+  height: 10px;
 }
 
 .struktur-carousel-track::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.05);
+  background: rgba(255, 255, 255, 0.3);
   border-radius: 10px;
+  margin: 0 20px;
 }
 
 .struktur-carousel-track::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.2);
+  background: linear-gradient(90deg, rgba(26, 26, 46, 0.3) 0%, rgba(85, 129, 152, 0.5) 100%);
   border-radius: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
 }
 
 .struktur-carousel-track::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.3);
+  background: linear-gradient(90deg, rgba(26, 26, 46, 0.5) 0%, rgba(85, 129, 152, 0.7) 100%);
+  border-color: rgba(255, 255, 255, 0.4);
 }
 
-/* Cards - Design sesuai spesifikasi */
+/* Cards - Modern Glassmorphism Design (Smaller Size) */
 .struktur-card {
   position: relative;
   flex: 0 0 auto;
-  width: 600px;
-  height: 800px;
-  background: #B6D8F4;
-  border-radius: 30px;
+  width: 380px;
+  height: 520px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 24px;
   overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    0 2px 8px rgba(0, 0, 0, 0.05),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+  scroll-snap-align: start;
+  border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
 .struktur-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  transform: translateY(-12px) scale(1.02);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.15),
+    0 8px 20px rgba(0, 0, 0, 0.08),
+    inset 0 0 0 1px rgba(255, 255, 255, 1);
 }
 
-/* Image container - fills the top part */
+/* Image container with gradient overlay */
 .struktur-card-image {
   position: relative;
   width: 100%;
-  height: calc(100% - 170px); /* Leave space for bottom section */
+  height: calc(100% - 100px);
   overflow: hidden;
   z-index: 2;
+}
+
+.struktur-card-image::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  background: linear-gradient(to bottom, transparent 0%, rgba(163, 165, 254, 0.1) 100%);
+  z-index: 1;
+  pointer-events: none;
 }
 
 .struktur-card-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.3s ease;
+  transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 .struktur-card:hover .struktur-card-image img {
-  transform: scale(1.05);
+  transform: scale(1.08);
 }
 
-/* Bottom section #A3A5FE with grid pattern */
+/* Bottom section #A3A5FE - Simple & Clean */
 .struktur-card::after {
   content: '';
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 170px;
-  background: #A3A5FE;
-  border-bottom-right-radius: 30px;
-  border-bottom-left-radius: 30px;
+  height: 100px;
+  background: linear-gradient(135deg, #A3A5FE 0%, #b8baff 100%);
+  border-bottom-right-radius: 24px;
+  border-bottom-left-radius: 24px;
   z-index: 1;
-  background-image:
-    linear-gradient(rgba(0, 0, 0, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.08) 1px, transparent 1px);
-  background-size: 20px 20px;
+  box-shadow: inset 0 2px 10px rgba(255, 255, 255, 0.2);
 }
 
-/* Custom Scroll Progress Track */
-.struktur-scroll-track {
-  position: relative;
-  width: 100%;
-  max-width: 600px;
-  height: 4px;
-  background: rgba(0, 0, 0, 0.15);
-  border-radius: 10px;
-  margin: 0 auto;
-  overflow: hidden;
-}
-
-.struktur-scroll-thumb {
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  background: linear-gradient(90deg, #1a1a2e 0%, #558198 100%);
-  border-radius: 10px;
-  transition: width 0.1s ease-out;
-  box-shadow: 0 2px 8px rgba(26, 26, 46, 0.3);
-}
-
-/* Responsive */
+/* Responsive Design */
 @media (max-width: 992px) {
   .struktur-carousel-section {
     padding: 60px 0;
   }
 
   .struktur-card {
-    width: 500px;
-    height: 700px;
+    width: 340px;
+    height: 480px;
   }
 
   .struktur-card-image {
-    height: calc(100% - 150px);
+    height: calc(100% - 90px);
   }
 
   .struktur-card::after {
-    height: 150px;
+    height: 90px;
   }
 
   .struktur-title {
@@ -2603,13 +2647,17 @@
     padding: 50px 0;
   }
 
+  .struktur-carousel-section::before {
+    background-size: 40px 40px;
+  }
+
   .struktur-header {
-    margin-bottom: 35px;
+    margin-bottom: 40px;
   }
 
   .struktur-label {
-    font-size: 0.85rem;
-    padding: 7px 16px;
+    font-size: 0.8rem;
+    padding: 8px 20px;
   }
 
   .struktur-title {
@@ -2617,25 +2665,21 @@
   }
 
   .struktur-card {
-    width: 400px;
-    height: 600px;
+    width: 300px;
+    height: 420px;
   }
 
   .struktur-card-image {
-    height: calc(100% - 130px);
+    height: calc(100% - 80px);
   }
 
   .struktur-card::after {
-    height: 130px;
-    background-size: 15px 15px;
+    height: 80px;
   }
 
   .struktur-carousel-track {
-    gap: 25px;
-  }
-
-  .struktur-scroll-track {
-    max-width: 400px;
+    gap: 28px;
+    padding: 15px 20px 30px 20px;
   }
 }
 
@@ -2644,13 +2688,17 @@
     padding: 40px 0;
   }
 
+  .struktur-carousel-section::before {
+    background-size: 30px 30px;
+  }
+
   .struktur-header {
-    margin-bottom: 30px;
+    margin-bottom: 35px;
   }
 
   .struktur-label {
-    font-size: 0.8rem;
-    padding: 6px 14px;
+    font-size: 0.75rem;
+    padding: 7px 18px;
   }
 
   .struktur-title {
@@ -2658,26 +2706,27 @@
   }
 
   .struktur-card {
-    width: 320px;
-    height: 500px;
+    width: 280px;
+    height: 400px;
+    border-radius: 20px;
   }
 
   .struktur-card-image {
-    height: calc(100% - 110px);
+    height: calc(100% - 70px);
   }
 
   .struktur-card::after {
-    height: 110px;
-    background-size: 12px 12px;
+    height: 70px;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
   }
 
   .struktur-carousel-track {
-    gap: 20px;
-    padding: 15px 15px 25px 15px;
+    gap: 22px;
+    padding: 15px 15px 28px 15px;
   }
 
-  .struktur-scroll-track {
-    max-width: 300px;
-    height: 3px;
+  .struktur-carousel-track::-webkit-scrollbar {
+    height: 8px;
   }
 }
