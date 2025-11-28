@@ -2520,7 +2520,7 @@
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  padding-bottom: 80px;
+  padding-bottom: 120px;
 }
 
 .struktur-card-image img {
@@ -2542,11 +2542,45 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 80px;
+  height: 120px;
   background: linear-gradient(135deg, #A3A5FE 0%, #b8ccff 100%);
   border-bottom-right-radius: 20px;
   border-bottom-left-radius: 20px;
   z-index: 3;
+}
+
+/* Card Info - Name and Position */
+.struktur-card-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 15px 20px;
+  text-align: center;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.struktur-card-name {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  line-height: 1.3;
+  margin: 0;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
+}
+
+.struktur-card-position {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #2d3748;
+  line-height: 1.4;
+  margin: 0;
+  opacity: 0.9;
 }
 
 /* Responsive Design */
@@ -2562,15 +2596,23 @@
 
   .struktur-card-image {
     height: 100%;
-    padding-bottom: 75px;
+    padding-bottom: 110px;
   }
 
   .struktur-card::after {
-    height: 75px;
+    height: 110px;
   }
 
   .struktur-card::before {
     background-size: 18px 18px;
+  }
+
+  .struktur-card-name {
+    font-size: 0.9rem;
+  }
+
+  .struktur-card-position {
+    font-size: 0.8rem;
   }
 }
 
@@ -2586,11 +2628,11 @@
 
   .struktur-card-image {
     height: 100%;
-    padding-bottom: 70px;
+    padding-bottom: 105px;
   }
 
   .struktur-card::after {
-    height: 70px;
+    height: 105px;
   }
 
   .struktur-card::before {
@@ -2600,6 +2642,18 @@
   .struktur-carousel-track {
     gap: 22px;
     padding: 12px 18px 28px 18px;
+  }
+
+  .struktur-card-info {
+    padding: 12px 16px;
+  }
+
+  .struktur-card-name {
+    font-size: 0.85rem;
+  }
+
+  .struktur-card-position {
+    font-size: 0.75rem;
   }
 }
 
@@ -2616,11 +2670,11 @@
 
   .struktur-card-image {
     height: 100%;
-    padding-bottom: 65px;
+    padding-bottom: 95px;
   }
 
   .struktur-card::after {
-    height: 65px;
+    height: 95px;
     border-bottom-right-radius: 16px;
     border-bottom-left-radius: 16px;
   }
@@ -2636,5 +2690,17 @@
 
   .struktur-carousel-track::-webkit-scrollbar {
     height: 6px;
+  }
+
+  .struktur-card-info {
+    padding: 10px 14px;
+  }
+
+  .struktur-card-name {
+    font-size: 0.8rem;
+  }
+
+  .struktur-card-position {
+    font-size: 0.7rem;
   }
 }
