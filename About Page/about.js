@@ -155,42 +155,5 @@ document.addEventListener('DOMContentLoaded', () => {
       sinergiObserver.observe(sinergiSection);
     }
   }
-
-  // ============================================
-  // STRUKTUR CAROUSEL SCROLL INDICATOR
-  // Updates thumb width based on scroll position
-  // ============================================
-
-  const carouselTrack = document.getElementById('strukturCarouselTrack');
-  const scrollThumb = document.getElementById('strukturScrollThumb');
-
-  if (carouselTrack && scrollThumb) {
-    // Function to update scroll indicator
-    function updateScrollIndicator() {
-      const scrollWidth = carouselTrack.scrollWidth;
-      const clientWidth = carouselTrack.clientWidth;
-      const scrollLeft = carouselTrack.scrollLeft;
-
-      // Calculate scroll percentage
-      const maxScroll = scrollWidth - clientWidth;
-      const scrollPercentage = maxScroll > 0 ? (scrollLeft / maxScroll) * 100 : 0;
-
-      // Calculate thumb width (proportional to visible area)
-      const thumbWidthPercentage = (clientWidth / scrollWidth) * 100;
-
-      // Update thumb position and width
-      scrollThumb.style.width = `${thumbWidthPercentage}%`;
-      scrollThumb.style.transform = `translateX(${scrollPercentage}%)`;
-    }
-
-    // Initial update
-    updateScrollIndicator();
-
-    // Update on scroll
-    carouselTrack.addEventListener('scroll', updateScrollIndicator);
-
-    // Update on window resize
-    window.addEventListener('resize', updateScrollIndicator);
-  }
 });
 
