@@ -2515,21 +2515,22 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: calc(100% - 80px);
   background:#7ba8dc85;
   overflow: visible;
   z-index: 2;
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  padding: 0 10px 70px 10px;
+  padding: 0 10px 0 10px;
 }
 
 .struktur-card-image img {
   width: 100%;
   height: auto;
-  max-height: calc(100% - 70px);
+  max-height: 100%;
   object-fit: contain;
+  object-position: bottom;
   transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
   transform: translateY(10px);
 }
@@ -2564,11 +2565,12 @@
   }
 
   .struktur-card-image {
-    padding: 0 10px 65px 10px;
+    height: calc(100% - 75px);
+    padding: 0 10px 0 10px;
   }
 
   .struktur-card-image img {
-    max-height: calc(100% - 65px);
+    max-height: 100%;
   }
 
   .struktur-card::after {
@@ -2591,11 +2593,12 @@
   }
 
   .struktur-card-image {
-    padding: 0 10px 60px 10px;
+    height: calc(100% - 70px);
+    padding: 0 10px 0 10px;
   }
 
   .struktur-card-image img {
-    max-height: calc(100% - 60px);
+    max-height: 100%;
   }
 
   .struktur-card::after {
@@ -2624,11 +2627,12 @@
   }
 
   .struktur-card-image {
-    padding: 0 8px 55px 8px;
+    height: calc(100% - 65px);
+    padding: 0 8px 0 8px;
   }
 
   .struktur-card-image img {
-    max-height: calc(100% - 55px);
+    max-height: 100%;
   }
 
   .struktur-card::after {
