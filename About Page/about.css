@@ -2565,25 +2565,6 @@
     inset 0 -1px 3px rgba(0, 0, 0, 0.1);
 }
 
-/* Decorative corner elements - Modern touches */
-.struktur-card-image::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(163, 165, 254, 0.3) 20%,
-    rgba(163, 165, 254, 0.5) 50%,
-    rgba(163, 165, 254, 0.3) 80%,
-    transparent 100%
-  );
-  z-index: 3;
-}
-
 /* Responsive Design */
 @media (max-width: 992px) {
   .struktur-carousel-section {
