@@ -192,5 +192,116 @@ document.addEventListener('DOMContentLoaded', () => {
       dampakObserver.observe(dampakSection);
     }
   }
+
+  // ============================================
+  // STATISTICS CARDS - Backend Integration
+  // Fetch real-time data from API/Database
+  // ============================================
+
+  // Configuration - Update API endpoint sesuai backend Anda
+  const STATS_API_CONFIG = {
+    endpoint: '/api/statistics', // Ganti dengan endpoint API backend Anda
+    fallbackData: {
+      korban: 6239,
+      laporan: 120,
+      perlindungan: 390
+    }
+  };
+
+  // Fetch statistics data from backend
+  async function fetchStatistics() {
+    try {
+      const response = await fetch(STATS_API_CONFIG.endpoint);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.warn('Failed to fetch statistics from backend. Using fallback data.', error);
+      // Return fallback data if API fails
+      return STATS_API_CONFIG.fallbackData;
+    }
+  }
+
+  // Animate counter from 0 to target value
+  function animateCounter(element, target) {
+    const duration = 2000; // 2 seconds
+    const steps = 60;
+    const increment = target / steps;
+    let current = 0;
+    let step = 0;
+
+    const timer = setInterval(() => {
+      step++;
+      current = Math.min(Math.ceil(increment * step), target);
+
+      // Format number with thousands separator
+      element.textContent = current.toLocaleString('id-ID');
+
+      if (step >= steps) {
+        clearInterval(timer);
+        element.textContent = target.toLocaleString('id-ID');
+      }
+    }, duration / steps);
+  }
+
+  // Update statistics cards with data
+  function updateStatisticsCards(data) {
+    const statKorban = document.getElementById('stat-korban');
+    const statLaporan = document.getElementById('stat-laporan');
+    const statPerlindungan = document.getElementById('stat-perlindungan');
+
+    if (statKorban && data.korban !== undefined) {
+      animateCounter(statKorban, data.korban);
+    }
+
+    if (statLaporan && data.laporan !== undefined) {
+      animateCounter(statLaporan, data.laporan);
+    }
+
+    if (statPerlindungan && data.perlindungan !== undefined) {
+      animateCounter(statPerlindungan, data.perlindungan);
+    }
+  }
+
+  // Initialize statistics with IntersectionObserver
+  const statsSection = document.querySelector('.stats-section');
+
+  if (statsSection) {
+    let statsLoaded = false;
+
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !statsLoaded) {
+          statsLoaded = true;
+
+          // Fetch and update statistics
+          fetchStatistics().then(data => {
+            updateStatisticsCards(data);
+          });
+
+          statsObserver.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.3,
+      rootMargin: '0px 0px -50px 0px'
+    });
+
+    statsObserver.observe(statsSection);
+  }
+
+  // Optional: Auto-refresh statistics every 5 minutes
+  // Uncomment jika ingin auto-refresh
+  /*
+  setInterval(() => {
+    fetchStatistics().then(data => {
+      updateStatisticsCards(data);
+    });
+  }, 5 * 60 * 1000); // 5 minutes
+  */
 });
 
