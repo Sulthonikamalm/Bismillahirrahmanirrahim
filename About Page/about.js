@@ -155,5 +155,42 @@ document.addEventListener('DOMContentLoaded', () => {
       sinergiObserver.observe(sinergiSection);
     }
   }
+
+  // ============================================
+  // DAMPAK BACKGROUND TEXT & HEADER & DESCRIPTION ANIMATION
+  // All animate together when section appears
+  // ============================================
+
+  const dampakBgText = document.querySelector('.dampak-bg-text');
+  const dampakHeader = document.querySelector('.dampak-header');
+  const dampakDescription = document.querySelector('.dampak-description');
+
+  if (dampakBgText || dampakHeader || dampakDescription) {
+    const dampakObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Animate all elements together
+          if (dampakBgText) {
+            dampakBgText.classList.add('animate-in');
+          }
+          if (dampakHeader) {
+            dampakHeader.classList.add('animate-in');
+          }
+          if (dampakDescription) {
+            dampakDescription.classList.add('animate-in');
+          }
+          dampakObserver.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.2,
+      rootMargin: '0px 0px -100px 0px'
+    });
+
+    const dampakSection = document.querySelector('.dampak-section');
+    if (dampakSection) {
+      dampakObserver.observe(dampakSection);
+    }
+  }
 });
 
