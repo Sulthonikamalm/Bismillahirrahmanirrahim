@@ -48,7 +48,6 @@
   // ============================================
   const revealEls = Array.from(document.querySelectorAll('[data-reveal]'));
   const statEls = Array.from(document.querySelectorAll('.stat-number'));
-  const counterEls = Array.from(document.querySelectorAll('.counter'));
   const formatId = new Intl.NumberFormat('id-ID');
 
   const animateCount = (el) => {
@@ -58,26 +57,6 @@
     if (!digits) return;
     const target = parseInt(digits, 10);
     const duration = prefersReduced ? 0 : 1600;
-    const start = performance.now();
-    el.dataset.counted = 'true';
-    const step = (now) => {
-      const t = Math.min(1, (now - start) / duration);
-      const eased = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-      const current = Math.round(target * eased);
-      el.textContent = formatId.format(current);
-      if (t < 1) requestAnimationFrame(step);
-      else el.textContent = formatId.format(target);
-    };
-    if (duration === 0) { el.textContent = formatId.format(target); return; }
-    requestAnimationFrame(step);
-  };
-
-  // Modern counter animation for new stats design
-  const animateModernCounter = (el) => {
-    if (el.dataset.counted === 'true') return;
-    const target = parseInt(el.dataset.target, 10);
-    if (!target) return;
-    const duration = prefersReduced ? 0 : 2000;
     const start = performance.now();
     el.dataset.counted = 'true';
     const step = (now) => {
@@ -107,7 +86,6 @@
             }
             entry.target.classList.add('is-visible');
             if (entry.target.classList.contains('stat-number')) animateCount(entry.target);
-            if (entry.target.classList.contains('counter')) animateModernCounter(entry.target);
             io.unobserve(entry.target);
           }
         });
@@ -116,11 +94,9 @@
     );
     revealEls.forEach((el) => io.observe(el));
     statEls.forEach((el) => io.observe(el));
-    counterEls.forEach((el) => io.observe(el));
   } else {
     revealEls.forEach((el) => el.classList.add('is-visible'));
     statEls.forEach((el) => animateCount(el));
-    counterEls.forEach((el) => animateModernCounter(el));
   }
 
   // ============================================
