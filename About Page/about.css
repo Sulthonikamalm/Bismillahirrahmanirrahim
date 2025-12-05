@@ -3070,19 +3070,19 @@
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
 }
 
-/* Warna icon sesuai warna card */
-.dampak-section .card-green-teal .pelapor-icon-circle {
-  background: linear-gradient(135deg, #A3A5FE 0%, #b8ccff 100%);
-}
-
+/* Warna lingkaran icon putih untuk kedua card */
+.dampak-section .card-green-teal .pelapor-icon-circle,
 .dampak-section .card-purple-dark .pelapor-icon-circle {
-  background: linear-gradient(135deg, #b8ccff 0%, #A3A5FE 100%);
+  background: #ffffff;
 }
 
-/* Icon emoji warna putih */
-.dampak-section .pelapor-icon-circle .fa-hand-holding-heart,
-.dampak-section .pelapor-icon-circle .fa-shield-alt {
-  color: #ffffff;
+/* Icon emoji warna gradient - SAMA untuk kedua card */
+.dampak-section .card-green-teal .pelapor-icon-circle .fa-hand-holding-heart,
+.dampak-section .card-purple-dark .pelapor-icon-circle .fa-shield-alt {
+  background: linear-gradient(135deg, #A3A5FE 0%, #b8ccff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .dampak-section .text-content {
