@@ -241,14 +241,11 @@
    Berlaku global (navbar & footer)
    ============================================ */
 
-   .tulisan{
-    display: flex;
-   }
 .social-icons {
   padding-left: 25px;
-  padding-top: 15px ;
+  padding-top: 15px;
   display: flex;
-  gap: 10px; /* Ganti margin-left biar lebih rapi */
+  gap: 10px;
 }
 
 .social-icons a {
@@ -306,7 +303,7 @@
 /* SOCIAL ICON FOOTER START */
 .social-icons-footer {
   display: flex;
-  gap: 15px; /* Ganti margin-left biar lebih rapi */
+  gap: 15px;
 }
 
 .social-icons-footer a {
@@ -2739,7 +2736,7 @@
 
 .dampak-section {
   position: relative;
-  padding: 100px 0 20px;
+  padding: 70px 0 20px;
   background: #ffffff;
   overflow: hidden;
 }
@@ -2765,7 +2762,7 @@
 /* Large Background Text */
 .dampak-bg-text {
   position: absolute;
-  top: 35%;
+  top: 20%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1;
@@ -2817,7 +2814,7 @@
   position: relative;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 60px 24px 0 24px;
   z-index: 2;
   display: flex;
   flex-direction: column;
@@ -2832,7 +2829,7 @@
   align-items: flex-start;
   gap: 5px;
   margin-bottom: 28px;
-  margin-top: 50px;
+  margin-top: 10px;
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 0.8s ease-out, transform 0.8s ease-out;
@@ -2907,7 +2904,7 @@
 
 @media (max-width: 992px) {
   .dampak-section {
-    padding: 80px 0 18px;
+    padding: 60px 0 18px;
   }
 
   .dampak-header {
@@ -2931,7 +2928,7 @@
 
 @media (max-width: 768px) {
   .dampak-section {
-    padding: 60px 0 15px;
+    padding: 50px 0 15px;
   }
 
   .dampak-header {
@@ -2960,11 +2957,11 @@
 
 @media (max-width: 480px) {
   .dampak-section {
-    padding: 50px 0 12px;
+    padding: 40px 0 12px;
   }
 
   .dampak-container {
-    padding: 0 20px;
+    padding: 50px 20px 0 20px;
   }
 
   .dampak-header {
@@ -2983,5 +2980,207 @@
 
   .dampak-description {
     font-size: 0.9rem;
+  }
+}
+
+/* ===================================
+   DAMPAK SECTION: Stats Grid Spacing
+   =================================== */
+
+/* Jarak antara deskripsi dan card statistik */
+.dampak-section .stats-grid {
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 3rem;
+  padding-bottom: 2rem;
+  gap: 40px;
+}
+
+/* Card lebih panjang di section DAMPAK dengan animasi */
+.dampak-section .card-pelapor {
+  padding: 2.5rem 3rem;
+  min-height: auto;
+  border: none;
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* Animasi muncul saat scroll */
+.dampak-section .card-pelapor.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Gradient warna modern sesuai tone website */
+.dampak-section .card-green-teal {
+  background: linear-gradient(135deg,  #A3A5FE 0%, #b8ccff 50%);
+}
+
+.dampak-section .card-purple-dark {
+  background: linear-gradient(135deg,  #b8ccff 0%, #a3a5fe 50%);
+}
+
+/* Subtle pattern overlay */
+.dampak-section .card-pelapor::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left:0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.dampak-section .card-pelapor > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Modern Clean UI Design - HORIZONTAL LAYOUT */
+.dampak-section .card-inner-flex {
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: left;
+  gap: 2.5rem;
+}
+
+.dampak-section .pelapor-icon-circle {
+  width: 90px;
+  height: 90px;
+  flex-shrink: 0;
+  margin-right: 0;
+  margin-bottom: 0;
+  font-size: 2.5rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dampak-section .card-pelapor:hover .pelapor-icon-circle {
+  transform: scale(1.08) rotate(5deg);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Warna icon sesuai warna card */
+.dampak-section .card-green-teal .pelapor-icon-circle {
+  background: linear-gradient(135deg, #A3A5FE 0%, #b8ccff 100%);
+}
+
+.dampak-section .card-purple-dark .pelapor-icon-circle {
+  background: linear-gradient(135deg, #b8ccff 0%, #A3A5FE 100%);
+}
+
+/* Icon emoji warna putih */
+.dampak-section .pelapor-icon-circle .fa-hand-holding-heart,
+.dampak-section .pelapor-icon-circle .fa-shield-alt {
+  color: #ffffff;
+}
+
+.dampak-section .text-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.dampak-section .stat-number {
+  font-size: 4.5rem;
+  font-weight: 900;
+  line-height: 1;
+  margin-bottom: 0.25rem;
+  letter-spacing: -0.02em;
+}
+
+.dampak-section .stat-label {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin: 0;
+  opacity: 0.95;
+  line-height: 1.4;
+  max-width: 100%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .dampak-section .stats-grid {
+    margin-top: 2.5rem;
+  }
+  
+  .dampak-section .stat-number {
+    font-size: 3.5rem;
+  }
+  
+  .dampak-section .pelapor-icon-circle {
+    width: 80px;
+    height: 80px;
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .dampak-section .stats-grid {
+    margin-top: 2rem;
+  }
+  
+  .dampak-section .card-pelapor {
+    padding: 2rem 2.5rem;
+  }
+  
+  .dampak-section .card-inner-flex {
+    gap: 2rem;
+  }
+  
+  .dampak-section .stat-number {
+    font-size: 3rem;
+  }
+  
+  .dampak-section .stat-label {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .dampak-section .stats-grid {
+    margin-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+  
+  .dampak-section .card-pelapor {
+    padding: 1.5rem 2rem;
+  }
+  
+  .dampak-section .card-inner-flex {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.5rem;
+  }
+  
+  .dampak-section .text-content {
+    align-items: center;
+  }
+  
+  .dampak-section .stat-number {
+    font-size: 2.5rem;
+  }
+  
+  .dampak-section .stat-label {
+    font-size: 0.95rem;
+  }
+  
+  .dampak-section .pelapor-icon-circle {
+    width: 70px;
+    height: 70px;
+    font-size: 1.8rem;
   }
 }
