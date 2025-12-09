@@ -1,10 +1,4 @@
-/* ==============================================
-   WAWASAN PAGE - CUSTOM STYLES
-   Clean, modern, and professional design
-   Fast animations for better UX
-   ============================================== */
 
-/* === HERO SECTION === */
 .wawasan-hero {
     position: relative;
     width: 100%;
@@ -16,10 +10,29 @@
     padding: 0;
 }
 
-/* Large Background Text - "WAWASAN" - Layer 1 (Belakang) */
 .wawasan-bg-text {
     position: absolute;
-    top: 50%;
+    top: 23%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.wawasan-bg-text span {
+    font-family: var(--font-heading);
+    font-size: clamp(5.4rem, 18vw, 16.2rem);
+    font-weight: 950;
+    letter-spacing: 0.05em;
+    color: #ffffff;
+    user-select: none;
+    line-height: 1;
+}
+
+.wawasan-fg-text {
+    position: absolute;
+    top: 23%;
     left: 50%;
     transform: translate(-50%, -50%);
     white-space: nowrap;
@@ -27,26 +40,50 @@
     z-index: 2;
 }
 
-.wawasan-bg-text span {
+.wawasan-fg-text span {
     font-family: var(--font-heading);
-    font-size: clamp(6rem, 20vw, 18rem);
+    font-size: clamp(5.4rem, 18vw, 16.2rem);
     font-weight: 950;
     letter-spacing: 0.05em;
-    background: linear-gradient(
-        180deg,
-        rgba(255, 255, 255, 0.35) 0%,
-        rgba(255, 255, 255, 0.28) 50%,
-        rgba(255, 255, 255, 0.18) 100%
-    );
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #ffffff;
+    opacity: 0.5;
     user-select: none;
     line-height: 1;
-    text-shadow: 0 0 120px rgba(255, 255, 255, 0.3);
 }
 
-/* Content - Layer 2 (Depan) */
+.wawasan-hero-title-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    width: 100%;
+}
+
+.wawasan-hero-title {
+    font-family: var(--font-body);
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 800;
+    color: #ffffff;
+    text-align: center;
+    margin: 0;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    animation: fadeInUp 1.2s ease 0.2s both;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .wawasan-hero-content {
     position: absolute;
     top: 0;
@@ -56,13 +93,21 @@
     z-index: 1;
 }
 
-/* Image Container - Full Screen */
+.wawasan-hero-content .main-container {
+    max-width: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
+
 .wawasan-hero-image {
     width: 100%;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
 }
 
 .wawasan-hero-image img {
@@ -72,7 +117,6 @@
     object-position: center;
 }
 
-/* === SECTION HEADERS === */
 .section-header {
     text-align: center;
     margin-bottom: 2rem;
@@ -93,7 +137,6 @@
     line-height: 1.6;
 }
 
-/* === EDUCATION SECTION === */
 .edukasi-section {
     background: #f8f9fa;
     padding: 2.5rem 0;
@@ -198,7 +241,6 @@
     font-size: 0.85rem;
 }
 
-/* === TAB NAVIGATION === */
 .tab-nav {
     display: flex;
     justify-content: center;
@@ -236,7 +278,6 @@
     box-shadow: 0 4px 12px rgba(75, 138, 123, 0.25);
 }
 
-/* === TAB CONTENT === */
 .tab-content {
     min-height: 300px;
 }
@@ -261,7 +302,6 @@
     }
 }
 
-/* === STEPS GRID === */
 .steps-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -333,7 +373,6 @@
     font-size: 0.92rem;
 }
 
-/* === ARTIKEL SECTION === */
 .artikel-section {
     padding: 2.5rem 0;
 }
@@ -425,7 +464,6 @@
     overflow: hidden;
 }
 
-/* === FAQ SECTION === */
 .section-light-gray {
     background: #f8f9fa;
 }
@@ -505,7 +543,6 @@
     font-size: 0.95rem;
 }
 
-/* === EMERGENCY BANNER === */
 .emergency-banner {
     background: linear-gradient(135deg, #dc3545, #c82333);
     padding: 2.5rem 0;
@@ -589,7 +626,6 @@
     color: white;
 }
 
-/* === RESPONSIVE === */
 @media (max-width: 1200px) {
     .artikel-grid {
         grid-template-columns: repeat(4, 1fr);
@@ -602,7 +638,15 @@
     }
     
     .wawasan-bg-text span {
-        font-size: clamp(5rem, 18vw, 13rem);
+        font-size: clamp(4.5rem, 16.2vw, 11.7rem);
+    }
+    
+    .wawasan-fg-text span {
+        font-size: clamp(4.5rem, 16.2vw, 11.7rem);
+    }
+    
+    .wawasan-hero-title {
+        font-size: clamp(2.5rem, 7vw, 5rem);
     }
     
     .wawasan-hero-image img {
@@ -628,7 +672,15 @@
     }
     
     .wawasan-bg-text span {
-        font-size: clamp(4rem, 15vw, 10rem);
+        font-size: clamp(3.6rem, 13.5vw, 9rem);
+    }
+    
+    .wawasan-fg-text span {
+        font-size: clamp(3.6rem, 13.5vw, 9rem);
+    }
+    
+    .wawasan-hero-title {
+        font-size: clamp(2rem, 6vw, 4rem);
     }
     
     .wawasan-hero-image img {
