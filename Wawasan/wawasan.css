@@ -30,26 +30,7 @@
     line-height: 1;
 }
 
-.wawasan-fg-text {
-    position: absolute;
-    top: 23%;
-    left: 55%;
-    transform: translate(-50%, -50%);
-    white-space: nowrap;
-    pointer-events: none;
-    z-index: 2;
-}
 
-.wawasan-fg-text span {
-    font-family: var(--font-heading);
-    font-size: clamp(5.4rem, 18vw, 16.2rem);
-    font-weight: 950;
-    letter-spacing: 0.5em;
-    color: #ffffff;
-    opacity: 0.5;
-    user-select: none;
-    line-height: 1;
-}
 
 .wawasan-hero-title-wrapper {
     position: absolute;
@@ -58,6 +39,7 @@
     transform: translate(-50%, -50%);
     z-index: 3;
     width: 100%;
+    text-align: center;
 }
 
 .wawasan-hero-title {
@@ -71,6 +53,95 @@
     letter-spacing: -0.02em;
     text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
     animation: fadeInUp 1.2s ease 0.2s both;
+}
+
+.wawasan-glass-card {
+    position: absolute;
+    top: 88%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 700px; /* Lebarkan agar text muat 2 baris */
+    background: rgba(255, 255, 255, 0.11);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.1),
+        inset 0 0 44px 22px rgba(255, 255, 255, 0.02);
+    padding: 1.5rem 2rem;
+    text-align: center;
+    z-index: 10;
+    overflow: hidden;
+    animation: fadeInUpCentered 1.2s ease 0.8s both;
+}
+
+/* Animasi khusus untuk elemen yang menggunakan transform center (-50%, -50%) */
+@keyframes fadeInUpCentered {
+    from {
+        opacity: 0;
+        transform: translate(-50%, calc(-50% + 40px));
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+.wawasan-glass-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.8),
+        transparent
+    );
+}
+
+.wawasan-glass-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: 100%;
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.8),
+        transparent,
+        rgba(255, 255, 255, 0.3)
+    );
+}
+
+.wawasan-subtitle {
+    font-family: var(--font-body); /* Gunakan body font agar lebih natural */
+    font-size: clamp(0.95rem, 2.2vw, 1.25rem);
+    font-weight: 800; /* Sedikit lebih tebal (800) */
+    color: #ffffff;
+    text-align: center;
+    margin: 0 0 0.5rem 0;
+    line-height: 1.35;
+    letter-spacing: 0.05em; /* Tambah spacing sedikit agar uppercase enak dibaca */
+    text-transform: uppercase; /* CAPITAL ALL */
+}
+
+.wawasan-description {
+    font-family: var(--font-body);
+    font-size: clamp(0.8rem, 1.6vw, 0.95rem);
+    font-weight: 400;
+    color: #ffffff;
+    text-align: center;
+    margin: 0 auto;
+    max-width: 650px; /* Lebar container text juga dibesarkan */
+    line-height: 1.6;
 }
 
 @keyframes fadeInUp {
@@ -760,6 +831,25 @@
     .wawasan-hero-image img {
         max-width: 100%;
         padding: 0 20px;
+    }
+
+    /* Responsive Adjustments for Glass Card */
+    .wawasan-glass-card {
+        width: 92%;
+        max-width: none;
+        padding: 1.2rem 1rem;
+        top: 85%; /* Sedikit naik agar aman di mobile */
+        border-radius: 16px;
+    }
+
+    .wawasan-subtitle {
+        font-size: 0.9rem; /* Ukuran pasti untuk mobile */
+        margin-bottom: 0.4rem;
+    }
+
+    .wawasan-description {
+        font-size: 0.75rem; /* Ukuran pasti untuk mobile */
+        line-height: 1.5;
     }
 }
 

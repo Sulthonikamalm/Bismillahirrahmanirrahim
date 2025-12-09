@@ -1,8 +1,4 @@
-/* ==============================================
-   WAWASAN PAGE - JAVASCRIPT
-   Clean, modern, and professional interactions
-   Smooth and pleasant animations
-   ============================================== */
+
 
 // Initialize AOS (Animate On Scroll) - Smooth animations
 AOS.init({
