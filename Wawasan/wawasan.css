@@ -6,136 +6,70 @@
 
 /* === HERO SECTION === */
 .wawasan-hero {
-    padding: 7rem 0 3rem;
-    min-height: 75vh;
-    display: flex;
-    align-items: center;
-}
-
-.hero-grid {
-    display: grid;
-    grid-template-columns: 1.1fr 0.9fr;
-    gap: 3rem;
-    align-items: center;
-}
-
-.hero-text .hero-title {
-    font-size: 3.2rem;
-    font-weight: 800;
-    color: #ffffff;
-    margin-bottom: 1.2rem;
-    line-height: 1.15;
-    letter-spacing: -0.5px;
-}
-
-.hero-text .hero-subtitle {
-    font-size: 1.15rem;
-    color: rgba(255, 255, 255, 0.92);
-    margin-bottom: 2rem;
-    line-height: 1.65;
-    max-width: 580px;
-}
-
-.hero-buttons {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-}
-
-.btn-lg {
-    padding: 13px 30px;
-    font-size: 1.02rem;
-    font-weight: 600;
-    transition: all 0.2s ease;
-}
-
-/* === GLASSMORPHISM CARD === */
-.glass-card {
-    background: rgba(255, 255, 255, 0.12);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-radius: 14px;
-    padding: 1.3rem;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-    transition: all 0.35s ease;
-}
-
-.glass-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.14);
-}
-
-.glass-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1.8rem;
-}
-
-.glass-icon {
-    width: 44px;
-    height: 44px;
-    background: linear-gradient(135deg, #0C969C, #6BA3BE);
-    border-radius: 11px;
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.3rem;
-    color: white;
-    flex-shrink: 0;
+    overflow: hidden;
+    padding: 0;
 }
 
-.glass-header h3 {
-    font-size: 1.3rem;
-    color: #ffffff;
-    margin: 0;
-    font-weight: 700;
+/* Large Background Text - "WAWASAN" - Layer 1 (Belakang) */
+.wawasan-bg-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 2;
 }
 
-.glass-features {
+.wawasan-bg-text span {
+    font-family: var(--font-heading);
+    font-size: clamp(6rem, 20vw, 18rem);
+    font-weight: 950;
+    letter-spacing: 0.05em;
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.35) 0%,
+        rgba(255, 255, 255, 0.28) 50%,
+        rgba(255, 255, 255, 0.18) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    user-select: none;
+    line-height: 1;
+    text-shadow: 0 0 120px rgba(255, 255, 255, 0.3);
+}
+
+/* Content - Layer 2 (Depan) */
+.wawasan-hero-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* Image Container - Full Screen */
+.wawasan-hero-image {
+    width: 100%;
+    height: 100%;
     display: flex;
-    flex-direction: column;
-    gap: 1.3rem;
+    align-items: center;
+    justify-content: center;
 }
 
-.glass-feature {
-    display: flex;
-    gap: 1rem;
-    align-items: flex-start;
-    padding: 0.8rem;
-    border-radius: 10px;
-    transition: background 0.2s ease;
-}
-
-.glass-feature:hover {
-    background: rgba(255, 255, 255, 0.08);
-}
-
-.glass-feature i {
-    font-size: 1.15rem;
-    color: #6BA3BE;
-    margin-top: 2px;
-    flex-shrink: 0;
-}
-
-.feature-text {
-    flex: 1;
-}
-
-.feature-text strong {
-    display: block;
-    color: #ffffff;
-    font-size: 0.9rem;
-    margin-bottom: 0.15rem;
-    font-weight: 600;
-}
-
-.feature-text p {
-    color: rgba(255, 255, 255, 0.85);
-    margin: 0;
-    font-size: 0.85rem;
-    line-height: 1.45;
+.wawasan-hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
 }
 
 /* === SECTION HEADERS === */
@@ -663,27 +597,16 @@
 }
 
 @media (max-width: 992px) {
-    .hero-grid {
-        grid-template-columns: 1fr;
-        gap: 2.5rem;
-    }
-    
     .wawasan-hero {
-        padding: 6rem 0 3rem;
-        min-height: auto;
+        min-height: 100vh;
     }
     
-    .hero-text .hero-title {
-        font-size: 2.6rem;
+    .wawasan-bg-text span {
+        font-size: clamp(5rem, 18vw, 13rem);
     }
     
-    .hero-text .hero-subtitle {
-        font-size: 1.08rem;
-        max-width: 100%;
-    }
-    
-    .glass-card {
-        padding: 2rem;
+    .wawasan-hero-image img {
+        object-fit: cover;
     }
     
     .slider-wrapper {
@@ -701,42 +624,15 @@
 
 @media (max-width: 768px) {
     .wawasan-hero {
-        padding: 5rem 0 2.5rem;
+        min-height: 100vh;
     }
     
-    .hero-text .hero-title {
-        font-size: 2.2rem;
-        line-height: 1.2;
+    .wawasan-bg-text span {
+        font-size: clamp(4rem, 15vw, 10rem);
     }
     
-    .hero-text .hero-subtitle {
-        font-size: 1rem;
-        line-height: 1.6;
-    }
-    
-    .hero-buttons {
-        flex-direction: column;
-        width: 100%;
-    }
-    
-    .btn-lg {
-        width: 100%;
-        justify-content: center;
-        padding: 13px 24px;
-    }
-    
-    .glass-card {
-        padding: 1.6rem;
-    }
-    
-    .glass-header h3 {
-        font-size: 1.4rem;
-    }
-    
-    .glass-icon {
-        width: 50px;
-        height: 50px;
-        font-size: 1.4rem;
+    .wawasan-hero-image img {
+        object-fit: cover;
     }
     
     .section-header .section-title {
@@ -795,6 +691,23 @@
         width: 100%;
         justify-content: center;
         padding: 12px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .wawasan-hero {
+        padding: 4.5rem 0 2rem;
+        min-height: 70vh;
+    }
+    
+    .wawasan-bg-text span {
+        font-size: clamp(3rem, 13vw, 6rem);
+        letter-spacing: 0;
+    }
+    
+    .wawasan-hero-image img {
+        max-width: 100%;
+        padding: 0 20px;
     }
 }
 
