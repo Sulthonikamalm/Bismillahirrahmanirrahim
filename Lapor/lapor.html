@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Form Pelaporan - Satgas PPKPT</title>
-    
+
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
     <!-- Original Style CSS (Root styles) -->
     <link rel="stylesheet" href="../style.css" />
-    
+
     <!-- Lapor Custom CSS (Form specific) -->
     <link rel="stylesheet" href="lapor.css" />
 </head>
+
 <body>
     <!-- Skip to main content link for accessibility -->
     <a href="#main-content" class="skip-to-content">Skip to main content</a>
@@ -24,18 +26,18 @@
     <nav class="navbar header-bg fixed-top" role="navigation" aria-label="Navigasi Utama">
         <div class="main-container nav-content">
             <a class="logo" href="../Landing Page/Landing_Page.html">Sigap</a>
-            
+
             <div class="nav-links" id="primary-navigation">
-                <a class="nav-item" href="../About Page/about.html">ABOUT</a>
-                <a class="nav-item" href="../Landing Page/Landing_Page.html#caraLapor">CARA LAPOR</a>
-                <a class="nav-item" href="../Landing Page/Landing_Page.html#kapanLapor">KAPAN HARUS LAPOR?</a>
-                <a class="nav-item" href="../Landing Page/Landing_Page.html#monitoring">MONITORING</a>
+                <a class="nav-item" href="../About Page/about.html">TENTANG</a>
+                <a class="nav-item" href="../Wawasan/wawasan.html">WAWASAN</a>
+                <a class="nav-item" href="../Monitoring/monitoring.html">MONITORING</a>
             </div>
-            
+
             <div class="nav-actions">
-                <button class="btn btn-outline-light js-lapor-btn" aria-label="Tombol untuk halaman pelaporan">LAPOR</button>
+                <button class="btn btn-outline-light js-lapor-btn"
+                    aria-label="Tombol untuk halaman pelaporan">LAPOR</button>
             </div>
-            
+
             <button class="hamburger" aria-label="Buka menu" aria-controls="primary-navigation" aria-expanded="false">
                 <i class="fas fa-bars"></i>
             </button>
@@ -47,26 +49,27 @@
          ============================================ -->
     <section class="lapor-section" id="main-content">
         <div class="main-container">
-            
+
             <!-- Progress Indicator -->
             <div class="lapor-progress-wrapper reveal" data-reveal>
                 <div class="lapor-progress-text">Langkah <span id="currentStepNumber">1</span> dari 5</div>
                 <div class="lapor-progress-bar">
-                    <div class="lapor-progress-fill" id="progressBar" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="lapor-progress-fill" id="progressBar" role="progressbar" aria-valuenow="20"
+                        aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
             </div>
 
             <!-- Form Card Container -->
             <div class="lapor-card reveal" data-reveal>
                 <form id="laporForm" novalidate>
-                    
+
                     <!-- ==========================================
                          STEP 1: KEADAAN DARURAT
                          ========================================== -->
                     <div class="form-step active" id="step1">
                         <h2 class="lapor-title">Apakah kamu dalam keadaan DARURAT?</h2>
                         <p class="lapor-subtitle">Pilih salah satu di bawah ini</p>
-                        
+
                         <div class="lapor-choices-grid">
                             <!-- Card DARURAT -->
                             <div class="lapor-choice darurat-choice" data-value="darurat" data-name="statusDarurat">
@@ -80,7 +83,7 @@
                                     </div>
                                 </label>
                             </div>
-                            
+
                             <!-- Card TIDAK DARURAT -->
                             <div class="lapor-choice tidak-darurat-choice" data-value="tidak" data-name="statusDarurat">
                                 <input type="radio" name="statusDarurat" id="tidak" value="tidak" hidden>
@@ -89,7 +92,8 @@
                                     <div class="lapor-choice-content">
                                         <img src="assets/Sedih.png" alt="Tidak Darurat" class="lapor-choice-icon">
                                         <h3 class="lapor-choice-title">TIDAK</h3>
-                                        <p class="lapor-choice-desc">Saya butuh bantuan tetapi tidak dalam keadaan darurat</p>
+                                        <p class="lapor-choice-desc">Saya butuh bantuan tetapi tidak dalam keadaan
+                                            darurat</p>
                                     </div>
                                 </label>
                             </div>
@@ -108,10 +112,11 @@
                     <div class="form-step" id="step2">
                         <h2 class="lapor-title">Siapa Korbannya?</h2>
                         <p class="lapor-subtitle">Pilih salah satu di bawah ini</p>
-                        
+
                         <div class="lapor-choices-grid">
                             <!-- Card SAYA SENDIRI -->
-                            <div class="lapor-choice saya-choice" data-value="saya" data-name="korban" data-group="korban">
+                            <div class="lapor-choice saya-choice" data-value="saya" data-name="korban"
+                                data-group="korban">
                                 <input type="radio" name="korban" id="saya" value="saya" hidden>
                                 <label for="saya" class="lapor-choice-label">
                                     <div class="lapor-choice-radio"></div>
@@ -122,16 +127,18 @@
                                     </div>
                                 </label>
                             </div>
-                            
+
                             <!-- Card ORANG LAIN -->
-                            <div class="lapor-choice orang-lain-choice" data-value="oranglain" data-name="korban" data-group="korban">
+                            <div class="lapor-choice orang-lain-choice" data-value="oranglain" data-name="korban"
+                                data-group="korban">
                                 <input type="radio" name="korban" id="oranglain" value="oranglain" hidden>
                                 <label for="oranglain" class="lapor-choice-label">
                                     <div class="lapor-choice-radio"></div>
                                     <div class="lapor-choice-content">
                                         <img src="assets/OrangLain.png" alt="Orang Lain" class="lapor-choice-icon">
                                         <h3 class="lapor-choice-title">ORANG LAIN</h3>
-                                        <p class="lapor-choice-desc">Saya melihat atau mendengar orang lain mendapat kekerasan</p>
+                                        <p class="lapor-choice-desc">Saya melihat atau mendengar orang lain mendapat
+                                            kekerasan</p>
                                     </div>
                                 </label>
                             </div>
@@ -139,25 +146,28 @@
 
                         <!-- Divider -->
                         <div class="lapor-divider"></div>
-                        
+
                         <h2 class="lapor-title">Nilai tingkat kehawatiran Anda?</h2>
                         <p class="lapor-subtitle">Pilih salah satu di bawah ini</p>
-                        
+
                         <div class="lapor-choices-grid three-col">
                             <!-- SEDIKIT KHAWATIR -->
-                            <div class="lapor-choice sedikit-khawatir-choice" data-value="sedikit" data-name="kehawatiran" data-group="kehawatiran">
+                            <div class="lapor-choice sedikit-khawatir-choice" data-value="sedikit"
+                                data-name="kehawatiran" data-group="kehawatiran">
                                 <input type="radio" name="kehawatiran" id="sedikit" value="sedikit" hidden>
                                 <label for="sedikit" class="lapor-choice-label">
                                     <div class="lapor-choice-radio"></div>
                                     <div class="lapor-choice-content">
-                                        <img src="assets/Sedih.png" alt="Sedikit Khawatir" class="lapor-choice-icon small">
+                                        <img src="assets/Sedih.png" alt="Sedikit Khawatir"
+                                            class="lapor-choice-icon small">
                                         <h3 class="lapor-choice-title small">SEDIKIT KHAWATIR</h3>
                                     </div>
                                 </label>
                             </div>
-                            
+
                             <!-- KHAWATIR -->
-                            <div class="lapor-choice khawatir-choice" data-value="khawatir" data-name="kehawatiran" data-group="kehawatiran">
+                            <div class="lapor-choice khawatir-choice" data-value="khawatir" data-name="kehawatiran"
+                                data-group="kehawatiran">
                                 <input type="radio" name="kehawatiran" id="khawatir" value="khawatir" hidden>
                                 <label for="khawatir" class="lapor-choice-label">
                                     <div class="lapor-choice-radio"></div>
@@ -167,14 +177,16 @@
                                     </div>
                                 </label>
                             </div>
-                            
+
                             <!-- SANGAT KHAWATIR -->
-                            <div class="lapor-choice sangat-khawatir-choice" data-value="sangat" data-name="kehawatiran" data-group="kehawatiran">
+                            <div class="lapor-choice sangat-khawatir-choice" data-value="sangat" data-name="kehawatiran"
+                                data-group="kehawatiran">
                                 <input type="radio" name="kehawatiran" id="sangat" value="sangat" hidden>
                                 <label for="sangat" class="lapor-choice-label">
                                     <div class="lapor-choice-radio"></div>
                                     <div class="lapor-choice-content">
-                                        <img src="assets/SangatKhawatir.png" alt="Sangat Khawatir" class="lapor-choice-icon small">
+                                        <img src="assets/SangatKhawatir.png" alt="Sangat Khawatir"
+                                            class="lapor-choice-icon small">
                                         <h3 class="lapor-choice-title small">SANGAT KHAWATIR</h3>
                                     </div>
                                 </label>
@@ -197,7 +209,7 @@
                     <div class="form-step" id="step3">
                         <h2 class="lapor-title">Gender Korban</h2>
                         <p class="lapor-subtitle">Pilih salah satu di bawah ini</p>
-                        
+
                         <div class="lapor-radio-list">
                             <div class="lapor-radio-item">
                                 <input type="radio" name="genderKorban" id="lakilaki" value="lakilaki">
@@ -225,7 +237,7 @@
                     <div class="form-step" id="step4">
                         <h2 class="lapor-title">Data Kejadian Kekerasan</h2>
                         <p class="lapor-subtitle">Isi formulir di bawah ini dengan lengkap</p>
-                        
+
                         <!-- Siapa yang Melakukan Kekerasan -->
                         <div class="lapor-field">
                             <label for="pelakuKekerasan" class="lapor-label">
@@ -262,13 +274,7 @@
                             <label for="waktuKejadian" class="lapor-label">
                                 Kapan kejadiannya? <span class="required">*</span>
                             </label>
-                                <input 
-                                    type="date" 
-                                    class="lapor-input" 
-                                    id="waktuKejadian" 
-                                    name="waktuKejadian" 
-                                    required
-                                />
+                            <input type="date" class="lapor-input" id="waktuKejadian" name="waktuKejadian" required />
                             <span class="lapor-error" id="errorWaktu">Waktu kejadian wajib dipilih</span>
                         </div>
 
@@ -301,8 +307,10 @@
 
                             <!-- Textarea with Voice Button Container -->
                             <div class="textarea-voice-wrapper">
-                                <textarea class="lapor-input lapor-textarea" id="detailKejadian" name="detailKejadian" rows="6"
-                                    placeholder="Ceritakan secara detail apa yang terjadi... atau klik tombol mikrofon untuk merekam suara Anda" required></textarea>
+                                <textarea class="lapor-input lapor-textarea" id="detailKejadian" name="detailKejadian"
+                                    rows="6"
+                                    placeholder="Ceritakan secara detail apa yang terjadi... atau klik tombol mikrofon untuk merekam suara Anda"
+                                    required></textarea>
 
                                 <!-- Voice Input Button -->
                                 <button type="button" class="btn-voice-input" id="btnVoiceInput" title="Rekam suara">
@@ -310,7 +318,8 @@
                                 </button>
 
                                 <!-- Recording Indicator -->
-                                <div class="voice-recording-indicator" id="voiceRecordingIndicator" style="display: none;">
+                                <div class="voice-recording-indicator" id="voiceRecordingIndicator"
+                                    style="display: none;">
                                     <div class="recording-pulse"></div>
                                     <span class="recording-text">Sedang merekam...</span>
                                     <button type="button" class="btn-stop-recording" id="btnStopRecording">
@@ -319,7 +328,8 @@
                                 </div>
                             </div>
 
-                            <span class="lapor-error" id="errorDetail">Wajib memberikan keterangan kejadian minimal 10 karakter</span>
+                            <span class="lapor-error" id="errorDetail">Wajib memberikan keterangan kejadian minimal 10
+                                karakter</span>
                         </div>
 
                         <!-- Upload Bukti Foto/Video -->
@@ -329,7 +339,8 @@
                             </label>
                             <p class="lapor-hint">
                                 <i class="fas fa-shield-alt"></i>
-                                Minimal 1 foto atau video untuk memvalidasi laporan Anda. Maksimal 5 file, masing-masing max 10MB.
+                                Minimal 1 foto atau video untuk memvalidasi laporan Anda. Maksimal 5 file, masing-masing
+                                max 10MB.
                             </p>
 
                             <!-- Upload Area -->
@@ -340,8 +351,7 @@
                                 <h4 class="upload-title">Klik atau seret file ke sini</h4>
                                 <p class="upload-desc">Format: JPG, PNG, MP4, MOV (Max 10MB per file)</p>
                                 <input type="file" id="fileInput" name="buktiFiles"
-                                    accept="image/jpeg,image/jpg,image/png,video/mp4,video/quicktime"
-                                    multiple hidden>
+                                    accept="image/jpeg,image/jpg,image/png,video/mp4,video/quicktime" multiple hidden>
                                 <button type="button" class="btn-upload" id="btnSelectFiles">
                                     <i class="fas fa-folder-open"></i> Pilih File
                                 </button>
@@ -369,14 +379,14 @@
                     <div class="form-step" id="step5">
                         <h2 class="lapor-title">Input Data Korban</h2>
                         <p class="lapor-subtitle">Data korban diperlukan untuk proses pelaporan</p>
-                        
+
                         <!-- Email -->
                         <div class="lapor-field">
                             <label for="emailKorban" class="lapor-label">
                                 Masukkan email Anda
                             </label>
                             <p class="lapor-hint">Untuk melihat progress laporan (opsional)</p>
-                            <input type="email" class="lapor-input" id="emailKorban" name="emailKorban" 
+                            <input type="email" class="lapor-input" id="emailKorban" name="emailKorban"
                                 placeholder="contoh@email.com">
                             <span class="lapor-error" id="errorEmail">Format email tidak valid</span>
                         </div>
@@ -421,7 +431,8 @@
                             <select class="lapor-input" id="jenisDisabilitas" name="jenisDisabilitas">
                                 <option value="" selected disabled>Pilih jenis disabilitas</option>
                                 <option value="kesulitan_melihat">Kesulitan melihat (meskipun memakai kacamata)</option>
-                                <option value="kesulitan_mendengar">Kesulitan mendengar (meskipun menggunakan alat bantu)</option>
+                                <option value="kesulitan_mendengar">Kesulitan mendengar (meskipun menggunakan alat
+                                    bantu)</option>
                                 <option value="kesulitan_berkomunikasi">Kesulitan berkomunikasi</option>
                                 <option value="kesulitan_mengingat">Kesulitan mengingat atau berkonsentrasi</option>
                                 <option value="kesulitan_perawatan_diri">Kesulitan perawatan diri</option>
@@ -439,8 +450,8 @@
                                 <span class="lapor-input-icon">
                                     <i class="fab fa-whatsapp"></i>
                                 </span>
-                                <input type="tel" class="lapor-input with-icon" id="whatsappKorban" name="whatsappKorban" 
-                                    placeholder="08xxxxxxxxxx">
+                                <input type="tel" class="lapor-input with-icon" id="whatsappKorban"
+                                    name="whatsappKorban" placeholder="08xxxxxxxxxx">
                             </div>
                             <span class="lapor-error" id="errorWhatsapp">Nomor WhatsApp tidak valid</span>
                         </div>
@@ -464,4 +475,5 @@
     <script src="../index.js" defer></script>
     <script src="lapor.js" defer></script>
 </body>
+
 </html>

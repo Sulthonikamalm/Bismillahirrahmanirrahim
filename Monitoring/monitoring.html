@@ -1,24 +1,26 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Monitoring progress laporan PPKPT - Lacak status laporan Anda secara real-time">
     <meta name="keywords" content="monitoring, tracking, laporan PPKPT, status laporan">
     <title>Monitoring Progress Laporan - Satgas PPKPT</title>
-    
+
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
     <!-- Shared Styles -->
     <link rel="stylesheet" href="../style.css" />
-    
+
     <!-- Monitoring Specific Styles -->
     <link rel="stylesheet" href="monitoring.css" />
     <link rel="stylesheet" href="particles.css" />
     <link rel="stylesheet" href="loading-cube.css" />
     <link rel="stylesheet" href="search-animation.css" />
 </head>
+
 <body>
     <!-- Skip to main content link for accessibility -->
     <a href="#main-content" class="skip-to-content">Skip to main content</a>
@@ -38,21 +40,18 @@
     <nav class="navbar header-bg fixed-top" role="navigation" aria-label="Navigasi Utama">
         <div class="main-container nav-content">
             <a class="logo" href="../Landing Page/Landing_Page.html">Sigap</a>
-            
+
             <div class="nav-links" id="primary-navigation">
-                <a class="nav-item" href="../About Page/about.html">ABOUT</a>
-                <a class="nav-item" href="../Landing Page/Landing_Page.html#caraLapor">CARA LAPOR</a>
-                <a class="nav-item" href="../Landing Page/Landing_Page.html#kapanLapor">KAPAN HARUS LAPOR?</a>
+                <a class="nav-item" href="../About Page/about.html">TENTANG</a>
+                <a class="nav-item" href="../Wawasan/wawasan.html">WAWASAN</a>
                 <a class="nav-item active" href="monitoring.html">MONITORING</a>
             </div>
-            
+
             <div class="nav-actions">
-                <button class="btn btn-outline-light js-lapor-monitoring" aria-label="Buka halaman pelaporan">LAPOR</button>
-                <div class="social-icons" aria-label="Ikon aksesibilitas">
-                    <i class="fas fa-universal-access" aria-hidden="true"></i>
-                </div>
+                <button class="btn btn-outline-light js-lapor-monitoring"
+                    aria-label="Buka halaman pelaporan">LAPOR</button>
             </div>
-            
+
             <button class="hamburger" aria-label="Buka menu" aria-controls="primary-navigation" aria-expanded="false">
                 &#9776;
             </button>
@@ -68,10 +67,10 @@
             <div class="monitoring-hero-text reveal" data-reveal>
                 <h1 class="main-title">Monitoring Progress</h1>
                 <p class="description">
-                    Pantau setiap tahapan penanganan laporan Anda secara transparan dan real-time. 
-                    Dengan memasukkan kode unik yang telah diberikan, Anda dapat melihat perkembangan 
-                    terkini dari proses investigasi, verifikasi, hingga tindak lanjut yang sedang 
-                    dilakukan oleh tim Satgas PPKPT kami. Kami berkomitmen untuk memberikan layanan 
+                    Pantau setiap tahapan penanganan laporan Anda secara transparan dan real-time.
+                    Dengan memasukkan kode unik yang telah diberikan, Anda dapat melihat perkembangan
+                    terkini dari proses investigasi, verifikasi, hingga tindak lanjut yang sedang
+                    dilakukan oleh tim Satgas PPKPT kami. Kami berkomitmen untuk memberikan layanan
                     yang responsif, aman, dan terpercaya dalam setiap langkah penanganan kasus.
                 </p>
                 <div class="monitoring-badge">
@@ -79,22 +78,16 @@
                     <span>REAL-TIME TRACKING</span>
                 </div>
             </div>
-            
+
             <!-- Right: Video Card -->
             <div class="monitoring-hero-video reveal" data-reveal>
                 <div class="video-card">
-                    <video 
-                        autoplay 
-                        loop 
-                        muted 
-                        playsinline
-                        class="hero-video"
-                        aria-label="Video panduan monitoring">
+                    <video autoplay loop muted playsinline class="hero-video" aria-label="Video panduan monitoring">
                         <source src="assets/monitoringsearch.mp4" type="video/mp4">
                         Browser Anda tidak mendukung video HTML5.
                     </video>
                 </div>
-                
+
                 <!-- Info Card Below Video -->
                 <div class="info-card">
                     <div class="info-icon">
@@ -102,7 +95,8 @@
                     </div>
                     <div class="info-text">
                         <strong>Keamanan Terjamin</strong>
-                        <p>Setiap data laporan dienkripsi dan dijaga kerahasiaannya sesuai standar keamanan Satgas PPKPT.</p>
+                        <p>Setiap data laporan dienkripsi dan dijaga kerahasiaannya sesuai standar keamanan Satgas
+                            PPKPT.</p>
                     </div>
                 </div>
             </div>
@@ -114,7 +108,7 @@
          ============================================ -->
     <section class="monitoring-content section-padding">
         <div class="main-container">
-            
+
             <!-- Search Card -->
             <div class="search-card reveal" data-reveal>
                 <div class="search-header">
@@ -123,30 +117,22 @@
                     </div>
                     <div class="search-text">
                         <h2 class="search-title">Lacak Laporan Anda</h2>
-                        <p class="search-subtitle">Masukkan kode pelaporan atau Email untuk melihat detail progress penanganan kasus.</p>
+                        <p class="search-subtitle">Masukkan kode pelaporan atau Email untuk melihat detail progress
+                            penanganan kasus.</p>
                     </div>
                 </div>
-                
+
                 <div class="search-input-wrapper">
-                    <input 
-                        type="text" 
-                        id="reportIdInput" 
-                        class="search-input" 
-                        placeholder="Masukkan Kode Laporan atau Email"
-                        maxlength="100"
-                        aria-label="Kode laporan atau email"
-                        autocomplete="off"
-                    />
-                    <button 
-                        id="searchBtn" 
-                        class="search-btn"
-                        aria-label="Cari laporan">
+                    <input type="text" id="reportIdInput" class="search-input"
+                        placeholder="Masukkan Kode Laporan atau Email" maxlength="100"
+                        aria-label="Kode laporan atau email" autocomplete="off" />
+                    <button id="searchBtn" class="search-btn" aria-label="Cari laporan">
                         <span class="btn-text">Cek Progress</span>
                         <i class="fas fa-arrow-right btn-icon"></i>
                     </button>
                 </div>
 
-                
+
                 <!-- Search Loader (hidden by default) -->
                 <div class="search-loader-container" id="searchLoader">
                     <div class="search-loader">
@@ -154,7 +140,7 @@
                         <p class="loader-text">Mencari laporan...</p>
                     </div>
                 </div>
-                
+
                 <!-- Error Message -->
                 <div class="error-message" id="errorMessage" role="alert" aria-live="assertive">
                     <i class="fas fa-exclamation-circle"></i>
@@ -277,4 +263,5 @@
     <script src="confetti.js"></script>
     <script src="monitoring.js"></script>
 </body>
+
 </html>

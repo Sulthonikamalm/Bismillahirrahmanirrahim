@@ -54,3 +54,15 @@
 [09-Dec-2025 06:18:37 Europe/Berlin] [CRITICAL] Koneksi database gagal: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
 [09-Dec-2025 06:18:41 Europe/Berlin] [CRITICAL] Koneksi database gagal: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
 [09-Dec-2025 06:18:47 Europe/Berlin] [CRITICAL] Koneksi database gagal: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+[09-Dec-2025 07:28:53 Europe/Berlin] 🔍 Search Request - Type: KODE, Query: GNJ34
+[09-Dec-2025 07:28:53 Europe/Berlin] ✅ Found - kode: GNJ34, Kode: GNJ34
+[09-Dec-2025 08:14:54 Europe/Berlin] 🔍 Search Request - Type: KODE, Query: PPKS001
+[09-Dec-2025 08:14:54 Europe/Berlin] ✅ Found - kode: PPKS001, Kode: PPKS001
+[09-Dec-2025 08:14:56 Europe/Berlin] 🔍 Search Request - Type: KODE, Query: PPKS001
+[09-Dec-2025 08:14:56 Europe/Berlin] ✅ Found - kode: PPKS001, Kode: PPKS001
+[09-Dec-2025 09:00:06 Europe/Berlin] 🔍 Search Request - Type: KODE, Query: GNJ4
+[09-Dec-2025 09:00:06 Europe/Berlin] ❌ Not found - kode: GNJ4
+[09-Dec-2025 09:00:16 Europe/Berlin] 🔍 Search Request - Type: KODE, Query: GNJ34
+[09-Dec-2025 09:00:16 Europe/Berlin] ✅ Found - kode: GNJ34, Kode: GNJ34
+[09-Dec-2025 09:00:42 Europe/Berlin] 🔍 Search Request - Type: KODE, Query: PPKS001
+[09-Dec-2025 09:00:42 Europe/Berlin] ✅ Found - kode: PPKS001, Kode: PPKS001

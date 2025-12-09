@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description"
+        content="Kenali hakmu, pahami langkahmu - Panduan lengkap pencegahan dan pelaporan kekerasan seksual">
+    <title>Wawasan PPKS - Sigap</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <!-- AOS Animation -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+
+    <!-- Shared Styles -->
+    <link rel="stylesheet" href="../style.css" />
+
+    <!-- Wawasan Specific Styles -->
+    <link rel="stylesheet" href="wawasan.css" />
+
+    <!-- FAB & ChatBot -->
+    <link rel="stylesheet" href="../FABsigap/fabsigap.css" />
+    <link rel="stylesheet" href="../ChatBot/chatbot.css" />
+</head>
+
+<body>
+    <!-- Skip to main content -->
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <!-- NAVBAR -->
+    <nav class="navbar header-bg fixed-top" role="navigation" aria-label="Navigasi Utama">
+        <div class="main-container nav-content">
+            <a class="logo" href="../Landing Page/Landing_Page.html">Sigap</a>
+
+            <div class="nav-links" id="primary-navigation">
+                <a class="nav-item" href="../About Page/about.html">TENTANG</a>
+                <a class="nav-item active" href="wawasan.html">WAWASAN</a>
+                <a class="nav-item" href="../Monitoring/monitoring.html">MONITORING</a>
+            </div>
+
+            <div class="nav-actions">
+                <button class="btn btn-outline-light js-lapor-wawasan"
+                    aria-label="Buka halaman pelaporan">LAPOR</button>
+            </div>
+
+            <button class="hamburger" aria-label="Buka menu" aria-controls="primary-navigation" aria-expanded="false">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="wawasan-hero header-bg" id="main-content">
+        <div class="main-container">
+            <div class="hero-grid">
+                <!-- Left: Text Content -->
+                <div class="hero-text" data-aos="fade-right">
+                    <h1 class="hero-title">Kenali Hakmu,<br>Pahami Langkahmu.</h1>
+                    <p class="hero-subtitle">
+                        Jangan biarkan ketidaktahuan membuatmu ragu. Bekali dirimu dengan pemahaman tentang
+                        pencegahan kekerasan dan panduan pelaporan yang aman di sini.
+                    </p>
+                    <div class="hero-buttons">
+                        <button class="btn btn-primary btn-lg"
+                            onclick="document.getElementById('edukasi-section').scrollIntoView({behavior: 'smooth'})">
+                            <i class="fas fa-book-open"></i> Mulai Belajar
+                        </button>
+                        <button class="btn btn-outline-light btn-lg"
+                            onclick="window.location.href='../Lapor/lapor.html'">
+                            <i class="fas fa-shield-alt"></i> Langsung Lapor
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right: Glassmorphism Card -->
+                <div class="hero-glass-card" data-aos="fade-left">
+                    <div class="glass-card">
+                        <div class="glass-header">
+                            <div class="glass-icon">
+                                <i class="fas fa-shield-check"></i>
+                            </div>
+                            <h3>Layanan Kami</h3>
+                        </div>
+
+                        <div class="glass-features">
+                            <div class="glass-feature">
+                                <i class="fas fa-lock"></i>
+                                <div class="feature-text">
+                                    <strong>Privasi 100% Aman</strong>
+                                    <p>Data Anda dilindungi dengan enkripsi tingkat tinggi</p>
+                                </div>
+                            </div>
+
+                            <div class="glass-feature">
+                                <i class="fas fa-clock"></i>
+                                <div class="feature-text">
+                                    <strong>Layanan Siaga 24/7</strong>
+                                    <p>Tim kami siap membantu Anda kapan saja</p>
+                                </div>
+                            </div>
+
+                            <div class="glass-feature">
+                                <i class="fas fa-hands-helping"></i>
+                                <div class="feature-text">
+                                    <strong>Pahami Hak, Lindungi Diri</strong>
+                                    <p>Edukasi komprehensif untuk perlindungan maksimal</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 1: EDUKASI (KAPAN HARUS LAPOR) -->
+    <section class="edukasi-section section-padding" id="edukasi-section">
+        <div class="main-container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="section-title">Kapan Harus Lapor?</h2>
+                <p class="section-subtitle">
+                    Kenali berbagai jenis kekerasan dan tindakan yang perlu dilaporkan
+                </p>
+            </div>
+
+            <!-- Swiper Slider -->
+            <div class="slider-wrapper" data-aos="fade-up" data-aos-delay="200">
+                <div class="swiper-button-prev custom-nav">
+                    <i class="fas fa-chevron-left"></i>
+                </div>
+
+                <div class="swiper educationSwiper">
+                    <div class="swiper-wrapper">
+                        <!-- Card 1: Kekerasan Verbal -->
+                        <div class="swiper-slide">
+                            <div class="education-card">
+                                <div class="card-icon">
+                                    <i class="fas fa-comment-slash"></i>
+                                </div>
+                                <h3 class="card-title">Kekerasan Verbal</h3>
+                                <p class="card-desc">
+                                    Penting untuk segera melapor saat terjadi penghinaan, ancaman,
+                                    atau ujaran yang merendahkan martabat.
+                                </p>
+                                <ul class="card-list">
+                                    <li><i class="fas fa-check"></i> Pelecehan verbal</li>
+                                    <li><i class="fas fa-check"></i> Ancaman berulang</li>
+                                    <li><i class="fas fa-check"></i> Intimidasi psikologis</li>
+                                </ul>
+                                <a href="#" class="btn btn-sm btn-outline-primary">Pelajari Lebih Lanjut</a>
+                            </div>
+                        </div>
+
+                        <!-- Card 2: Kekerasan Fisik -->
+                        <div class="swiper-slide">
+                            <div class="education-card">
+                                <div class="card-icon">
+                                    <i class="fas fa-hand-paper"></i>
+                                </div>
+                                <h3 class="card-title">Kekerasan Fisik</h3>
+                                <p class="card-desc">
+                                    Setiap bentuk kekerasan fisik, baik langsung maupun tidak langsung,
+                                    harus segera dilaporkan.
+                                </p>
+                                <ul class="card-list">
+                                    <li><i class="fas fa-check"></i> Pemukulan atau tendangan</li>
+                                    <li><i class="fas fa-check"></i> Penyerangan fisik</li>
+                                    <li><i class="fas fa-check"></i> Kekerasan dalam rumah tangga</li>
+                                </ul>
+                                <a href="#" class="btn btn-sm btn-outline-primary">Pelajari Lebih Lanjut</a>
+                            </div>
+                        </div>
+
+                        <!-- Card 3: Kekerasan Digital -->
+                        <div class="swiper-slide">
+                            <div class="education-card">
+                                <div class="card-icon">
+                                    <i class="fas fa-laptop"></i>
+                                </div>
+                                <h3 class="card-title">Kekerasan Digital</h3>
+                                <p class="card-desc">
+                                    Pelaporan penting dilakukan untuk kasus penyebaran konten intim
+                                    atau pelecehan online.
+                                </p>
+                                <ul class="card-list">
+                                    <li><i class="fas fa-check"></i> Cyberbullying</li>
+                                    <li><i class="fas fa-check"></i> Penyebaran konten tanpa izin</li>
+                                    <li><i class="fas fa-check"></i> Stalking online</li>
+                                </ul>
+                                <a href="#" class="btn btn-sm btn-outline-primary">Pelajari Lebih Lanjut</a>
+                            </div>
+                        </div>
+
+                        <!-- Card 4: Kekerasan Seksual -->
+                        <div class="swiper-slide">
+                            <div class="education-card">
+                                <div class="card-icon">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                                <h3 class="card-title">Kekerasan Seksual</h3>
+                                <p class="card-desc">
+                                    Setiap tindakan yang merujuk pada aktivitas seksual tanpa persetujuan
+                                    yang jelas harus dilaporkan.
+                                </p>
+                                <ul class="card-list">
+                                    <li><i class="fas fa-check"></i> Pelecehan seksual</li>
+                                    <li><i class="fas fa-check"></i> Pemaksaan seksual</li>
+                                    <li><i class="fas fa-check"></i> Eksploitasi seksual</li>
+                                </ul>
+                                <a href="#" class="btn btn-sm btn-outline-primary">Pelajari Lebih Lanjut</a>
+                            </div>
+                        </div>
+
+                        <!-- Card 5: Diskriminasi -->
+                        <div class="swiper-slide">
+                            <div class="education-card">
+                                <div class="card-icon">
+                                    <i class="fas fa-balance-scale"></i>
+                                </div>
+                                <h3 class="card-title">Diskriminasi</h3>
+                                <p class="card-desc">
+                                    Perlakuan tidak adil berdasarkan ras, agama, gender,
+                                    atau kondisi disabilitas perlu dilaporkan.
+                                </p>
+                                <ul class="card-list">
+                                    <li><i class="fas fa-check"></i> Diskriminasi berbasis gender</li>
+                                    <li><i class="fas fa-check"></i> Perlakuan tidak adil</li>
+                                    <li><i class="fas fa-check"></i> Marginalisasi kelompok</li>
+                                </ul>
+                                <a href="#" class="btn btn-sm btn-outline-primary">Pelajari Lebih Lanjut</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="swiper-pagination"></div>
+                </div>
+
+                <div class="swiper-button-next custom-nav">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: AKSI (CARA LAPOR) -->
+    <section class="aksi-section section-padding section-yellow">
+        <div class="main-container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="section-title">Cara Lapor</h2>
+                <p class="section-subtitle">
+                    Pilih metode pelaporan yang sesuai dengan kondisi Anda
+                </p>
+            </div>
+
+            <!-- Tab Navigation -->
+            <div class="tab-nav" role="tablist" data-aos="fade-up" data-aos-delay="100">
+                <button class="btn btn-tab active" role="tab" data-tab="daring" aria-selected="true">
+                    <i class="fas fa-laptop"></i> LAPOR DARING
+                </button>
+                <button class="btn btn-tab" role="tab" data-tab="langsung" aria-selected="false">
+                    <i class="fas fa-user"></i> LAPOR LANGSUNG
+                </button>
+                <button class="btn btn-tab" role="tab" data-tab="penting" aria-selected="false">
+                    <i class="fas fa-info-circle"></i> LANGKAH PENTING
+                </button>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="tab-content" data-aos="fade-up" data-aos-delay="200">
+                <!-- Lapor Daring -->
+                <div class="tab-pane active" id="tab-daring">
+                    <div class="steps-grid">
+                        <div class="step-card" data-aos="fade-up" data-aos-delay="100">
+                            <div class="step-number">1</div>
+                            <i class="fas fa-file-alt step-icon"></i>
+                            <h3 class="step-title">Isi Formulir Online</h3>
+                            <p class="step-desc">Isi formulir online yang telah disediakan dengan lengkap dan jelas.</p>
+                        </div>
+
+                        <div class="step-card" data-aos="fade-up" data-aos-delay="200">
+                            <div class="step-number">2</div>
+                            <i class="fas fa-upload step-icon"></i>
+                            <h3 class="step-title">Unggah Bukti</h3>
+                            <p class="step-desc">Unggah bukti atau informasi pendukung yang relevan dengan kasus.</p>
+                        </div>
+
+                        <div class="step-card" data-aos="fade-up" data-aos-delay="300">
+                            <div class="step-number">3</div>
+                            <i class="fas fa-check-circle step-icon"></i>
+                            <h3 class="step-title">Terima Kode Unik</h3>
+                            <p class="step-desc">Terima kode pelaporan unik Anda untuk tracking progress.</p>
+                        </div>
+
+                        <div class="step-card" data-aos="fade-up" data-aos-delay="400">
+                            <div class="step-number">4</div>
+                            <i class="fas fa-hourglass-half step-icon"></i>
+                            <h3 class="step-title">Tunggu Tindak Lanjut</h3>
+                            <p class="step-desc">Tunggu proses verifikasi dan tindak lanjut dari tim kami.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lapor Langsung -->
+                <div class="tab-pane" id="tab-langsung">
+                    <div class="steps-grid">
+                        <div class="step-card" data-aos="fade-up" data-aos-delay="100">
+                            <div class="step-number">1</div>
+                            <i class="fas fa-phone step-icon"></i>
+                            <h3 class="step-title">Hubungi Hotline</h3>
+                            <p class="step-desc">Hubungi hotline kami di (031) 123-4567 untuk konsultasi langsung.</p>
+                        </div>
+
+                        <div class="step-card" data-aos="fade-up" data-aos-delay="200">
+                            <div class="step-number">2</div>
+                            <i class="fas fa-calendar-check step-icon"></i>
+                            <h3 class="step-title">Jadwalkan Pertemuan</h3>
+                            <p class="step-desc">Jadwalkan pertemuan tatap muka dengan petugas kami.</p>
+                        </div>
+
+                        <div class="step-card" data-aos="fade-up" data-aos-delay="300">
+                            <div class="step-number">3</div>
+                            <i class="fas fa-user-shield step-icon"></i>
+                            <h3 class="step-title">Konseling & Pendampingan</h3>
+                            <p class="step-desc">Dapatkan konseling dan pendampingan dari tenaga profesional.</p>
+                        </div>
+
+                        <div class="step-card" data-aos="fade-up" data-aos-delay="400">
+                            <div class="step-number">4</div>
+                            <i class="fas fa-clipboard-check step-icon"></i>
+                            <h3 class="step-title">Dokumentasi Lengkap</h3>
+                            <p class="step-desc">Tim kami akan mendokumentasikan laporan Anda dengan lengkap.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Langkah Penting -->
+                <div class="tab-pane" id="tab-penting">
+                    <div class="steps-grid">
+                        <div class="step-card" data-aos="fade-up" data-aos-delay="100">
+                            <div class="step-number">!</div>
+                            <i class="fas fa-save step-icon"></i>
+                            <h3 class="step-title">Simpan Bukti</h3>
+                            <p class="step-desc">Simpan semua bukti komunikasi, foto, atau video yang relevan.</p>
+                        </div>
+
+                        <div class="step-card" data-aos="fade-up" data-aos-delay="200">
+                            <div class="step-number">!</div>
+                            <i class="fas fa-shield-alt step-icon"></i>
+                            <h3 class="step-title">Jaga Keamanan</h3>
+                            <p class="step-desc">Prioritaskan keamanan pribadi Anda sebelum melaporkan.</p>
+                        </div>
+
+                        <div class="step-card" data-aos="fade-up" data-aos-delay="300">
+                            <div class="step-number">!</div>
+                            <i class="fas fa-user-friends step-icon"></i>
+                            <h3 class="step-title">Cari Dukungan</h3>
+                            <p class="step-desc">Jangan ragu mencari dukungan dari orang terdekat atau profesional.</p>
+                        </div>
+
+                        <div class="step-card" data-aos="fade-up" data-aos-delay="400">
+                            <div class="step-number">!</div>
+                            <i class="fas fa-clock step-icon"></i>
+                            <h3 class="step-title">Segera Laporkan</h3>
+                            <p class="step-desc">Semakin cepat dilaporkan, semakin baik untuk proses penanganan.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center" style="margin-top: 1.2rem;" data-aos="fade-up">
+                <button class="btn btn-lg btn-outline-dark" onclick="window.location.href='../Lapor/lapor.html'">
+                    <i class="fas fa-arrow-right"></i> Buat Laporan Sekarang
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: ARTIKEL (KABAR SIGAP) -->
+    <section class="artikel-section section-padding">
+        <div class="main-container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="section-title">Kabar Sigap</h2>
+                <p class="section-subtitle">
+                    Artikel dan berita terbaru seputar pencegahan kekerasan seksual
+                </p>
+            </div>
+
+            <div class="artikel-grid" data-aos="fade-up" data-aos-delay="200">
+                <!-- Artikel 1 -->
+                <article class="artikel-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="artikel-image">
+                        <img src="https://via.placeholder.com/400x250/4b8a7b/ffffff?text=Edukasi+PPKS"
+                            alt="Edukasi PPKS">
+                        <div class="artikel-category">Edukasi</div>
+                    </div>
+                    <div class="artikel-content">
+                        <div class="artikel-meta">
+                            <span><i class="far fa-calendar"></i> 5 Desember 2024</span>
+                            <span><i class="far fa-clock"></i> 5 min baca</span>
+                        </div>
+                        <h3 class="artikel-title">Memahami Konsep Consent dalam Hubungan</h3>
+                        <p class="artikel-excerpt">
+                            Pelajari pentingnya persetujuan dalam setiap aspek hubungan
+                            dan bagaimana mengidentifikasi red flags...
+                        </p>
+                        <a href="#" class="btn btn-sm btn-outline-primary">
+                            Baca Selengkapnya <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Artikel 2 -->
+                <article class="artikel-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="artikel-image">
+                        <img src="https://via.placeholder.com/400x250/6a5acd/ffffff?text=Tips+Keamanan"
+                            alt="Tips Keamanan">
+                        <div class="artikel-category">Keamanan</div>
+                    </div>
+                    <div class="artikel-content">
+                        <div class="artikel-meta">
+                            <span><i class="far fa-calendar"></i> 3 Desember 2024</span>
+                            <span><i class="far fa-clock"></i> 7 min baca</span>
+                        </div>
+                        <h3 class="artikel-title">Lindungi Diri dari Kekerasan Digital</h3>
+                        <p class="artikel-excerpt">
+                            Tips praktis mengamankan privasi digital dan melindungi diri
+                            dari cyberbullying dan pelecehan online...
+                        </p>
+                        <a href="#" class="btn btn-sm btn-outline-primary">
+                            Baca Selengkapnya <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Artikel 3 -->
+                <article class="artikel-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="artikel-image">
+                        <img src="https://via.placeholder.com/400x250/547e9b/ffffff?text=Testimoni" alt="Testimoni">
+                        <div class="artikel-category">Testimoni</div>
+                    </div>
+                    <div class="artikel-content">
+                        <div class="artikel-meta">
+                            <span><i class="far fa-calendar"></i> 1 Desember 2024</span>
+                            <span><i class="far fa-clock"></i> 4 min baca</span>
+                        </div>
+                        <h3 class="artikel-title">Kisah Pemulihan: Bangkit dari Trauma</h3>
+                        <p class="artikel-excerpt">
+                            Cerita inspiratif tentang perjalanan pemulihan dan bagaimana
+                            dukungan yang tepat dapat mengubah hidup...
+                        </p>
+                        <a href="#" class="btn btn-sm btn-outline-primary">
+                            Baca Selengkapnya <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Artikel 4 -->
+                <article class="artikel-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="artikel-image">
+                        <img src="https://via.placeholder.com/400x250/e07b8a/ffffff?text=Hukum" alt="Hukum">
+                        <div class="artikel-category">Hukum</div>
+                    </div>
+                    <div class="artikel-content">
+                        <div class="artikel-meta">
+                            <span><i class="far fa-calendar"></i> 28 Nov 2024</span>
+                            <span><i class="far fa-clock"></i> 6 min</span>
+                        </div>
+                        <h3 class="artikel-title">Hak Korban Kekerasan Seksual</h3>
+                        <p class="artikel-excerpt">
+                            Kenali hak-hak legal yang dimiliki korban kekerasan dan proses hukum yang dapat ditempuh...
+                        </p>
+                        <a href="#" class="btn btn-sm btn-outline-primary">
+                            Baca Selengkapnya <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Artikel 5 -->
+                <article class="artikel-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="artikel-image">
+                        <img src="https://via.placeholder.com/400x250/7c9885/ffffff?text=Tips" alt="Tips">
+                        <div class="artikel-category">Tips</div>
+                    </div>
+                    <div class="artikel-content">
+                        <div class="artikel-meta">
+                            <span><i class="far fa-calendar"></i> 25 Nov 2024</span>
+                            <span><i class="far fa-clock"></i> 5 min</span>
+                        </div>
+                        <h3 class="artikel-title">Mendampingi Teman yang Jadi Korban</h3>
+                        <p class="artikel-excerpt">
+                            Panduan praktis untuk mendukung dan mendampingi teman yang mengalami kekerasan...
+                        </p>
+                        <a href="#" class="btn btn-sm btn-outline-primary">
+                            Baca Selengkapnya <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Artikel 6 -->
+                <article class="artikel-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="artikel-image">
+                        <img src="https://via.placeholder.com/400x250/9b7c8a/ffffff?text=Psikologi" alt="Psikologi">
+                        <div class="artikel-category">Psikologi</div>
+                    </div>
+                    <div class="artikel-content">
+                        <div class="artikel-meta">
+                            <span><i class="far fa-calendar"></i> 20 Nov 2024</span>
+                            <span><i class="far fa-clock"></i> 8 min</span>
+                        </div>
+                        <h3 class="artikel-title">Mengatasi Trauma Pasca Kekerasan</h3>
+                        <p class="artikel-excerpt">
+                            Langkah-langkah profesional untuk mengatasi trauma dan memulai proses penyembuhan...
+                        </p>
+                        <a href="#" class="btn btn-sm btn-outline-primary">
+                            Baca Selengkapnya <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Artikel 7 -->
+                <article class="artikel-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="artikel-image">
+                        <img src="https://via.placeholder.com/400x250/8a9bb5/ffffff?text=Kampus" alt="Kampus">
+                        <div class="artikel-category">Kampus</div>
+                    </div>
+                    <div class="artikel-content">
+                        <div class="artikel-meta">
+                            <span><i class="far fa-calendar"></i> 15 Nov 2024</span>
+                            <span><i class="far fa-clock"></i> 6 min</span>
+                        </div>
+                        <h3 class="artikel-title">Mencegah Kekerasan di Lingkungan Kampus</h3>
+                        <p class="artikel-excerpt">
+                            Strategi preventif dan kultur aman untuk menciptakan lingkungan kampus yang bebas
+                            kekerasan...
+                        </p>
+                        <a href="#" class="btn btn-sm btn-outline-primary">
+                            Baca Selengkapnya <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Artikel 8 -->
+                <article class="artikel-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="artikel-image">
+                        <img src="https://via.placeholder.com/400x250/a58a7c/ffffff?text=Komunitas" alt="Komunitas">
+                        <div class="artikel-category">Komunitas</div>
+                    </div>
+                    <div class="artikel-content">
+                        <div class="artikel-meta">
+                            <span><i class="far fa-calendar"></i> 10 Nov 2024</span>
+                            <span><i class="far fa-clock"></i> 4 min</span>
+                        </div>
+                        <h3 class="artikel-title">Bergabung dengan Support Group</h3>
+                        <p class="artikel-excerpt">
+                            Manfaat bergabung dengan komunitas support dan bagaimana menemukan grup yang tepat...
+                        </p>
+                        <a href="#" class="btn btn-sm btn-outline-primary">
+                            Baca Selengkapnya <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+            </div>
+
+            <div class="text-center" style="margin-top: 1.5rem;" data-aos="fade-up">
+                <button class="btn btn-lg btn-primary">
+                    <i class="fas fa-newspaper"></i> Lihat Semua Artikel
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: FAQ -->
+    <section class="faq-section section-padding section-light-gray">
+        <div class="main-container">
+            <div class="section-header" data-aos="fade-up">
+                <h2 class="section-title">Pertanyaan yang Sering Diajukan</h2>
+                <p class="section-subtitle">
+                    Temukan jawaban atas pertanyaan umum seputar pelaporan dan layanan kami
+                </p>
+            </div>
+
+            <div class="faq-container" data-aos="fade-up" data-aos-delay="200">
+                <!-- FAQ Item 1 -->
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Bagaimana cara menjaga kerahasiaan identitas saya?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>
+                            Semua laporan yang masuk dijamin kerahasiaannya. Kami menggunakan sistem enkripsi
+                            tingkat tinggi dan hanya petugas berwenang yang dapat mengakses informasi Anda.
+                            Anda juga dapat memilih untuk melapor secara anonim jika diperlukan.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 2 -->
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Apakah data saya aman?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>
+                            Ya, data Anda sangat aman. Kami menerapkan standar keamanan internasional ISO 27001
+                            untuk perlindungan data. Semua informasi disimpan di server terenkripsi dan hanya
+                            dapat diakses oleh tim yang telah tersertifikasi.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 3 -->
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Berapa lama proses penanganan kasus?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>
+                            Waktu penanganan bervariasi tergantung kompleksitas kasus, biasanya berkisar 14-30
+                            hari kerja. Anda akan menerima update berkala melalui email atau WhatsApp tentang
+                            progress penanganan kasus Anda.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 4 -->
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Apakah saya bisa mendapat pendampingan hukum?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>
+                            Ya, kami menyediakan layanan pendampingan hukum melalui mitra organisasi
+                            dan advokat pro bono yang berpengalaman menangani kasus kekerasan seksual.
+                            Tim kami akan memfasilitasi akses Anda ke layanan bantuan hukum yang tepat.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 5 -->
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Apakah ada biaya untuk menggunakan layanan ini?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>
+                            Tidak ada biaya sama sekali. Seluruh layanan Satgas PPKPT termasuk konseling,
+                            pendampingan, dan bantuan hukum disediakan secara gratis untuk seluruh sivitas
+                            akademika Telkom University.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 6 -->
+                <div class="faq-item">
+                    <button class="faq-question" aria-expanded="false">
+                        <span>Bagaimana jika saya trauma saat menceritakan kejadian?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>
+                            Tim kami terlatih menangani trauma dan memahami kondisi psikologis korban.
+                            Anda bebas untuk berhenti kapan saja selama proses pelaporan. Kami juga
+                            menyediakan layanan konseling psikologis profesional untuk membantu pemulihan Anda.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5: EMERGENCY BANNER & FOOTER -->
+    <section class="emergency-banner">
+        <div class="main-container">
+            <div class="emergency-content" data-aos="zoom-in">
+                <div class="emergency-icon">
+                    <i class="fas fa-phone-alt"></i>
+                </div>
+                <div class="emergency-text">
+                    <h3>Dalam Keadaan Darurat?</h3>
+                    <p>Hubungi hotline kami untuk bantuan segera</p>
+                </div>
+                <div class="emergency-numbers">
+                    <a href="tel:119" class="emergency-btn">
+                        <i class="fas fa-phone"></i> 119 (Hotline)
+                    </a>
+                    <a href="https://wa.me/6281234567890" class="emergency-btn emergency-btn-wa">
+                        <i class="fab fa-whatsapp"></i> WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="main-footer">
+        <div class="main-container footer-grid">
+            <div class="footer-col">
+                <h5>Sigap PPKPT</h5>
+                <ul class="clean-list">
+                    <li><a href="../About Page/about.html">Tentang Kami</a></li>
+                    <li><a href="#">Visi & Misi</a></li>
+                    <li><a href="#">Tim Kami</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Layanan</h5>
+                <ul class="clean-list">
+                    <li><a href="../Lapor/lapor.html">Lapor Daring</a></li>
+                    <li><a href="../Monitoring/monitoring.html">Cek Status</a></li>
+                    <li><a href="#">Konseling</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Hubungi Kami</h5>
+                <p><i class="fas fa-envelope"></i> ppks@telkomuniversity.ac.id</p>
+                <p><i class="fas fa-phone"></i> +62-821-8846-7793</p>
+                <p><i class="fas fa-map-marker-alt"></i> Telkom University Surabaya</p>
+            </div>
+            <div class="footer-col social-footer">
+                <h5>Ikuti Kami</h5>
+                <div class="social-icons-footer">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="main-container">
+                <small>&copy; 2025 Satgas PPKPT Telkom University Surabaya. Hak Cipta Dilindungi.</small>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ChatBot Modal -->
+    <div class="chatbot-modal-overlay" id="chatbotModalOverlay">
+        <div class="chatbot-modal">
+            <div class="chatbot-screen chat-interface-screen" id="chatInterfaceScreen">
+                <div class="chat-header">
+                    <div class="chat-header-info">
+                        <h3 id="chatModeTitle">Chat</h3>
+                        <p class="chat-mode-desc" id="chatModeDesc"></p>
+                    </div>
+                    <div class="chat-header-actions">
+                        <button class="btn-minimize-chat" id="btnMinimizeChat" title="Minimize">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button class="btn-close-chatbot" id="btnCloseChatbot2">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="chat-messages-container" id="chatMessagesContainer">
+                    <div class="chat-messages" id="chatMessages"></div>
+                    <div class="typing-indicator" id="typingIndicator">
+                        <div class="typing-bubble">
+                            <div class="typing-dots">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-input-area">
+                    <div class="voice-recording-mode" id="voiceRecordingMode">
+                        <div class="recording-animation">
+                            <div class="recording-circle">
+                                <i class="fas fa-microphone"></i>
+                            </div>
+                            <div class="sound-wave">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
+                        <p class="recording-text">Sedang merekam...</p>
+                        <button class="btn-stop-recording" id="btnStopRecording">
+                            <i class="fas fa-stop-circle"></i>
+                            <span>Stop</span>
+                        </button>
+                    </div>
+
+                    <div class="chat-input-wrapper" id="chatInputWrapper">
+                        <button class="btn-voice-input" id="btnVoiceInput" title="Rekam suara">
+                            <i class="fas fa-microphone"></i>
+                        </button>
+                        <input type="text" class="chat-input" id="chatInput" placeholder="Ketik pesan..."
+                            autocomplete="off" />
+                        <button class="btn-send-chat" id="btnSendChat" disabled>
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="../index.js" defer></script>
+    <script src="wawasan.js" defer></script>
+
+    <!-- ChatBot Scripts -->
+    <script src="../ChatBot/config.js"></script>
+    <script src="../ChatBot/chatbot.js"></script>
+
+    <!-- FAB Sigap Scripts -->
+    <script src="../FABsigap/modules/breathing.js" defer></script>
+    <script src="../FABsigap/modules/text_to_speech.js" defer></script>
+    <script src="../FABsigap/fabsigap.js" defer></script>
+
+    <!-- Accessibility Library -->
+    <script src="https://cdn.jsdelivr.net/npm/sienna-accessibility@latest/dist/sienna-accessibility.umd.js"
+        defer></script>
+</body>
+
+</html>
