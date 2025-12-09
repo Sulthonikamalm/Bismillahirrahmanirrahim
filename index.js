@@ -55,13 +55,9 @@
   // Dokumentasi: Fetch statistik dari API backend dan update elemen dengan animasi count-up
   // Helper untuk mendapatkan path API yang benar dari mana saja
   const getBaseApiUrl = () => {
-    // Cek apakah kita berada di dalam subfolder "Page"
-    const path = window.location.pathname;
-    if (path.includes('/Landing Page/') || path.includes('/About Page/')) {
-      return '../api/';
-    }
-    // Default asumsi di root /Bismillahirrahmanirrahim/
-    return 'api/';
+    // Gunakan absolute path untuk lebih reliable
+    // Path ini akan bekerja dari mana saja di dalam project
+    return '/Bismillahirrahmanirrahim/api/';
   };
 
   const loadStatistics = async () => {

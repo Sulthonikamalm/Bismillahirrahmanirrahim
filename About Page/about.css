@@ -2989,18 +2989,19 @@
 
 /* Jarak antara deskripsi dan card statistik */
 .dampak-section .stats-grid {
+  display: grid;
   grid-template-columns: repeat(2, 1fr);
-  max-width: 1400px;
+  max-width: 900px; /* Dipendekkan dari 1400px ke 900px */
   margin-left: auto;
   margin-right: auto;
   margin-top: 3rem;
   padding-bottom: 2rem;
-  gap: 40px;
+  gap: 30px; /* Dikurangi dari 40px ke 30px */
 }
 
 /* Card lebih panjang di section DAMPAK dengan animasi */
 .dampak-section .card-pelapor {
-  padding: 2.5rem 3rem;
+  padding: 2rem 2.5rem; /* Dikurangi dari 2.5rem 3rem */
   min-height: auto;
   border: none;
   position: relative;
@@ -3008,6 +3009,7 @@
   opacity: 0;
   transform: translateY(30px);
   transition: all 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
+  border-radius: 16px; /* Tambahkan border radius untuk lebih modern */
 }
 
 /* Animasi muncul saat scroll */
@@ -3114,43 +3116,56 @@
 @media (max-width: 992px) {
   .dampak-section .stats-grid {
     margin-top: 2.5rem;
-  }
-  
-  .dampak-section .stat-number {
-    font-size: 2.5rem;
-  }
-  
-  .dampak-section .pelapor-icon-circle {
-    width: 60px;
-    height: 60px;
-    font-size: 1.5rem;
-  }
-}
-
-/* Responsive: Mobile - 2 Kolom Horizontal Compact */
-@media (max-width: 768px) {
-  .dampak-section .stats-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    margin-top: 2rem;
+    max-width: 700px; /* Tambahkan max-width untuk tablet */
+    gap: 20px; /* Kurangi gap */
   }
   
   .dampak-section .card-pelapor {
-    padding: 14px;
-    min-height: 115px;
+    padding: 1.5rem 2rem; /* Kurangi padding di tablet */
+  }
+  
+  .dampak-section .stat-number {
+    font-size: 3rem; /* Sedikit lebih kecil dari 2.5rem */
+  }
+  
+  .dampak-section .pelapor-icon-circle {
+    width: 70px;
+    height: 70px;
+    font-size: 1.75rem;
+  }
+  
+  .dampak-section .card-inner-flex {
+    gap: 1.5rem; /* Kurangi gap */
+  }
+}
+
+/* Responsive: Mobile - 1 Kolom (Stacked Vertically) untuk lebih rapi */
+@media (max-width: 768px) {
+  .dampak-section .stats-grid {
+    grid-template-columns: 1fr; /* Ubah jadi 1 kolom, bukan 2 */
+    gap: 16px;
+    margin-top: 2rem;
+    max-width: 100%; /* Full width di mobile */
+    padding: 0 10px; /* Tambahkan padding kiri kanan */
+  }
+  
+  .dampak-section .card-pelapor {
+    padding: 18px;
+    min-height: auto;
   }
   
   .dampak-section .card-inner-flex {
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-    gap: 12px;
+    gap: 14px;
   }
 
   .dampak-section .pelapor-icon-circle {
-    width: 42px;
-    height: 42px;
-    font-size: 1.15rem;
+    width: 55px;
+    height: 55px;
+    font-size: 1.5rem;
+    flex-shrink: 0;
   }
   
   .dampak-section .text-content {
@@ -3160,14 +3175,17 @@
   }
   
   .dampak-section .stat-number {
-    font-size: 1.75rem;
+    font-size: 2.25rem; /* Sedikit lebih kecil dari 2.5rem */
     line-height: 1;
-    margin-bottom: 3px;
+    margin-bottom: 6px;
   }
   
   .dampak-section .stat-label {
-    font-size: 0.7rem;
-    line-height: 1.2;
+    font-size: 0.9rem;
+    line-height: 1.3;
+    font-weight: 500;
+    word-wrap: break-word;
+    white-space: normal;
   }
 }
 
@@ -3175,7 +3193,8 @@
 @media (max-width: 360px) {
   .dampak-section .stats-grid {
     grid-template-columns: 1fr;
-    gap: 15px;
+    gap: 14px;
+    padding: 0 5px; /* Kurangi padding untuk layar sangat kecil */
   }
   
   .dampak-section .card-pelapor {
@@ -3184,13 +3203,13 @@
   
   .dampak-section .card-inner-flex {
     flex-direction: row;
-    gap: 14px;
+    gap: 12px;
   }
   
   .dampak-section .pelapor-icon-circle {
-    width: 48px;
-    height: 48px;
-    font-size: 1.25rem;
+    width: 50px;
+    height: 50px;
+    font-size: 1.35rem;
   }
   
   .dampak-section .stat-number {
@@ -3199,5 +3218,6 @@
   
   .dampak-section .stat-label {
     font-size: 0.85rem;
+    line-height: 1.25;
   }
 }
