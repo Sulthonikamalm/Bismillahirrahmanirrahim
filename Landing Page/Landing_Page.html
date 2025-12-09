@@ -1,521 +1,469 @@
 <!DOCTYPE html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Satgas PPKPT</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
-    <link rel="stylesheet" href="../style.css" />
-    <link rel="stylesheet" href="../About Page/about.css" />
 
-    <!-- FAB Sigap Styles -->
-    <link rel="stylesheet" href="../FABsigap/fabsigap.css" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Satgas PPKPT</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="../About Page/about.css" />
 
-    <!-- ChatBot Styles -->
-    <link rel="stylesheet" href="../ChatBot/chatbot.css" />
-  </head>
-  <body>
-    <!-- Skip to main content link for accessibility -->
-    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+  <!-- FAB Sigap Styles -->
+  <link rel="stylesheet" href="../FABsigap/fabsigap.css" />
 
-    <!-- NAVBAR START -->
-    <!-- Dokumentasi: Navbar ini adalah navigasi utama situs, dengan logo, link navigasi, tombol lapor, dan ikon sosial. Mendukung mode mobile dengan hamburger menu. -->
-    <nav
-      class="navbar header-bg fixed-top"
-      role="navigation"
-      aria-label="Navigasi Utama"
-    >
-      <div class="main-container nav-content">
-        <a class="logo" href="#">Sigap</a>
+  <!-- ChatBot Styles -->
+  <link rel="stylesheet" href="../ChatBot/chatbot.css" />
+</head>
 
-        <div class="nav-links" id="primary-navigation">
-          <a class="nav-item" href="../About Page/about.html">ABOUT</a>
-          <a class="nav-item" href="../Cara Lapor/cara-lapor.html">CARA LAPOR</a>
-          <a class="nav-item" href="#kapanLapor">KAPAN HARUS LAPOR?</a>
-          <a class="nav-item" href="../Monitoring/monitoring.html">MONITORING</a>
+<body>
+  <!-- Skip to main content link for accessibility -->
+  <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+  <!-- NAVBAR START -->
+  <!-- Dokumentasi: Navbar ini adalah navigasi utama situs, dengan logo, link navigasi, tombol lapor, dan ikon sosial. Mendukung mode mobile dengan hamburger menu. -->
+  <nav class="navbar header-bg fixed-top" role="navigation" aria-label="Navigasi Utama">
+    <div class="main-container nav-content">
+      <a class="logo" href="#">Sigap</a>
+
+      <div class="nav-links" id="primary-navigation">
+        <a class="nav-item" href="../About Page/about.html">ABOUT</a>
+        <a class="nav-item" href="../Cara Lapor/cara-lapor.html">CARA LAPOR</a>
+        <a class="nav-item" href="#kapanLapor">KAPAN HARUS LAPOR?</a>
+        <a class="nav-item" href="../Monitoring/monitoring.html">MONITORING</a>
+      </div>
+
+      <div class="nav-actions">
+        <button class="btn btn-outline-light js-lapor-nav">LAPOR</button>
+        <div class="social-icons" aria-label="Ikon aksesibilitas">
+          <i class="fas fa-universal-access" aria-hidden="true"></i>
         </div>
+      </div>
 
-        <div class="nav-actions">
-          <button class="btn btn-outline-light js-lapor-nav">LAPOR</button>
-          <div class="social-icons" aria-label="Ikon aksesibilitas">
-            <i class="fas fa-universal-access" aria-hidden="true"></i>
+      <button class="hamburger" aria-label="Buka menu" aria-controls="primary-navigation" aria-expanded="false">
+        &#9776;
+      </button>
+    </div>
+  </nav>
+  <!-- NAVBAR END -->
+
+  <!-- HERO START -->
+  <!-- Dokumentasi: Bagian hero ini menampilkan judul utama, deskripsi, tombol lapor, dan ilustrasi dengan overlay card untuk visual menarik. Overlay hilang pada layar kecil untuk responsivitas. -->
+  <header class="header-bg hero-section" id="main-content">
+    <div class="main-container hero-content reveal" data-reveal>
+      <div class="hero-text reveal" data-reveal>
+        <h1 class="main-title">Satgas PPKPT</h1>
+        <p class="description">
+          Satgas PPKPT Telkom University Surabaya adalah lembaga kampus yang
+          memastikan terciptanya lingkungan akademik yang aman, setara, dan
+          bebas dari kekerasan seksual, sesuai dengan Permendikbudristek No.
+          30 Tahun 2021.
+        </p>
+        <button class="btn btn-lg btn-outline-light mt-2 js-lapor-hero">LAPOR</button>
+      </div>
+
+      <div class="hero-illustration reveal" data-reveal>
+        <img src="../Gambar/Gambar4.png" alt="Gambar Ilustrasi" class="box-blue" />
+        <div></div>
+        <div class="card-overlay card-overlay-top">Kapan Harus Lapor</div>
+        <img src="../Gambar/Gambar5.png" alt="Ilustrasi pendukung keamanan" class="card-overlay2 card-overlay-middle">
+        <div class="card-overlay card-overlay-bottom">
+          <div class="">
+            Lorem Ipsum has been the industry's standard dummy text ever since
+            the 1500s, when an unknown printer
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- HERO END -->
+
+  <!-- Dokumentasi: Bagian ini menampilkan statistik jumlah pelapor dalam bentuk grid card, dengan animasi reveal on scroll untuk efek visual. -->
+  <section class="section-padding">
+    <div class="main-container">
+      <h2 class="section-title text-center">Jumlah Pelapor</h2>
+      <div class="stats-grid">
+        <div class="card card-pelapor card-blue-light reveal" data-reveal>
+          <div class="card-inner-flex">
+            <div class="pelapor-icon-circle bg-white">
+              <i class="fas fa-users"></i>
+            </div>
+            <div class="text-content">
+              <h3 class="stat-number" id="total-cases" aria-live="polite" data-loading="true">0</h3>
+              <p class="stat-label">Jumlah Korban Berani Bicara</p>
+            </div>
           </div>
         </div>
 
-        <button
-          class="hamburger"
-          aria-label="Buka menu"
-          aria-controls="primary-navigation"
-          aria-expanded="false"
-        >
-          &#9776;
+        <div class="card card-pelapor card-green-teal reveal" data-reveal>
+          <div class="card-inner-flex">
+            <div class="pelapor-icon-circle bg-white">
+              <i class="fas fa-hand-holding-heart"></i>
+            </div>
+            <div class="text-content">
+              <h3 class="stat-number" id="cases-received" aria-live="polite" data-loading="true">0</h3>
+              <p class="stat-label">Pelaporan Diterima</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card card-pelapor card-purple-dark reveal" data-reveal>
+          <div class="card-inner-flex">
+            <div class="pelapor-icon-circle bg-white">
+              <i class="fas fa-shield-alt"></i>
+            </div>
+            <div class="text-content">
+              <h3 class="stat-number" id="cases-completed" aria-live="polite" data-loading="true">0</h3>
+              <p class="stat-label">Korban dalam Perlindungan</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dokumentasi: Bagian ini menjelaskan cara lapor dengan tab navigasi dan grid langkah-langkah, mendukung ARIA untuk aksesibilitas. -->
+  <section class="section-yellow section-padding">
+    <div class="main-container">
+      <h2 class="section-title text-center" id="caraLapor">Cara Lapor</h2>
+
+      <div class="tab-nav" role="tablist" aria-label="Cara Lapor">
+        <button class="btn btn-tab" role="tab" aria-selected="true">
+          LAPOR DARING
+        </button>
+        <button class="btn btn-tab" role="tab" aria-selected="false">
+          LAPOR LANGSUNG
+        </button>
+        <button class="btn btn-tab" role="tab" aria-selected="false">
+          LANGKAH PENTING
         </button>
       </div>
-    </nav>
-    <!-- NAVBAR END -->
 
-    <!-- HERO START -->
-    <!-- Dokumentasi: Bagian hero ini menampilkan judul utama, deskripsi, tombol lapor, dan ilustrasi dengan overlay card untuk visual menarik. Overlay hilang pada layar kecil untuk responsivitas. -->
-    <header class="header-bg hero-section" id="main-content">
-      <div class="main-container hero-content reveal" data-reveal>
-        <div class="hero-text reveal" data-reveal>
-          <h1 class="main-title">Satgas PPKPT</h1>
-          <p class="description">
-            Satgas PPKPT Telkom University Surabaya adalah lembaga kampus yang
-            memastikan terciptanya lingkungan akademik yang aman, setara, dan
-            bebas dari kekerasan seksual, sesuai dengan Permendikbudristek No.
-            30 Tahun 2021.
-          </p>
-          <button class="btn btn-lg btn-outline-light mt-2 js-lapor-hero">LAPOR</button>
+      <div class="steps-grid">
+        <div class="card card-lapor reveal" data-reveal>
+          <i class="fas fa-file-alt icon-primary"></i>
+          <p class="step-number">Langkah 1</p>
+          <p>Isi formulir online yang telah disediakan.</p>
         </div>
-
-        <div class="hero-illustration reveal" data-reveal>
-          <img src="../Gambar/Gambar4.png" alt="Gambar Ilustrasi" class="box-blue"/>
-          <div></div>
-          <div class="card-overlay card-overlay-top">Kapan Harus Lapor</div>
-          <img src="../Gambar/Gambar5.png" alt="Ilustrasi pendukung keamanan" class="card-overlay2 card-overlay-middle">
-          <div class="card-overlay card-overlay-bottom">
-            <div class="">
-              Lorem Ipsum has been the industry's standard dummy text ever since
-              the 1500s, when an unknown printer
-            </div>
-          </div>
+        <div class="card card-lapor reveal" data-reveal>
+          <i class="fas fa-upload icon-primary"></i>
+          <p class="step-number">Langkah 2</p>
+          <p>Unggah bukti atau informasi pendukung.</p>
+        </div>
+        <div class="card card-lapor reveal" data-reveal>
+          <i class="fas fa-check-circle icon-primary"></i>
+          <p class="step-number">Langkah 3</p>
+          <p>Terima kode pelaporan unik Anda.</p>
+        </div>
+        <div class="card card-lapor reveal" data-reveal>
+          <i class="fas fa-hourglass-half icon-primary"></i>
+          <p class="step-number">Langkah 4</p>
+          <p>Tunggu proses verifikasi dan tindak lanjut.</p>
         </div>
       </div>
-    </header>
-    <!-- HERO END -->
 
-    <!-- Dokumentasi: Bagian ini menampilkan statistik jumlah pelapor dalam bentuk grid card, dengan animasi reveal on scroll untuk efek visual. -->
-    <section class="section-padding">
-      <div class="main-container">
-        <h2 class="section-title text-center">Jumlah Pelapor</h2>
-        <div class="stats-grid">
-          <div class="card card-pelapor card-blue-light reveal" data-reveal>
-            <div class="card-inner-flex">
-              <div class="pelapor-icon-circle bg-white">
-                <i class="fas fa-users"></i>
-              </div>
-              <div class="text-content">
-                <h3 class="stat-number" aria-live="polite">6.239</h3>
-                <p class="stat-label">Jumlah Korban Berani Bicara</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="card card-pelapor card-green-teal reveal" data-reveal>
-            <div class="card-inner-flex">
-              <div class="pelapor-icon-circle bg-white">
-                <i class="fas fa-hand-holding-heart"></i>
-              </div>
-              <div class="text-content">
-                <h3 class="stat-number" aria-live="polite">120</h3>
-                <p class="stat-label">Pelaporan Diterima</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="card card-pelapor card-purple-dark reveal" data-reveal>
-            <div class="card-inner-flex">
-              <div class="pelapor-icon-circle bg-white">
-                <i class="fas fa-shield-alt"></i>
-              </div>
-              <div class="text-content">
-                <h3 class="stat-number" aria-live="polite">390</h3>
-                <p class="stat-label">Korban dalam Perlindungan</p>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="text-center mt-40">
+        <button class="btn btn-outline-dark">Selengkapnya</button>
       </div>
-    </section>
-
-    <!-- Dokumentasi: Bagian ini menjelaskan cara lapor dengan tab navigasi dan grid langkah-langkah, mendukung ARIA untuk aksesibilitas. -->
-    <section class="section-yellow section-padding">
-      <div class="main-container">
-        <h2 class="section-title text-center" id="caraLapor">Cara Lapor</h2>
-
-        <div class="tab-nav" role="tablist" aria-label="Cara Lapor">
-          <button class="btn btn-tab" role="tab" aria-selected="true">
-            LAPOR DARING
-          </button>
-          <button class="btn btn-tab" role="tab" aria-selected="false">
-            LAPOR LANGSUNG
-          </button>
-          <button class="btn btn-tab" role="tab" aria-selected="false">
-            LANGKAH PENTING
-          </button>
-        </div>
-
-        <div class="steps-grid">
-          <div class="card card-lapor reveal" data-reveal>
-            <i class="fas fa-file-alt icon-primary"></i>
-            <p class="step-number">Langkah 1</p>
-            <p>Isi formulir online yang telah disediakan.</p>
-          </div>
-          <div class="card card-lapor reveal" data-reveal>
-            <i class="fas fa-upload icon-primary"></i>
-            <p class="step-number">Langkah 2</p>
-            <p>Unggah bukti atau informasi pendukung.</p>
-          </div>
-          <div class="card card-lapor reveal" data-reveal>
-            <i class="fas fa-check-circle icon-primary"></i>
-            <p class="step-number">Langkah 3</p>
-            <p>Terima kode pelaporan unik Anda.</p>
-          </div>
-          <div class="card card-lapor reveal" data-reveal>
-            <i class="fas fa-hourglass-half icon-primary"></i>
-            <p class="step-number">Langkah 4</p>
-            <p>Tunggu proses verifikasi dan tindak lanjut.</p>
-          </div>
-        </div>
-
-        <div class="text-center mt-40">
-          <button class="btn btn-outline-dark">Selengkapnya</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- Dokumentasi: Bagian ini menjelaskan kapan harus lapor dengan grid card informasi, termasuk gambar ilustrasi untuk setiap kondisi. -->
-    <section class="section-teal section-padding">
-      <div class="main-container">
-        <h2 class="section-title text-center text-white" id="kapanLapor">
-          Kapan Harus Lapor?
-        </h2>
-        <div class="info-grid">
-          <div class="card card-info reveal" data-reveal>
-            <img
-              src="https://via.placeholder.com/400x200.png?text=Ilustrasi+A"
-              alt="Kondisi A"
-            />
-            <div class="card-body">
-              <h5 class="card-title">Kekerasan Verbal</h5>
-              <p class="card-text">
-                Penting untuk segera melapor saat terjadi penghinaan, ancaman,
-                atau ujaran yang merendahkan martabat.
-              </p>
-              <a href="#" class="btn btn-primary">Baca Selengkapnya</a>
-            </div>
-          </div>
-
-          <div class="card card-info reveal" data-reveal>
-            <img
-              src="https://via.placeholder.com/400x200.png?text=Ilustrasi+B"
-              alt="Kondisi B"
-            />
-            <div class="card-body">
-              <h5 class="card-title">Kekerasan Fisik</h5>
-              <p class="card-text">
-                Setiap bentuk kekerasan fisik, baik langsung maupun tidak
-                langsung, harus segera dilaporkan.
-              </p>
-              <a href="#" class="btn btn-primary">Baca Selengkapnya</a>
-            </div>
-          </div>
-
-          <div class="card card-info reveal" data-reveal>
-            <img
-              src="https://via.placeholder.com/400x200.png?text=Ilustrasi+C"
-              alt="Kondisi C"
-            />
-            <div class="card-body">
-              <h5 class="card-title">Kekerasan Digital</h5>
-              <p class="card-text">
-                Pelaporan penting dilakukan untuk kasus penyebaran konten intim
-                atau pelecehan online.
-              </p>
-              <a href="#" class="btn btn-primary">Baca Selengkapnya</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Dokumentasi: Bagian monitoring untuk melacak progress laporan dengan form input dan deskripsi proses. -->
-    <section class="section-purple section-padding" id="monitoring">
-      <div class="main-container monitoring-layout">
-        <div class="monitoring-form-wrapper">
-          <div class="card card-monitoring reveal" data-reveal>
-            <div class="icon-large">🔍</div>
-            <h5 class="fw-bold">Lacak Laporan Anda</h5>
-            <p class="text-muted">
-              Masukkan kode pelaporan Anda untuk memonitor perkembangan kasus.
-            </p>
-
-            <div class="input-group">
-              <input type="text" placeholder="Kode Laporan" id="kodeLaporan" />
-              <button
-                class="btn btn-primary"
-                type="button"
-                id="checkProgressBtn"
-              >
-                Cek Progress
-              </button>
-            </div>
-            <div id="progressStatus" class="mt-20" aria-live="polite"></div>
-          </div>
-        </div>
-
-        <div class="monitoring-text-content reveal" data-reveal>
-          <h2 class="main-title">Monitoring Progress Laporan</h2>
-          <h3>Proses Terjamin Aman</h3>
-          <p>
-            Kami menjamin kerahasiaan dan keamanan data pelapor. Sistem
-            monitoring ini dirancang untuk memberikan transparansi tahapan
-            proses tanpa mengungkapkan detail sensitif.
-          </p>
-
-          <ul class="clean-list">
-            <li>
-              <i class="fas fa-check-circle icon-green"></i> Verifikasi Cepat
-            </li>
-            <li><i class="fas fa-lock icon-green"></i> Kerahasiaan Data</li>
-            <li><i class="fas fa-clock icon-green"></i> Pembaruan Real-time</li>
-          </ul>
-
-          <button class="btn btn-outline-light mt-20">Hubungi Satgas</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- Dokumentasi: Bagian FAQ dengan accordion untuk pertanyaan umum, disertai ilustrasi bantuan. -->
-    <section class="section-grid section-padding">
-      <div class="main-container assistance-layout">
-        <h2 class="section-title text-center">Butuh Bantuan?</h2>
-
-        <div class="assistance-content">
-          <div class="" data-reveal>
-            <img class=""
-              src="../Gambar/Gambar3.png"
-              alt="Ilustrasi Bantuan"
-            />
-          </div>
-          <div class="faq-list reveal" data-reveal>
-            <div class="faq-item">
-              <button
-                class="faq-button"
-                aria-expanded="true"
-                aria-controls="faq-1"
-              >
-                Apa itu Satgas PPKPT?
-              </button>
-              <div class="faq-answer show" id="faq-1" role="region">
-                Satgas PPKPT (Pencegahan dan Penanganan Kekerasan Seksual) adalah
-                unit di kampus yang bertugas mencegah, menangani, dan memulihkan
-                korban kekerasan seksual.
-              </div>
-            </div>
-            <div class="faq-item">
-              <button
-                class="faq-button"
-                aria-expanded="false"
-                aria-controls="faq-2"
-              >
-                Siapa yang bisa melapor?
-              </button>
-              <div class="faq-answer" id="faq-2" role="region">
-                Semua anggota komunitas kampus (mahasiswa, dosen, tendik) yang
-                menjadi korban, saksi, atau mengetahui adanya kasus.
-              </div>
-            </div>
-            <div class="faq-item">
-              <button
-                class="faq-button"
-                aria-expanded="false"
-                aria-controls="faq-4"
-              >
-                Berapa lama proses penanganan kasus?
-              </button>
-              <div class="faq-answer" id="faq-4" role="region">
-                Waktu penanganan bervariasi tergantung kompleksitas kasus, biasanya 14-30 hari kerja dengan update berkala.
-              </div>
-            </div>
-            <div class="faq-item">
-              <button
-                class="faq-button"
-                aria-expanded="false"
-                aria-controls="faq-5"
-              >
-                Apakah ada biaya untuk melapor?
-              </button>
-              <div class="faq-answer" id="faq-5" role="region">
-                Tidak, seluruh layanan Satgas PPKPT gratis dan tidak dipungut biaya apapun.
-              </div>
-            </div>
-            <div class="faq-item">
-              <button
-                class="faq-button"
-                aria-expanded="false"
-                aria-controls="faq-6"
-              >
-                Bagaimana jika saya trauma saat menceritakan kejadian?
-              </button>
-              <div class="faq-answer" id="faq-6" role="region">
-                Tim kami terlatih menangani trauma. Anda bisa berhenti kapan saja dan kami menyediakan konseling psikologis.
-              </div>
-            </div>
-            <div class="faq-item">
-              <button
-                class="faq-button"
-                aria-expanded="false"
-                aria-controls="faq-7"
-              >
-                Bagaimana cara mendapatkan dukungan hukum?
-              </button>
-              <div class="faq-answer" id="faq-7" role="region">
-                Satgas PPKPT dapat memfasilitasi akses ke layanan bantuan hukum melalui mitra yang terpercaya dan berpengalaman.
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="text-center mt-40">
-          <button class="btn btn-lg btn-primary">Lihat FAQ Lengkap</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- Dokumentasi: Footer dengan link layanan, kontak, dan sosial media, ditampilkan dalam grid responsif. -->
-    <footer class="main-footer">
-      <div class="main-container footer-grid">
-        <div class="footer-col">
-          <h5>Sigap PPKPT</h5>
-          <ul class="clean-list">
-            <li><a href="#">Tentang Kami</a></li>
-            <li><a href="#">Program</a></li>
-            <li><a href="#">Publikasi</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h5>Layanan</h5>
-          <ul class="clean-list">
-            <li><a href="#">Lapor Daring</a></li>
-            <li><a href="#">Cek Status</a></li>
-            <li><a href="#">Konseling</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h5>Hubungi Kami</h5>
-          <p><i class="fas fa-envelope me-2"></i> email@ppks.ac.id</p>
-          <p><i class="fas fa-phone me-2"></i> +62-812-3456-7890</p>
-        </div>
-        <div class="footer-col social-footer">
-          <h5>Ikuti Kami</h5>
-          <div class="social-icons-footer">
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-youtube"></i></a>
-          </div>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <div class="main-container">
-          <small
-            >Hak Cipta &copy; 2025. Satgas PPKPT. Dibuat dengan &hearts; oleh Tim
-            IT.</small
-          >
-        </div>
-      </div>
-    </footer>
-
-    <!-- ChatBot Modal (Triggered by FABsigap "Chat TemanKu" button) -->
-    <div class="chatbot-modal-overlay" id="chatbotModalOverlay">
-        <div class="chatbot-modal">
-            <!-- Chat Interface Screen -->
-            <div class="chatbot-screen chat-interface-screen" id="chatInterfaceScreen">
-                <!-- Chat Header -->
-                <div class="chat-header">
-                    <div class="chat-header-info">
-                        <h3 id="chatModeTitle">Chat</h3>
-                        <p class="chat-mode-desc" id="chatModeDesc"></p>
-                    </div>
-                    <div class="chat-header-actions">
-                        <button class="btn-minimize-chat" id="btnMinimizeChat" title="Minimize">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                        <button class="btn-close-chatbot" id="btnCloseChatbot2">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Chat Messages Container -->
-                <div class="chat-messages-container" id="chatMessagesContainer">
-                    <div class="chat-messages" id="chatMessages">
-                        <!-- Welcome message will be inserted here -->
-                    </div>
-
-                    <!-- Typing Indicator -->
-                    <div class="typing-indicator" id="typingIndicator">
-                        <div class="typing-bubble">
-                            <div class="typing-dots">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Chat Input Area -->
-                <div class="chat-input-area">
-                    <!-- Voice Recording Mode -->
-                    <div class="voice-recording-mode" id="voiceRecordingMode">
-                        <div class="recording-animation">
-                            <div class="recording-circle">
-                                <i class="fas fa-microphone"></i>
-                            </div>
-                            <div class="sound-wave">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
-                        </div>
-                        <p class="recording-text">Sedang merekam...</p>
-                        <button class="btn-stop-recording" id="btnStopRecording">
-                            <i class="fas fa-stop-circle"></i>
-                            <span>Stop</span>
-                        </button>
-                    </div>
-
-                    <!-- Normal Input Mode -->
-                    <div class="chat-input-wrapper" id="chatInputWrapper">
-                        <button class="btn-voice-input" id="btnVoiceInput" title="Rekam suara">
-                            <i class="fas fa-microphone"></i>
-                        </button>
-                        <input
-                            type="text"
-                            class="chat-input"
-                            id="chatInput"
-                            placeholder="Ketik pesan..."
-                            autocomplete="off"
-                        />
-                        <button class="btn-send-chat" id="btnSendChat" disabled>
-                            <i class="fas fa-paper-plane"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
+  </section>
 
-    <!-- Main Website Scripts -->
-    <script src="../index.js" defer></script>
+  <!-- Dokumentasi: Bagian ini menjelaskan kapan harus lapor dengan grid card informasi, termasuk gambar ilustrasi untuk setiap kondisi. -->
+  <section class="section-teal section-padding">
+    <div class="main-container">
+      <h2 class="section-title text-center text-white" id="kapanLapor">
+        Kapan Harus Lapor?
+      </h2>
+      <div class="info-grid">
+        <div class="card card-info reveal" data-reveal>
+          <img src="https://via.placeholder.com/400x200.png?text=Ilustrasi+A" alt="Kondisi A" />
+          <div class="card-body">
+            <h5 class="card-title">Kekerasan Verbal</h5>
+            <p class="card-text">
+              Penting untuk segera melapor saat terjadi penghinaan, ancaman,
+              atau ujaran yang merendahkan martabat.
+            </p>
+            <a href="#" class="btn btn-primary">Baca Selengkapnya</a>
+          </div>
+        </div>
 
-    <!-- ChatBot Scripts -->
-    <script src="../ChatBot/config.js"></script>
-    <script src="../ChatBot/chatbot.js"></script>
+        <div class="card card-info reveal" data-reveal>
+          <img src="https://via.placeholder.com/400x200.png?text=Ilustrasi+B" alt="Kondisi B" />
+          <div class="card-body">
+            <h5 class="card-title">Kekerasan Fisik</h5>
+            <p class="card-text">
+              Setiap bentuk kekerasan fisik, baik langsung maupun tidak
+              langsung, harus segera dilaporkan.
+            </p>
+            <a href="#" class="btn btn-primary">Baca Selengkapnya</a>
+          </div>
+        </div>
 
-    <!-- FAB Sigap Scripts (Load in Order) -->
-    <script src="../FABsigap/modules/breathing.js" defer></script>
-    <script src="../FABsigap/modules/text_to_speech.js" defer></script>
-    <script src="../FABsigap/fabsigap.js" defer></script>
+        <div class="card card-info reveal" data-reveal>
+          <img src="https://via.placeholder.com/400x200.png?text=Ilustrasi+C" alt="Kondisi C" />
+          <div class="card-body">
+            <h5 class="card-title">Kekerasan Digital</h5>
+            <p class="card-text">
+              Pelaporan penting dilakukan untuk kasus penyebaran konten intim
+              atau pelecehan online.
+            </p>
+            <a href="#" class="btn btn-primary">Baca Selengkapnya</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <!-- Accessibility Library -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/sienna-accessibility@latest/dist/sienna-accessibility.umd.js"
-      defer></script>
-  </body>
+  <!-- Dokumentasi: Bagian monitoring untuk melacak progress laporan dengan form input dan deskripsi proses. -->
+  <section class="section-purple section-padding" id="monitoring">
+    <div class="main-container monitoring-layout">
+      <div class="monitoring-form-wrapper">
+        <div class="card card-monitoring reveal" data-reveal>
+          <div class="icon-large">🔍</div>
+          <h5 class="fw-bold">Lacak Laporan Anda</h5>
+          <p class="text-muted">
+            Masukkan kode pelaporan Anda untuk memonitor perkembangan kasus.
+          </p>
+
+          <div class="input-group">
+            <input type="text" placeholder="Kode Laporan" id="kodeLaporan" />
+            <button class="btn btn-primary" type="button" id="checkProgressBtn">
+              Cek Progress
+            </button>
+          </div>
+          <div id="progressStatus" class="mt-20" aria-live="polite"></div>
+        </div>
+      </div>
+
+      <div class="monitoring-text-content reveal" data-reveal>
+        <h2 class="main-title">Monitoring Progress Laporan</h2>
+        <h3>Proses Terjamin Aman</h3>
+        <p>
+          Kami menjamin kerahasiaan dan keamanan data pelapor. Sistem
+          monitoring ini dirancang untuk memberikan transparansi tahapan
+          proses tanpa mengungkapkan detail sensitif.
+        </p>
+
+        <ul class="clean-list">
+          <li>
+            <i class="fas fa-check-circle icon-green"></i> Verifikasi Cepat
+          </li>
+          <li><i class="fas fa-lock icon-green"></i> Kerahasiaan Data</li>
+          <li><i class="fas fa-clock icon-green"></i> Pembaruan Real-time</li>
+        </ul>
+
+        <button class="btn btn-outline-light mt-20">Hubungi Satgas</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dokumentasi: Bagian FAQ dengan accordion untuk pertanyaan umum, disertai ilustrasi bantuan. -->
+  <section class="section-grid section-padding">
+    <div class="main-container assistance-layout">
+      <h2 class="section-title text-center">Butuh Bantuan?</h2>
+
+      <div class="assistance-content">
+        <div class="" data-reveal>
+          <img class="" src="../Gambar/Gambar3.png" alt="Ilustrasi Bantuan" />
+        </div>
+        <div class="faq-list reveal" data-reveal>
+          <div class="faq-item">
+            <button class="faq-button" aria-expanded="true" aria-controls="faq-1">
+              Apa itu Satgas PPKPT?
+            </button>
+            <div class="faq-answer show" id="faq-1" role="region">
+              Satgas PPKPT (Pencegahan dan Penanganan Kekerasan Seksual) adalah
+              unit di kampus yang bertugas mencegah, menangani, dan memulihkan
+              korban kekerasan seksual.
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-button" aria-expanded="false" aria-controls="faq-2">
+              Siapa yang bisa melapor?
+            </button>
+            <div class="faq-answer" id="faq-2" role="region">
+              Semua anggota komunitas kampus (mahasiswa, dosen, tendik) yang
+              menjadi korban, saksi, atau mengetahui adanya kasus.
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-button" aria-expanded="false" aria-controls="faq-4">
+              Berapa lama proses penanganan kasus?
+            </button>
+            <div class="faq-answer" id="faq-4" role="region">
+              Waktu penanganan bervariasi tergantung kompleksitas kasus, biasanya 14-30 hari kerja dengan update
+              berkala.
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-button" aria-expanded="false" aria-controls="faq-5">
+              Apakah ada biaya untuk melapor?
+            </button>
+            <div class="faq-answer" id="faq-5" role="region">
+              Tidak, seluruh layanan Satgas PPKPT gratis dan tidak dipungut biaya apapun.
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-button" aria-expanded="false" aria-controls="faq-6">
+              Bagaimana jika saya trauma saat menceritakan kejadian?
+            </button>
+            <div class="faq-answer" id="faq-6" role="region">
+              Tim kami terlatih menangani trauma. Anda bisa berhenti kapan saja dan kami menyediakan konseling
+              psikologis.
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-button" aria-expanded="false" aria-controls="faq-7">
+              Bagaimana cara mendapatkan dukungan hukum?
+            </button>
+            <div class="faq-answer" id="faq-7" role="region">
+              Satgas PPKPT dapat memfasilitasi akses ke layanan bantuan hukum melalui mitra yang terpercaya dan
+              berpengalaman.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-40">
+        <button class="btn btn-lg btn-primary">Lihat FAQ Lengkap</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dokumentasi: Footer dengan link layanan, kontak, dan sosial media, ditampilkan dalam grid responsif. -->
+  <footer class="main-footer">
+    <div class="main-container footer-grid">
+      <div class="footer-col">
+        <h5>Sigap PPKPT</h5>
+        <ul class="clean-list">
+          <li><a href="#">Tentang Kami</a></li>
+          <li><a href="#">Program</a></li>
+          <li><a href="#">Publikasi</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Layanan</h5>
+        <ul class="clean-list">
+          <li><a href="#">Lapor Daring</a></li>
+          <li><a href="#">Cek Status</a></li>
+          <li><a href="#">Konseling</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Hubungi Kami</h5>
+        <p><i class="fas fa-envelope me-2"></i> email@ppks.ac.id</p>
+        <p><i class="fas fa-phone me-2"></i> +62-812-3456-7890</p>
+      </div>
+      <div class="footer-col social-footer">
+        <h5>Ikuti Kami</h5>
+        <div class="social-icons-footer">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="main-container">
+        <small>Hak Cipta &copy; 2025. Satgas PPKPT. Dibuat dengan &hearts; oleh Tim
+          IT.</small>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ChatBot Modal (Triggered by FABsigap "Chat TemanKu" button) -->
+  <div class="chatbot-modal-overlay" id="chatbotModalOverlay">
+    <div class="chatbot-modal">
+      <!-- Chat Interface Screen -->
+      <div class="chatbot-screen chat-interface-screen" id="chatInterfaceScreen">
+        <!-- Chat Header -->
+        <div class="chat-header">
+          <div class="chat-header-info">
+            <h3 id="chatModeTitle">Chat</h3>
+            <p class="chat-mode-desc" id="chatModeDesc"></p>
+          </div>
+          <div class="chat-header-actions">
+            <button class="btn-minimize-chat" id="btnMinimizeChat" title="Minimize">
+              <i class="fas fa-minus"></i>
+            </button>
+            <button class="btn-close-chatbot" id="btnCloseChatbot2">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Chat Messages Container -->
+        <div class="chat-messages-container" id="chatMessagesContainer">
+          <div class="chat-messages" id="chatMessages">
+            <!-- Welcome message will be inserted here -->
+          </div>
+
+          <!-- Typing Indicator -->
+          <div class="typing-indicator" id="typingIndicator">
+            <div class="typing-bubble">
+              <div class="typing-dots">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chat Input Area -->
+        <div class="chat-input-area">
+          <!-- Voice Recording Mode -->
+          <div class="voice-recording-mode" id="voiceRecordingMode">
+            <div class="recording-animation">
+              <div class="recording-circle">
+                <i class="fas fa-microphone"></i>
+              </div>
+              <div class="sound-wave">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+            <p class="recording-text">Sedang merekam...</p>
+            <button class="btn-stop-recording" id="btnStopRecording">
+              <i class="fas fa-stop-circle"></i>
+              <span>Stop</span>
+            </button>
+          </div>
+
+          <!-- Normal Input Mode -->
+          <div class="chat-input-wrapper" id="chatInputWrapper">
+            <button class="btn-voice-input" id="btnVoiceInput" title="Rekam suara">
+              <i class="fas fa-microphone"></i>
+            </button>
+            <input type="text" class="chat-input" id="chatInput" placeholder="Ketik pesan..." autocomplete="off" />
+            <button class="btn-send-chat" id="btnSendChat" disabled>
+              <i class="fas fa-paper-plane"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Website Scripts -->
+  <script src="../index.js" defer></script>
+
+  <!-- ChatBot Scripts -->
+  <script src="../ChatBot/config.js"></script>
+  <script src="../ChatBot/chatbot.js"></script>
+
+  <!-- FAB Sigap Scripts (Load in Order) -->
+  <script src="../FABsigap/modules/breathing.js" defer></script>
+  <script src="../FABsigap/modules/text_to_speech.js" defer></script>
+  <script src="../FABsigap/fabsigap.js" defer></script>
+
+  <!-- Accessibility Library -->
+  <script src="https://cdn.jsdelivr.net/npm/sienna-accessibility@latest/dist/sienna-accessibility.umd.js"
+    defer></script>
+</body>
+
 </html>

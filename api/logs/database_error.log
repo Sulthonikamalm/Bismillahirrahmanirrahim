@@ -13,3 +13,44 @@
 [20-Nov-2025 15:33:00 Europe/Berlin] LOGIN SUCCESS - User: admin@ppks.com (ID: 11) from IP: ::1
 [22-Nov-2025 07:37:44 Europe/Berlin] 🔍 Search Request - Type: KODE, Query: PPKS002
 [22-Nov-2025 07:37:44 Europe/Berlin] ✅ Found - kode: PPKS002, Kode: PPKS002
+[08-Dec-2025 19:37:54 Europe/Berlin] [CRITICAL] Koneksi database gagal: SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: YES)
+[08-Dec-2025 19:37:57 Europe/Berlin] [CRITICAL] Koneksi database gagal: SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: YES)
+[08-Dec-2025 19:38:31 Europe/Berlin] [CRITICAL] Koneksi database gagal: SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: YES)
+[08-Dec-2025 19:38:31 Europe/Berlin] [CRITICAL] Koneksi database gagal: SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: YES)
+[08-Dec-2025 19:38:32 Europe/Berlin] [CRITICAL] Koneksi database gagal: SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: YES)
+[08-Dec-2025 19:38:33 Europe/Berlin] [CRITICAL] Koneksi database gagal: SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: YES)
+[08-Dec-2025 19:38:33 Europe/Berlin] [CRITICAL] Koneksi database gagal: SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: YES)
+[08-Dec-2025 19:39:23 Europe/Berlin] [CRITICAL] Koneksi database gagal: SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: YES)
+[08-Dec-2025 19:39:24 Europe/Berlin] [CRITICAL] Koneksi database gagal: SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: YES)
+[08-Dec-2025 19:39:25 Europe/Berlin] [CRITICAL] Koneksi database gagal: SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: YES)
+[08-Dec-2025 19:39:25 Europe/Berlin] [CRITICAL] Koneksi database gagal: SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: YES)
+[08-Dec-2025 19:39:25 Europe/Berlin] [CRITICAL] Koneksi database gagal: SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: YES)
+[08-Dec-2025 19:39:25 Europe/Berlin] [CRITICAL] Koneksi database gagal: SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: YES)
+[08-Dec-2025 19:39:25 Europe/Berlin] [CRITICAL] Koneksi database gagal: SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: YES)
+[08-Dec-2025 19:39:39 Europe/Berlin] [CRITICAL] Koneksi database gagal: SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: YES)
+[08-Dec-2025 19:39:56 Europe/Berlin] [CRITICAL] Koneksi database gagal: SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: YES)
+[08-Dec-2025 19:41:51 Europe/Berlin] [CRITICAL] Koneksi database gagal: SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: YES)
+[08-Dec-2025 19:43:15 Europe/Berlin] [CRITICAL] Koneksi database gagal: SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: YES)
+[08-Dec-2025 19:43:36 Europe/Berlin] [CRITICAL] Koneksi database gagal: SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: YES)
+[08-Dec-2025 19:43:38 Europe/Berlin] [CRITICAL] Koneksi database gagal: SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: YES)
+[08-Dec-2025 19:45:46 Europe/Berlin] [CRITICAL] Koneksi database gagal: SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: YES)
+[08-Dec-2025 19:56:58 Europe/Berlin] DEVICE FINGERPRINT - User: admin@ppks.com, Fingerprint: d7e0ed939e9b8bb7b682d2c8b72dcf1862cf6697cd88eaf43fd7ba41f6dcde36
+[08-Dec-2025 19:56:58 Europe/Berlin] LOGIN SUCCESS - User: admin@ppks.com (ID: 5) from IP: ::1
+[08-Dec-2025 19:57:30 Europe/Berlin] DEVICE FINGERPRINT - User: admin@ppks.com, Fingerprint: d7e0ed939e9b8bb7b682d2c8b72dcf1862cf6697cd88eaf43fd7ba41f6dcde36
+[08-Dec-2025 19:57:30 Europe/Berlin] LOGIN SUCCESS - User: admin@ppks.com (ID: 5) from IP: ::1
+[08-Dec-2025 20:00:22 Europe/Berlin] CASE ACCESSED - ID: 1, Kode: PPKS001, Admin: admin@ppks.com
+[08-Dec-2025 20:00:28 Europe/Berlin] CASE UPDATED - ID: 1, Kode: PPKS001, Old Status: Process, New Status: Completed, Admin: admin@ppks.com
+[09-Dec-2025 05:55:03 Europe/Berlin] [CRITICAL] Koneksi database gagal: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+[09-Dec-2025 05:55:11 Europe/Berlin] [CRITICAL] Koneksi database gagal: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+[09-Dec-2025 05:56:16 Europe/Berlin] [CRITICAL] Koneksi database gagal: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+[09-Dec-2025 05:56:26 Europe/Berlin] [CRITICAL] Koneksi database gagal: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+[09-Dec-2025 05:56:38 Europe/Berlin] [CRITICAL] Koneksi database gagal: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+[09-Dec-2025 06:14:08 Europe/Berlin] [CRITICAL] Koneksi database gagal: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+[09-Dec-2025 06:14:17 Europe/Berlin] [CRITICAL] Koneksi database gagal: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+[09-Dec-2025 06:17:05 Europe/Berlin] [CRITICAL] Koneksi database gagal: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+[09-Dec-2025 06:17:11 Europe/Berlin] [CRITICAL] Koneksi database gagal: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+[09-Dec-2025 06:17:18 Europe/Berlin] [CRITICAL] Koneksi database gagal: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+[09-Dec-2025 06:17:26 Europe/Berlin] [CRITICAL] Koneksi database gagal: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+[09-Dec-2025 06:18:37 Europe/Berlin] [CRITICAL] Koneksi database gagal: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+[09-Dec-2025 06:18:41 Europe/Berlin] [CRITICAL] Koneksi database gagal: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+[09-Dec-2025 06:18:47 Europe/Berlin] [CRITICAL] Koneksi database gagal: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it

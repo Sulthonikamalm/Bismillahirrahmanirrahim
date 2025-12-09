@@ -531,90 +531,181 @@ li,
 
 /* === 4. STATISTIK (CSS GRID) === */
 /* Dokumentasi: Grid untuk statistik dengan card berwarna, ikon, dan animasi count-up. */
+/* === 4. STATISTIK (CSS GRID) === */
+/* Dokumentasi: Grid untuk statistik dengan card berwarna, layout fleksibel, dan responsif */
+
+/* === 4. STATISTIK (CSS GRID) === */
+/* Dokumentasi: Grid statistik responsive. Desktop: auto-fit. Mobile: 2 kolom compact. */
+
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
+  /* Auto-fit agar di Desktop bisa 2 kolom (About) atau 3 kolom (Landing) dengan rapi */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+  width: 100%;
 }
 
 .card-pelapor {
-  padding: 2.5rem 1.5rem;
-  border-radius: 15px;
+  padding: 2rem;
+  border-radius: 16px;
   color: var(--color-text-light);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-}
-
-.card-blue-light {
-  background-color: var(--color-mid-blue);
-}
-
-.card-green-teal {
-  background-color: var(--color-teal);
-}
-
-.card-purple-dark {
-  background-color: var(--color-purple);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .card-inner-flex {
+  /* Desktop Default: Horizontal (Ikon Kiri, Teks Kanan) */
   display: flex;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  gap: 20px;
+  width: 100%;
   text-align: left;
 }
 
+/* === ICON WRAPPER === */
 .pelapor-icon-circle {
-  width: 60px;
-  height: 60px;
+  width: 64px;
+  height: 64px;
+  min-width: 64px;
+  min-height: 64px;
   border-radius: 50%;
   background-color: var(--color-text-light);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
-  margin-right: 20px;
+  font-size: 1.75rem;
+  color: var(--color-text-dark);
+  flex-shrink: 0;
 }
 
-.pelapor-icon-circle .fa-users {
-  color: var(--color-mid-blue);
-}
+.pelapor-icon-circle .fa-users { color: var(--color-mid-blue); }
+.pelapor-icon-circle .fa-hand-holding-heart { color: var(--color-teal); }
+.pelapor-icon-circle .fa-shield-alt { color: var(--color-purple); }
 
-.pelapor-icon-circle .fa-hand-holding-heart {
-  color: var(--color-teal);
-}
-
-.pelapor-icon-circle .fa-shield-alt {
-  color: var(--color-purple);
+/* === TEXT CONTENT === */
+.text-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
 }
 
 .stat-number {
   font-size: 3rem;
   font-weight: 800;
-  margin-bottom: 0;
   line-height: 1;
+  margin-bottom: 4px;
+  white-space: nowrap;
 }
 
 .stat-label {
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.3;
   margin: 0;
-  font-size: 0.9rem;
+  opacity: 0.95;
+  white-space: normal;
+  word-wrap: break-word; /* Safety */
 }
 
-.gambar {
-  height: 100px;
+/* Card Colors */
+.card-blue-light { background-color: var(--color-mid-blue); }
+.card-green-teal { background-color: var(--color-teal); }
+.card-purple-dark { background-color: var(--color-purple); }
+
+.gambar { height: 100px; }
+
+/* === RESPONSIVE BREAKPOINTS === */
+
+.gambar { height: 100px; }
+
+/* === RESPONSIVE BREAKPOINTS === */
+
+/* Tablet (1024px and below) */
+@media (max-width: 1024px) {
+  .card-pelapor {
+    padding: 1.5rem;
+  }
 }
 
-/* === Reveal on Scroll (calm fade-in) === */
-/* Dokumentasi: Efek reveal menggunakan IntersectionObserver untuk animasi masuk elemen saat scroll. */
-.reveal {
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity var(--dur-calm) var(--ease-calm),
-    transform var(--dur-calm) var(--ease-calm);
+/* MOBILE: 2 Kolom Sejajar dengan Layout Horizontal Kompak */
+@media (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .card-pelapor {
+    padding: 14px;
+    min-height: 110px;
+  }
+
+  .card-inner-flex {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+  }
+
+  .pelapor-icon-circle {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+    font-size: 1.1rem;
+  }
+
+  .text-content {
+    flex: 1;
+    text-align: left;
+  }
+
+  .stat-number {
+    font-size: 1.75rem;
+    margin-bottom: 2px;
+  }
+
+  .stat-label {
+    font-size: 0.7rem;
+    line-height: 1.2;
+  }
 }
 
-.reveal.is-visible {
-  opacity: 1;
-  transform: translateY(0);
+/* Extra Small Mobile (360px and below) - Switch to 1 Column */
+@media (max-width: 360px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card-pelapor {
+    padding: 16px;
+  }
+
+  .card-inner-flex {
+    gap: 14px;
+  }
+
+  .pelapor-icon-circle {
+    width: 46px;
+    height: 46px;
+    min-width: 46px;
+    min-height: 46px;
+    font-size: 1.2rem;
+  }
+
+  .stat-number {
+    font-size: 2rem;
+  }
+
+  .stat-label {
+    font-size: 0.85rem;
+  }
 }
 
 /* === 5. CARA LAPOR (FLEX & GRID) === */
@@ -1028,26 +1119,7 @@ li,
     height: 240px;
   }
 
-  .stats-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-
-  .card-pelapor {
-    padding: 1.5rem 1rem;
-  }
-
-  .stat-number {
-    font-size: 2.5rem;
-  }
-
-  .pelapor-icon-circle {
-    width: 50px;
-    height: 50px;
-    font-size: 1.2rem;
-    margin-right: 15px;
-  }
-
+  /* Stats rules removed (moved to main block) */
   .tab-nav {
     flex-wrap: wrap;
     gap: 8px;
@@ -1241,13 +1313,7 @@ li,
     padding: 3rem 0;
   }
 
-  .stat-number {
-    font-size: 2rem;
-  }
-
-  .stat-label {
-    font-size: 0.85rem;
-  }
+  /* Stat rules removed */
 
   .tab-nav {
     flex-direction: column;
@@ -1341,6 +1407,8 @@ li,
   .box-blue {
     height: 180px;
   }
+  
+  /* Extra small stats rules removed (moved to main block) */
 }
 
 /* === LANDSCAPE MOBILE (max-height: 500px) === */

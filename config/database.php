@@ -12,7 +12,7 @@
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'sigap_ppks');
 define('DB_USER', 'root');
-define('DB_PASS', 'root'); // Ubah password ini saat production!
+define('DB_PASS', ''); // Password kosong untuk XAMPP default
 define('DB_PORT', 3306);
 define('DB_CHARSET', 'utf8mb4');
 

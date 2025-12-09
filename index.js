@@ -50,24 +50,120 @@
   const statEls = Array.from(document.querySelectorAll('.stat-number'));
   const formatId = new Intl.NumberFormat('id-ID');
 
+  // ============================================
+  // DYNAMIC STATISTICS LOADING FROM DATABASE
+  // Dokumentasi: Fetch statistik dari API backend dan update elemen dengan animasi count-up
+  // Helper untuk mendapatkan path API yang benar dari mana saja
+  const getBaseApiUrl = () => {
+    // Cek apakah kita berada di dalam subfolder "Page"
+    const path = window.location.pathname;
+    if (path.includes('/Landing Page/') || path.includes('/About Page/')) {
+      return '../api/';
+    }
+    // Default asumsi di root /Bismillahirrahmanirrahim/
+    return 'api/';
+  };
+
+  const loadStatistics = async () => {
+    const apiEndpoint = getBaseApiUrl() + 'get_public_statistics.php';
+    console.log('[Statistics] Fetching from:', apiEndpoint);
+
+    try {
+      const response = await fetch(apiEndpoint);
+      if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
+      
+      const result = await response.json();
+      if (result.status !== 'success' || !result.data) throw new Error('Invalid data format');
+
+      // Helper untuk update elemen jika ada
+      const updateElement = (id, value) => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.setAttribute('data-target', value);
+          el.textContent = '0'; // Reset ke 0 sebelum animasi
+          el.removeAttribute('data-loading');
+        }
+      };
+
+      // Update Landing Page & About Page elements
+      const { total_cases, cases_received, cases_completed } = result.data;
+
+      // Landing Page
+      updateElement('total-cases', total_cases);
+      updateElement('cases-received', cases_received);
+      updateElement('cases-completed', cases_completed);
+
+      // About Page (Specific IDs)
+      updateElement('about-cases-received', cases_received);
+      updateElement('about-cases-completed', cases_completed);
+
+    } catch (error) {
+      console.warn('[Statistics] Failed to load:', error);
+      
+      // Fallback: Set semua ke 0 dan remove loading state
+      const ids = [
+        'total-cases', 'cases-received', 'cases-completed',
+        'about-cases-received', 'about-cases-completed'
+      ];
+      
+      ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.setAttribute('data-target', '0');
+          el.textContent = '0';
+          el.removeAttribute('data-loading');
+        }
+      });
+    }
+  };
+
+  // Load statistics immediately on page load
+  loadStatistics();
+
   const animateCount = (el) => {
     if (el.dataset.counted === 'true') return;
-    const text = el.textContent.trim();
-    const digits = text.replace(/[^0-9]/g, '');
-    if (!digits) return;
-    const target = parseInt(digits, 10);
-    const duration = prefersReduced ? 0 : 1600;
+    
+    // Jika masih loading, tunggu data dari API
+    if (el.hasAttribute('data-loading')) {
+      setTimeout(() => animateCount(el), 100);
+      return;
+    }
+    
+    // Gunakan data-target jika ada, atau parse dari textContent
+    const targetAttr = el.getAttribute('data-target');
+    let target;
+    
+    if (targetAttr) {
+      target = parseInt(targetAttr, 10);
+    } else {
+      const text = el.textContent.trim();
+      const digits = text.replace(/[^0-9]/g, '');
+      if (!digits) return;
+      target = parseInt(digits, 10);
+    }
+    
+    const duration = prefersReduced ? 0 : 2000; // Increased duration untuk animasi lebih smooth
     const start = performance.now();
     el.dataset.counted = 'true';
+    
     const step = (now) => {
       const t = Math.min(1, (now - start) / duration);
-      const eased = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+      // Easing function: easeOutExpo untuk efek yang lebih dramatis
+      const eased = t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
       const current = Math.round(target * eased);
       el.textContent = formatId.format(current);
-      if (t < 1) requestAnimationFrame(step);
-      else el.textContent = formatId.format(target);
+      
+      if (t < 1) {
+        requestAnimationFrame(step);
+      } else {
+        el.textContent = formatId.format(target);
+      }
     };
-    if (duration === 0) { el.textContent = formatId.format(target); return; }
+    
+    if (duration === 0) { 
+      el.textContent = formatId.format(target); 
+      return; 
+    }
     requestAnimationFrame(step);
   };
 
@@ -98,6 +194,7 @@
     revealEls.forEach((el) => el.classList.add('is-visible'));
     statEls.forEach((el) => animateCount(el));
   }
+
 
   // ============================================
   // MOBILE MENU

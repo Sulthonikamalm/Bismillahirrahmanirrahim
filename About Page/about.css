@@ -3110,77 +3110,94 @@
   max-width: 100%;
 }
 
-/* Responsive adjustments */
+/* Responsive: Tablet */
 @media (max-width: 992px) {
   .dampak-section .stats-grid {
     margin-top: 2.5rem;
   }
   
   .dampak-section .stat-number {
-    font-size: 3.5rem;
+    font-size: 2.5rem;
   }
   
   .dampak-section .pelapor-icon-circle {
-    width: 80px;
-    height: 80px;
-    font-size: 2rem;
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
   }
 }
 
+/* Responsive: Mobile - 2 Kolom Horizontal Compact */
 @media (max-width: 768px) {
   .dampak-section .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
     margin-top: 2rem;
   }
   
   .dampak-section .card-pelapor {
-    padding: 2rem 2.5rem;
+    padding: 14px;
+    min-height: 115px;
   }
   
   .dampak-section .card-inner-flex {
-    gap: 2rem;
-  }
-  
-  .dampak-section .stat-number {
-    font-size: 3rem;
-  }
-  
-  .dampak-section .stat-label {
-    font-size: 1rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .dampak-section .stats-grid {
-    margin-top: 1.5rem;
-    padding-bottom: 1.5rem;
-  }
-  
-  .dampak-section .card-pelapor {
-    padding: 1.5rem 2rem;
-  }
-  
-  .dampak-section .card-inner-flex {
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    text-align: center;
-    gap: 1.5rem;
+    justify-content: flex-start;
+    gap: 12px;
+  }
+
+  .dampak-section .pelapor-icon-circle {
+    width: 42px;
+    height: 42px;
+    font-size: 1.15rem;
   }
   
   .dampak-section .text-content {
-    align-items: center;
+    flex: 1;
+    align-items: flex-start;
+    text-align: left;
   }
   
   .dampak-section .stat-number {
-    font-size: 2.5rem;
+    font-size: 1.75rem;
+    line-height: 1;
+    margin-bottom: 3px;
   }
   
   .dampak-section .stat-label {
-    font-size: 0.95rem;
+    font-size: 0.7rem;
+    line-height: 1.2;
+  }
+}
+
+/* Extra Small: 1 Kolom */
+@media (max-width: 360px) {
+  .dampak-section .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .dampak-section .card-pelapor {
+    padding: 16px;
+  }
+  
+  .dampak-section .card-inner-flex {
+    flex-direction: row;
+    gap: 14px;
   }
   
   .dampak-section .pelapor-icon-circle {
-    width: 70px;
-    height: 70px;
-    font-size: 1.8rem;
+    width: 48px;
+    height: 48px;
+    font-size: 1.25rem;
+  }
+  
+  .dampak-section .stat-number {
+    font-size: 2rem;
+  }
+  
+  .dampak-section .stat-label {
+    font-size: 0.85rem;
   }
 }
