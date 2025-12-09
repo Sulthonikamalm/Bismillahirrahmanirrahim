@@ -13,7 +13,7 @@
 .wawasan-bg-text {
     position: absolute;
     top: 23%;
-    left: 50%;
+    left: 55%;
     transform: translate(-50%, -50%);
     white-space: nowrap;
     pointer-events: none;
@@ -24,7 +24,7 @@
     font-family: var(--font-heading);
     font-size: clamp(5.4rem, 18vw, 16.2rem);
     font-weight: 950;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.5em;
     color: #ffffff;
     user-select: none;
     line-height: 1;
@@ -33,7 +33,7 @@
 .wawasan-fg-text {
     position: absolute;
     top: 23%;
-    left: 50%;
+    left: 55%;
     transform: translate(-50%, -50%);
     white-space: nowrap;
     pointer-events: none;
@@ -44,7 +44,7 @@
     font-family: var(--font-heading);
     font-size: clamp(5.4rem, 18vw, 16.2rem);
     font-weight: 950;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.5em;
     color: #ffffff;
     opacity: 0.5;
     user-select: none;
