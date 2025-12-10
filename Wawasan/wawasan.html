@@ -11,8 +11,7 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 
-    <!-- Swiper CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
 
     <!-- AOS Animation -->
     <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
@@ -88,126 +87,137 @@
         <div class="main-container">
             <div class="section-header" data-aos="fade-up">
                 <h2 class="section-title">Kapan Harus Lapor?</h2>
-                <p class="section-subtitle">
-                    Kenali berbagai jenis kekerasan dan tindakan yang perlu dilaporkan
-                </p>
+
             </div>
 
-            <!-- Swiper Slider -->
-            <div class="slider-wrapper" data-aos="fade-up" data-aos-delay="200">
-                <div class="swiper-button-prev custom-nav">
-                    <i class="fas fa-chevron-left"></i>
-                </div>
+            <!-- Bento Grid Layout -->
+            <div class="bento-grid" id="gridContainer" data-aos="fade-up" data-aos-delay="200">
 
-                <div class="swiper educationSwiper">
-                    <div class="swiper-wrapper">
-                        <!-- Card 1: Kekerasan Verbal -->
-                        <div class="swiper-slide">
-                            <div class="education-card">
-                                <div class="card-icon">
-                                    <i class="fas fa-comment-slash"></i>
-                                </div>
-                                <h3 class="card-title">Kekerasan Verbal</h3>
-                                <p class="card-desc">
-                                    Penting untuk segera melapor saat terjadi penghinaan, ancaman,
-                                    atau ujaran yang merendahkan martabat.
-                                </p>
-                                <ul class="card-list">
-                                    <li><i class="fas fa-check"></i> Pelecehan verbal</li>
-                                    <li><i class="fas fa-check"></i> Ancaman berulang</li>
-                                    <li><i class="fas fa-check"></i> Intimidasi psikologis</li>
-                                </ul>
-                                <a href="#" class="btn btn-sm btn-outline-primary">Pelajari Lebih Lanjut</a>
-                            </div>
-                        </div>
-
-                        <!-- Card 2: Kekerasan Fisik -->
-                        <div class="swiper-slide">
-                            <div class="education-card">
-                                <div class="card-icon">
-                                    <i class="fas fa-hand-paper"></i>
-                                </div>
-                                <h3 class="card-title">Kekerasan Fisik</h3>
-                                <p class="card-desc">
-                                    Setiap bentuk kekerasan fisik, baik langsung maupun tidak langsung,
-                                    harus segera dilaporkan.
-                                </p>
-                                <ul class="card-list">
-                                    <li><i class="fas fa-check"></i> Pemukulan atau tendangan</li>
-                                    <li><i class="fas fa-check"></i> Penyerangan fisik</li>
-                                    <li><i class="fas fa-check"></i> Kekerasan dalam rumah tangga</li>
-                                </ul>
-                                <a href="#" class="btn btn-sm btn-outline-primary">Pelajari Lebih Lanjut</a>
-                            </div>
-                        </div>
-
-                        <!-- Card 3: Kekerasan Digital -->
-                        <div class="swiper-slide">
-                            <div class="education-card">
-                                <div class="card-icon">
-                                    <i class="fas fa-laptop"></i>
-                                </div>
-                                <h3 class="card-title">Kekerasan Digital</h3>
-                                <p class="card-desc">
-                                    Pelaporan penting dilakukan untuk kasus penyebaran konten intim
-                                    atau pelecehan online.
-                                </p>
-                                <ul class="card-list">
-                                    <li><i class="fas fa-check"></i> Cyberbullying</li>
-                                    <li><i class="fas fa-check"></i> Penyebaran konten tanpa izin</li>
-                                    <li><i class="fas fa-check"></i> Stalking online</li>
-                                </ul>
-                                <a href="#" class="btn btn-sm btn-outline-primary">Pelajari Lebih Lanjut</a>
-                            </div>
-                        </div>
-
-                        <!-- Card 4: Kekerasan Seksual -->
-                        <div class="swiper-slide">
-                            <div class="education-card">
-                                <div class="card-icon">
-                                    <i class="fas fa-exclamation-triangle"></i>
-                                </div>
-                                <h3 class="card-title">Kekerasan Seksual</h3>
-                                <p class="card-desc">
-                                    Setiap tindakan yang merujuk pada aktivitas seksual tanpa persetujuan
-                                    yang jelas harus dilaporkan.
-                                </p>
-                                <ul class="card-list">
-                                    <li><i class="fas fa-check"></i> Pelecehan seksual</li>
-                                    <li><i class="fas fa-check"></i> Pemaksaan seksual</li>
-                                    <li><i class="fas fa-check"></i> Eksploitasi seksual</li>
-                                </ul>
-                                <a href="#" class="btn btn-sm btn-outline-primary">Pelajari Lebih Lanjut</a>
-                            </div>
-                        </div>
-
-                        <!-- Card 5: Diskriminasi -->
-                        <div class="swiper-slide">
-                            <div class="education-card">
-                                <div class="card-icon">
-                                    <i class="fas fa-balance-scale"></i>
-                                </div>
-                                <h3 class="card-title">Diskriminasi</h3>
-                                <p class="card-desc">
-                                    Perlakuan tidak adil berdasarkan ras, agama, gender,
-                                    atau kondisi disabilitas perlu dilaporkan.
-                                </p>
-                                <ul class="card-list">
-                                    <li><i class="fas fa-check"></i> Diskriminasi berbasis gender</li>
-                                    <li><i class="fas fa-check"></i> Perlakuan tidak adil</li>
-                                    <li><i class="fas fa-check"></i> Marginalisasi kelompok</li>
-                                </ul>
-                                <a href="#" class="btn btn-sm btn-outline-primary">Pelajari Lebih Lanjut</a>
-                            </div>
-                        </div>
+                <div class="card" onclick="toggleCard(this)">
+                    <img src="assets/kapanharuslapor/card1.png" alt="Kekerasan">
+                    <div class="overlay">
+                        <p class="card-title">Mengalami Tindak Kekerasan</p>
                     </div>
 
-                    <div class="swiper-pagination"></div>
+                    <div class="card-content">
+                        <button class="close-btn" onclick="closeCard(event, this)">&times;</button>
+                        <h2 class="content-title">Mengalami Tindak Kekerasan</h2>
+                        <div class="content-body">
+                            <p>Ketika mengalami kekerasan, tubuh dan pikiran sering memasuki mode bertahan. Banyak
+                                korban enggan bercerita karena takut dibalas atau malu.</p>
+                            <h4>Yang Perlu Dipahami:</h4>
+                            <ul>
+                                <li>Rasa takut dan bingung adalah reaksi wajar.</li>
+                                <li>Kekerasan fisik, psikis, seksual adalah pelanggaran HAM.</li>
+                                <li>Mencari pertolongan menyelamatkan diri, bukan aib.</li>
+                            </ul>
+                            <h4>Kapan Harus Melapor:</h4>
+                            <ul>
+                                <li>Keselamatan tidak lagi terjamin.</li>
+                                <li>Luka fisik/tekanan emosional mengganggu aktivitas.</li>
+                                <li>Pelaku semakin mengontrol & mengintimidasi.</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="swiper-button-next custom-nav">
-                    <i class="fas fa-chevron-right"></i>
+                <div class="card span-row-2" onclick="toggleCard(this)">
+                    <img src="assets/kapanharuslapor/card3.png" alt="Informasi">
+                    <div class="overlay">
+                        <p class="card-title center-title">Membutuhkan Informasi Perlindungan</p>
+                    </div>
+                    <div class="card-content">
+                        <button class="close-btn" onclick="closeCard(event, this)">&times;</button>
+                        <h2 class="content-title">Informasi Perlindungan</h2>
+                        <div class="content-body">
+                            <p>Banyak yang ragu melapor karena tidak paham prosedur atau takut balasan pelaku.
+                                Pengetahuan adalah kunci keberanian.</p>
+                            <h4>Hak Anda:</h4>
+                            <ul>
+                                <li>Laporan bisa dilakukan meski bukti belum lengkap.</li>
+                                <li>Berhak atas visum medis & konseling psikologis.</li>
+                                <li>Kerahasiaan identitas pelapor dijamin undang-undang.</li>
+                            </ul>
+                            <p>Mengetahui hak hukum membuat Anda lebih percaya diri mengambil keputusan demi keselamatan
+                                diri dan keluarga.</p>
+                        </div>
+                    </div>
                 </div>
+
+                <div class="card" onclick="toggleCard(this)">
+                    <img src="assets/kapanharuslapor/card2.png" alt="Mengetahui Korban">
+                    <div class="overlay">
+                        <p class="card-title">Mengetahui Seseorang Menjadi Korban</p>
+                    </div>
+                    <div class="card-content">
+                        <button class="close-btn" onclick="closeCard(event, this)">&times;</button>
+                        <h2 class="content-title">Mengetahui Korban</h2>
+                        <div class="content-body">
+                            <p>Kadang kita tidak melihat langsung, tapi menangkap perubahan: teman yang menjauh atau
+                                anak yang mendadak murung.</p>
+                            <h4>Tanda Bahaya:</h4>
+                            <ul>
+                                <li>Luka fisik yang alasannya tidak masuk akal.</li>
+                                <li>Ketakutan berlebihan pada pasangan/ortu.</li>
+                                <li>Penurunan drastis prestasi kerja/sekolah.</li>
+                            </ul>
+                            <h4>Tindakan Anda:</h4>
+                            <p>Jadilah pendengar yang aman. Tawarkan bantuan tanpa memaksa. Melaporkan situasi bahaya
+                                adalah bentuk kepedulian, bukan ikut campur.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" onclick="toggleCard(this)">
+                    <img src="assets/kapanharuslapor/card4.png" alt="Saksi">
+                    <div class="overlay">
+                        <p class="card-title">Menyaksikan Kekerasan Secara Langsung</p>
+                    </div>
+                    <div class="card-content">
+                        <button class="close-btn" onclick="closeCard(event, this)">&times;</button>
+                        <h2 class="content-title">Menjadi Saksi Mata</h2>
+                        <div class="content-body">
+                            <p>Dalam hitungan detik, Anda harus memutuskan. Prioritaskan keselamatan diri, tapi jangan
+                                abaikan korban.</p>
+                            <h4>Prinsip Penting:</h4>
+                            <ul>
+                                <li>Bantuan tidak harus berupa perkelahian fisik.</li>
+                                <li>Jangan anggap kekerasan sebagai "urusan pribadi".</li>
+                            </ul>
+                            <h4>Langkah Cepat:</h4>
+                            <ul>
+                                <li>Hubungi satpam/polisi jika mengancam nyawa.</li>
+                                <li>Rekam/Foto diam-diam sebagai bukti.</li>
+                                <li>Alihkan perhatian pelaku jika aman dilakukan.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" onclick="toggleCard(this)">
+                    <img src="assets/kapanharuslapor/card5.png" alt="Darurat">
+                    <div class="overlay">
+                        <p class="card-title">Situasi Darurat & Mengancam</p>
+                    </div>
+                    <div class="card-content">
+                        <button class="close-btn" onclick="closeCard(event, this)">&times;</button>
+                        <h2 class="content-title">Situasi Darurat</h2>
+                        <div class="content-body">
+                            <p style="color: #d32f2f; font-weight: bold;">JANGAN MENUNDA! Situasi ini membutuhkan
+                                tindakan detik ini juga.</p>
+                            <h4>Tanda Gawat Darurat:</h4>
+                            <ul>
+                                <li>Pelaku membawa senjata tajam/api.</li>
+                                <li>Anak kecil dalam bahaya tanpa perlindungan.</li>
+                                <li>Ancaman pembunuhan atau penyekapan.</li>
+                                <li>Korban butuh medis segera (pingsan/berdarah).</li>
+                            </ul>
+                            <p>Segera lari ke tempat aman dan hubungi <strong>112</strong> atau kantor polisi terdekat.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
@@ -782,7 +792,7 @@
     </div>
 
     <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="../index.js" defer></script>
     <script src="wawasan.js" defer></script>

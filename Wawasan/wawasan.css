@@ -213,104 +213,6 @@
     padding: 2.5rem 0;
 }
 
-.slider-wrapper {
-    position: relative;
-    padding: 0 50px;
-}
-
-.custom-nav {
-    width: 44px;
-    height: 44px;
-    background: #ffffff;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-    transition: all 0.2s ease;
-    color: var(--color-dark-blue);
-    z-index: 10;
-}
-
-.custom-nav:hover {
-    background: var(--color-teal);
-    color: white;
-    transform: scale(1.08);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
-}
-
-.swiper-button-prev {
-    left: 0;
-}
-
-.swiper-button-next {
-    right: 0;
-}
-
-.education-card {
-    background: white;
-    border-radius: 12px;
-    padding: 1.2rem;
-    height: 100%;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-    transition: all 0.35s ease;
-    display: flex;
-    flex-direction: column;
-}
-
-.education-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
-}
-
-.card-icon {
-    width: 50px;
-    height: 50px;
-    background: linear-gradient(135deg, #4b8a7b, #0C969C);
-    border-radius: 11px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    color: white;
-    margin-bottom: 0.95rem;
-}
-
-.education-card .card-title {
-    font-size: 1.1rem;
-    font-weight: 700;
-    margin-bottom: 0.7rem;
-    color: var(--color-dark-blue);
-}
-
-.education-card .card-desc {
-    color: #666;
-    margin-bottom: 1.3rem;
-    line-height: 1.55;
-    flex-grow: 1;
-    font-size: 0.95rem;
-}
-
-.card-list {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 1.3rem 0;
-}
-
-.card-list li {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 0.7rem;
-    color: #555;
-    font-size: 0.92rem;
-}
-
-.card-list i {
-    color: var(--color-teal);
-    font-size: 0.85rem;
-}
 
 .tab-nav {
     display: flex;
@@ -940,3 +842,317 @@
         padding: 0 1.2rem 1.2rem;
     }
 }
+
+/* Bento Grid */
+.bento-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr 1fr;
+    grid-template-rows: 240px 240px;
+    gap: 24px;
+    max-width: 1200px;
+    width: 100%;
+    position: relative;
+    margin: 0 auto;
+}
+
+.card {
+    border-radius: 28px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    background-color: #fff;
+    transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    z-index: 1;
+    transform-origin: center center;
+}
+
+@media (hover: hover) {
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+    
+    .card:hover img {
+        transform: scale(1.05);
+    }
+}
+
+.card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: all 0.6s ease;
+}
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 10%, rgba(0, 0, 0, 0.3) 60%, transparent 100%);
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    transition: opacity 0.3s ease;
+    width: 100%;
+}
+
+.card-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: white;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    margin: 0;
+}
+
+.center-title { font-size: 1.8rem; }
+.span-row-2 { grid-row: span 2; }
+
+.card.is-expanded {
+    position: absolute;
+    z-index: 100;
+    margin: 0;
+    cursor: default;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+    display: flex;
+    flex-direction: row; 
+    overflow: hidden;
+}
+
+.card.is-expanded img {
+    width: 45%;
+    height: 100%;
+    transform: scale(1);
+}
+
+.card.is-expanded .overlay {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.card.is-inactive {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.9);
+}
+
+.card-content {
+    width: 55%;
+    padding: 40px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s ease 0.2s;
+    overflow-y: auto;
+    display: none;
+    position: relative;
+    text-align: left;
+}
+
+.card.is-expanded .card-content {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.content-title {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    color: #222;
+    text-align: left;
+}
+
+.content-body {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #555;
+    text-align: left;
+}
+
+.content-body h4 { margin-top: 20px; color: #d32f2f; margin-bottom: 5px;}
+.content-body ul { padding-left: 20px; margin-bottom: 15px; }
+
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #f1f1f1;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.3s;
+    z-index: 10;
+}
+
+.close-btn:hover { background: #e0e0e0; color: red; }
+
+.card.is-expanded .close-btn {
+    opacity: 1;
+    transition-delay: 0.5s;
+}
+
+@media (max-width: 900px) {
+    .bento-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+    }
+    .span-row-2 { grid-row: span 2; min-height: 400px; }
+    
+    .card.is-expanded {
+        flex-direction: column;
+    }
+    .card.is-expanded img { width: 100%; height: 250px; }
+    .card-content { width: 100%; padding: 25px; }
+}
+
+@media (max-width: 600px) {
+    .bento-grid { grid-template-columns: 1fr; gap: 16px; }
+    .span-row-2 { grid-row: auto; min-height: 350px; }
+    .card { min-height: 220px; }
+}
+
+/* Mobile Expanded Card Fix */
+
+@media (max-width: 900px) {
+    /* Kurangi spacing section utama */
+    .edukasi-section {
+        padding: 1.5rem 0;
+    }
+    
+    .section-header {
+        margin-bottom: 1rem;
+    }
+
+    /* ACCORDION STYLE DESIGN (RELATIVE FLOW) */
+    .card.is-expanded {
+        position: relative !important; /* Balik ke flow normal */
+        top: auto !important;
+        left: auto !important;
+        
+        width: 100% !important;
+        height: auto !important;
+        max-height: none !important;
+        
+        transform: none !important;
+        margin: 0 0 20px 0 !important; /* Beri jarak bawah */
+        border-radius: 20px !important;
+        z-index: 10 !important; /* Sedikit di atas tapi tidak nutup semua */
+        
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important;
+        flex-direction: column;
+        overflow: visible !important;
+        background: #fff;
+        
+        transition: none !important;
+        
+        /* Pastikan elemen lain tidak tertutup */
+        grid-column: 1 / -1 !important; /* Full width row */
+    }
+    
+    .card.is-expanded .overlay {
+        display: none !important; /* Hilangkan overlay gelap judul */
+    }
+
+    /* Header Gambar Kecil */
+    .card.is-expanded img {
+        width: 100%;
+        height: 180px; /* Sedikit lebih tinggi untuk estetika */
+        object-fit: cover;
+        object-position: top center;
+        flex-shrink: 0;
+        cursor: pointer;
+        transition: none !important;
+    }
+    
+    /* Indikator visual bahwa gambar bisa diklik untuk close */
+    .card.is-expanded img:active {
+        opacity: 0.8;
+    }
+
+    /* Konten Memanjang ke Bawah (No Internal Scroll) */
+    .card.is-expanded .card-content {
+        display: block !important;
+        opacity: 1 !important;
+        width: 100%;
+        padding: 1.5rem;
+        padding-bottom: 20px;
+        
+        /* Hapus batasan tinggi dan scroll internal */
+        height: auto !important; 
+        max-height: none !important;
+        overflow: visible !important;
+        
+        transform: none !important; 
+        visibility: visible !important;
+    }
+    
+
+    /* Tampilkan scrollbar dengan styling rapi */
+    /* Hapus scrollbar internal karena sudah pakai scroll body */
+    .card.is-expanded .card-content::-webkit-scrollbar {
+        display: none;
+    }
+    .card.is-expanded .card-content {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    
+    /* Typography Compact */
+    .card.is-expanded .content-title {
+        font-size: 1.5rem;
+        margin-bottom: 0.8rem;
+        color: #222;
+        line-height: 1.2;
+    }
+    
+    .card.is-expanded .content-body {
+        font-size: 0.95rem; 
+        line-height: 1.5;
+        color: #444;
+    }
+    
+    .card.is-expanded .content-body h4 {
+        margin-top: 1.2rem;
+        margin-bottom: 0.5rem;
+        font-size: 1.1rem;
+        color: #d32f2f;
+    }
+    
+    .card.is-expanded .content-body ul {
+        padding-left: 1.2rem;
+        margin-bottom: 1rem;
+    }
+
+    /* Tombol Close */
+    .close-btn {
+        position: fixed; 
+        top: 15px;
+        right: 15px;
+        width: 36px;
+        height: 36px;
+        background: rgba(255,255,255,0.95);
+        border-radius: 50%;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        z-index: 100000;
+        color: #333;
+        font-size: 24px;
+        display: flex; /* Paksa display flex */
+        align-items: center;
+        justify-content: center;
+        opacity: 1 !important; /* Paksa muncul */
+    }
+}
+
+
+
+
+
