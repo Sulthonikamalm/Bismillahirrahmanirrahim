@@ -35,13 +35,13 @@ session_start([
     'cookie_samesite' => 'Strict'
 ]);
 
-if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
-    http_response_code(401);
-    exit(json_encode([
-        'status' => 'error',
-        'message' => 'Unauthorized. Please login first.'
-    ]));
-}
+// if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+//     http_response_code(401);
+//     exit(json_encode([
+//         'status' => 'error',
+//         'message' => 'Unauthorized. Please login first.'
+//     ]));
+// }
 
 // ========================================================
 // INPUT VALIDATION
@@ -121,7 +121,7 @@ try {
     $response = [
         'id' => (int) $blog['id'],
         'judul' => htmlspecialchars($blog['judul'], ENT_QUOTES, 'UTF-8'),
-        'isi_postingan' => htmlspecialchars($blog['isi_postingan'], ENT_QUOTES, 'UTF-8'),
+        'isi_postingan' => $blog['isi_postingan'], // Return RAW HTML for rendering
         'gambar_header_url' => $blog['gambar_header_url'] ? htmlspecialchars($blog['gambar_header_url'], ENT_QUOTES, 'UTF-8') : null,
         'kategori' => $blog['kategori'] ? htmlspecialchars($blog['kategori'], ENT_QUOTES, 'UTF-8') : null,
         'author' => [

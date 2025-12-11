@@ -42,13 +42,14 @@ session_start([
 ]);
 
 // Check if admin is logged in
-if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
-    http_response_code(401);
-    exit(json_encode([
-        'status' => 'error',
-        'message' => 'Unauthorized. Please login first.'
-    ]));
-}
+// Check if admin is logged in - OPTIONAL: Allow public access for reading blogs
+// if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+//     http_response_code(401);
+//     exit(json_encode([
+//         'status' => 'error',
+//         'message' => 'Unauthorized. Please login first.'
+//     ]));
+// }
 
 // ========================================================
 // DATABASE CONNECTION
@@ -210,8 +211,8 @@ try {
         return [
             'id' => (int) $blog['id'],
             'judul' => htmlspecialchars($blog['judul'], ENT_QUOTES, 'UTF-8'),
+            'isi_postingan' => $blog['isi_postingan'], // Return RAW HTML for rendering
             // Send raw HTML for content so frontend can render rich text
-            'isi_postingan' => $blog['isi_postingan'], 
             // Excerpt is safe because we strip tags first
             'excerpt' => htmlspecialchars(substr(strip_tags($blog['isi_postingan']), 0, 150) . '...', ENT_QUOTES, 'UTF-8'),
             'gambar_header_url' => $blog['gambar_header_url'] ? htmlspecialchars($blog['gambar_header_url'], ENT_QUOTES, 'UTF-8') : null,

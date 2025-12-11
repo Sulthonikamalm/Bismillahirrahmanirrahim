@@ -94,24 +94,34 @@ function renderArticle(blog) {
     const container = document.getElementById('article-area');
     
     // Metadata
-    const title = blog.judul; // Already HTML safe from API if needed, or we trust our sanitizer? API sends Raw HTML for content but chars for title.
-    // Actually API title is htmlspeciachars escaped.
+    // Decode title if it's double escaped or contains entities like &lt;strong&gt;
+    const tempTitle = document.createElement('div');
+    tempTitle.innerHTML = blog.judul;
+    const title = tempTitle.textContent || tempTitle.innerText || ""; // Now we have "<strong>...</strong>"
+    // Since we want to display it as text in the H1 (and let the browser render the tags inside H1 if any?)
+    // Actually, if the title is "<strong>Title</strong>", putting it in innerHTML of H1 will render bold.
+    // If we want to strip tags from title:
+    const cleanTitle = title.replace(/<[^>]*>?/gm, '');
+
     const author = blog.author ? blog.author.name : 'Admin';
     const date = formatDate(blog.created_at);
-    // Content is RAW HTML from API (as per my previous fix)
-    const content = blog.isi_postingan || ''; 
+    // Content is RAW HTML from API, but if it came doubly encoded like &lt;p&gt;, we need to decode it first.
+    // The issue described is: "<h1>...</h1>" appearing as text. This means it IS encoded.
+    const tempContent = document.createElement('div');
+    tempContent.innerHTML = blog.isi_postingan || '';
+    const content = tempContent.textContent || tempContent.innerText || ''; 
+    // Now 'content' should contain actual HTML tags like <h1>...</h1> which browser will interpret. 
     const image = fixImagePath(blog.gambar_header_url);
     
     // Reading Time
-    // Strip tags to count words
     const plainText = content.replace(/<[^>]*>/g, '');
     const readTime = calculateReadingTime(plainText);
     
-    document.title = `${title} - Sigap PPKS`;
+    document.title = `${cleanTitle} - Sigap PPKS`;
 
     const html = `
         <header class="article-header-immersive" data-aos="fade-down">
-            <h1 class="article-title">${title}</h1>
+            <h1 class="article-title">${title}</h1> <!-- Render HTML title (e.g. bold tags) -->
             <div class="article-meta-modern">
                 <span class="meta-item"><i class="fas fa-user-circle"></i> ${author}</span>
                 <div class="meta-separator"></div>
@@ -143,7 +153,92 @@ function renderArticle(blog) {
 async function fetchDetail() {
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id');
+    const isPreview = params.get('preview') === 'true';
 
+    // PREVIEW MODE
+    if (isPreview) {
+        try {
+            const localData = localStorage.getItem('blog_preview_data');
+            if (localData) {
+                const blogData = JSON.parse(localData);
+                
+                // Add Preview Banner
+                const banner = document.createElement('div');
+                banner.style.cssText = 'position:fixed; top:0; left:0; width:100%; background:#ffc107; color:#000; text-align:center; padding:10px; z-index:9999; font-weight:bold; box-shadow:0 2px 10px rgba(0,0,0,0.1);';
+                banner.innerText = 'PREVIEW MODE - This content is not yet published.';
+                document.body.prepend(banner);
+                document.body.style.paddingTop = '50px'; // Push down
+
+                renderArticle(blogData);
+                
+                // Hide share section in preview
+                const shareSection = document.getElementById('share-section');
+                if(shareSection) shareSection.style.display = 'none';
+
+                // --- FIX: Disable Navigation in Preview Mode ---
+                // 1. Disable all generic links and buttons that might navigate away
+                const allInteractables = document.querySelectorAll('a, button, .btn');
+                allInteractables.forEach(el => {
+                     // Skip the close button if we already created it (though it might not exist yet)
+                     if (el.classList.contains('btn-back')) return; 
+
+                     // Add a capture listener to stop immediate propagation
+                     el.addEventListener('click', (e) => {
+                         // Double check if it is our close button
+                         if (el.classList.contains('btn-back') || el.innerText.includes('Close Preview')) return;
+                         
+                         e.preventDefault();
+                         e.stopPropagation();
+                         alert('Fitur ini dinonaktifkan dalam Mode Preview.\n(This feature is disabled in Preview Mode)');
+                     }, true);
+                     
+                     // Visual feedback
+                     el.style.cursor = 'not-allowed';
+                     el.style.opacity = '0.6';
+                     el.title = 'Disabled in Preview Mode';
+                });
+
+                // Specific fix for Navbar elements to ensure they look disabled
+                const navItems = document.querySelectorAll('.nav-item, .logo');
+                navItems.forEach(item => {
+                    item.style.pointerEvents = 'none'; // Hard disable
+                    item.style.opacity = '0.5';
+                });
+
+                // 2. INJECT FIXED CLOSE BUTTON
+                // This ensures the button is always available even if .btn-back is missing or hidden
+                const closeBtn = document.createElement('button');
+                closeBtn.innerHTML = '<i class="bi bi-x-lg"></i> Close Preview';
+                closeBtn.className = 'btn btn-danger shadow-lg';
+                closeBtn.style.position = 'fixed';
+                closeBtn.style.bottom = '20px';
+                closeBtn.style.right = '20px';
+                closeBtn.style.zIndex = '10000';
+                closeBtn.style.padding = '10px 20px';
+                closeBtn.style.borderRadius = '50px';
+                closeBtn.style.fontWeight = 'bold';
+                closeBtn.onclick = function() {
+                    window.close();
+                };
+                document.body.appendChild(closeBtn);
+
+                // Try to find existing back button and hide it to avoid confusion, or convert it
+                const existingBack = document.querySelector('.btn-back');
+                if (existingBack) existingBack.style.display = 'none';
+
+                return;
+                
+                return;
+            } else {
+                alert('No preview data found.');
+                window.close();
+            }
+        } catch(e) {
+            console.error('Preview error', e);
+        }
+    }
+
+    // NORMAL MODE
     if (!id) {
         window.location.href = CONFIG.HOME_URL;
         return;

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,19 +12,27 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&family=Roboto:wght@400;500;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="../../assets/css/dashboard.css">
 
-        <link rel="stylesheet" href="../../assets/css/blog-editor.css">
+    <link rel="stylesheet" href="../../assets/css/blog-editor.css">
 </head>
+
 <body>
     <div class="d-flex">
         <nav class="sidebar" id="sidebar">
-            <div class="sidebar-header"><h1 class="brand-title">Sigap</h1></div>
+            <div class="sidebar-header">
+                <h1 class="brand-title">Sigap</h1>
+            </div>
             <ul class="nav flex-column sidebar-nav">
-                <li class="nav-item"><a class="nav-link" href="cases.html"><i class="bi bi-grid-fill me-2"></i> Data Kasus</a></li>
-                <li class="nav-item"><a class="nav-link" href="statistics.html"><i class="bi bi-bar-chart-fill me-2"></i> Statistik</a></li>
-                <li class="nav-item"><a class="nav-link active" href="blog-list.html"><i class="bi bi-file-earmark-text-fill me-2"></i> Blog</a></li>
+                <li class="nav-item"><a class="nav-link" href="cases.html"><i class="bi bi-grid-fill me-2"></i> Data
+                        Kasus</a></li>
+                <li class="nav-item"><a class="nav-link" href="statistics.html"><i
+                            class="bi bi-bar-chart-fill me-2"></i> Statistik</a></li>
+                <li class="nav-item"><a class="nav-link active" href="blog-list.html"><i
+                            class="bi bi-file-earmark-text-fill me-2"></i> Blog</a></li>
             </ul>
 
             <div class="user-profile-dropdown">
@@ -50,7 +59,8 @@
 
         <main class="main-content" id="mainContent">
             <header class="content-header">
-                <button class="btn sidebar-toggle" id="sidebarToggle" type="button"><i class="bi bi-list fs-3"></i></button>
+                <button class="btn sidebar-toggle" id="sidebarToggle" type="button"><i
+                        class="bi bi-list fs-3"></i></button>
                 <h2 class="breadcrumb-header">
                     <a href="blog-list.html">Blog</a>
                     <i class="bi bi-chevron-right"></i>
@@ -74,7 +84,8 @@
                                 <div class="validation-error" id="imageError">Gambar tidak boleh kosong.</div>
                             </div>
                             <div class="col-lg-8">
-                                <input type="text" id="postJudul" class="form-control post-input-judul" placeholder="Judul">
+                                <input type="text" id="postJudul" class="form-control post-input-judul"
+                                    placeholder="Judul">
                                 <div class="validation-error" id="judulError">Judul tidak boleh kosong.</div>
 
                                 <select id="postKategori" class="form-select mt-3">
@@ -98,10 +109,12 @@
                             <div class="editor-toolbar">
                                 <!-- History -->
                                 <div class="toolbar-group">
-                                    <button type="button" class="toolbar-btn tooltip-btn" id="undoBtn" data-tooltip="Undo">
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="undoBtn"
+                                        data-tooltip="Undo">
                                         <span class="material-icons">undo</span>
                                     </button>
-                                    <button type="button" class="toolbar-btn tooltip-btn" id="redoBtn" data-tooltip="Redo">
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="redoBtn"
+                                        data-tooltip="Redo">
                                         <span class="material-icons">redo</span>
                                     </button>
                                 </div>
@@ -121,84 +134,104 @@
 
                                 <!-- Text Formatting -->
                                 <div class="toolbar-group">
-                                    <button type="button" class="toolbar-btn tooltip-btn" id="boldBtn" data-tooltip="Bold">
-                                        <span class="material-icons">format_bold</span>
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="boldBtn"
+                                        data-tooltip="Bold">
+                                        <i class="bi bi-type-bold"></i>
                                     </button>
-                                    <button type="button" class="toolbar-btn tooltip-btn" id="italicBtn" data-tooltip="Italic">
-                                        <span class="material-icons">format_italic</span>
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="italicBtn"
+                                        data-tooltip="Italic">
+                                        <i class="bi bi-type-italic"></i>
                                     </button>
-                                    <button type="button" class="toolbar-btn tooltip-btn" id="underlineBtn" data-tooltip="Underline">
-                                        <span class="material-icons">format_underlined</span>
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="underlineBtn"
+                                        data-tooltip="Underline">
+                                        <i class="bi bi-type-underline"></i>
                                     </button>
-                                    <button type="button" class="toolbar-btn tooltip-btn" id="strikeBtn" data-tooltip="Strikethrough">
-                                        <span class="material-icons">strikethrough_s</span>
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="strikeBtn"
+                                        data-tooltip="Strikethrough">
+                                        <i class="bi bi-type-strikethrough"></i>
                                     </button>
                                 </div>
 
                                 <!-- Headings -->
                                 <div class="toolbar-group">
-                                    <button type="button" class="toolbar-btn tooltip-btn" id="h1Btn" data-tooltip="Heading 1">
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="h1Btn"
+                                        data-tooltip="Heading 1">
                                         <span style="font-weight: 600; font-size: 13px;">H1</span>
                                     </button>
-                                    <button type="button" class="toolbar-btn tooltip-btn" id="h2Btn" data-tooltip="Heading 2">
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="h2Btn"
+                                        data-tooltip="Heading 2">
                                         <span style="font-weight: 600; font-size: 13px;">H2</span>
                                     </button>
-                                    <button type="button" class="toolbar-btn tooltip-btn" id="h3Btn" data-tooltip="Heading 3">
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="h3Btn"
+                                        data-tooltip="Heading 3">
                                         <span style="font-weight: 600; font-size: 13px;">H3</span>
                                     </button>
-                                    <button type="button" class="toolbar-btn tooltip-btn" id="pBtn" data-tooltip="Paragraph">
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="pBtn"
+                                        data-tooltip="Paragraph">
                                         <span style="font-weight: 500; font-size: 13px;">P</span>
                                     </button>
                                 </div>
 
                                 <!-- Alignment -->
                                 <div class="toolbar-group">
-                                    <button type="button" class="toolbar-btn tooltip-btn" id="alignLeftBtn" data-tooltip="Align Left">
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="alignLeftBtn"
+                                        data-tooltip="Align Left">
                                         <span class="material-icons">format_align_left</span>
                                     </button>
-                                    <button type="button" class="toolbar-btn tooltip-btn" id="alignCenterBtn" data-tooltip="Align Center">
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="alignCenterBtn"
+                                        data-tooltip="Align Center">
                                         <span class="material-icons">format_align_center</span>
                                     </button>
-                                    <button type="button" class="toolbar-btn tooltip-btn" id="alignRightBtn" data-tooltip="Align Right">
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="alignRightBtn"
+                                        data-tooltip="Align Right">
                                         <span class="material-icons">format_align_right</span>
                                     </button>
-                                    <button type="button" class="toolbar-btn tooltip-btn" id="alignJustifyBtn" data-tooltip="Justify">
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="alignJustifyBtn"
+                                        data-tooltip="Justify">
                                         <span class="material-icons">format_align_justify</span>
                                     </button>
                                 </div>
 
                                 <!-- Lists -->
                                 <div class="toolbar-group">
-                                    <button type="button" class="toolbar-btn tooltip-btn" id="bulletBtn" data-tooltip="Bullet List">
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="bulletBtn"
+                                        data-tooltip="Bullet List">
                                         <span class="material-icons">format_list_bulleted</span>
                                     </button>
-                                    <button type="button" class="toolbar-btn tooltip-btn" id="numberBtn" data-tooltip="Numbered List">
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="numberBtn"
+                                        data-tooltip="Numbered List">
                                         <span class="material-icons">format_list_numbered</span>
                                     </button>
                                 </div>
 
                                 <!-- Indent -->
                                 <div class="toolbar-group">
-                                    <button type="button" class="toolbar-btn tooltip-btn" id="outdentBtn" data-tooltip="Decrease Indent">
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="outdentBtn"
+                                        data-tooltip="Decrease Indent">
                                         <span class="material-icons">format_indent_decrease</span>
                                     </button>
-                                    <button type="button" class="toolbar-btn tooltip-btn" id="indentBtn" data-tooltip="Increase Indent">
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="indentBtn"
+                                        data-tooltip="Increase Indent">
                                         <span class="material-icons">format_indent_increase</span>
                                     </button>
                                 </div>
 
                                 <!-- Insert -->
                                 <div class="toolbar-group">
-                                    <button type="button" class="toolbar-btn tooltip-btn" id="linkBtn" data-tooltip="Insert Link">
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="linkBtn"
+                                        data-tooltip="Insert Link">
                                         <span class="material-icons">link</span>
                                     </button>
-                                    <button type="button" class="toolbar-btn tooltip-btn" id="imageBtn" data-tooltip="Insert Image">
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="imageBtn"
+                                        data-tooltip="Insert Image">
                                         <span class="material-icons">image</span>
                                     </button>
-                                    <button type="button" class="toolbar-btn tooltip-btn" id="quoteBtn" data-tooltip="Blockquote">
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="quoteBtn"
+                                        data-tooltip="Blockquote">
                                         <span class="material-icons">format_quote</span>
                                     </button>
-                                    <button type="button" class="toolbar-btn tooltip-btn" id="hrBtn" data-tooltip="Horizontal Line">
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="hrBtn"
+                                        data-tooltip="Horizontal Line">
                                         <span class="material-icons">horizontal_rule</span>
                                     </button>
                                 </div>
@@ -211,83 +244,72 @@
                         </div>
 
                         <!-- Hidden textarea for form submission -->
-                        <textarea id="postIsi" class="form-control post-input-isi" placeholder="(isi)" rows="10"></textarea>
+                        <textarea id="postIsi" class="form-control post-input-isi" placeholder="(isi)"
+                            rows="10"></textarea>
                         <div class="validation-error" id="isiError">Isi tidak boleh kosong.</div>
                     </div>
                 </div>
 
-                <footer class="content-footer-blog">
-                    <button type="submit" class="btn btn-primary posting-btn">Posting</button>
+                <footer class="content-footer-blog d-flex justify-content-end gap-2 align-items-center mt-3">
+                    <div class="action-container bg-white p-2 rounded shadow-sm border">
+                        <button type="button" class="btn btn-outline-secondary me-2" id="previewAction">
+                            <i class="bi bi-eye me-1"></i> Preview
+                        </button>
+                        <button type="submit" class="btn btn-primary" id="publishAction">Publish</button>
+                    </div>
                 </footer>
             </form>
-        </main>
     </div>
 
-    <!-- Floating Toolbar -->
-    <div class="floating-toolbar" id="floatingToolbar">
-        <button type="button" class="floating-btn" data-command="bold">
-            <span class="material-icons">format_bold</span>
-        </button>
-        <button type="button" class="floating-btn" data-command="italic">
-            <span class="material-icons">format_italic</span>
-        </button>
-        <button type="button" class="floating-btn" data-command="underline">
-            <span class="material-icons">format_underlined</span>
-        </button>
+    <!-- Custom Dropdown Styles (Removed/Simplified) -->
+    <style>
+        .action-container {
+            display: inline-flex;
+            align-items: center;
+        }
 
-        <div class="floating-divider"></div>
+        .tab-btn {
+            padding: 8px 16px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
 
-        <button type="button" class="floating-btn" data-command="justifyLeft">
-            <span class="material-icons">format_align_left</span>
-        </button>
-        <button type="button" class="floating-btn" data-command="justifyCenter">
-            <span class="material-icons">format_align_center</span>
-        </button>
-        <button type="button" class="floating-btn" data-command="justifyRight">
-            <span class="material-icons">format_align_right</span>
-        </button>
-        <button type="button" class="floating-btn" data-command="justifyFull">
-            <span class="material-icons">format_align_justify</span>
-        </button>
-
-        <div class="floating-divider"></div>
-
-        <button type="button" class="floating-btn" data-command="insertUnorderedList">
-            <span class="material-icons">format_list_bulleted</span>
-        </button>
-        <button type="button" class="floating-btn" data-command="insertOrderedList">
-            <span class="material-icons">format_list_numbered</span>
-        </button>
-
-        <div class="floating-divider"></div>
-
-        <button type="button" class="floating-btn" data-command="outdent">
-            <span class="material-icons">format_indent_decrease</span>
-        </button>
-        <button type="button" class="floating-btn" data-command="indent">
-            <span class="material-icons">format_indent_increase</span>
-        </button>
-    </div>
-
-    <!-- Link Modal -->
-    <div class="modal-overlay" id="linkModal">
-        <div class="modal-box">
-            <h3 class="modal-title">Insert Link</h3>
-            <input type="text" class="modal-input" id="linkText" placeholder="Link text (optional)">
-            <input type="url" class="modal-input" id="linkUrl" placeholder="https://example.com">
-            <div class="modal-actions">
-                <button type="button" class="modal-btn modal-btn-cancel" id="cancelLink">Cancel</button>
-                <button type="button" class="modal-btn modal-btn-primary" id="insertLink">Insert</button>
-            </div>
-        </div>
-    </div>
+        .tab-btn.active {
+            border-bottom-color: var(--primary-color);
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+    </style>
 
     <!-- Image Modal -->
     <div class="modal-overlay" id="imageModal">
         <div class="modal-box">
             <h3 class="modal-title">Insert Image</h3>
-            <input type="url" class="modal-input" id="imageUrl" placeholder="https://example.com/image.jpg">
-            <input type="text" class="modal-input" id="imageAlt" placeholder="Alt text (optional)">
+
+            <div class="d-flex mb-3 border-bottom">
+                <div class="tab-btn active" id="tabUpload">Upload Computer</div>
+                <div class="tab-btn" id="tabUrl">By URL</div>
+            </div>
+
+            <!-- Upload Section -->
+            <div id="viewUpload">
+                <div class="image-upload-wrapper mb-3" style="height: 150px;">
+                    <label for="editorImageFile" class="image-upload-box">
+                        <i class="bi bi-cloud-upload fs-1 mb-2"></i>
+                        <span>Click to browse</span>
+                    </label>
+                    <input type="file" id="editorImageFile" accept="image/*" class="d-none">
+                </div>
+                <div id="uploadStatus" class="text-center text-muted small mb-2"></div>
+            </div>
+
+            <!-- URL Section -->
+            <div id="viewUrl" style="display:none;">
+                <input type="url" class="modal-input" id="imageUrl" placeholder="https://example.com/image.jpg">
+            </div>
+
+            <input type="text" class="modal-input" id="imageAlt" placeholder="Caption / Alt text (optional)">
+
             <div class="modal-actions">
                 <button type="button" class="modal-btn modal-btn-cancel" id="cancelImage">Cancel</button>
                 <button type="button" class="modal-btn modal-btn-primary" id="insertImage">Insert</button>
@@ -295,16 +317,166 @@
         </div>
     </div>
 
+    <!-- Scripts -->
     <script src="../../assets/js/sidebar.js"></script>
     <script src="../../assets/js/blog-form.js"></script>
 
     <script>
-        // Rich Text Editor Functionality
-        (function() {
+        // Dropdown Logic
+        const toggleBtn = document.getElementById('actionToggleBtn');
+        const actionMenu = document.getElementById('actionMenu');
+
+        if (toggleBtn) {
+            toggleBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                actionMenu.classList.toggle('show');
+            });
+
+            document.addEventListener('click', () => {
+                actionMenu.classList.remove('show');
+            });
+        }
+
+        // Preview Logic
+        document.getElementById('previewAction')?.addEventListener('click', () => {
+            const title = document.getElementById('postJudul').value;
+            const content = document.getElementById('editorContent').innerHTML;
+            const author = document.querySelector('.user-name').textContent;
+
+            // Header Image
+            const imgInput = document.getElementById('imageUpload');
+            let imgSrc = '';
+
+            if (imgInput.files && imgInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    saveAndOpenPreview(title, content, author, e.target.result);
+                }
+                reader.readAsDataURL(imgInput.files[0]);
+            } else {
+                saveAndOpenPreview(title, content, author, '');
+            }
+        });
+
+        function saveAndOpenPreview(title, content, author, headerImg) {
+            const previewData = {
+                id: 'preview',
+                judul: title || 'Judul Preview',
+                isi_postingan: content,
+                author: { name: author },
+                created_at: new Date().toISOString(),
+                gambar_header_url: headerImg,
+                isPreview: true
+            };
+
+            localStorage.setItem('blog_preview_data', JSON.stringify(previewData));
+            window.open('../../../Blog/baca.html?preview=true', '_blank');
+        }
+
+        // --- EDITOR & IMAGE UPLOAD LOGIC ---
+        (function () {
             const editorContent = document.getElementById('editorContent');
             const postIsi = document.getElementById('postIsi');
             const floatingToolbar = document.getElementById('floatingToolbar');
 
+            function syncContent() {
+                if (editorContent && postIsi) {
+                    postIsi.value = editorContent.innerHTML;
+                }
+            }
+
+            function execCommand(command, value = null) {
+                document.execCommand(command, false, value);
+                editorContent.focus();
+                syncContent();
+            }
+
+            // Tabs Logic
+            const tabUpload = document.getElementById('tabUpload');
+            const tabUrl = document.getElementById('tabUrl');
+            const viewUpload = document.getElementById('viewUpload');
+            const viewUrl = document.getElementById('viewUrl');
+
+            tabUpload.addEventListener('click', () => {
+                tabUpload.classList.add('active');
+                tabUrl.classList.remove('active');
+                viewUpload.style.display = 'block';
+                viewUrl.style.display = 'none';
+            });
+
+            tabUrl.addEventListener('click', () => {
+                tabUpload.classList.remove('active');
+                tabUrl.classList.add('active');
+                viewUpload.style.display = 'none';
+                viewUrl.style.display = 'block';
+            });
+
+            // Image Upload Handler
+            let uploadedImageUrl = '';
+            const fileInput = document.getElementById('editorImageFile');
+            const statusDiv = document.getElementById('uploadStatus');
+
+            fileInput.addEventListener('change', async function () {
+                if (this.files && this.files[0]) {
+                    const formData = new FormData();
+                    formData.append('image', this.files[0]);
+
+                    statusDiv.innerHTML = '<span class="text-primary">Uploading...</span>';
+
+                    try {
+                        const res = await fetch('../../../api/blog/upload_image.php', {
+                            method: 'POST',
+                            body: formData
+                        });
+                        const data = await res.json();
+
+                        if (data.status === 'success') {
+                            // Fix path for local XAMPP environment:
+                            // API returns "/uploads/content/..." (relative to root)
+                            // We are in "Admin/pages/dashboard/", so we need "../../../" + path without leading slash
+                            const relativePath = data.url.startsWith('/') ? data.url.substring(1) : data.url;
+                            uploadedImageUrl = '../../../' + relativePath;
+
+                            statusDiv.innerHTML = `<span class="text-success">Ready to insert</span>`;
+                        } else {
+                            statusDiv.innerHTML = `<span class="text-danger">${data.message}</span>`;
+                        }
+                    } catch (e) {
+                        statusDiv.innerHTML = `<span class="text-danger">Upload failed</span>`;
+                    }
+                }
+            });
+
+            // Insert Image Logic
+            document.getElementById('insertImage')?.addEventListener('click', () => {
+                const alt = document.getElementById('imageAlt').value.trim();
+                let finalUrl = '';
+
+                if (viewUpload.style.display !== 'none') {
+                    finalUrl = uploadedImageUrl;
+                } else {
+                    finalUrl = document.getElementById('imageUrl').value.trim();
+                }
+
+                if (finalUrl) {
+                    // Fix path if relative for Preview
+                    // If uploadedImageUrl (path: /uploads/...), adding '..' logic might be needed for admin preview,
+                    // but execCommand inserts HTML. 
+                    // Best to use absolute URL or root relative. 
+                    const html = `<img src="${finalUrl}" alt="${alt}" style="max-width:100%; height:auto; margin: 20px 0; border-radius:8px;" /><br>`;
+                    execCommand('insertHTML', html);
+
+                    // Reset
+                    uploadedImageUrl = '';
+                    fileInput.value = '';
+                    statusDiv.innerHTML = '';
+                    document.getElementById('imageModal').classList.remove('show');
+                }
+            });
+
+
+            // --- STANDARD EDITOR COMMANDS (Existing) ---
             // Sync editor content to hidden textarea
             function syncContent() {
                 if (editorContent && postIsi) {
@@ -351,23 +523,28 @@
             document.getElementById('quoteBtn')?.addEventListener('click', () => formatBlock('blockquote'));
             document.getElementById('hrBtn')?.addEventListener('click', () => execCommand('insertHorizontalRule'));
 
-            document.getElementById('fontSelect')?.addEventListener('change', function() {
+            document.getElementById('fontSelect')?.addEventListener('change', function () {
                 execCommand('fontName', this.value);
             });
 
-            // Floating toolbar
-            document.addEventListener('mouseup', function(e) {
+            // Floating toolbar logic...
+            document.addEventListener('mouseup', function (e) {
                 setTimeout(() => {
                     const selection = window.getSelection();
-                    const selectedText = selection.toString().trim();
+                    // Basic safeguard
+                    if (!editorContent) return;
 
-                    if (selectedText.length > 0 && editorContent.contains(selection.anchorNode)) {
-                        const range = selection.getRangeAt(0);
-                        const rect = range.getBoundingClientRect();
-
-                        floatingToolbar.classList.add('show');
-                        floatingToolbar.style.left = `${rect.left + (rect.width / 2) - (floatingToolbar.offsetWidth / 2)}px`;
-                        floatingToolbar.style.top = `${rect.top + window.scrollY - floatingToolbar.offsetHeight - 10}px`;
+                    if (editorContent.contains(selection.anchorNode)) {
+                        const selectedText = selection.toString().trim();
+                        if (selectedText.length > 0) {
+                            const range = selection.getRangeAt(0);
+                            const rect = range.getBoundingClientRect();
+                            floatingToolbar.classList.add('show');
+                            floatingToolbar.style.left = `${rect.left + (rect.width / 2) - (floatingToolbar.offsetWidth / 2)}px`;
+                            floatingToolbar.style.top = `${rect.top + window.scrollY - floatingToolbar.offsetHeight - 10}px`;
+                        } else {
+                            floatingToolbar.classList.remove('show');
+                        }
                     } else {
                         floatingToolbar.classList.remove('show');
                     }
@@ -375,129 +552,44 @@
             });
 
             floatingToolbar.querySelectorAll('.floating-btn').forEach(btn => {
-                btn.addEventListener('mousedown', function(e) {
+                btn.addEventListener('mousedown', function (e) {
                     e.preventDefault();
                     const command = this.getAttribute('data-command');
                     execCommand(command);
                 });
             });
 
-            // Link modal
-            const linkModal = document.getElementById('linkModal');
-            const linkTextInput = document.getElementById('linkText');
-            const linkUrlInput = document.getElementById('linkUrl');
-
-            document.getElementById('linkBtn')?.addEventListener('click', () => {
-                const selection = window.getSelection();
-                linkTextInput.value = selection.toString();
-                linkUrlInput.value = '';
-                linkModal.classList.add('show');
+            // Image Button Click (Open Modal)
+            document.getElementById('imageBtn')?.addEventListener('click', (e) => {
+                e.preventDefault(); // Prevent accidental form submission
+                document.getElementById('imageModal').classList.add('show');
             });
 
-            document.getElementById('cancelLink')?.addEventListener('click', () => {
-                linkModal.classList.remove('show');
-            });
-
-            document.getElementById('insertLink')?.addEventListener('click', () => {
-                const url = linkUrlInput.value.trim();
-                const text = linkTextInput.value.trim();
-
-                if (url) {
-                    if (text) {
-                        execCommand('insertHTML', `<a href="${url}" target="_blank">${text}</a>`);
-                    } else {
-                        execCommand('createLink', url);
-                    }
-                    linkModal.classList.remove('show');
-                }
-            });
-
-            // Image modal
-            const imageModal = document.getElementById('imageModal');
-            const imageUrlInput = document.getElementById('imageUrl');
-            const imageAltInput = document.getElementById('imageAlt');
-
-            document.getElementById('imageBtn')?.addEventListener('click', () => {
-                imageUrlInput.value = '';
-                imageAltInput.value = '';
-                imageModal.classList.add('show');
-            });
-
-            document.getElementById('cancelImage')?.addEventListener('click', () => {
-                imageModal.classList.remove('show');
-            });
-
-            document.getElementById('insertImage')?.addEventListener('click', () => {
-                const url = imageUrlInput.value.trim();
-                const alt = imageAltInput.value.trim();
-
-                if (url) {
-                    execCommand('insertHTML', `<img src="${url}" alt="${alt || 'Image'}" />`);
-                    imageModal.classList.remove('show');
-                }
+            // Make the file upload box trigger input click properly
+            document.querySelector('.image-upload-box')?.addEventListener('click', (e) => {
+                // The label for=editorImageFile handles this natively, but let's ensure
             });
 
             // Close modals on overlay click
+            const linkModal = document.getElementById('linkModal');
+            const imageModal = document.getElementById('imageModal');
+
             [linkModal, imageModal].forEach(modal => {
-                modal.addEventListener('click', function(e) {
-                    if (e.target === this) {
-                        this.classList.remove('show');
-                    }
-                });
+                if (modal) {
+                    modal.addEventListener('click', function (e) {
+                        if (e.target === this) {
+                            this.classList.remove('show');
+                        }
+                    });
+                }
             });
 
             // Sync content on input
             editorContent.addEventListener('input', syncContent);
             editorContent.addEventListener('paste', () => setTimeout(syncContent, 10));
 
-            // Keyboard shortcuts
-            editorContent.addEventListener('keydown', function(e) {
-                if (e.ctrlKey || e.metaKey) {
-                    switch(e.key.toLowerCase()) {
-                        case 'b':
-                            e.preventDefault();
-                            execCommand('bold');
-                            break;
-                        case 'i':
-                            e.preventDefault();
-                            execCommand('italic');
-                            break;
-                        case 'u':
-                            e.preventDefault();
-                            execCommand('underline');
-                            break;
-                        case 'z':
-                            e.preventDefault();
-                            execCommand('undo');
-                            break;
-                        case 'y':
-                            e.preventDefault();
-                            execCommand('redo');
-                            break;
-                    }
-                }
-            });
-
-            // Prevent floating toolbar from disappearing
-            floatingToolbar.addEventListener('mousedown', function(e) {
-                e.preventDefault();
-            });
-
-            // Hide floating toolbar when clicking outside
-            document.addEventListener('mousedown', function(e) {
-                if (!floatingToolbar.contains(e.target) && e.target !== editorContent) {
-                    setTimeout(() => {
-                        const selection = window.getSelection();
-                        if (selection.toString().trim().length === 0) {
-                            floatingToolbar.classList.remove('show');
-                        }
-                    }, 10);
-                }
-            });
-
-            // Expose for blog-form.js to populate on edit
-            window.editorContent = editorContent;
         })();
     </script>
 </body>
+
 </html>
