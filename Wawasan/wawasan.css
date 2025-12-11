@@ -61,7 +61,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     width: 90%;
-    max-width: 700px; /* Lebarkan agar text muat 2 baris */
+    max-width: 700px;
     background: rgba(255, 255, 255, 0.11);
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
@@ -79,7 +79,7 @@
     animation: fadeInUpCentered 1.2s ease 0.8s both;
 }
 
-/* Animasi khusus untuk elemen yang menggunakan transform center (-50%, -50%) */
+
 @keyframes fadeInUpCentered {
     from {
         opacity: 0;
@@ -122,15 +122,15 @@
 }
 
 .wawasan-subtitle {
-    font-family: var(--font-body); /* Gunakan body font agar lebih natural */
+    font-family: var(--font-body);
     font-size: clamp(0.95rem, 2.2vw, 1.25rem);
-    font-weight: 800; /* Sedikit lebih tebal (800) */
+    font-weight: 800;
     color: #ffffff;
     text-align: center;
     margin: 0 0 0.5rem 0;
     line-height: 1.35;
-    letter-spacing: 0.05em; /* Tambah spacing sedikit agar uppercase enak dibaca */
-    text-transform: uppercase; /* CAPITAL ALL */
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
 }
 
 .wawasan-description {
@@ -140,7 +140,7 @@
     color: #ffffff;
     text-align: center;
     margin: 0 auto;
-    max-width: 650px; /* Lebar container text juga dibesarkan */
+    max-width: 650px;
     line-height: 1.6;
 }
 
@@ -252,7 +252,7 @@
 }
 
 .tab-content {
-    min-height: 300px;
+    min-height: auto;
 }
 
 .tab-pane {
@@ -352,7 +352,7 @@
 
 .artikel-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
 }
 
@@ -387,15 +387,16 @@
 }
 
 .artikel-category {
-    position: absolute;
-    top: 8px;
-    left: 8px;
-    background: rgba(75, 138, 123, 0.95);
-    color: white;
-    padding: 4px 10px;
-    border-radius: 12px;
+    display: inline-block;
+    background: rgba(75, 138, 123, 0.1);
+    color: var(--color-teal);
+    padding: 5px 12px;
+    border-radius: 50px;
     font-size: 0.7rem;
-    font-weight: 600;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .artikel-content {
@@ -735,22 +736,22 @@
         padding: 0 20px;
     }
 
-    /* Responsive Adjustments for Glass Card */
+
     .wawasan-glass-card {
         width: 92%;
         max-width: none;
         padding: 1.2rem 1rem;
-        top: 85%; /* Sedikit naik agar aman di mobile */
+        top: 85%;
         border-radius: 16px;
     }
 
     .wawasan-subtitle {
-        font-size: 0.9rem; /* Ukuran pasti untuk mobile */
+        font-size: 0.9rem;
         margin-bottom: 0.4rem;
     }
 
     .wawasan-description {
-        font-size: 0.75rem; /* Ukuran pasti untuk mobile */
+        font-size: 0.75rem;
         line-height: 1.5;
     }
 }
@@ -843,7 +844,7 @@
     }
 }
 
-/* Bento Grid */
+
 .bento-grid {
     display: grid;
     grid-template-columns: 1fr 1.3fr 1fr;
@@ -1019,10 +1020,10 @@
     .card { min-height: 220px; }
 }
 
-/* Mobile Expanded Card Fix */
+
 
 @media (max-width: 900px) {
-    /* Kurangi spacing section utama */
+
     .edukasi-section {
         padding: 1.5rem 0;
     }
@@ -1031,9 +1032,9 @@
         margin-bottom: 1rem;
     }
 
-    /* ACCORDION STYLE DESIGN (RELATIVE FLOW) */
+
     .card.is-expanded {
-        position: relative !important; /* Balik ke flow normal */
+        position: relative !important;
         top: auto !important;
         left: auto !important;
         
@@ -1042,9 +1043,9 @@
         max-height: none !important;
         
         transform: none !important;
-        margin: 0 0 20px 0 !important; /* Beri jarak bawah */
+        margin: 0 0 20px 0 !important;
         border-radius: 20px !important;
-        z-index: 10 !important; /* Sedikit di atas tapi tidak nutup semua */
+        z-index: 10 !important;
         
         box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important;
         flex-direction: column;
@@ -1053,18 +1054,18 @@
         
         transition: none !important;
         
-        /* Pastikan elemen lain tidak tertutup */
-        grid-column: 1 / -1 !important; /* Full width row */
+
+        grid-column: 1 / -1 !important;
     }
     
     .card.is-expanded .overlay {
-        display: none !important; /* Hilangkan overlay gelap judul */
+        display: none !important;
     }
 
-    /* Header Gambar Kecil */
+
     .card.is-expanded img {
         width: 100%;
-        height: 180px; /* Sedikit lebih tinggi untuk estetika */
+        height: 180px;
         object-fit: cover;
         object-position: top center;
         flex-shrink: 0;
@@ -1072,12 +1073,12 @@
         transition: none !important;
     }
     
-    /* Indikator visual bahwa gambar bisa diklik untuk close */
+
     .card.is-expanded img:active {
         opacity: 0.8;
     }
 
-    /* Konten Memanjang ke Bawah (No Internal Scroll) */
+
     .card.is-expanded .card-content {
         display: block !important;
         opacity: 1 !important;
@@ -1085,7 +1086,7 @@
         padding: 1.5rem;
         padding-bottom: 20px;
         
-        /* Hapus batasan tinggi dan scroll internal */
+
         height: auto !important; 
         max-height: none !important;
         overflow: visible !important;
@@ -1095,8 +1096,8 @@
     }
     
 
-    /* Tampilkan scrollbar dengan styling rapi */
-    /* Hapus scrollbar internal karena sudah pakai scroll body */
+
+
     .card.is-expanded .card-content::-webkit-scrollbar {
         display: none;
     }
@@ -1106,7 +1107,7 @@
     }
 
     
-    /* Typography Compact */
+
     .card.is-expanded .content-title {
         font-size: 1.5rem;
         margin-bottom: 0.8rem;
@@ -1132,7 +1133,7 @@
         margin-bottom: 1rem;
     }
 
-    /* Tombol Close */
+
     .close-btn {
         position: fixed; 
         top: 15px;
@@ -1145,10 +1146,10 @@
         z-index: 100000;
         color: #333;
         font-size: 24px;
-        display: flex; /* Paksa display flex */
+        display: flex;
         align-items: center;
         justify-content: center;
-        opacity: 1 !important; /* Paksa muncul */
+        opacity: 1 !important;
     }
 }
 
