@@ -1,0 +1,170 @@
+/* ============================================
+   LANDING PAGE SPECIFIC STYLES
+   ============================================ */
+
+/* --- Monitoring Section --- */
+#monitoring {
+  position: relative;
+  overflow: hidden;
+}
+
+#monitoring .section-title {
+  margin-bottom: 3rem;
+  color: var(--color-text-light);
+  text-align: center;
+}
+
+/* Layout Container */
+.monitoring-layout {
+  display: flex;
+  flex-direction: row; 
+  align-items: center;
+  justify-content: space-between;
+  gap: 4rem;
+}
+
+/* Left Column (Form Card) */
+.monitoring-form-wrapper {
+  flex: 1;
+  max-width: 500px;
+  width: 100%;
+}
+
+/* Right Column (Text Content) */
+.monitoring-text-content {
+  flex: 1;
+  color: var(--color-text-light);
+}
+
+.monitoring-text-content h3 {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+}
+
+.monitoring-text-content p {
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+}
+
+.monitoring-text-content .clean-list li {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.monitoring-text-content .clean-list .icon-green {
+  color: #4ade80; 
+  font-size: 1.2rem;
+}
+
+/* Monitoring Card Specifics */
+.card-monitoring {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 2.5rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.card-monitoring .icon-large {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  display: inline-block;
+  background: #f3f4f6;
+  width: 80px;
+  height: 80px;
+  line-height: 80px;
+  border-radius: 50%;
+}
+
+.card-monitoring h5 {
+  color: var(--color-dark-blue);
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Input Group Styling */
+.input-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 1.5rem;
+}
+
+.input-group input {
+  flex: 1;
+  padding: 12px 20px;
+  border: 2px solid #e5e7eb;
+  border-radius: 50px;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: var(--color-purple);
+  box-shadow: 0 0 0 4px rgba(106, 90, 205, 0.1);
+}
+
+.input-group .btn-primary {
+  padding: 12px 25px;
+  white-space: nowrap;
+}
+
+/* Status Message */
+#progressStatus {
+  min-height: 24px;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* --- RESPONSIVE MOBILE FIXES --- */
+@media (max-width: 900px) {
+  .monitoring-layout {
+    flex-direction: column; 
+    gap: 3rem;
+    text-align: center;
+  }
+  
+  .monitoring-form-wrapper {
+    max-width: 100%;
+  }
+
+  /* User requested order: Title -> Card -> Text */
+  
+  .monitoring-form-wrapper {
+    order: 1; 
+  }
+  
+  .monitoring-text-content {
+    order: 2; 
+    text-align: center; 
+  }
+
+  .monitoring-text-content .clean-list li {
+    justify-content: center;
+  }
+
+  .monitoring-text-content h3 {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .input-group {
+    flex-direction: column;
+  }
+  
+  .input-group .btn-primary {
+    width: 100%;
+  }
+
+  .card-monitoring {
+    padding: 1.5rem;
+  }
+}

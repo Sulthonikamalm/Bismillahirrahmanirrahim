@@ -1,17 +1,8 @@
 /* ============================================
-   DOKUMENTASI UMUM STYLE.CSS
-   File ini berisi styling untuk situs Satgas PPKPT, termasuk variabel warna, reset dasar, typography, utilities, dan styling per section. 
-   Responsivitas ditangani melalui media queries, dengan breakpoint utama di 1015px untuk navbar, 769px untuk card overlay, dan lebih kecil untuk mobile.
-   Fitur utama: Smooth transitions, reveal on scroll, dan hover effects untuk user experience yang calm.
+   GENERAL STYLES & VARIABLES
    ============================================ */
 
-/* ============================================
-   FONT LOKAL – F37 CASLON & CAMPTON
-   Path: ../Font/...
-   Format: woff2 (ringan & modern)
-   ============================================ */
-
-/* F37 Caslon – ExtraBold (Logo) */
+/* FONT: F37 Caslon – ExtraBold */
 @font-face {
   font-family: "F37 Caslon";
   src: url("../Font/Caslon/F37Caslon-ExtraBold.woff2") format("woff2"),
@@ -21,7 +12,7 @@
   font-display: swap;
 }
 
-/* F37 Caslon – SemiBold (Heading) */
+/* FONT: F37 Caslon – SemiBold */
 @font-face {
   font-family: "F37 Caslon";
   src: url("../Font/Caslon/F37Caslon-SemiBold.woff2") format("woff2"),
@@ -31,7 +22,7 @@
   font-display: swap;
 }
 
-/* Campton – Medium (Navbar & Button) */
+/* FONT: Campton – Medium */
 @font-face {
   font-family: "Campton";
   src: url("../Font/campton full/Campton-Medium.woff2") format("woff2"),
@@ -41,7 +32,7 @@
   font-display: swap;
 }
 
-/* Campton – Book / Regular (Body) */
+/* FONT: Campton – Book / Regular */
 @font-face {
   font-family: "Campton";
   src: url("../Font/campton full/Campton-Book.woff2") format("woff2"),
@@ -51,8 +42,6 @@
   font-display: swap;
 }
 
-/* === 1. VARIABEL & RESET DASAR === */
-/* Dokumentasi: Definisi variabel root untuk warna, padding, dan animasi timing. Reset dasar untuk elemen umum agar konsisten cross-browser. */
 :root {
   --color-dark-blue: #132338;
   --color-mid-blue: #547e9b;
@@ -67,18 +56,15 @@
 
   --max-width: 1200px;
   --padding-x: 5vw;
-  /* Unit Relatif untuk Padding Horizontal */
-  /* Calm motion tokens */
+  
   --ease-calm: cubic-bezier(0.22, 0.61, 0.36, 1);
   --dur-quick: 400ms;
   --dur-calm: 720ms;
 
-  /* Font */
   --font-logo: "F37 Caslon", serif;
   --font-heading: "F37 Caslon", serif;
   --font-nav: "Campton", sans-serif;
   --font-body: "Campton", sans-serif;
-
 }
 
 * {
@@ -94,7 +80,6 @@ body {
   color: var(--color-text-dark);
 }
 
-/* === ACCESSIBILITY: Skip to Content Link === */
 .skip-to-content {
   position: absolute;
   top: -100px;
@@ -122,7 +107,6 @@ img {
   display: block;
 }
 
-/* Container utama untuk membatasi lebar konten */
 .main-container {
   max-width: var(--max-width);
   margin: 0 auto;
@@ -143,8 +127,6 @@ img {
   text-align: center;
 }
 
-/* === 2. TYPOGRAPHY & UTILITIES === */
-/* Dokumentasi: Styling untuk teks utama, deskripsi, dan utilities seperti margin, tombol, dan ikon. Termasuk micro-interactions untuk hover. */
 .main-title {
   font-size: 3.5rem;
   font-weight: 800;
@@ -186,7 +168,6 @@ li,
   margin-top: 40px;
 }
 
-/* Tombol Dasar */
 .btn {
   font-family: var(--font-nav);
   font-weight: 500;
@@ -231,7 +212,6 @@ li,
   color: var(--color-text-light);
 }
 
-/* === Micro-interactions & Calm Hover Effects === */
 .btn,
 .nav-links .nav-item,
 .card,
@@ -252,7 +232,6 @@ li,
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.12);
 }
 
-/* Ikon & List */
 .social-icons a {
   display: flex;
   color: var(--color-text-light);
@@ -282,8 +261,6 @@ li,
   margin-bottom: 1rem;
 }
 
-/* === 3. HEADER & NAVIGASI (FLEXBOX) === */
-/* Dokumentasi: Styling navbar dengan background gradient, transparansi on scroll, dan mode responsive menggunakan hamburger menu. */
 .asw-footer a {
   display: none !important;
 }
@@ -311,7 +288,6 @@ li,
     backdrop-filter var(--dur-calm) var(--ease-calm);
 }
 
-/* Navbar transparency on scroll (calm) */
 .navbar.scrolled {
   background: rgba(19, 35, 56, 0.85);
   backdrop-filter: saturate(1.2) blur(6px);
@@ -323,10 +299,6 @@ li,
   align-items: center;
 }
 
-/* ============================================
-   LOGO SIGAP – MENONJOL SAAT HOVER
-   Tanpa garis bawah | Hitam | F37 Caslon ExtraBold
-   ============================================ */
 .logo {
   font-family: "F37 Caslon", serif !important;
   font-weight: 800 !important;
@@ -340,7 +312,6 @@ li,
   transform: translateY(0);
 }
 
-/* HOVER: MENONJOL */
 .logo:hover {
   color: #17737d !important;
   text-decoration: none !important;
@@ -348,14 +319,12 @@ li,
   text-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* FOCUS (aksesibilitas) */
 .logo:focus {
   outline: none;
   transform: translateY(-2px) scale(1.02);
   text-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Pastikan tidak ada garis atau pseudo-element */
 .logo::before,
 .logo::after {
   display: none !important;
@@ -388,10 +357,6 @@ li,
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* ============================================
-   ACTIVE STATE - Halaman Yang Sedang Dibuka
-   Menonjol dengan background putih
-   ============================================ */
 .nav-item.active {
   background: #fff !important;
   color: #132338 !important;
@@ -405,14 +370,12 @@ li,
   z-index: 1;
 }
 
-/* Hover pada active state - Lebih menonjol lagi */
 .nav-item.active:hover {
   background: #f0f8ff !important;
   transform: translateY(-3px) scale(1.02) !important;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2) !important;
 }
 
-/* Efek ripple halus untuk active state */
 .nav-item.active::before {
   content: '';
   position: absolute;
@@ -440,7 +403,6 @@ li,
 
 .hamburger {
   display: none;
-  /* Sembunyikan di desktop */
   font-size: 1.5rem;
   background: none;
   border: none;
@@ -448,13 +410,10 @@ li,
   cursor: pointer;
 }
 
-/* === HERO SECTION (FLEXBOX) === */
-/* Dokumentasi: Hero section dengan flexbox untuk alignment, ilustrasi dengan positioning absolut, dan animasi floating untuk ikon. */
 .hero-section {
   padding-top: 120px;
   min-height: 80vh;
   display: flex;
-  /* Memastikan konten hero berada di tengah secara vertikal */
   align-items: center;
 }
 
@@ -470,7 +429,6 @@ li,
   flex-basis: 50%;
 }
 
-/* Ilustrasi */
 .hero-illustration {
   flex-basis: 50%;
   height: 400px;
@@ -523,19 +481,16 @@ li,
   transform: rotate(5deg);
 }
 
-/* Gentle floating pulse for icons/illustrations */
 .icon-primary,
 .icon-large {
   animation: floatSoft 8s var(--ease-calm) infinite;
 }
 
 @keyframes floatSoft {
-
   0%,
   100% {
     transform: translateY(0);
   }
-
   50% {
     transform: translateY(-6px);
   }
@@ -582,17 +537,8 @@ li,
   width: 50%;
 }
 
-/* === 4. STATISTIK (CSS GRID) === */
-/* Dokumentasi: Grid untuk statistik dengan card berwarna, ikon, dan animasi count-up. */
-/* === 4. STATISTIK (CSS GRID) === */
-/* Dokumentasi: Grid untuk statistik dengan card berwarna, layout fleksibel, dan responsif */
-
-/* === 4. STATISTIK (CSS GRID) === */
-/* Dokumentasi: Grid statistik responsive. Desktop: auto-fit. Mobile: 2 kolom compact. */
-
 .stats-grid {
   display: grid;
-  /* Auto-fit agar di Desktop bisa 2 kolom (About) atau 3 kolom (Landing) dengan rapi */
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 25px;
   width: 100%;
@@ -610,7 +556,6 @@ li,
 }
 
 .card-inner-flex {
-  /* Desktop Default: Horizontal (Ikon Kiri, Teks Kanan) */
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -620,7 +565,6 @@ li,
   text-align: left;
 }
 
-/* === ICON WRAPPER === */
 .pelapor-icon-circle {
   width: 64px;
   height: 64px;
@@ -640,7 +584,6 @@ li,
 .pelapor-icon-circle .fa-hand-holding-heart { color: var(--color-teal); }
 .pelapor-icon-circle .fa-shield-alt { color: var(--color-purple); }
 
-/* === TEXT CONTENT === */
 .text-content {
   flex: 1;
   display: flex;
@@ -667,27 +610,18 @@ li,
   word-wrap: break-word; /* Safety */
 }
 
-/* Card Colors */
 .card-blue-light { background-color: var(--color-mid-blue); }
 .card-green-teal { background-color: var(--color-teal); }
 .card-purple-dark { background-color: var(--color-purple); }
 
 .gambar { height: 100px; }
 
-/* === RESPONSIVE BREAKPOINTS === */
-
-.gambar { height: 100px; }
-
-/* === RESPONSIVE BREAKPOINTS === */
-
-/* Tablet (1024px and below) */
 @media (max-width: 1024px) {
   .card-pelapor {
     padding: 1.5rem;
   }
 }
 
-/* MOBILE: 2 Kolom Sejajar dengan Layout Horizontal Kompak */
 @media (max-width: 768px) {
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -730,7 +664,6 @@ li,
   }
 }
 
-/* Extra Small Mobile (360px and below) - Switch to 1 Column */
 @media (max-width: 360px) {
   .stats-grid {
     grid-template-columns: 1fr;
@@ -761,8 +694,6 @@ li,
   }
 }
 
-/* === 5. CARA LAPOR (FLEX & GRID) === */
-/* Dokumentasi: Section dengan tab navigasi (ARIA-enabled) dan grid langkah-langkah untuk panduan lapor. */
 .section-yellow {
   background-color: var(--color-light-yellow);
 }
@@ -810,8 +741,6 @@ li,
   font-weight: bold;
 }
 
-/* === 6. KAPAN HARUS LAPOR? (GRID) === */
-/* Dokumentasi: Grid informasi dengan card berisi gambar dan deskripsi untuk jenis kekerasan. */
 .section-teal {
   background-color: var(--color-teal);
 }
@@ -849,13 +778,12 @@ li,
   margin-bottom: 20px;
 }
 
-/* === 7. MONITORING (FLEXBOX) === */
-/* Dokumentasi: Layout flex untuk form monitoring dan deskripsi, dengan input group responsif. */
 .section-purple {
   background-color: var(--color-dark-blue);
   color: var(--color-text-light);
 }
 
+/* MONITORING STYLES (Kept for compatibility unless fully migrated) */
 .monitoring-layout {
   display: flex;
   align-items: center;
@@ -908,8 +836,6 @@ li,
   height: 100%;
 }
 
-/* === 8. BANTUAN/FAQ (FLEXBOX) === */
-/* Dokumentasi: Flex layout untuk ilustrasi dan FAQ accordion dengan animasi height. */
 .section-grid {
   background-color: #f0f8ff;
 }
@@ -959,7 +885,6 @@ li,
   padding: 15px;
   background-color: var(--color-text-light);
   display: none;
-  /* default hidden */
   overflow: hidden;
   opacity: 0;
   transition: height var(--dur-calm) var(--ease-calm),
@@ -968,17 +893,13 @@ li,
 
 .faq-answer.show {
   display: block;
-  /* Tampilkan default yang pertama */
   opacity: 1;
 }
 
-/* Animated accordion (height transition handled in JS) */
 .faq-answer.animating {
   display: block;
 }
 
-/* === 9. FOOTER (CSS GRID) === */
-/* Dokumentasi: Grid footer dengan kolom untuk link dan kontak, responsif ke mobile. */
 .main-footer {
   background-color: var(--color-dark-blue);
   color: var(--color-text-light);
@@ -1014,13 +935,7 @@ li,
   text-align: center;
 }
 
-/* ============================================
-   RESPONSIVE DESIGN
-   ============================================ */
-
-/* === BARU: Hilangkan card overlay di bawah 770px === */
 @media (max-width: 769px) {
-
   .card-overlay-top,
   .card-overlay-middle,
   .card-overlay-bottom,
@@ -1029,11 +944,9 @@ li,
   }
 }
 
-/* === BARU: Rapikan navbar di bawah 1016px (breakpoint utama untuk mode responsive) === */
 @media (max-width: 1015px) {
   .hamburger {
     display: flex !important;
-    /* Tampilkan hamburger lebih awal */
     align-items: center;
     justify-content: center;
     width: 44px;
@@ -1054,7 +967,6 @@ li,
 
   .nav-links {
     display: none;
-    /* Sembunyikan nav-links di desktop mode, tapi akan ditampilkan via JS untuk mobile */
     flex-direction: column;
     position: absolute;
     top: 100%;
@@ -1063,7 +975,6 @@ li,
     width: 100%;
     padding: 20px;
     gap: 10px;
-    /* Kurangi gap untuk lebih rapi */
     text-align: center;
     transition: transform 0.3s ease;
   }
@@ -1074,31 +985,24 @@ li,
 
   .nav-links .nav-item {
     padding: 10px 15px;
-    /* Kurangi padding untuk compact */
     font-size: 1rem;
-    /* Kurangi font size */
     border-radius: 8px;
   }
 
   .nav-actions {
     gap: 10px;
-    /* Kurangi gap untuk rapi */
   }
 
   .nav-actions .btn {
     padding: 8px 16px;
-    /* Compact button */
     font-size: 0.95rem;
   }
 
   .nav-content {
     padding: 0 16px;
-    /* Tambah padding sisi untuk rapi */
     gap: 10px;
-    /* Kurangi gap keseluruhan */
   }
 
-  /* Overlay when menu open */
   body.menu-open::before {
     content: "";
     position: fixed;
@@ -1115,7 +1019,6 @@ li,
     from {
       opacity: 0;
     }
-
     to {
       opacity: 1;
     }
@@ -1125,17 +1028,13 @@ li,
     overflow: hidden;
   }
 
-  /* Navbar scrolled adjustment for responsive */
   .navbar.scrolled {
     background: rgba(19, 35, 56, 0.98);
     backdrop-filter: saturate(1.4) blur(12px);
   }
 }
 
-/* === TABLET (768px and below) - Adjust existing for better responsiveness === */
 @media (max-width: 768px) {
-
-  /* Hero adjustments */
   .hero-section {
     padding-top: 100px;
     min-height: auto;
@@ -1172,7 +1071,6 @@ li,
     height: 240px;
   }
 
-  /* Stats rules removed (moved to main block) */
   .tab-nav {
     flex-wrap: wrap;
     gap: 8px;
@@ -1253,7 +1151,6 @@ li,
   }
 }
 
-/* === MOBILE (480px and below) === */
 @media (max-width: 480px) {
   :root {
     --padding-x: 4vw;
@@ -1366,8 +1263,6 @@ li,
     padding: 3rem 0;
   }
 
-  /* Stat rules removed */
-
   .tab-nav {
     flex-direction: column;
     width: 100%;
@@ -1443,7 +1338,6 @@ li,
   }
 }
 
-/* === EXTRA SMALL (360px and below) === */
 @media (max-width: 360px) {
   .main-title {
     font-size: 1.6rem;
@@ -1460,11 +1354,8 @@ li,
   .box-blue {
     height: 180px;
   }
-  
-  /* Extra small stats rules removed (moved to main block) */
 }
 
-/* === LANDSCAPE MOBILE (max-height: 500px) === */
 @media (max-height: 500px) and (orientation: landscape) {
   .hero-section {
     min-height: auto;
@@ -1481,7 +1372,6 @@ li,
   }
 }
 
-/* === ACCESSIBILITY - TOUCH TARGETS === */
 @media (hover: none) and (pointer: coarse) {
 
   .btn,
@@ -1502,7 +1392,6 @@ li,
   }
 }
 
-/* === PRINT STYLES === */
 @media print {
 
   .navbar,
@@ -1526,7 +1415,6 @@ li,
   }
 }
 
-/* === PERFORMANCE - REDUCE ANIMATIONS ON LOW-END === */
 @media (prefers-reduced-motion: reduce) {
 
   *,
@@ -1538,11 +1426,6 @@ li,
   }
 }
 
-/* ============================================
-   MOBILE NAVBAR IMPROVEMENTS
-   ============================================ */
-
-/* Better hamburger icon styling */
 .hamburger {
   font-size: 1.5rem;
   background: none;
@@ -1558,12 +1441,10 @@ li,
   transition: transform 0.3s ease;
 }
 
-/* When menu is open, rotate icon */
 .hamburger[aria-expanded="true"] i {
   transform: rotate(90deg);
 }
 
-/* Extra small screens - compact navbar */
 @media (max-width: 480px) {
   .nav-content {
     gap: 8px;
@@ -1584,9 +1465,7 @@ li,
   }
 }
 
-/* Fix for any stray tooltips or dropdowns */
 @media (max-width: 1015px) {
-
   [role="tooltip"],
   .tooltip,
   [data-tooltip] {

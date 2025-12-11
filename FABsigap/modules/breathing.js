@@ -424,7 +424,7 @@
       breathingUI.remove();
     }
 
-    console.log('⏹️ Breathing Exercise Closed');
+    console.log('Breathing Exercise Closed');
   }
 
   // ============================================
@@ -435,6 +435,6 @@
     close: close
   };
 
-  console.log('✅ Breathing Exercise Module Loaded');
+  console.log('Breathing Exercise Module Loaded');
 
 })();
