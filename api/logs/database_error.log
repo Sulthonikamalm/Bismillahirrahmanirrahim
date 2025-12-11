@@ -66,3 +66,20 @@
 [09-Dec-2025 09:00:16 Europe/Berlin] ✅ Found - kode: GNJ34, Kode: GNJ34
 [09-Dec-2025 09:00:42 Europe/Berlin] 🔍 Search Request - Type: KODE, Query: PPKS001
 [09-Dec-2025 09:00:42 Europe/Berlin] ✅ Found - kode: PPKS001, Kode: PPKS001
+[11-Dec-2025 20:33:31 Europe/Berlin] Database query failed: SQLSTATE[HY093]: Invalid parameter number
+[11-Dec-2025 20:33:50 Europe/Berlin] Database query failed: SQLSTATE[HY093]: Invalid parameter number
+[11-Dec-2025 20:34:17 Europe/Berlin] Database query failed: SQLSTATE[HY093]: Invalid parameter number
+[11-Dec-2025 20:46:15 Europe/Berlin] Database query failed: SQLSTATE[HY093]: Invalid parameter number
+[11-Dec-2025 20:46:17 Europe/Berlin] Database query failed: SQLSTATE[HY093]: Invalid parameter number
+[11-Dec-2025 20:46:20 Europe/Berlin] Database query failed: SQLSTATE[HY093]: Invalid parameter number
+[11-Dec-2025 20:47:36 Europe/Berlin] Database query failed: SQLSTATE[HY093]: Invalid parameter number
+[11-Dec-2025 20:47:50 Europe/Berlin] Database query failed: SQLSTATE[HY093]: Invalid parameter number
+[11-Dec-2025 20:47:52 Europe/Berlin] Database query failed: SQLSTATE[HY093]: Invalid parameter number
+[11-Dec-2025 20:48:35 Europe/Berlin] Database query failed: SQLSTATE[HY093]: Invalid parameter number
+[11-Dec-2025 20:48:37 Europe/Berlin] Database query failed: SQLSTATE[HY093]: Invalid parameter number
+[11-Dec-2025 20:48:40 Europe/Berlin] Database query failed: SQLSTATE[HY093]: Invalid parameter number
+[11-Dec-2025 20:53:43 Europe/Berlin] BLOG CREATED - ID: 3, Admin: admin@ppks.com, Judul: Pelecehan Seksual: Memahami Masalah yang Sering Dianggap Sepele
+[11-Dec-2025 20:55:25 Europe/Berlin] BLOG CREATED - ID: 4, Admin: admin@ppks.com, Judul: Tips & Trik Mencegah dan Menghadapi Pelecehan Seksual
+[11-Dec-2025 20:56:34 Europe/Berlin] BLOG CREATED - ID: 5, Admin: admin@ppks.com, Judul: Konseling sebagai Ruang Aman untuk Pemulihan Korban Pelecehan Seksual
+[11-Dec-2025 20:58:00 Europe/Berlin] BLOG CREATED - ID: 6, Admin: admin@ppks.com, Judul: Mengapa Penting dan Bagaimana Menjaganya?
+[11-Dec-2025 21:01:14 Europe/Berlin] BLOG CREATED - ID: 7, Admin: admin@ppks.com, Judul: Kesehatan Mental di Era Modern

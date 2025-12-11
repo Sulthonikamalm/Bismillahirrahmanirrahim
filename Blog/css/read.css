@@ -1,0 +1,325 @@
+/* =========================================
+   SCIENTIFIC DEEP READING LAYOUT
+   ========================================= */
+
+:root {
+    /* Override or extend root variables for this specific page context */
+    --font-heading-optimized: 'Campton', sans-serif; /* Geometric Modern */
+    --font-body-optimized: 'F37 Caslon', serif;      /* Serif for readability */
+    
+    --width-reading: 680px;  /* Optimal line length (approx 65 chars) */
+    --line-height-body: 1.8; /* Breathable vertical rhythm */
+    
+    --color-text-body: #2d3748;
+    --color-text-heading: #1a202c;
+    --color-bg-article: #ffffff;
+}
+
+body {
+    background-color: #fafbfc;
+    color: var(--color-text-body);
+    font-family: var(--font-body-optimized); /* Default to Serif for body */
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Progress Bar */
+.progress-container {
+    width: 100%;
+    height: 4px;
+    background: rgba(0, 0, 0, 0.05);
+    position: fixed;
+    top: 70px; /* Below navbar */
+    left: 0;
+    z-index: 999;
+}
+
+.progress-bar {
+    height: 4px;
+    background: var(--color-teal);
+    width: 0%;
+    transition: width 0.1s;
+}
+
+/* Back Button (Sticky/Accessible) */
+.back-nav-sticky {
+    position: fixed;
+    top: 100px;
+    left: 2rem;
+    z-index: 900;
+}
+
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    background: white;
+    border-radius: 50px;
+    color: var(--color-dark-blue);
+    font-family: var(--font-heading-optimized);
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.back-btn:hover {
+    transform: translateX(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    color: var(--color-teal);
+}
+
+/* Article Container */
+.article-wrapper {
+    max-width: 1000px; /* Outer frame */
+    margin: 0 auto;
+    padding-top: 100px;
+}
+
+/* 1. Immersive Header (Not Full Screen) */
+.article-header-immersive {
+    margin-bottom: 3rem;
+    text-align: center;
+    padding: 2rem 1rem 0;
+}
+
+.article-title {
+    font-family: var(--font-heading-optimized);
+    font-weight: 700;
+    font-size: clamp(2.2rem, 5vw, 3.2rem);
+    line-height: 1.25;
+    color: var(--color-text-heading);
+    max-width: 900px;
+    margin: 0 auto 1.5rem;
+    letter-spacing: -0.02em;
+}
+
+.article-meta-modern {
+    font-family: var(--font-heading-optimized);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    color: #718096;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.meta-separator {
+    width: 4px;
+    height: 4px;
+    background: #cbd5e0;
+    border-radius: 50%;
+}
+
+/* Hero Image */
+.hero-image-container {
+    width: 100%;
+    height: 60vh; /* Not 100vh to avoid false floor */
+    max-height: 550px;
+    min-height: 350px;
+    margin-bottom: 4rem;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+.hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 2. Deep Reading Content */
+.deep-reading-content {
+    max-width: var(--width-reading); /* 60 - 75 chars */
+    margin: 0 auto;
+    font-size: 1.25rem; /* ~20px large readable text */
+    line-height: var(--line-height-body); /* 1.8 Vertical Rhythm */
+    color: #2d3748;
+}
+
+/* Typography Details */
+.deep-reading-content p {
+    margin-bottom: 2rem;
+    font-feature-settings: "kern", "liga", "clig", "calt"; /* Better rendering */
+}
+
+.deep-reading-content h2, 
+.deep-reading-content h3, 
+.deep-reading-content h4 {
+    font-family: var(--font-heading-optimized);
+    color: var(--color-text-heading);
+    margin-top: 3.5rem;
+    margin-bottom: 1.25rem;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+}
+
+.deep-reading-content h2 { font-size: 2rem; }
+.deep-reading-content h3 { font-size: 1.6rem; }
+
+.deep-reading-content ul, 
+.deep-reading-content ol {
+    margin-bottom: 2rem;
+    padding-left: 1.5rem;
+}
+
+.deep-reading-content li {
+    margin-bottom: 0.75rem;
+    padding-left: 0.5rem;
+}
+
+.deep-reading-content blockquote {
+    border-left: 4px solid var(--color-teal);
+    padding-left: 1.5rem;
+    margin: 2.5rem 0;
+    font-style: italic;
+    font-size: 1.35rem;
+    color: #4a5568;
+}
+
+/* Share Section */
+.share-section {
+    max-width: var(--width-reading);
+    margin: 4rem auto 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.share-label {
+    font-family: var(--font-heading-optimized);
+    font-weight: 600;
+    margin-right: 1rem;
+}
+
+.btn-share {
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    background: white;
+    cursor: pointer;
+    font-family: var(--font-heading-optimized);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-dark-blue);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+}
+
+.btn-share:hover {
+    background: #f7fafc;
+    border-color: #cbd5e0;
+}
+
+/* Related Articles */
+.related-section {
+    background: #f7fafc;
+    padding: 4rem 0;
+    margin-top: 4rem;
+}
+
+.related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.related-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    transition: transform 0.2s;
+    cursor: pointer;
+}
+
+.related-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+}
+
+.related-image {
+    height: 200px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.related-content {
+    padding: 1.5rem;
+}
+
+.related-title {
+    font-family: var(--font-heading-optimized);
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+    color: var(--color-dark-blue);
+}
+
+.related-date {
+    font-size: 0.85rem;
+    color: #718096;
+}
+
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .back-nav-sticky {
+        position: absolute; /* Unstick on smaller screens to avoid overlap */
+        top: 20px;
+    }
+    .article-wrapper {
+        padding-top: 60px;
+    }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --width-reading: 100%;
+    }
+    
+    .article-header-immersive {
+        padding: 0 1rem;
+    }
+
+    .article-title {
+        font-size: 2rem;
+    }
+
+    .deep-reading-content {
+        font-size: 1.125rem; /* 18px on mobile */
+        padding: 0 1.25rem;
+    }
+
+    .hero-image-container {
+        height: 350px;
+        margin-bottom: 2rem;
+        border-radius: 0;
+    }
+    
+    .share-section {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+        padding: 0 1.25rem;
+    }
+}

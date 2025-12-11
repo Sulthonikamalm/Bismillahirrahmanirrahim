@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description"
+        content="Baca artikel terkini seputar pencegahan dan penanganan kekerasan seksual di lingkungan kampus.">
+    <title>Baca Artikel - Sigap PPKS</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="../Wawasan/wawasan.css" />
+    <link rel="stylesheet" href="../FABsigap/fabsigap.css" />
+    <link rel="stylesheet" href="../ChatBot/chatbot.css" />
+    <!-- Optimized Reading Styles -->
+    <link rel="stylesheet" href="css/read.css" />
+</head>
+
+<body>
+    <!-- Reading Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="readingProgress"></div>
+    </div>
+
+    <!-- Sticky Back Navigation -->
+    <nav class="back-nav-sticky">
+        <a href="../Wawasan/wawasan.html#kabar-sigap" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Kembali
+        </a>
+    </nav>
+
+    <!-- Navbar (Hidden/Simplified or kept as requested? Keeping standard per project consistency) -->
+    <nav class="navbar header-bg fixed-top" role="navigation">
+        <div class="main-container nav-content">
+            <a class="logo" href="../Landing Page/Landing_Page.html">Sigap</a>
+            <div class="nav-links">
+                <a class="nav-item" href="../About Page/about.html">TENTANG</a>
+                <a class="nav-item active" href="../Wawasan/wawasan.html">WAWASAN</a>
+                <a class="nav-item" href="../Monitoring/monitoring.html">MONITORING</a>
+            </div>
+            <div class="nav-actions">
+                <button class="btn btn-outline-light"
+                    onclick="window.location.href='../Lapor/lapor.html'">LAPOR</button>
+            </div>
+            <button class="hamburger"><i class="fas fa-bars"></i></button>
+        </div>
+    </nav>
+
+    <article class="article-wrapper" id="maincontent">
+        <!-- Dynamic Content Area -->
+        <div id="article-area">
+            <!-- Skeleton Loading -->
+            <div style="padding-top: 4rem; text-align: center;">
+                <div class="skeleton-anim" style="height: 60px; width: 70%; margin: 0 auto 2rem; border-radius: 8px;">
+                </div>
+                <div class="skeleton-anim" style="height: 20px; width: 30%; margin: 0 auto 3rem; border-radius: 4px;">
+                </div>
+                <div class="skeleton-anim"
+                    style="height: 400px; width: 100%; border-radius: 12px; margin-bottom: 3rem;"></div>
+            </div>
+        </div>
+
+        <!-- Share Section -->
+        <section class="share-section" id="share-section" style="display:none;">
+            <div>
+                <span class="share-label">Bagikan Artikel ini:</span>
+                <button class="btn-share" id="btnShareLink"><i class="fas fa-link"></i> Salin Link</button>
+            </div>
+            <div id="shareMessage"
+                style="color: var(--color-teal); font-weight: 600; opacity: 0; transition: opacity 0.3s;">
+                Link tersalin!
+            </div>
+        </section>
+    </article>
+
+    <!-- Related Articles -->
+    <aside class="related-section" id="related-section" style="display:none;">
+        <div class="main-container">
+            <h3 class="section-title text-center" style="font-size: 2rem; margin-bottom: 2rem;">Artikel Terkait</h3>
+            <div class="related-grid" id="related-grid">
+                <!-- Related items here -->
+            </div>
+        </div>
+    </aside>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="main-container text-center">
+            <small>&copy; 2025 Satgas PPKPT Telkom University Surabaya.</small>
+        </div>
+    </footer>
+
+    <!-- ChatBot Modal -->
+    <div class="chatbot-modal-overlay" id="chatbotModalOverlay">
+        <div class="chatbot-modal">
+            <div class="chatbot-screen chat-interface-screen" id="chatInterfaceScreen">
+                <div class="chat-header">
+                    <div class="chat-header-info">
+                        <h3 id="chatModeTitle">Chat</h3>
+                        <p class="chat-mode-desc" id="chatModeDesc"></p>
+                    </div>
+                    <div class="chat-header-actions">
+                        <button class="btn-minimize-chat" id="btnMinimizeChat" title="Minimize">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button class="btn-close-chatbot" id="btnCloseChatbot2">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="chat-messages-container" id="chatMessagesContainer">
+                    <div class="chat-messages" id="chatMessages"></div>
+                    <div class="typing-indicator" id="typingIndicator">
+                        <div class="typing-bubble">
+                            <div class="typing-dots">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-input-area">
+                    <div class="voice-recording-mode" id="voiceRecordingMode">
+                        <div class="recording-animation">
+                            <div class="recording-circle">
+                                <i class="fas fa-microphone"></i>
+                            </div>
+                            <div class="sound-wave">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
+                        <p class="recording-text">Sedang merekam...</p>
+                        <button class="btn-stop-recording" id="btnStopRecording">
+                            <i class="fas fa-stop-circle"></i>
+                            <span>Stop</span>
+                        </button>
+                    </div>
+
+                    <div class="chat-input-wrapper" id="chatInputWrapper">
+                        <button class="btn-voice-input" id="btnVoiceInput" title="Rekam suara">
+                            <i class="fas fa-microphone"></i>
+                        </button>
+                        <input type="text" class="chat-input" id="chatInput" placeholder="Ketik pesan..."
+                            autocomplete="off" />
+                        <button class="btn-send-chat" id="btnSendChat" disabled>
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sienna-accessibility@latest/dist/sienna-accessibility.umd.js"
+        defer></script>
+    <script src="js/blog-detail.js" defer></script>
+
+    <!-- Component Scripts -->
+    <script src="../ChatBot/config.js"></script>
+    <script src="../ChatBot/chatbot.js"></script>
+    <script src="../FABsigap/modules/breathing.js" defer></script>
+    <script src="../FABsigap/modules/text_to_speech.js" defer></script>
+    <script src="../FABsigap/fabsigap.js" defer></script>
+
+    <script>
+        AOS.init({ duration: 800, once: true });
+
+        // Reading Progress Bar
+        window.onscroll = function () {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            const bar = document.getElementById("readingProgress");
+            if (bar) bar.style.width = scrolled + "%";
+        };
+
+        document.querySelector('.hamburger').addEventListener('click', () => {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+    </script>
+</body>
+
+</html>

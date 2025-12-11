@@ -84,14 +84,56 @@ $category = isset($_GET['category']) ? trim($_GET['category']) : '';
 // ========================================================
 
 try {
-    // Base query
+    // Base query parts
+    $selectFields = "
+        b.id,
+        b.judul,
+        b.isi_postingan,
+        b.gambar_header_url,
+        b.kategori,
+        b.created_at,
+        b.updated_at,
+        b.author_id,
+        a.nama as author_name,
+        a.email as author_email
+    ";
+    
     $whereConditions = [];
     $params = [];
+    $orderBy = "b.created_at DESC"; // Default order
 
-    // Search condition
+    // Search condition (Smart Keyword Matching)
+    $hasSearch = false;
     if (!empty($search)) {
-        $whereConditions[] = "(b.judul LIKE :search OR b.isi_postingan LIKE :search)";
-        $params[':search'] = '%' . $search . '%';
+        // Cleaning: remove special chars, keep alphanumeric and spaces
+        $cleanSearch = preg_replace('/[^a-zA-Z0-9\s]/', '', $search);
+        $keywords = explode(' ', $cleanSearch); 
+        $keywords = array_filter($keywords, function($k) { return strlen($k) > 2; }); 
+        
+        if (!empty($keywords)) {
+            $hasSearch = true;
+            $scoreCases = [];
+            $i = 0;
+            foreach ($keywords as $word) {
+                // Generate TWO unique placeholders per keyword: one for title, one for content
+                $paramTitle = ":searchT_$i";
+                $paramContent = ":searchC_$i";
+                
+                $scoreCases[] = "(CASE WHEN b.judul LIKE $paramTitle THEN 2 ELSE 0 END + CASE WHEN b.isi_postingan LIKE $paramContent THEN 1 ELSE 0 END)";
+                
+                // Bind the word to both placeholders
+                $params[$paramTitle] = '%' . $word . '%';
+                $params[$paramContent] = '%' . $word . '%';
+                $i++;
+            }
+            
+            // Add Score to Selection
+            $scoreQuery = implode(' + ', $scoreCases);
+            $selectFields .= ", ($scoreQuery) as relevance_score";
+            
+            $mainQueryHaving = "HAVING relevance_score > 0";
+            $orderBy = "relevance_score DESC, b.created_at DESC";
+        }
     }
 
     // Category filter
@@ -100,32 +142,47 @@ try {
         $params[':category'] = $category;
     }
 
-    // Build WHERE clause
+    // Build WHERE clause (Common)
     $whereClause = !empty($whereConditions) ? 'WHERE ' . implode(' AND ', $whereConditions) : '';
 
-    // Count total records
-    $countQuery = "SELECT COUNT(*) as total FROM ArtikelBlog b $whereClause";
+    // ============================================
+    // 1. COUNT QUERY
+    // ============================================
+    // For COUNT, we cannot use HAVING relevance_score because we just want count.
+    // We must replicate the filter logic in WHERE using *distinct* params if needed, 
+    // OR since COUNT query is separate, we can just use the score logic in WHERE with the *same* params 
+    // because count query doesn't select the score, so params appear only once in WHERE!
+    
+    if ($hasSearch) {
+        // Add the search filter to WHERE clause specifically for COUNT query
+        // logic: ($scoreQuery) > 0
+        $countWhere = empty($whereConditions) ? "WHERE ($scoreQuery) > 0" : $whereClause . " AND ($scoreQuery) > 0";
+    } else {
+        $countWhere = $whereClause;
+    }
+
+    $countQuery = "SELECT COUNT(*) as total FROM ArtikelBlog b $countWhere";
     $countStmt = $pdo->prepare($countQuery);
-    $countStmt->execute($params);
+    foreach ($params as $key => $value) { 
+        $countStmt->bindValue($key, $value); 
+    }
+    $countStmt->execute();
     $totalRecords = $countStmt->fetch(PDO::FETCH_ASSOC)['total'];
 
-    // Get blogs with pagination
+    // ============================================
+    // 2. MAIN QUERY
+    // ============================================
+    
+    // For Main Query, we use HAVING to avoid parameter reuse issue in SELECT + WHERE
+    // logic: SELECT ..., score ... WHERE ... HAVING score > 0
+    
     $query = "
-        SELECT
-            b.id,
-            b.judul,
-            b.isi_postingan,
-            b.gambar_header_url,
-            b.kategori,
-            b.created_at,
-            b.updated_at,
-            b.author_id,
-            a.nama as author_name,
-            a.email as author_email
+        SELECT $selectFields
         FROM ArtikelBlog b
         LEFT JOIN Admin a ON b.author_id = a.id
         $whereClause
-        ORDER BY b.created_at DESC
+        " . ($hasSearch ? $mainQueryHaving : "") . "
+        ORDER BY $orderBy
         LIMIT :limit OFFSET :offset
     ";
 
@@ -153,8 +210,10 @@ try {
         return [
             'id' => (int) $blog['id'],
             'judul' => htmlspecialchars($blog['judul'], ENT_QUOTES, 'UTF-8'),
-            'isi_postingan' => htmlspecialchars($blog['isi_postingan'], ENT_QUOTES, 'UTF-8'),
-            'excerpt' => htmlspecialchars(substr(strip_tags($blog['isi_postingan']), 0, 200) . '...', ENT_QUOTES, 'UTF-8'),
+            // Send raw HTML for content so frontend can render rich text
+            'isi_postingan' => $blog['isi_postingan'], 
+            // Excerpt is safe because we strip tags first
+            'excerpt' => htmlspecialchars(substr(strip_tags($blog['isi_postingan']), 0, 150) . '...', ENT_QUOTES, 'UTF-8'),
             'gambar_header_url' => $blog['gambar_header_url'] ? htmlspecialchars($blog['gambar_header_url'], ENT_QUOTES, 'UTF-8') : null,
             'kategori' => $blog['kategori'] ? htmlspecialchars($blog['kategori'], ENT_QUOTES, 'UTF-8') : null,
             'author' => [
@@ -196,7 +255,7 @@ try {
     http_response_code(500);
     exit(json_encode([
         'status' => 'error',
-        'message' => 'Failed to fetch blogs'
+        'message' => 'Failed to fetch blogs: ' . $e->getMessage()
     ]));
 }
 

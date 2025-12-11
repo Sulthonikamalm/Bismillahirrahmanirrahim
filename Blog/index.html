@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kabar Sigap - Semua Artikel</title>
+
+    <!-- Font Awesome -->
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="../Wawasan/wawasan.css" />
+    <link rel="stylesheet" href="../FABsigap/fabsigap.css" />
+    <link rel="stylesheet" href="../ChatBot/chatbot.css" />
+    <link rel="stylesheet" href="css/list.css" />
+</head>
+
+<body>
+    <nav class="navbar header-bg fixed-top" role="navigation">
+        <div class="main-container nav-content">
+            <a class="logo" href="../Landing Page/Landing_Page.html">Sigap</a>
+            <div class="nav-links">
+                <a class="nav-item" href="../About Page/about.html">TENTANG</a>
+                <a class="nav-item active" href="../Wawasan/wawasan.html">WAWASAN</a>
+                <a class="nav-item" href="../Monitoring/monitoring.html">MONITORING</a>
+            </div>
+            <div class="nav-actions">
+                <button class="btn btn-outline-light"
+                    onclick="window.location.href='../Lapor/lapor.html'">LAPOR</button>
+            </div>
+            <button class="hamburger"><i class="fas fa-bars"></i></button>
+        </div>
+    </nav>
+
+    <header class="blog-header">
+        <div class="main-container" style="position: relative;">
+
+            <div class="back-nav" style="position: absolute; top: -40px; left: 0;">
+                <!-- Updated Link to jump to #kabar-sigap section -->
+                <a href="../Wawasan/wawasan.html#kabar-sigap"><i class="fas fa-arrow-left"></i> Wawasan</a>
+            </div>
+
+            <h1 data-aos="fade-down">Kabar Sigap</h1>
+            <p data-aos="fade-up" data-aos-delay="100">Informasi dan edukasi terkini seputar PPKS</p>
+
+            <div class="search-container" data-aos="fade-up" data-aos-delay="200">
+                <input type="text" id="searchInput" class="search-input"
+                    placeholder="Cari artikel... (Min. 3 karakter)">
+                <button class="search-btn" id="searchBtn"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-container section-padding">
+        <div class="artikel-grid" id="blog-grid">
+            <!-- Content goes here -->
+        </div>
+
+        <div class="pagination-container" id="pagination">
+            <!-- Pagination -->
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <div class="main-container text-center">
+            <small>&copy; 2025 Satgas PPKPT Telkom University Surabaya.</small>
+        </div>
+    </footer>
+
+    <!-- ChatBot Modal -->
+    <div class="chatbot-modal-overlay" id="chatbotModalOverlay">
+        <div class="chatbot-modal">
+            <div class="chatbot-screen chat-interface-screen" id="chatInterfaceScreen">
+                <div class="chat-header">
+                    <div class="chat-header-info">
+                        <h3 id="chatModeTitle">Chat</h3>
+                        <p class="chat-mode-desc" id="chatModeDesc"></p>
+                    </div>
+                    <div class="chat-header-actions">
+                        <button class="btn-minimize-chat" id="btnMinimizeChat" title="Minimize">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button class="btn-close-chatbot" id="btnCloseChatbot2">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="chat-messages-container" id="chatMessagesContainer">
+                    <div class="chat-messages" id="chatMessages"></div>
+                    <div class="typing-indicator" id="typingIndicator">
+                        <div class="typing-bubble">
+                            <div class="typing-dots">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-input-area">
+                    <div class="voice-recording-mode" id="voiceRecordingMode">
+                        <div class="recording-animation">
+                            <div class="recording-circle">
+                                <i class="fas fa-microphone"></i>
+                            </div>
+                            <div class="sound-wave">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                        </div>
+                        <p class="recording-text">Sedang merekam...</p>
+                        <button class="btn-stop-recording" id="btnStopRecording">
+                            <i class="fas fa-stop-circle"></i>
+                            <span>Stop</span>
+                        </button>
+                    </div>
+
+                    <div class="chat-input-wrapper" id="chatInputWrapper">
+                        <button class="btn-voice-input" id="btnVoiceInput" title="Rekam suara">
+                            <i class="fas fa-microphone"></i>
+                        </button>
+                        <input type="text" class="chat-input" id="chatInput" placeholder="Ketik pesan..."
+                            autocomplete="off" />
+                        <button class="btn-send-chat" id="btnSendChat" disabled>
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/blog-list.js"></script>
+
+    <!-- Accessibility Library -->
+    <script src="https://cdn.jsdelivr.net/npm/sienna-accessibility@latest/dist/sienna-accessibility.umd.js"
+        defer></script>
+
+    <!-- ChatBot Scripts -->
+    <script src="../ChatBot/config.js"></script>
+    <script src="../ChatBot/chatbot.js"></script>
+
+    <!-- FAB Sigap Scripts -->
+    <script src="../FABsigap/modules/breathing.js" defer></script>
+    <script src="../FABsigap/modules/text_to_speech.js" defer></script>
+    <script src="../FABsigap/fabsigap.js" defer></script>
+
+    <script>
+        AOS.init();
+        document.querySelector('.hamburger').addEventListener('click', () => {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+    </script>
+</body>
+
+</html>

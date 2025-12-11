@@ -423,6 +423,7 @@
     line-height: 1.3;
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
@@ -434,6 +435,7 @@
     font-size: 0.82rem;
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
@@ -1152,6 +1154,110 @@
         opacity: 1 !important;
     }
 }
+
+/* Dynamic Blog Styles */
+#kabar-sigap {
+    scroll-margin-top: 100px;
+}
+
+/* Skeleton Loading */
+.skeleton-card {
+    pointer-events: none;
+    user-select: none;
+}
+
+.skeleton-anim {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 4px;
+}
+
+@keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+.skeleton-image {
+    width: 100%;
+    height: 120px;
+    background-color: #eee;
+}
+
+.skeleton-text {
+    background-color: #eee;
+    margin-bottom: 0.5rem;
+}
+
+.skeleton-tag {
+    width: 60px;
+    height: 20px;
+    border-radius: 50px;
+    margin-bottom: 1rem;
+}
+
+.skeleton-meta {
+    display: flex;
+    gap: 0.8rem;
+    margin-bottom: 0.8rem;
+}
+
+.skeleton-sm {
+    width: 80px;
+    height: 12px;
+}
+
+.skeleton-title {
+    height: 18px;
+    width: 90%;
+    margin-bottom: 0.5rem;
+}
+
+.skeleton-desc {
+    height: 12px;
+    width: 100%;
+    margin-bottom: 0.3rem;
+}
+
+/* Error & Empty States */
+.error-state, .empty-state {
+    padding: 3rem 1rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    text-align: center;
+    grid-column: 1 / -1;
+}
+
+.error-state i, .empty-state i {
+    margin-bottom: 1rem;
+}
+
+.error-state .text-danger {
+    color: #dc3545 !important;
+}
+
+.empty-state .text-muted {
+    color: #64748b !important;
+}
+
+#btnRetryFetch {
+    margin-top: 1rem;
+    padding: 0.6rem 2rem;
+    border-radius: 50px;
+    transition: all 0.2s;
+    background: var(--color-dark-blue);
+    color: white;
+    border: none;
+    font-weight: 600;
+}
+
+#btnRetryFetch:hover {
+    background: var(--color-teal);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
 
 
 

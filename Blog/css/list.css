@@ -1,0 +1,85 @@
+.blog-header {
+    background-color: var(--color-dark-blue);
+    color: white;
+    padding: 120px 0 60px;
+    text-align: center;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.back-nav {
+    position: absolute;
+    top: 100px;
+    left: 20px;
+    z-index: 10;
+}
+
+.back-nav a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.3s;
+}
+
+.back-nav a:hover {
+    color: white;
+}
+
+.search-container {
+    max-width: 600px;
+    margin: 2rem auto 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-input {
+    width: 100%;
+    padding: 18px 60px 18px 28px;
+    border-radius: 50px;
+    border: 2px solid transparent;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--color-teal);
+    box-shadow: 0 4px 20px rgba(75, 138, 123, 0.2);
+}
+
+.search-btn {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--color-teal);
+    color: white;
+    border: none;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+}
+
+.search-btn:hover {
+    background: #3a7566;
+    transform: translateY(-50%) scale(1.05);
+}
+
+.pagination-container {
+    margin-top: 3rem;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
