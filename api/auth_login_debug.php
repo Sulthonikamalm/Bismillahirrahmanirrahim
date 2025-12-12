@@ -161,7 +161,7 @@ try {
             'email' => $user['email'],
             'username' => $user['username']
         ],
-        'redirect' => '../dashboard/cases.html',
+        'redirect' => '/Bismillahirrahmanirrahim/Admin/pages/cases/cases.html',
         'debug' => true
     ]);
 

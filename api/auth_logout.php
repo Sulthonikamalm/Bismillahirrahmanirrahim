@@ -157,7 +157,7 @@ if (!$isLoggedIn) {
     exit(json_encode([
         'status' => 'success',
         'message' => 'Already logged out',
-        'redirect' => '../index.html'
+        'redirect' => '/Bismillahirrahmanirrahim/Admin/pages/auth/login.html'
     ]));
 }
 
@@ -200,7 +200,7 @@ echo json_encode([
         'admin_name' => $adminName,
         'logout_time' => date('Y-m-d H:i:s')
     ],
-    'redirect' => '../index.html'
+    'redirect' => '/Bismillahirrahmanirrahim/Admin/pages/auth/login.html'
 ]);
 
 exit;

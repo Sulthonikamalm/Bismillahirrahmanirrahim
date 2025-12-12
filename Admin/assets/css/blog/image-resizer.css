@@ -1,0 +1,228 @@
+/* Image Resizer - Word-like functionality */
+.resizable-image-wrapper {
+    position: relative;
+    display: inline-block;
+    margin: 20px 0;
+    max-width: 100%;
+}
+
+.resizable-image-wrapper.selected {
+    outline: 2px solid #7ba8dc;
+    outline-offset: 2px;
+}
+
+.resizable-image-wrapper img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    cursor: move;
+    user-select: none;
+}
+
+/* Resize Handles */
+.resize-handle {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: white;
+    border: 2px solid #7ba8dc;
+    border-radius: 50%;
+    display: none;
+    z-index: 10;
+}
+
+.resizable-image-wrapper.selected .resize-handle {
+    display: block;
+}
+
+/* Corner Handles */
+.resize-handle.nw {
+    top: -5px;
+    left: -5px;
+    cursor: nw-resize;
+}
+
+.resize-handle.ne {
+    top: -5px;
+    right: -5px;
+    cursor: ne-resize;
+}
+
+.resize-handle.sw {
+    bottom: -5px;
+    left: -5px;
+    cursor: sw-resize;
+}
+
+.resize-handle.se {
+    bottom: -5px;
+    right: -5px;
+    cursor: se-resize;
+}
+
+/* Side Handles */
+.resize-handle.n {
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: n-resize;
+}
+
+.resize-handle.s {
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: s-resize;
+}
+
+.resize-handle.w {
+    left: -5px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: w-resize;
+}
+
+.resize-handle.e {
+    right: -5px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: e-resize;
+}
+
+/* Delete Button */
+.image-delete-btn {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    width: 24px;
+    height: 24px;
+    background: #ef4444;
+    color: white;
+    border: 2px solid white;
+    border-radius: 50%;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    z-index: 11;
+    transition: all 0.2s;
+}
+
+.resizable-image-wrapper.selected .image-delete-btn {
+    display: flex;
+}
+
+.image-delete-btn:hover {
+    background: #dc2626;
+    transform: scale(1.1);
+}
+
+/* Size Info Tooltip */
+.image-size-info {
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 11px;
+    white-space: nowrap;
+    display: none;
+    z-index: 12;
+}
+
+.resizable-image-wrapper.resizing .image-size-info {
+    display: block;
+}
+
+/* Alignment Options */
+.resizable-image-wrapper.align-left {
+    display: table;
+    margin-left: 0;
+    margin-right: auto;
+    clear: both;
+}
+
+.resizable-image-wrapper.align-center {
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
+    clear: both;
+}
+
+.resizable-image-wrapper.align-right {
+    display: table;
+    margin-left: auto;
+    margin-right: 0;
+    clear: both;
+}
+
+/* Image Toolbar */
+.image-toolbar {
+    position: absolute;
+    top: -45px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    border: 2px solid #7ba8dc;
+    border-radius: 8px;
+    padding: 6px;
+    display: none;
+    gap: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 13;
+    white-space: nowrap;
+}
+
+.resizable-image-wrapper.selected .image-toolbar {
+    display: flex;
+}
+
+.image-toolbar-btn {
+    background: white;
+    border: 1px solid #dee2e6;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    color: #495057;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.image-toolbar-btn:hover {
+    background: #f8f9fa;
+    border-color: #7ba8dc;
+    color: #7ba8dc;
+}
+
+.image-toolbar-btn.active {
+    background: #7ba8dc;
+    border-color: #7ba8dc;
+    color: white;
+}
+
+.image-toolbar-btn i {
+    font-size: 14px;
+}
+
+.toolbar-separator {
+    width: 1px;
+    height: 24px;
+    background: #dee2e6;
+    margin: 0 4px;
+}
+
+/* Quick Size Buttons */
+.image-toolbar-btn.size-btn {
+    min-width: 55px;
+    justify-content: center;
+}
+

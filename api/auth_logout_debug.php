@@ -72,7 +72,7 @@ $response = json_encode([
         'was_logged_in' => $isLoggedIn,
         'logout_time' => date('Y-m-d H:i:s')
     ],
-    'redirect' => '../auth/login.html',
+    'redirect' => '/Bismillahirrahmanirrahim/Admin/pages/auth/login.html',
     'debug' => true
 ]);
 

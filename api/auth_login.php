@@ -457,7 +457,7 @@ echo json_encode([
         'username' => $user['username']
     ],
     'csrf_token' => $_SESSION['csrf_token'],
-    'redirect' => '../dashboard/cases.html'
+    'redirect' => '/Bismillahirrahmanirrahim/Admin/pages/cases/cases.html'
 ]);
 
 exit;

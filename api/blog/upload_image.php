@@ -1,10 +1,15 @@
 <?php
 header('Content-Type: application/json');
 require_once '../../config/database.php';
-session_start();
+
+// Start session with same settings as auth
+session_start([
+    'cookie_httponly' => true,
+    'cookie_samesite' => 'Strict'
+]);
 
 // Check if user is logged in (Admin)
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true || !isset($_SESSION['admin_id'])) {
     echo json_encode(['status' => 'error', 'message' => 'Unauthorized']);
     exit;
 }

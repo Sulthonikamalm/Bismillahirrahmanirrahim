@@ -6,13 +6,6 @@
 -- Cek data sebelum update
 SELECT kode_pelaporan, tingkat_kekhawatiran FROM Laporan;
 
--- Update data dummy dengan nilai yang benar
--- Mapping logis berdasarkan jenis kekerasan ke tingkat kekhawatiran:
--- - Kekerasan Verbal -> sedikit
--- - Kekerasan Psikologis -> khawatir
--- - Kekerasan Fisik -> khawatir
--- - Kekerasan Seksual -> sangat
-
 UPDATE Laporan SET tingkat_kekhawatiran = 'sedikit'
 WHERE tingkat_kekhawatiran = 'Kekerasan Verbal';
 
@@ -32,6 +25,6 @@ SELECT tingkat_kekhawatiran, COUNT(*) as jumlah
 FROM Laporan
 GROUP BY tingkat_kekhawatiran;
 
--- ==========================================================
--- SELESAI! Refresh halaman statistics untuk melihat hasilnya
--- ==========================================================
+-- tambahan baru untuk meloongtextkan isinya
+ALTER TABLE ArtikelBlog
+MODIFY isi_postingan MEDIUMTEXT NOT NULL;
