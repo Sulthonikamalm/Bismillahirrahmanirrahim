@@ -47,8 +47,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['image'])) {
         // If used in Admin pages, it needs full path or relative.
         // Best to return root-relative path: /uploads/content/filename
         
-        // Determine base URL dynamically or hardcode relative to root
-        $url = '/uploads/content/' . $filename;
+        // Return valid relative path that frontend can adjust
+        $url = 'uploads/content/' . $filename;
         
         echo json_encode([
             'status' => 'success', 

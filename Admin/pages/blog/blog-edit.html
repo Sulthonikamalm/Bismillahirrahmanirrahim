@@ -10,6 +10,9 @@
     <!-- Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
+    <!-- Image Resizer -->
+    <link rel="stylesheet" href="../../assets/css/blog/image-resizer.css">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -27,7 +30,8 @@
                 <h1 class="brand-title">Sigap</h1>
             </div>
             <ul class="nav flex-column sidebar-nav">
-                <li class="nav-item"><a class="nav-link" href="../cases/cases.html"><i class="bi bi-grid-fill me-2"></i> Data
+                <li class="nav-item"><a class="nav-link" href="../cases/cases.html"><i class="bi bi-grid-fill me-2"></i>
+                        Data
                         Kasus</a></li>
                 <li class="nav-item"><a class="nav-link" href="../cases/statistics.html"><i
                             class="bi bi-bar-chart-fill me-2"></i> Statistik</a></li>
@@ -176,19 +180,19 @@
                                 <div class="toolbar-group">
                                     <button type="button" class="toolbar-btn tooltip-btn" id="alignLeftBtn"
                                         data-tooltip="Align Left">
-                                        <i class="bi bi-text-left"></i>
+                                        <span class="material-icons">format_align_left</span>
                                     </button>
                                     <button type="button" class="toolbar-btn tooltip-btn" id="alignCenterBtn"
                                         data-tooltip="Align Center">
-                                        <i class="bi bi-text-center"></i>
+                                        <span class="material-icons">format_align_center</span>
                                     </button>
                                     <button type="button" class="toolbar-btn tooltip-btn" id="alignRightBtn"
                                         data-tooltip="Align Right">
-                                        <i class="bi bi-text-right"></i>
+                                        <span class="material-icons">format_align_right</span>
                                     </button>
                                     <button type="button" class="toolbar-btn tooltip-btn" id="alignJustifyBtn"
                                         data-tooltip="Justify">
-                                        <i class="bi bi-justify"></i>
+                                        <span class="material-icons">format_align_justify</span>
                                     </button>
                                 </div>
 
@@ -196,11 +200,11 @@
                                 <div class="toolbar-group">
                                     <button type="button" class="toolbar-btn tooltip-btn" id="bulletBtn"
                                         data-tooltip="Bullet List">
-                                        <i class="bi bi-list-ul"></i>
+                                        <span class="material-icons">format_list_bulleted</span>
                                     </button>
                                     <button type="button" class="toolbar-btn tooltip-btn" id="numberBtn"
                                         data-tooltip="Numbered List">
-                                        <i class="bi bi-list-ol"></i>
+                                        <span class="material-icons">format_list_numbered</span>
                                     </button>
                                 </div>
 
@@ -208,11 +212,11 @@
                                 <div class="toolbar-group">
                                     <button type="button" class="toolbar-btn tooltip-btn" id="outdentBtn"
                                         data-tooltip="Decrease Indent">
-                                        <i class="bi bi-text-indent-left"></i>
+                                        <span class="material-icons">format_indent_decrease</span>
                                     </button>
                                     <button type="button" class="toolbar-btn tooltip-btn" id="indentBtn"
                                         data-tooltip="Increase Indent">
-                                        <i class="bi bi-text-indent-right"></i>
+                                        <span class="material-icons">format_indent_increase</span>
                                     </button>
                                 </div>
 
@@ -220,19 +224,19 @@
                                 <div class="toolbar-group">
                                     <button type="button" class="toolbar-btn tooltip-btn" id="linkBtn"
                                         data-tooltip="Insert Link">
-                                        <i class="bi bi-link-45deg"></i>
+                                        <span class="material-icons">link</span>
                                     </button>
                                     <button type="button" class="toolbar-btn tooltip-btn" id="imageBtn"
                                         data-tooltip="Insert Image">
-                                        <i class="bi bi-image"></i>
+                                        <span class="material-icons">image</span>
                                     </button>
                                     <button type="button" class="toolbar-btn tooltip-btn" id="quoteBtn"
                                         data-tooltip="Blockquote">
-                                        <i class="bi bi-quote"></i>
+                                        <span class="material-icons">format_quote</span>
                                     </button>
                                     <button type="button" class="toolbar-btn tooltip-btn" id="hrBtn"
                                         data-tooltip="Horizontal Line">
-                                        <i class="bi bi-dash-lg"></i>
+                                        <span class="material-icons">horizontal_rule</span>
                                     </button>
                                 </div>
                             </div>
@@ -258,9 +262,10 @@
                         <button type="submit" class="btn btn-primary" id="updateAction">Update Post</button>
                     </div>
                 </footer>
+            </form>
     </div>
 
-    <!-- Custom Dropdown Styles (Removed/Simplified) -->
+    <!-- Custom Dropdown Styles -->
     <style>
         .action-container {
             display: inline-flex;
@@ -280,6 +285,18 @@
         }
     </style>
 
+    <!-- Link Modal -->
+    <div class="modal-overlay" id="linkModal">
+        <div class="modal-box">
+            <h3 class="modal-title">Insert Link</h3>
+            <input type="url" class="modal-input" id="linkUrl" placeholder="https://example.com">
+            <div class="modal-actions">
+                <button type="button" class="modal-btn modal-btn-cancel" id="cancelLink">Cancel</button>
+                <button type="button" class="modal-btn modal-btn-primary" id="insertLink">Insert</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Image Modal -->
     <div class="modal-overlay" id="imageModal">
         <div class="modal-box">
@@ -292,10 +309,12 @@
 
             <!-- Upload Section -->
             <div id="viewUpload">
-                <div class="image-upload-wrapper mb-3" style="height: 150px;">
-                    <label for="editorImageFile" class="image-upload-box">
-                        <i class="bi bi-cloud-upload fs-1 mb-2"></i>
-                        <span>Click to browse</span>
+                <div class="image-upload-wrapper mb-3">
+                    <label for="editorImageFile" class="image-upload-box"
+                        style="background: #f8f9fa; border: 2px dashed #dee2e6; height: 150px; flex-direction: column;">
+                        <i class="bi bi-cloud-upload"
+                            style="font-size: 2.5rem; color: #6c757d; margin-bottom: 0.5rem;"></i>
+                        <span style="color: #6c757d; font-size: 0.9rem;">Click to browse</span>
                     </label>
                     <input type="file" id="editorImageFile" accept="image/*" class="d-none">
                 </div>
@@ -319,285 +338,9 @@
     <!-- Scripts -->
     <script src="../../assets/js/core/sidebar.js"></script>
     <script src="../../assets/js/blog/blog-form.js"></script>
+    <script src="../../assets/js/blog/image-resizer.js"></script>
+    <script src="../../assets/js/blog/blog-editor.js"></script>
 
-    <script>
-        // Dropdown Logic
-        const toggleBtn = document.getElementById('actionToggleBtn');
-        const actionMenu = document.getElementById('actionMenu');
-
-        if (toggleBtn) {
-            toggleBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                actionMenu.classList.toggle('show');
-            });
-
-            document.addEventListener('click', () => {
-                actionMenu.classList.remove('show');
-            });
-        }
-
-        // Preview Logic
-        document.getElementById('previewAction')?.addEventListener('click', () => {
-            const title = document.getElementById('postJudul').value;
-            const content = document.getElementById('editorContent').innerHTML;
-            const author = document.querySelector('.user-name').textContent;
-
-            // Header Image
-            // In Edit mode, text input might be populated but file input empty.
-            // We should use the existing image if no new file is selected.
-            // But for preview, we might just use what is in the preview box or placeholder.
-            // Simplification: try reading file input, if not check preview src
-
-            const imgInput = document.getElementById('imageUpload');
-            const imgPreview = document.getElementById('imagePreview'); // Existing img
-            let imgSrc = '';
-
-            if (imgInput.files && imgInput.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    saveAndOpenPreview(title, content, author, e.target.result);
-                }
-                reader.readAsDataURL(imgInput.files[0]);
-            } else {
-                // Use existing image src if legitimate (not #)
-                if (imgPreview && imgPreview.src && imgPreview.src !== window.location.href && !imgPreview.src.endsWith('#')) {
-                    imgSrc = imgPreview.src;
-                }
-                saveAndOpenPreview(title, content, author, imgSrc);
-            }
-        });
-
-        function saveAndOpenPreview(title, content, author, headerImg) {
-            const previewData = {
-                id: 'preview',
-                judul: title || 'Judul Preview',
-                isi_postingan: content,
-                author: { name: author },
-                created_at: new Date().toISOString(),
-                gambar_header_url: headerImg,
-                isPreview: true
-            };
-
-            localStorage.setItem('blog_preview_data', JSON.stringify(previewData));
-            window.open('../../../Blog/baca.html?preview=true', '_blank');
-        }
-
-        // --- EDITOR & IMAGE UPLOAD LOGIC ---
-        (function () {
-            const editorContent = document.getElementById('editorContent');
-            const postIsi = document.getElementById('postIsi');
-            const floatingToolbar = document.getElementById('floatingToolbar');
-
-            function syncContent() {
-                if (editorContent && postIsi) {
-                    postIsi.value = editorContent.innerHTML;
-                }
-            }
-
-            function execCommand(command, value = null) {
-                document.execCommand(command, false, value);
-                editorContent.focus();
-                syncContent();
-            }
-
-            // Tabs Logic
-            const tabUpload = document.getElementById('tabUpload');
-            const tabUrl = document.getElementById('tabUrl');
-            const viewUpload = document.getElementById('viewUpload');
-            const viewUrl = document.getElementById('viewUrl');
-
-            tabUpload.addEventListener('click', () => {
-                tabUpload.classList.add('active');
-                tabUrl.classList.remove('active');
-                viewUpload.style.display = 'block';
-                viewUrl.style.display = 'none';
-            });
-
-            tabUrl.addEventListener('click', () => {
-                tabUpload.classList.remove('active');
-                tabUrl.classList.add('active');
-                viewUpload.style.display = 'none';
-                viewUrl.style.display = 'block';
-            });
-
-            // Image Upload Handler
-            let uploadedImageUrl = '';
-            const fileInput = document.getElementById('editorImageFile');
-            const statusDiv = document.getElementById('uploadStatus');
-
-            fileInput.addEventListener('change', async function () {
-                if (this.files && this.files[0]) {
-                    const formData = new FormData();
-                    formData.append('image', this.files[0]);
-
-                    statusDiv.innerHTML = '<span class="text-primary">Uploading...</span>';
-
-                    try {
-                        const res = await fetch('../../../api/blog/upload_image.php', {
-                            method: 'POST',
-                            body: formData
-                        });
-                        const data = await res.json();
-
-                        if (data.status === 'success') {
-                            // Fix path for local XAMPP environment:
-                            const relativePath = data.url.startsWith('/') ? data.url.substring(1) : data.url;
-                            uploadedImageUrl = '../../../' + relativePath;
-                            statusDiv.innerHTML = `<span class="text-success">Ready to insert</span>`;
-                        } else {
-                            statusDiv.innerHTML = `<span class="text-danger">${data.message}</span>`;
-                        }
-                    } catch (e) {
-                        statusDiv.innerHTML = `<span class="text-danger">Upload failed</span>`;
-                    }
-                }
-            });
-
-            // Insert Image Logic
-            document.getElementById('insertImage')?.addEventListener('click', () => {
-                const alt = document.getElementById('imageAlt').value.trim();
-                let finalUrl = '';
-
-                if (viewUpload.style.display !== 'none') {
-                    finalUrl = uploadedImageUrl;
-                } else {
-                    finalUrl = document.getElementById('imageUrl').value.trim();
-                }
-
-                if (finalUrl) {
-                    const html = `<img src="${finalUrl}" alt="${alt}" style="max-width:100%; height:auto; margin: 20px 0; border-radius:8px;" /><br>`;
-                    execCommand('insertHTML', html);
-
-                    // Reset
-                    uploadedImageUrl = '';
-                    fileInput.value = '';
-                    statusDiv.innerHTML = '';
-                    document.getElementById('imageModal').classList.remove('show');
-                }
-            });
-
-
-            // --- STANDARD EDITOR COMMANDS (Existing) ---
-            // Sync editor content to hidden textarea
-            function syncContent() {
-                if (editorContent && postIsi) {
-                    postIsi.value = editorContent.innerHTML;
-                }
-            }
-
-            // Execute command
-            function execCommand(command, value = null) {
-                document.execCommand(command, false, value);
-                editorContent.focus();
-                syncContent();
-            }
-
-            // Format block
-            function formatBlock(tag) {
-                execCommand('formatBlock', tag);
-            }
-
-            // Toolbar buttons
-            document.getElementById('undoBtn')?.addEventListener('click', () => execCommand('undo'));
-            document.getElementById('redoBtn')?.addEventListener('click', () => execCommand('redo'));
-            document.getElementById('boldBtn')?.addEventListener('click', () => execCommand('bold'));
-            document.getElementById('italicBtn')?.addEventListener('click', () => execCommand('italic'));
-            document.getElementById('underlineBtn')?.addEventListener('click', () => execCommand('underline'));
-            document.getElementById('strikeBtn')?.addEventListener('click', () => execCommand('strikeThrough'));
-
-            document.getElementById('h1Btn')?.addEventListener('click', () => formatBlock('h1'));
-            document.getElementById('h2Btn')?.addEventListener('click', () => formatBlock('h2'));
-            document.getElementById('h3Btn')?.addEventListener('click', () => formatBlock('h3'));
-            document.getElementById('pBtn')?.addEventListener('click', () => formatBlock('p'));
-
-            document.getElementById('alignLeftBtn')?.addEventListener('click', () => execCommand('justifyLeft'));
-            document.getElementById('alignCenterBtn')?.addEventListener('click', () => execCommand('justifyCenter'));
-            document.getElementById('alignRightBtn')?.addEventListener('click', () => execCommand('justifyRight'));
-            document.getElementById('alignJustifyBtn')?.addEventListener('click', () => execCommand('justifyFull'));
-
-            document.getElementById('bulletBtn')?.addEventListener('click', () => execCommand('insertUnorderedList'));
-            document.getElementById('numberBtn')?.addEventListener('click', () => execCommand('insertOrderedList'));
-
-            document.getElementById('indentBtn')?.addEventListener('click', () => execCommand('indent'));
-            document.getElementById('outdentBtn')?.addEventListener('click', () => execCommand('outdent'));
-
-            document.getElementById('quoteBtn')?.addEventListener('click', () => formatBlock('blockquote'));
-            document.getElementById('hrBtn')?.addEventListener('click', () => execCommand('insertHorizontalRule'));
-
-            document.getElementById('fontSelect')?.addEventListener('change', function () {
-                execCommand('fontName', this.value);
-            });
-
-            // Floating toolbar logic...
-            document.addEventListener('mouseup', function (e) {
-                setTimeout(() => {
-                    const selection = window.getSelection();
-                    // Basic safeguard
-                    if (!editorContent) return;
-
-                    if (editorContent.contains(selection.anchorNode)) {
-                        const selectedText = selection.toString().trim();
-                        if (selectedText.length > 0) {
-                            const range = selection.getRangeAt(0);
-                            const rect = range.getBoundingClientRect();
-                            floatingToolbar.classList.add('show');
-                            floatingToolbar.style.left = `${rect.left + (rect.width / 2) - (floatingToolbar.offsetWidth / 2)}px`;
-                            floatingToolbar.style.top = `${rect.top + window.scrollY - floatingToolbar.offsetHeight - 10}px`;
-                        } else {
-                            floatingToolbar.classList.remove('show');
-                        }
-                    } else {
-                        floatingToolbar.classList.remove('show');
-                    }
-                }, 10);
-            });
-
-            floatingToolbar.querySelectorAll('.floating-btn').forEach(btn => {
-                btn.addEventListener('mousedown', function (e) {
-                    e.preventDefault();
-                    const command = this.getAttribute('data-command');
-                    execCommand(command);
-                });
-            });
-
-            // Image Button Click (Open Modal)
-            const imgBtn = document.getElementById('imageBtn');
-            const imgModal = document.getElementById('imageModal');
-
-            if (imgBtn) {
-                imgBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    if (imgModal) imgModal.classList.add('show');
-                });
-            }
-
-            // Make the file upload box trigger input click properly
-            document.querySelector('.image-upload-box')?.addEventListener('click', (e) => {
-                // The label for=editorImageFile handles this natively, but let's ensure
-            });
-
-            // Close modals on overlay click
-            const linkModal = document.getElementById('linkModal');
-            const imageModal = document.getElementById('imageModal');
-
-            [linkModal, imageModal].forEach(modal => {
-                if (modal) {
-                    modal.addEventListener('click', function (e) {
-                        if (e.target === this) {
-                            this.classList.remove('show');
-                        }
-                    });
-                }
-            });
-
-            // Sync content on input
-            editorContent.addEventListener('input', syncContent);
-            editorContent.addEventListener('paste', () => setTimeout(syncContent, 10));
-
-        })();
-    </script>
 </body>
 
 </html>

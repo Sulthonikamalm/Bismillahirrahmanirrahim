@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,17 +11,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="../../assets/css/core/dashboard.css">
-        <link rel="stylesheet" href="../../assets/css/cases/statistics.css">
+    <link rel="stylesheet" href="../../assets/css/cases/statistics.css">
 </head>
+
 <body>
     <div class="d-flex">
         <nav class="sidebar" id="sidebar">
-            <div class="sidebar-header"><h1 class="brand-title">Sigap</h1></div>
+            <div class="sidebar-header">
+                <h1 class="brand-title">Sigap</h1>
+            </div>
 
             <ul class="nav flex-column sidebar-nav">
-                <li class="nav-item"><a class="nav-link" href="cases.html"><i class="bi bi-grid-fill me-2"></i> Data Kasus</a></li>
-                <li class="nav-item"><a class="nav-link active" href="statistics.html"><i class="bi bi-bar-chart-fill me-2"></i> Statistik</a></li>
-                <li class="nav-item"><a class="nav-link" href="../blog/blog-list.html"><i class="bi bi-file-earmark-text-fill me-2"></i> Blog</a></li>
+                <li class="nav-item"><a class="nav-link" href="cases.html"><i class="bi bi-grid-fill me-2"></i> Data
+                        Kasus</a></li>
+                <li class="nav-item"><a class="nav-link active" href="statistics.html"><i
+                            class="bi bi-bar-chart-fill me-2"></i> Statistik</a></li>
+                <li class="nav-item"><a class="nav-link" href="../blog/blog-list.html"><i
+                            class="bi bi-file-earmark-text-fill me-2"></i> Blog</a></li>
             </ul>
 
             <div class="user-profile-dropdown">
@@ -47,7 +54,8 @@
 
         <main class="main-content" id="mainContent">
             <header class="content-header">
-                <button class="btn sidebar-toggle" id="sidebarToggle" type="button"><i class="bi bi-list fs-3"></i></button>
+                <button class="btn sidebar-toggle" id="sidebarToggle" type="button"><i
+                        class="bi bi-list fs-3"></i></button>
                 <h2>Statistik</h2>
                 <div></div>
             </header>
@@ -229,7 +237,9 @@
                     </div>
                     <div class="info-note">
                         <i class="bi bi-lightbulb"></i>
-                        <p><strong>Process</strong> = Laporan baru | <strong>In Progress</strong> = Sedang ditangani | <strong>Completed</strong> = Selesai</p>
+                        <p><strong>Process</strong> = Laporan baru | <strong>In Progress</strong> = Sedang ditangani |
+                            <strong>Completed</strong> = Selesai
+                        </p>
                     </div>
                 </div>
             </div>
@@ -241,5 +251,110 @@
 
     <script src="../../assets/js/core/sidebar.js"></script>
     <script src="../../assets/js/cases/statistics.js"></script>
+    <div id="mobileOverlay" class="sidebar-overlay"></div>
+
+    <style>
+        @media (max-width: 991.98px) {
+
+            /* Ensure toggle button is ALWAYS visible and on top */
+            #sidebarToggle {
+                display: flex !important;
+                position: relative;
+                z-index: 9999 !important;
+                background-color: #fff;
+                padding: 8px;
+                border-radius: 8px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                margin-right: 15px;
+            }
+
+            /* Ensure Sidebar behaves correctly on mobile */
+            #sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease-in-out;
+                z-index: 10000 !important;
+                /* Extremely high z-index */
+                position: fixed;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                height: 100vh;
+            }
+
+            #sidebar.show {
+                transform: translateX(0) !important;
+            }
+
+            #sidebar.active {
+                transform: translateX(0) !important;
+            }
+
+            /* Overlay effect */
+            .sidebar-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 9998;
+                /* Just below sidebar toggle */
+                display: none;
+                backdrop-filter: blur(2px);
+            }
+
+            .sidebar-overlay.show {
+                display: block;
+            }
+        }
+    </style>
+
+    <script>
+        // Robust Mobile Sidebar Fix
+        document.addEventListener('DOMContentLoaded', function () {
+            const btn = document.getElementById('sidebarToggle');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('mobileOverlay');
+
+            if (btn && sidebar) {
+                function toggleMenu(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('Mobile menu toggled');
+
+                    // Toggle visibility classes
+                    const isShown = sidebar.classList.contains('show') || sidebar.classList.contains('active');
+
+                    if (isShown) {
+                        sidebar.classList.remove('show');
+                        sidebar.classList.remove('active');
+                        if (overlay) overlay.classList.remove('show');
+                    } else {
+                        sidebar.classList.add('show');
+                        sidebar.classList.add('active'); // Add both just in case
+                        if (overlay) overlay.classList.add('show');
+                    }
+                }
+
+                // Remove existing listeners by cloning
+                const newBtn = btn.cloneNode(true);
+                btn.parentNode.replaceChild(newBtn, btn);
+
+                // Add robust listeners
+                newBtn.addEventListener('click', toggleMenu);
+                newBtn.addEventListener('touchstart', toggleMenu, { passive: false });
+
+                // Close when clicking overlay
+                if (overlay) {
+                    overlay.addEventListener('click', function () {
+                        sidebar.classList.remove('show');
+                        sidebar.classList.remove('active');
+                        overlay.classList.remove('show');
+                    });
+                }
+            }
+        });
+    </script>
 </body>
+
 </html>

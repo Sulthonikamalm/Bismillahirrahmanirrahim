@@ -81,10 +81,18 @@
             blogCheckboxes.forEach(checkbox => {
                 checkbox.addEventListener('change', updateCheckAllState);
 
-                // Prevent checkbox click from triggering parent link
+                // Prevent checkbox click from triggering parent link or other events
                 checkbox.addEventListener('click', function(e) {
                     e.stopPropagation();
                 });
+
+                // Add explicit touch support for mobile
+                checkbox.addEventListener('touchend', function(e) {
+                    // Prevent default to disable zooming but allow state change
+                    // e.preventDefault(); 
+                    e.stopPropagation();
+                    // Toggle manually if needed, but usually touchend -> click works if verify click didn't fire
+                }, {passive: false});
             });
         }
     }
@@ -166,14 +174,25 @@
 
             return `
                 <div class="blog-item">
-                    <div class="row g-0 align-items-center w-100">
-                        <div class="col-auto me-3">
-                            <input class="form-check-input blog-checkbox" type="checkbox" data-blog-id="${blog.id}">
+                    <div class="row g-0 align-items-center w-100 position-relative">
+                        <!-- Checkbox Column -->
+                        <div class="col-auto col-checkbox me-3">
+                            <div class="form-check d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                <input class="form-check-input blog-checkbox" type="checkbox" data-blog-id="${blog.id}" style="transform: scale(1.3); cursor: pointer;">
+                            </div>
                         </div>
-                        <div class="col-lg-1"><span class="blog-no">#${blog.id}</span></div>
-                        <div class="col-lg-5"><span class="blog-title">${escapeHtml(blog.judul)}</span></div>
-                        <div class="col-lg-2 text-center"><i class="bi bi-calendar-event-fill me-2 text-muted"></i> ${updatedDate}</div>
-                        <div class="col-lg-2 text-center">
+                        
+                        <!-- ID Column -->
+                        <div class="col-lg-1 col-id"><span class="blog-no">#${blog.id}</span></div>
+                        
+                        <!-- Title Column -->
+                        <div class="col-lg-5 col-title"><span class="blog-title">${escapeHtml(blog.judul)}</span></div>
+                        
+                        <!-- Date Column -->
+                        <div class="col-lg-2 text-center col-date"><i class="bi bi-calendar-event-fill me-2 text-muted"></i> ${updatedDate}</div>
+                        
+                        <!-- Action Column -->
+                        <div class="col-lg-2 text-center col-action">
                             <a href="blog-edit.html?id=${blog.id}" class="btn btn-sm btn-light-success">Edit</a>
                         </div>
                     </div>

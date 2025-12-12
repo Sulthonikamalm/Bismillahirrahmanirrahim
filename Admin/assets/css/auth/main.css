@@ -403,28 +403,54 @@ small {
 }
 
 @media (max-width: 575.98px) {
-    .form-column {
-        padding: var(--spacing-sm);
+    .container-fluid {
+        position: relative;
+        overflow-y: auto; /* Allow scrolling on small screens */
     }
-    
+
+    .row.vh-100 {
+        height: auto; /* Remove fixed height constraint */
+        min-height: 100vh;
+    }
+
+    .form-column {
+        padding: 5rem 1rem 3rem 1rem; /* Add top padding to not hide behind potential address bars */
+        width: 100%;
+        min-height: 100vh;
+        align-items: flex-start; /* Align to top on mobile */
+    }
+
     .form-container {
-        width: calc(100% - 1.5rem);
-        padding: var(--spacing-md);
-        margin: 0 0.75rem;
+        width: 100%;
+        margin: 0;
+        padding: 2.5rem 1.5rem;
+        background: rgba(255, 255, 255, 0.95) !important; /* Non-transparent for better readability */
+        backdrop-filter: none;
+        border-radius: 20px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
     
     .brand-title {
-        font-size: 2.25rem;
+        font-size: 2rem;
+        text-align: center;
+        margin-bottom: 0.5rem;
     }
     
     .subtitle {
-        font-size: 0.95rem;
+        font-size: 0.9rem;
+        text-align: center;
+        margin-bottom: 2rem;
     }
     
     .form-control,
     .input-group-text {
-        padding: 0.85rem 1rem;
-        font-size: 0.95rem;
+        padding: 0.8rem 1rem;
+        font-size: 16px; /* Prevent zooming on iOS input focus */
+    }
+
+    .btn-login {
+        padding: 0.8rem;
+        font-size: 1rem;
     }
 }
 

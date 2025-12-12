@@ -119,9 +119,29 @@
                     console.log('Response data:', data);
 
                     if (data.status === 'success') {
-                        const relativePath = data.url.startsWith('/') ? data.url.substring(1) : data.url;
-                        uploadedImageUrl = '../../../' + relativePath;
-                        statusDiv.innerHTML = '<span class="text-success">✓ Ready to insert</span>';
+                        // Handle diversity in API response structure
+                        let rawUrl = data.url || (data.data && data.data.url);
+                        
+                        if (!rawUrl) {
+                             throw new Error('Url gambar tidak ditemukan dalam respon server');
+                        }
+
+                        // Path correction logic
+                        if (!rawUrl.startsWith('/') && !rawUrl.startsWith('http')) {
+                            // Relative path fix for Admin portal
+                            uploadedImageUrl = '../../../' + rawUrl;
+                        } else {
+                            uploadedImageUrl = rawUrl;
+                        }
+
+                        // UX UPDATE: Show Preview Image
+                        statusDiv.innerHTML = `
+                            <div style="margin-top: 10px; padding: 10px; background: #f8f9fa; border-radius: 8px; border: 1px solid #dee2e6;">
+                                <img src="${uploadedImageUrl}" alt="Preview" style="max-height: 100px; max-width: 100%; border-radius: 4px; display: block; margin: 0 auto 5px;">
+                                <div class="text-success small fw-bold"><i class="bi bi-check-circle-fill"></i> Upload Berhasil!</div>
+                                <div class="text-muted small" style="font-size: 0.8rem;">Klik tombol "Insert" di bawah.</div>
+                            </div>
+                        `;
                         console.log('✅ Upload success! URL:', uploadedImageUrl);
                     } else {
                         statusDiv.innerHTML = `<span class="text-danger">✗ ${data.message}</span>`;
@@ -129,7 +149,7 @@
                     }
                 } catch (e) {
                     console.error('❌ Upload error:', e);
-                    statusDiv.innerHTML = '<span class="text-danger">✗ Upload failed</span>';
+                    statusDiv.innerHTML = `<span class="text-danger">✗ Upload failed: ${e.message}</span>`;
                 }
             }
         });
