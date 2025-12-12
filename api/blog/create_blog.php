@@ -93,7 +93,15 @@ if (empty($csrfToken) || !isset($_SESSION['csrf_token']) || $csrfToken !== $_SES
 $judul = trim($judul);
 $isi_postingan = trim($isi_postingan);
 $kategori = trim($kategori);
+$isi_postingan = trim($isi_postingan);
+$kategori = trim($kategori);
 $gambar_header_url = trim($gambar_header_url);
+
+// SERVER-SIDE CLEANING ARTIFACTS
+$isi_postingan = preg_replace('/<button class="image-delete-btn".*?<\/button>/s', '', $isi_postingan);
+$isi_postingan = preg_replace('/<div class="image-size-info".*?<\/div>/s', '', $isi_postingan);
+$isi_postingan = preg_replace('/<div class="image-toolbar">.*?<\/div>/s', '', $isi_postingan);
+$isi_postingan = preg_replace('/<div class="resize-handle.*?<\/div>/s', '', $isi_postingan);
 
 // Validate required fields
 $errors = [];

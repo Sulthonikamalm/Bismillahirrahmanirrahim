@@ -200,6 +200,67 @@
             margin: 0 4px;
         }
 
+/* Custom Dropdown for Toolbar */
+.dropdown-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: -10px; /* Slight offset */
+    background: white;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    padding: 6px 0;
+    min-width: 240px;
+    z-index: 10002;
+    display: none;
+    flex-direction: column;
+    margin-top: 8px;
+    animation: fadeIn 0.15s ease-out;
+}
+
+.dropdown-menu.show {
+    display: flex;
+}
+
+.dropdown-item {
+    padding: 10px 20px;
+    font-size: 14px;
+    color: #4a5568;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    border-left: 2px solid transparent;
+}
+
+.dropdown-item:hover {
+    background: #f8fafc;
+    color: var(--editor-primary);
+    border-left-color: var(--editor-primary);
+}
+
+.dropdown-item.active {
+    background: #eff6ff;
+    color: var(--editor-primary);
+    font-weight: 500;
+}
+
+.dropdown-divider {
+    height: 1px;
+    background: #e2e8f0;
+    margin: 6px 0;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
         /* Text Styles */
         .editor-content h1 {
             font-size: 28pt;

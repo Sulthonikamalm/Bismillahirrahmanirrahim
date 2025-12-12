@@ -327,9 +327,13 @@
             }
 
             // Step 2: Submit blog data
+            // SANITIZE CONTENT: Remove image resizer artifacts before sending
+            const rawContent = postIsi.value.trim();
+            const cleanContent = sanitizeBlogContent(rawContent);
+
             const blogData = {
                 judul: postJudul.value.trim(),
-                isi_postingan: postIsi.value.trim(),
+                isi_postingan: cleanContent,
                 gambar_header_url: imageUrl || '',
                 kategori: postKategori ? postKategori.value : '',
                 csrf_token: csrfToken
@@ -505,6 +509,48 @@
         } catch (error) {
             console.error('Error getting CSRF token:', error);
         }
+    }
+
+    /**
+     * Helper: Sanitize content remove editor artifacts
+     */
+    function sanitizeBlogContent(html) {
+        if (!html) return '';
+        const div = document.createElement('div');
+        div.innerHTML = html;
+
+        // 1. Unwrap Resizable Images
+        div.querySelectorAll('.resizable-image-wrapper').forEach(wrapper => {
+            const img = wrapper.querySelector('img');
+            if (img) {
+                // Transfer alignment classes to inline styles
+                if (wrapper.classList.contains('align-center')) {
+                    img.style.display = 'block';
+                    img.style.margin = '2rem auto';
+                } else if (wrapper.classList.contains('align-right')) {
+                    img.style.float = 'right';
+                    img.style.marginLeft = '1.5rem';
+                    img.style.marginBottom = '1rem';
+                } else if (wrapper.classList.contains('align-left')) {
+                    img.style.float = 'left';
+                    img.style.marginRight = '1.5rem';
+                    img.style.marginBottom = '1rem';
+                }
+                
+                // Cleanup attrs
+                img.removeAttribute('data-wrapped');
+                img.style.maxWidth = '100%'; 
+                
+                wrapper.parentNode.replaceChild(img, wrapper);
+            } else {
+                wrapper.remove();
+            }
+        });
+
+        // 2. Remove any leftover artifacts
+        div.querySelectorAll('.image-toolbar, .image-size-info, .resize-handle, .image-delete-btn').forEach(el => el.remove());
+
+        return div.innerHTML;
     }
 
 })();

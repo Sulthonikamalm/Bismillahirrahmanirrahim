@@ -100,7 +100,21 @@ if ($blogId === false || $blogId <= 0) {
 $judul = trim($judul);
 $isi_postingan = trim($isi_postingan);
 $kategori = trim($kategori);
+$isi_postingan = trim($isi_postingan);
+$kategori = trim($kategori);
 $gambar_header_url = trim($gambar_header_url);
+
+// SERVER-SIDE CLEANING ARTIFACTS
+// Remove editor tools that might have slipped through JS sanitizer
+$isi_postingan = preg_replace('/<button class="image-delete-btn".*?<\/button>/s', '', $isi_postingan);
+$isi_postingan = preg_replace('/<div class="image-size-info".*?<\/div>/s', '', $isi_postingan);
+$isi_postingan = preg_replace('/<div class="image-toolbar">.*?<\/div>/s', '', $isi_postingan);
+$isi_postingan = preg_replace('/<div class="resize-handle.*?<\/div>/s', '', $isi_postingan);
+// Unwrap Resizable Wrapper (Simple Regex: Remove opening and closing tag if matches pattern)
+// Removes <div class="resizable-image-wrapper..."> and the last </div>
+// Note: This is risky if multiple divs nested. But removing the tools above solves the visible text "Small Medium Large".
+// We can leave the wrapper div if it has no visual impact, or try to strip it.
+// For now, let's trust removing the toolbar solves the main ugly text issue.
 
 // Validate required fields
 $errors = [];

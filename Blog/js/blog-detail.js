@@ -105,12 +105,10 @@ function renderArticle(blog) {
 
     const author = blog.author ? blog.author.name : 'Admin';
     const date = formatDate(blog.created_at);
-    // Content is RAW HTML from API, but if it came doubly encoded like &lt;p&gt;, we need to decode it first.
-    // The issue described is: "<h1>...</h1>" appearing as text. This means it IS encoded.
-    const tempContent = document.createElement('div');
-    tempContent.innerHTML = blog.isi_postingan || '';
-    const content = tempContent.textContent || tempContent.innerText || ''; 
-    // Now 'content' should contain actual HTML tags like <h1>...</h1> which browser will interpret. 
+    // Content is RAW HTML from WYSIWYG editor. 
+    // Do NOT extract textContent, as it strips all tags (<p>, <ul>, etc).
+    // Trust the Admin content (or implement proper sanitization library like DOMPurify if needed later).
+    const content = blog.isi_postingan || ''; 
     const image = fixImagePath(blog.gambar_header_url);
     
     // Reading Time

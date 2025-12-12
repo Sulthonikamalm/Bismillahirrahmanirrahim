@@ -57,7 +57,43 @@
 
         function syncContent() {
             if (editorContent && postIsi) {
-                postIsi.value = editorContent.innerHTML;
+                // Clone content to sanitize without affecting visual editor
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = editorContent.innerHTML;
+                
+                // Sanitize Image Wrappers (Remove editor controls)
+                const wrappers = tempDiv.querySelectorAll('.resizable-image-wrapper');
+                wrappers.forEach(wrapper => {
+                    const img = wrapper.querySelector('img');
+                    if (img) {
+                        // Preserve alignment style from wrapper class to inline style for frontend
+                        if (wrapper.classList.contains('align-center')) {
+                             img.style.display = 'block';
+                             img.style.margin = '2rem auto';
+                        } else if (wrapper.classList.contains('align-right')) {
+                             img.style.float = 'right';
+                             img.style.marginLeft = '20px';
+                             img.style.marginBottom = '10px';
+                             img.style.clear = 'both'; // optional
+                        } else if (wrapper.classList.contains('align-left')) {
+                             img.style.float = 'left';
+                             img.style.marginRight = '20px';
+                             img.style.marginBottom = '10px';
+                             img.style.clear = 'both'; // optional
+                        }
+                        
+                        // Ensure responsive max-width
+                        img.style.maxWidth = '100%';
+                        // Keep explicit width/height set by resizer for aspect ratio
+                        
+                        // Replace wrapper with clean img
+                        wrapper.parentNode.replaceChild(img, wrapper);
+                    } else {
+                        wrapper.remove();
+                    }
+                });
+
+                postIsi.value = tempDiv.innerHTML;
             }
         }
 
@@ -329,6 +365,80 @@
             console.log('✓ Event listener attached successfully');
         } else {
             console.error('✗ Image button NOT found! Check HTML for id="imageBtn"');
+        }
+
+        // === LINE SPACING FEATURE ===
+        const lineSpacingBtn = document.getElementById('lineSpacingBtn');
+        const lineSpacingDropdown = document.getElementById('lineSpacingDropdown');
+
+        if (lineSpacingBtn && lineSpacingDropdown) {
+            // Toggle dropdown
+            lineSpacingBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                // Close others if needed
+                lineSpacingDropdown.classList.toggle('show');
+            });
+
+            // Close when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!lineSpacingBtn.contains(e.target) && !lineSpacingDropdown.contains(e.target)) {
+                    lineSpacingDropdown.classList.remove('show');
+                }
+            });
+
+            // Handle option click
+            lineSpacingDropdown.querySelectorAll('.dropdown-item').forEach(item => {
+                item.addEventListener('click', (e) => {
+                    const spacing = item.getAttribute('data-spacing');
+                    const action = item.getAttribute('data-action');
+                    
+                    applyLineSpacing(spacing, action);
+                    lineSpacingDropdown.classList.remove('show');
+                });
+            });
+        }
+
+        function applyLineSpacing(spacing, action) {
+            if (!editorContent) return;
+            editorContent.focus(); // Ensure focus
+
+            const selection = window.getSelection();
+            if (!selection.rangeCount) return;
+
+            let node = selection.anchorNode;
+            
+            // Find nearest block parent
+            while (node && node !== editorContent) {
+                if (node.nodeType === 1 && (
+                    getComputedStyle(node).display === 'block' || 
+                    ['P','H1','H2','H3','H4','H5','H6','LI','DIV','BLOCKQUOTE'].includes(node.tagName)
+                )) {
+                    break;
+                }
+                node = node.parentNode;
+            }
+
+            if (node === editorContent || !node) {
+                // If only text is selected without block wrapper, wrap it in P first
+                document.execCommand('formatBlock', false, 'p');
+                node = selection.anchorNode.parentNode; // Re-fetch
+            }
+
+            if (node && editorContent.contains(node)) {
+                if (spacing) {
+                    node.style.lineHeight = spacing;
+                } else if (action === 'spaceBefore') {
+                    // Toggle logic: if has margin, remove it. If not, add it.
+                    const currentTop = node.style.marginTop;
+                    node.style.marginTop = (currentTop === '1.5em' || currentTop === '24px') ? '0' : '1.5em';
+                } else if (action === 'spaceAfter') {
+                    const currentBottom = node.style.marginBottom;
+                    node.style.marginBottom = (currentBottom === '1.5em' || currentBottom === '24px') ? '0' : '1.5em';
+                }
+                console.log('Applied spacing to:', node);
+                syncContent();
+            }
         }
 
         document.getElementById('linkBtn')?.addEventListener('click', (e) => {
