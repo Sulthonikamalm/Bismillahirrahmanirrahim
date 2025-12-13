@@ -358,7 +358,8 @@ class ChatHelpers {
     }
     
     /**
-     * Check labels completeness
+     * Check labels completeness - "No Contact, No Ticket" Policy
+     * Requires at least one contact method (email OR whatsapp)
      */
     public static function isLabelsComplete($labels) {
         $required = ['pelaku_kekerasan', 'detail_kejadian'];
@@ -368,7 +369,57 @@ class ChatHelpers {
                 return false;
             }
         }
+        
+        // NO CONTACT, NO TICKET: Must have at least email OR whatsapp
+        $hasEmail = !empty($labels['email_korban']) && $labels['email_korban'] !== null && $labels['email_korban'] !== 'null';
+        $hasWhatsapp = !empty($labels['whatsapp_korban']) && $labels['whatsapp_korban'] !== null && $labels['whatsapp_korban'] !== 'null';
+        
+        if (!$hasEmail && !$hasWhatsapp) {
+            return false;
+        }
+        
         return true;
+    }
+    
+    /**
+     * Get missing fields for report completion
+     * Used by bot to ask specific questions
+     */
+    public static function getMissingFields($labels) {
+        $missing = [];
+        
+        // Core required fields
+        $requiredFields = [
+            'pelaku_kekerasan' => 'Siapa pelaku kekerasan',
+            'detail_kejadian' => 'Kronologi/detail kejadian',
+            'waktu_kejadian' => 'Kapan kejadian terjadi',
+            'lokasi_kejadian' => 'Di mana kejadian terjadi'
+        ];
+        
+        foreach ($requiredFields as $field => $label) {
+            if (empty($labels[$field]) || $labels[$field] === null || $labels[$field] === 'null') {
+                $missing[] = $label;
+            }
+        }
+        
+        // NO CONTACT, NO TICKET: Check for at least one contact
+        $hasEmail = !empty($labels['email_korban']) && $labels['email_korban'] !== null && $labels['email_korban'] !== 'null';
+        $hasWhatsapp = !empty($labels['whatsapp_korban']) && $labels['whatsapp_korban'] !== null && $labels['whatsapp_korban'] !== 'null';
+        
+        if (!$hasEmail && !$hasWhatsapp) {
+            $missing[] = 'Kontak (WA atau Email) untuk tindak lanjut';
+        }
+        
+        return $missing;
+    }
+    
+    /**
+     * Check if contact info is available
+     */
+    public static function hasContactInfo($labels) {
+        $hasEmail = !empty($labels['email_korban']) && $labels['email_korban'] !== null && $labels['email_korban'] !== 'null';
+        $hasWhatsapp = !empty($labels['whatsapp_korban']) && $labels['whatsapp_korban'] !== null && $labels['whatsapp_korban'] !== 'null';
+        return $hasEmail || $hasWhatsapp;
     }
 }
 ?>

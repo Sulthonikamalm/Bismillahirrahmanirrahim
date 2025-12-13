@@ -17,7 +17,9 @@ define('DB_PORT', 3306);
 define('DB_CHARSET', 'utf8mb4');
 
 // Ubah ke 'production' saat deploy
-define('APP_ENV', 'development');
+if (!defined('APP_ENV')) {
+    define('APP_ENV', 'development');
+}
 
 // Pengaturan Error Reporting
 if (APP_ENV === 'production') {
