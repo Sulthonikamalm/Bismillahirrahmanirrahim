@@ -703,3 +703,106 @@
 .autofill-success-indicator i {
     color: #4caf50;
 }
+
+/* ============================================
+   VOICE RECORDING BUTTON STATES
+   ============================================ */
+.btn-voice-input.recording {
+    background: #ef5350 !important;
+    animation: pulse-recording 1s infinite;
+}
+
+.btn-voice-input.recording i {
+    color: white !important;
+}
+
+@keyframes pulse-recording {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+/* ============================================
+   TYPING TEXT INDICATOR
+   ============================================ */
+.typing-text {
+    display: block;
+    font-size: 12px;
+    color: #888;
+    margin-top: 4px;
+    animation: fadeInOut 1.5s infinite;
+}
+
+@keyframes fadeInOut {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; }
+}
+
+/* ============================================
+   CONVERSATION SUMMARY STYLES
+   ============================================ */
+.summary-message {
+    margin-top: 16px;
+}
+
+.summary-bubble {
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%) !important;
+    border: 1px solid #ddd;
+}
+
+.summary-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #ddd;
+}
+
+.summary-header i {
+    color: #667eea;
+    font-size: 18px;
+}
+
+.summary-header strong {
+    font-size: 14px;
+    color: #333;
+}
+
+.summary-content {
+    margin-bottom: 12px;
+}
+
+.summary-content p {
+    margin: 4px 0;
+    font-size: 13px;
+    color: #555;
+}
+
+.summary-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-export-chat {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-export-chat:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.btn-export-chat i {
+    font-size: 14px;
+}

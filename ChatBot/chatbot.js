@@ -30,12 +30,21 @@
   let isTyping = false;
   let sessionActive = false;
   let sessionId = null; // Track session ID from backend
+  
+  // Voice Recognition State
+  let isRecording = false;
+  let recognition = null;
+  let voiceSupported = false;
+  
+  // Conversation History for Export
+  let conversationHistory = [];
 
   // ============================================
   // DOM ELEMENTS
   // ============================================
   let modalOverlay, chatMessages, chatInput, btnSendChat, typingIndicator;
   let chatInterfaceScreen;
+  let btnVoiceInput, voiceRecordingMode, btnStopRecording, chatInputWrapper;
 
   // ============================================
   // INIT
@@ -47,14 +56,22 @@
     chatInput = document.getElementById("chatInput");
     btnSendChat = document.getElementById("btnSendChat");
     typingIndicator = document.getElementById("typingIndicator");
+    
+    // Voice Recording Elements
+    btnVoiceInput = document.getElementById("btnVoiceInput");
+    voiceRecordingMode = document.getElementById("voiceRecordingMode");
+    btnStopRecording = document.getElementById("btnStopRecording");
+    chatInputWrapper = document.getElementById("chatInputWrapper");
 
     if (!modalOverlay) {
-      console.error("❌ ChatBot modal not found!");
+      console.error("ChatBot modal not found!");
       return;
     }
 
     setupEventListeners();
-    console.log("✅ ChatBot initialized");
+    initVoiceRecognition();
+    
+    console.log("ChatBot initialized with Voice-to-Text support");
   }
 
   // ============================================
@@ -86,6 +103,15 @@
       chatInput.addEventListener("input", () => {
         btnSendChat.disabled = chatInput.value.trim().length === 0;
       });
+    }
+    
+    // Voice Recording Buttons
+    if (btnVoiceInput) {
+      btnVoiceInput.addEventListener("click", startVoiceRecording);
+    }
+    
+    if (btnStopRecording) {
+      btnStopRecording.addEventListener("click", stopVoiceRecording);
     }
 
     // Listen for FABsigap chat button
@@ -147,6 +173,7 @@
     }
     sessionActive = false;
     sessionId = null;
+    conversationHistory = []; // Clear conversation for export
 
     // Reset session on backend
     fetch(CONFIG.apiEndpoint, {
@@ -155,7 +182,253 @@
       body: JSON.stringify({ action: "reset" }),
     }).catch((e) => console.error("Reset error:", e));
 
-    console.log("🗑️ Chat cleared");
+    console.log("Chat cleared");
+  }
+  
+  // ============================================
+  // VOICE-TO-TEXT: Initialize Speech Recognition
+  // ============================================
+  function initVoiceRecognition() {
+    // Check for browser support
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    
+    if (!SpeechRecognition) {
+      voiceSupported = false;
+      console.log("Voice recognition not supported in this browser");
+      
+      // Hide voice button if not supported
+      if (btnVoiceInput) {
+        btnVoiceInput.style.display = "none";
+      }
+      return;
+    }
+    
+    voiceSupported = true;
+    recognition = new SpeechRecognition();
+    
+    // Configuration
+    recognition.lang = "id-ID"; // Indonesian
+    recognition.interimResults = true;
+    recognition.continuous = false;
+    recognition.maxAlternatives = 1;
+    
+    // Event handlers
+    recognition.onstart = () => {
+      isRecording = true;
+      console.log("Voice recording started");
+      showVoiceRecordingUI();
+    };
+    
+    recognition.onresult = (event) => {
+      let finalTranscript = "";
+      let interimTranscript = "";
+      
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        const transcript = event.results[i][0].transcript;
+        if (event.results[i].isFinal) {
+          finalTranscript += transcript;
+        } else {
+          interimTranscript += transcript;
+        }
+      }
+      
+      // Show interim results in input
+      if (interimTranscript && chatInput) {
+        chatInput.value = interimTranscript;
+        chatInput.placeholder = "Sedang mendengarkan...";
+      }
+      
+      // Finalize when done
+      if (finalTranscript && chatInput) {
+        chatInput.value = finalTranscript;
+        btnSendChat.disabled = false;
+        console.log("Voice transcribed:", finalTranscript);
+      }
+    };
+    
+    recognition.onerror = (event) => {
+      console.error("Voice recognition error:", event.error);
+      stopVoiceRecording();
+      
+      if (event.error === "not-allowed") {
+        alert("Izin microphone ditolak. Silakan aktifkan di pengaturan browser.");
+      } else if (event.error === "no-speech") {
+        // Silent - no need to alert
+      }
+    };
+    
+    recognition.onend = () => {
+      if (isRecording) {
+        stopVoiceRecording();
+      }
+    };
+    
+    console.log("Voice recognition initialized (Indonesian)");
+  }
+  
+  // ============================================
+  // VOICE-TO-TEXT: Start Recording
+  // ============================================
+  function startVoiceRecording() {
+    if (!voiceSupported || !recognition) {
+      alert("Voice recognition tidak didukung di browser ini. Gunakan Chrome atau Edge.");
+      return;
+    }
+    
+    if (isRecording) {
+      stopVoiceRecording();
+      return;
+    }
+    
+    try {
+      recognition.start();
+    } catch (e) {
+      console.error("Error starting voice recognition:", e);
+    }
+  }
+  
+  // ============================================
+  // VOICE-TO-TEXT: Stop Recording
+  // ============================================
+  function stopVoiceRecording() {
+    isRecording = false;
+    
+    if (recognition) {
+      try {
+        recognition.stop();
+      } catch (e) {
+        // Already stopped
+      }
+    }
+    
+    hideVoiceRecordingUI();
+    
+    if (chatInput) {
+      chatInput.placeholder = "Ketik pesan...";
+    }
+    
+    console.log("Voice recording stopped");
+  }
+  
+  // ============================================
+  // VOICE-TO-TEXT: UI Helpers
+  // ============================================
+  function showVoiceRecordingUI() {
+    if (voiceRecordingMode) {
+      voiceRecordingMode.style.display = "flex";
+    }
+    if (chatInputWrapper) {
+      chatInputWrapper.style.display = "none";
+    }
+    if (btnVoiceInput) {
+      btnVoiceInput.classList.add("recording");
+    }
+  }
+  
+  function hideVoiceRecordingUI() {
+    if (voiceRecordingMode) {
+      voiceRecordingMode.style.display = "none";
+    }
+    if (chatInputWrapper) {
+      chatInputWrapper.style.display = "flex";
+    }
+    if (btnVoiceInput) {
+      btnVoiceInput.classList.remove("recording");
+    }
+  }
+  
+  // ============================================
+  // EXPORT CHAT TRANSCRIPT
+  // ============================================
+  function exportChatTranscript() {
+    if (conversationHistory.length === 0) {
+      alert("Tidak ada percakapan untuk diekspor.");
+      return;
+    }
+    
+    const timestamp = new Date().toLocaleString("id-ID");
+    let transcript = `=== TRANSKRIP PERCAKAPAN TEMANKU ===\n`;
+    transcript += `Tanggal: ${timestamp}\n`;
+    transcript += `Session ID: ${sessionId || "N/A"}\n`;
+    transcript += `${"=".repeat(40)}\n\n`;
+    
+    conversationHistory.forEach((msg) => {
+      const prefix = msg.role === "user" ? "Anda" : "TemanKu";
+      transcript += `[${msg.time}] ${prefix}:\n${msg.content}\n\n`;
+    });
+    
+    transcript += `${"=".repeat(40)}\n`;
+    transcript += `Total Pesan: ${conversationHistory.length}\n`;
+    transcript += `Diekspor: ${timestamp}\n`;
+    transcript += `\n⚠️ DOKUMEN INI BERSIFAT RAHASIA`;
+    
+    // Create and download file
+    const blob = new Blob([transcript], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `chat_temanku_${new Date().toISOString().slice(0,10)}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
+    console.log("Chat transcript exported");
+  }
+  
+  // ============================================
+  // CONVERSATION SUMMARY (AI-Generated Summary)
+  // ============================================
+  function showConversationSummary() {
+    if (conversationHistory.length < 3) {
+      return;
+    }
+    
+    // Count user messages only
+    const userMessages = conversationHistory.filter(m => m.role === "user").length;
+    
+    // Create summary card
+    const summaryDiv = document.createElement("div");
+    summaryDiv.className = "message bot-message summary-message";
+    summaryDiv.innerHTML = `
+      <div class="message-avatar">
+        <i class="fas fa-file-alt"></i>
+      </div>
+      <div class="message-bubble summary-bubble">
+        <div class="summary-header">
+          <i class="fas fa-clipboard-list"></i>
+          <strong>Ringkasan Percakapan</strong>
+        </div>
+        <div class="summary-content">
+          <p><strong>Total Pesan:</strong> ${conversationHistory.length}</p>
+          <p><strong>Durasi Sesi:</strong> ${calculateSessionDuration()}</p>
+          <p><strong>Session ID:</strong> ${sessionId || "N/A"}</p>
+        </div>
+        <div class="summary-actions">
+          <button class="btn-export-chat" onclick="TemanKuChatbot.exportTranscript()">
+            <i class="fas fa-download"></i> Simpan Transkrip
+          </button>
+        </div>
+      </div>
+    `;
+    
+    if (chatMessages) {
+      chatMessages.appendChild(summaryDiv);
+      scrollToBottom();
+    }
+  }
+  
+  function calculateSessionDuration() {
+    if (conversationHistory.length < 2) return "< 1 menit";
+    
+    const first = conversationHistory[0].timestamp;
+    const last = conversationHistory[conversationHistory.length - 1].timestamp;
+    const diffMs = last - first;
+    const diffMins = Math.round(diffMs / 60000);
+    
+    if (diffMins < 1) return "< 1 menit";
+    if (diffMins === 1) return "1 menit";
+    return `${diffMins} menit`;
   }
 
   // ============================================
@@ -475,15 +748,24 @@
   function addUserMessage(text) {
     const div = document.createElement("div");
     div.className = "chat-message user-message";
+    const time = getTime();
     div.innerHTML = `
       <div class="message-bubble">
         <div class="message-text">${escapeHtml(text)}</div>
-        <div class="message-time">${getTime()}</div>
+        <div class="message-time">${time}</div>
       </div>
     `;
 
     chatMessages.appendChild(div);
     scrollToBottom();
+    
+    // Save to conversation history for export
+    conversationHistory.push({
+      role: "user",
+      content: text,
+      time: time,
+      timestamp: Date.now()
+    });
   }
 
   // ============================================
@@ -496,6 +778,7 @@
     }`;
 
     const formatted = formatText(text);
+    const time = getTime();
 
     div.innerHTML = `
       <div class="message-avatar">
@@ -503,12 +786,20 @@
       </div>
       <div class="message-bubble">
         <div class="message-text">${formatted}</div>
-        <div class="message-time">${getTime()}</div>
+        <div class="message-time">${time}</div>
       </div>
     `;
 
     chatMessages.appendChild(div);
     scrollToBottom();
+    
+    // Save to conversation history for export
+    conversationHistory.push({
+      role: "bot",
+      content: text,
+      time: time,
+      timestamp: Date.now()
+    });
   }
 
   // ============================================
@@ -530,12 +821,41 @@
   }
 
   // ============================================
-  // SHOW/HIDE TYPING
+  // SHOW/HIDE TYPING - ENHANCED REALISM
   // ============================================
+  let typingTextInterval = null;
+  const typingPhrases = [
+    "TemanKu sedang mengetik",
+    "Sedang memikirkan respons",
+    "TemanKu sedang membaca",
+    "Memproses pesan kamu"
+  ];
+  
   function showTyping() {
     isTyping = true;
     if (typingIndicator) {
       typingIndicator.style.display = "flex";
+      
+      // Find or create typing text element
+      let typingText = typingIndicator.querySelector(".typing-text");
+      if (!typingText) {
+        typingText = document.createElement("span");
+        typingText.className = "typing-text";
+        const typingBubble = typingIndicator.querySelector(".typing-bubble");
+        if (typingBubble) {
+          typingBubble.appendChild(typingText);
+        }
+      }
+      
+      // Randomize typing text for realism
+      let phraseIndex = 0;
+      typingText.textContent = typingPhrases[0] + "...";
+      
+      typingTextInterval = setInterval(() => {
+        phraseIndex = (phraseIndex + 1) % typingPhrases.length;
+        typingText.textContent = typingPhrases[phraseIndex] + "...";
+      }, 2000);
+      
       scrollToBottom();
     }
   }
@@ -544,6 +864,12 @@
     isTyping = false;
     if (typingIndicator) {
       typingIndicator.style.display = "none";
+    }
+    
+    // Clear typing text interval
+    if (typingTextInterval) {
+      clearInterval(typingTextInterval);
+      typingTextInterval = null;
     }
   }
 
@@ -583,6 +909,8 @@
     contactProfessional,
     continueChatting,
     copyCode,
+    exportTranscript: exportChatTranscript,
+    showSummary: showConversationSummary
   };
 
   // ============================================
