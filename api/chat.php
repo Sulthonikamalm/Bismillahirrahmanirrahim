@@ -1,23 +1,13 @@
 <?php
 /**
- * ============================================================
- * CHAT API - SMART AUTOFILL VERSION 3.1 (PRODUCTION-READY)
- * ============================================================
- * SECURITY FIXES:
- * 1. ✅ API Key moved to config/config.php (env-based)
- * 2. ✅ TRUE Zero-Waste: NO extraction until consent given
- * 3. ✅ UX Fail-Safe: Always redirect on consent, even if AI fails
- * 4. ✅ All dependencies synchronized
- * 
- * @version 3.1
- * @date 2025-12-14
+ * Chat API - Smart Autofill v3.1
+ * Handles chatbot conversation with AI-powered data extraction
  */
 
 error_reporting(E_ALL);
 ini_set('display_errors', 0);
 ini_set('log_errors', 1);
 ini_set('error_log', __DIR__ . '/logs/chat_error.log');
-
 ini_set('memory_limit', '256M');
 ini_set('max_execution_time', '60');
 
@@ -46,14 +36,12 @@ set_error_handler(function($errno, $errstr, $errfile, $errline) {
 
 session_start();
 
-// ============================================================
-// 🔒 FIX #1: LOAD CONFIG SECURELY (No hardcoded API keys!)
-// ============================================================
+// Load dependencies
 try {
-    require_once __DIR__ . '/../config/config.php';    // API Keys & Settings
-    require_once __DIR__ . '/../config/database.php';  // Database connection
-    require_once __DIR__ . '/groq_client.php';         // AI Client
-    require_once __DIR__ . '/chat_helpers.php';        // Helper functions
+    require_once __DIR__ . '/../config/config.php';
+    require_once __DIR__ . '/../config/database.php';
+    require_once __DIR__ . '/groq_client.php';
+    require_once __DIR__ . '/chat_helpers.php';
 } catch (Exception $e) {
     error_log("Failed to load dependencies: " . $e->getMessage());
     http_response_code(500);
@@ -62,9 +50,8 @@ try {
     exit();
 }
 
-// Validate API key is loaded
 if (!defined('GROQ_API_KEY') || empty(GROQ_API_KEY)) {
-    error_log("CRITICAL: GROQ_API_KEY not defined in config");
+    error_log("CRITICAL: GROQ_API_KEY not defined");
     http_response_code(500);
     ob_clean();
     echo json_encode(['success' => false, 'error' => 'API configuration missing']);
@@ -93,7 +80,6 @@ try {
     if ($action === 'reset') {
         $_SESSION = [];
         session_destroy();
-        
         ob_clean();
         echo json_encode(['success' => true, 'message' => 'Session reset']);
         exit();
@@ -104,27 +90,19 @@ try {
     }
     
     $userMessage = trim($data['message']);
-    
     error_log("User message: " . substr($userMessage, 0, 100));
     
-    // ============================================================
-    // DATABASE SESSION MANAGEMENT
-    // ============================================================
-    
+    // Database session management
     if (!isset($_SESSION['db_session_id'])) {
         try {
             $sessionIdUnik = 'session_' . uniqid() . '_' . time();
-            
             $stmt = $pdo->prepare("INSERT INTO ChatSession (session_id_unik) VALUES (:session_id)");
             $stmt->execute([':session_id' => $sessionIdUnik]);
-            
             $_SESSION['db_session_id'] = $pdo->lastInsertId();
             $_SESSION['session_id_unik'] = $sessionIdUnik;
-            
-            error_log("✅ Created DB session: " . $_SESSION['db_session_id']);
-            
+            error_log("Created DB session: " . $_SESSION['db_session_id']);
         } catch (Exception $e) {
-            error_log("⚠️ Failed to create DB session: " . $e->getMessage());
+            error_log("Failed to create DB session: " . $e->getMessage());
         }
     }
     
@@ -156,14 +134,11 @@ try {
     
     $_SESSION['message_count']++;
     
-    // ============================================================
-    // OFF-TOPIC DETECTION
-    // ============================================================
+    // Off-topic detection
     if (ChatHelpers::isOffTopic($userMessage)) {
-        error_log("🚫 Off-topic message detected");
+        error_log("Off-topic message detected");
         
-        $offTopicResponse = "Maaf ya, aku khusus untuk membantu kamu yang mengalami atau menyaksikan kekerasan seksual. Untuk pertanyaan lain, aku nggak bisa bantu 💙\n\n" .
-                           "Kalau kamu ada cerita atau butuh bantuan terkait PPKPT, aku di sini mendengarkan.";
+        $offTopicResponse = "Maaf ya, aku khusus untuk membantu kamu yang mengalami atau menyaksikan kekerasan seksual. Untuk pertanyaan lain, aku nggak bisa bantu.\n\nKalau kamu ada cerita atau butuh bantuan terkait PPKPT, aku di sini mendengarkan.";
         
         $_SESSION['conversation_history'][] = [
             'role' => 'user',
@@ -185,7 +160,7 @@ try {
                 $stmt = $pdo->prepare("INSERT INTO ChatMessage (session_id, role, content) VALUES (:sid, 'bot', :content)");
                 $stmt->execute([':sid' => $_SESSION['db_session_id'], ':content' => $offTopicResponse]);
             } catch (Exception $e) {
-                error_log("⚠️ DB save error: " . $e->getMessage());
+                error_log("DB save error: " . $e->getMessage());
             }
         }
         
@@ -215,25 +190,17 @@ try {
                 ':content' => $userMessage
             ]);
         } catch (Exception $e) {
-            error_log("⚠️ Failed to save user message: " . $e->getMessage());
+            error_log("Failed to save user message: " . $e->getMessage());
         }
     }
     
-    // Initialize Groq client
     $groq = new GroqClient(GROQ_API_KEY);
     
-    // ============================================================
-    // EMERGENCY DETECTION
-    // ============================================================
+    // Emergency detection
     if (ChatHelpers::isEmergency($userMessage)) {
-        error_log("🚨 Emergency detected!");
+        error_log("Emergency detected");
         
-        $emergencyResponse = "⚠️ Saya melihat Anda sedang dalam kesulitan yang sangat berat. Tolong jangan sendirian.\n\n" .
-                           "Mari saya bantu Anda:\n" .
-                           "• **Latihan Napas**: Menenangkan diri sebentar\n" .
-                           "• **Hubungi Profesional**: Terhubung dengan ahli 24/7\n" .
-                           "• **Lanjut Chat**: Terus berbicara dengan saya\n\n" .
-                           "Pilih yang paling nyaman untuk Anda saat ini. 💙";
+        $emergencyResponse = "Saya melihat Anda sedang dalam kesulitan yang sangat berat. Tolong jangan sendirian.\n\nMari saya bantu Anda:\n- Latihan Napas: Menenangkan diri sebentar\n- Hubungi Profesional: Terhubung dengan ahli 24/7\n- Lanjut Chat: Terus berbicara dengan saya\n\nPilih yang paling nyaman untuk Anda saat ini.";
         
         $_SESSION['conversation_history'][] = [
             'role' => 'assistant',
@@ -249,7 +216,7 @@ try {
                     ':content' => $emergencyResponse
                 ]);
             } catch (Exception $e) {
-                error_log("⚠️ DB save error: " . $e->getMessage());
+                error_log("DB save error: " . $e->getMessage());
             }
         }
         
@@ -263,9 +230,7 @@ try {
         exit();
     }
     
-    // ============================================================
-    // PHASE DETERMINATION
-    // ============================================================
+    // Phase determination
     $currentPhase = ChatHelpers::determinePhase(
         $_SESSION['extracted_labels'],
         $_SESSION['message_count'],
@@ -275,17 +240,7 @@ try {
     
     error_log("Current phase: $currentPhase");
     
-    // ============================================================
-    // ⚡ FIX #2: TRUE ZERO-WASTE - NO EXTRACTION UNTIL CONSENT!
-    // ============================================================
-    // REMOVED: Intermediate extraction during collect/curhat phase
-    // AI extraction only happens ONCE when user gives consent
-    // This saves ~98% token costs vs old approach
-    // ============================================================
-
-    // ============================================================
-    // CONSENT HANDLING
-    // ============================================================
+    // Consent handling
     if ($currentPhase === 'consent' && !$_SESSION['consent_asked']) {
         $_SESSION['consent_asked'] = true;
         error_log("Asking for consent");
@@ -293,70 +248,53 @@ try {
     
     if ($_SESSION['consent_asked'] && !$_SESSION['consent_given']) {
         $consentResponse = ChatHelpers::detectConsent($userMessage);
-        
         error_log("Consent detection: $consentResponse");
         
-        // ============================================================
-        // 🚀 SMART AUTOFILL TRIGGER (TRUE ZERO-WASTE)
-        // ============================================================
+        // Smart autofill trigger
         if ($consentResponse === 'yes') {
             $_SESSION['consent_given'] = true;
             $_SESSION['consent_timestamp'] = date('Y-m-d H:i:s');
             $_SESSION['extraction_done'] = true;
             
-            error_log("🎯 Consent given - triggering SINGLE autofill extraction");
+            error_log("Consent given - triggering autofill extraction");
             
-            // Initialize payload as null (fail-safe default)
             $normalizedData = null;
             $extractionSuccess = false;
             
             try {
-                // ================================================
-                // SINGLE EXTRACTION (This is the ONLY AI extraction call!)
-                // ================================================
                 $conversationText = ChatHelpers::getConversationText($_SESSION['conversation_history']);
                 $extractedData = $groq->extractLabelsForAutofill($conversationText);
                 
-                error_log("Extracted data for autofill: " . json_encode($extractedData));
+                error_log("Extracted data: " . json_encode($extractedData));
                 
-                // Normalize data for form
                 $normalizedData = ChatHelpers::normalizeExtractedData($extractedData);
                 $extractionSuccess = true;
                 
-                error_log("✅ Extraction SUCCESS: " . json_encode($normalizedData));
+                error_log("Extraction success: " . json_encode($normalizedData));
                 
-                // Update session labels (for potential manual completion later)
                 $_SESSION['extracted_labels'] = ChatHelpers::mergeLabels(
                     $_SESSION['extracted_labels'],
                     $extractedData
                 );
                 
             } catch (Exception $e) {
-                // ================================================
-                // 🛡️ FIX #3: UX FAIL-SAFE - Still redirect even if AI fails!
-                // User said "Ya", so respect their intent to report
-                // ================================================
-                error_log("⚠️ Extraction failed, but proceeding with redirect: " . $e->getMessage());
-                $normalizedData = null; // Form will be empty, user fills manually
+                error_log("Extraction failed, proceeding with redirect: " . $e->getMessage());
+                $normalizedData = null;
                 $extractionSuccess = false;
             }
             
-            // Calculate performance metrics
             $executionTime = microtime(true) - $requestStartTime;
             
-            // Prepare transition message
             $transitionMessage = $extractionSuccess 
-                ? "Baik, aku siap membantu kamu mengisi formulir pelaporan. Beberapa data sudah aku siapkan dari ceritamu tadi ✨"
-                : "Baik, aku akan arahkan kamu ke formulir pelaporan. Silakan isi data dengan lengkap ya 💙";
+                ? "Baik, aku siap membantu kamu mengisi formulir pelaporan. Beberapa data sudah aku siapkan dari ceritamu tadi."
+                : "Baik, aku akan arahkan kamu ke formulir pelaporan. Silakan isi data dengan lengkap ya.";
             
-            // Save to history
             $_SESSION['conversation_history'][] = [
                 'role' => 'assistant',
                 'content' => $transitionMessage,
                 'timestamp' => date('Y-m-d H:i:s')
             ];
             
-            // Save to database
             if (isset($_SESSION['db_session_id'])) {
                 try {
                     $stmt = $pdo->prepare("INSERT INTO ChatMessage (session_id, role, content) VALUES (:session_id, 'bot', :content)");
@@ -365,19 +303,16 @@ try {
                         ':content' => $transitionMessage
                     ]);
                 } catch (Exception $e) {
-                    error_log("⚠️ DB save error: " . $e->getMessage());
+                    error_log("DB save error: " . $e->getMessage());
                 }
             }
             
-            // ================================================
-            // ALWAYS SEND REDIRECT (Fail-safe UX)
-            // ================================================
             ob_clean();
             echo json_encode([
                 'success' => true,
                 'response' => $transitionMessage,
-                'action' => 'redirect_to_form', // ALWAYS redirect!
-                'payload' => $normalizedData,   // null if extraction failed
+                'action' => 'redirect_to_form',
+                'payload' => $normalizedData,
                 'phase' => 'report_ready',
                 'extraction_success' => $extractionSuccess,
                 'session_id' => $_SESSION['session_id_unik'] ?? null,
@@ -391,8 +326,7 @@ try {
         } elseif ($consentResponse === 'no') {
             $currentPhase = 'rejected';
             
-            $rejectResponse = "Tidak apa-apa kok, keputusan ada di kamu. Yang penting kamu udah berani cerita 💙\n\n" .
-                             "Aku tetap di sini kalau kamu butuh teman ngobrol atau suatu saat berubah pikiran.";
+            $rejectResponse = "Tidak apa-apa kok, keputusan ada di kamu. Yang penting kamu udah berani cerita.\n\nAku tetap di sini kalau kamu butuh teman ngobrol atau suatu saat berubah pikiran.";
             
             $_SESSION['conversation_history'][] = [
                 'role' => 'assistant',
@@ -408,7 +342,7 @@ try {
                         ':content' => $rejectResponse
                     ]);
                 } catch (Exception $e) {
-                    error_log("⚠️ DB save error: " . $e->getMessage());
+                    error_log("DB save error: " . $e->getMessage());
                 }
             }
             
@@ -423,9 +357,7 @@ try {
         }
     }
     
-    // ============================================================
-    // REPORT COMPLETION (if user came back without autofill)
-    // ============================================================
+    // Report completion
     if ($currentPhase === 'report' && $_SESSION['consent_given']) {
         if (ChatHelpers::isLabelsComplete($_SESSION['extracted_labels'])) {
             try {
@@ -463,12 +395,9 @@ try {
                     ':session_id' => $_SESSION['db_session_id'] ?? null
                 ]);
                 
-                error_log("✅ Report created: $kodeLaporan");
+                error_log("Report created: $kodeLaporan");
                 
-                $finalResponse = "✅ Terima kasih atas keberanianmu. Laporan kamu udah aku catatkan dengan aman.\n\n" .
-                                "**Kode Laporan:** `{$kodeLaporan}`\n\n" .
-                                "Kamu bisa cek status laporan di halaman **Monitoring** pakai kode ini ya.\n\n" .
-                                "Tim Satgas PPKPT akan follow up dengan penuh kerahasiaan dan profesionalisme. 🔒";
+                $finalResponse = "Terima kasih atas keberanianmu. Laporan kamu udah aku catatkan dengan aman.\n\nKode Laporan: {$kodeLaporan}\n\nKamu bisa cek status laporan di halaman Monitoring pakai kode ini ya.\n\nTim Satgas PPKPT akan follow up dengan penuh kerahasiaan dan profesionalisme.";
                 
                 $_SESSION['conversation_history'][] = [
                     'role' => 'assistant',
@@ -484,7 +413,7 @@ try {
                             ':content' => $finalResponse
                         ]);
                     } catch (Exception $e) {
-                        error_log("⚠️ DB save error: " . $e->getMessage());
+                        error_log("DB save error: " . $e->getMessage());
                     }
                 }
                 
@@ -505,9 +434,7 @@ try {
         }
     }
     
-    // ============================================================
-    // GENERATE BOT RESPONSE (Normal flow)
-    // ============================================================
+    // Generate bot response
     error_log("Generating bot response for phase: $currentPhase");
     
     try {
@@ -515,22 +442,18 @@ try {
             $_SESSION['conversation_history'],
             $currentPhase
         );
-        
         error_log("Bot response OK: " . strlen($botResponse) . " chars");
-        
     } catch (Exception $e) {
         error_log("Groq API error: " . $e->getMessage());
         throw new Exception("Koneksi ke AI terputus: " . $e->getMessage());
     }
     
-    // Add to history
     $_SESSION['conversation_history'][] = [
         'role' => 'assistant',
         'content' => $botResponse,
         'timestamp' => date('Y-m-d H:i:s')
     ];
     
-    // Save to database
     if (isset($_SESSION['db_session_id'])) {
         try {
             $stmt = $pdo->prepare("INSERT INTO ChatMessage (session_id, role, content) VALUES (:session_id, 'bot', :content)");
@@ -539,30 +462,24 @@ try {
                 ':content' => $botResponse
             ]);
         } catch (Exception $e) {
-            error_log("⚠️ Failed to save bot response: " . $e->getMessage());
+            error_log("Failed to save bot response: " . $e->getMessage());
         }
     }
     
-    // Send response
     ob_clean();
     
     $executionTime = microtime(true) - $requestStartTime;
     
-    $response = [
+    echo json_encode([
         'success' => true,
         'response' => $botResponse,
         'phase' => $currentPhase,
         'message_count' => $_SESSION['message_count'],
         'session_id' => $_SESSION['session_id_unik'] ?? null,
         'execution_time' => round($executionTime, 2)
-    ];
+    ], JSON_UNESCAPED_UNICODE);
     
-    echo json_encode($response, JSON_UNESCAPED_UNICODE);
-    
-    error_log(sprintf(
-        "=== CHAT REQUEST SUCCESS (%.2fs) ===",
-        $executionTime
-    ));
+    error_log(sprintf("=== CHAT REQUEST SUCCESS (%.2fs) ===", $executionTime));
     
 } catch (Exception $e) {
     error_log("=== CHAT REQUEST FAILED ===");
@@ -574,7 +491,7 @@ try {
     echo json_encode([
         'success' => false,
         'error' => $e->getMessage(),
-        'response' => '😔 Maaf, terjadi kesalahan: ' . $e->getMessage()
+        'response' => 'Maaf, terjadi kesalahan: ' . $e->getMessage()
     ], JSON_UNESCAPED_UNICODE);
 }
 
