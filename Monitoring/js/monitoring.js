@@ -160,12 +160,13 @@
   // HANDLE SEARCH - DUAL SEARCH (Kode OR Email)
   // ============================================
   async function handleSearch() {
+    // Prevent double click with immediate check
     if (State.isSearching) {
-      console.log('⏳ Already processing...');
+      console.log('Already processing...');
       return;
     }
 
-    const query = DOM.reportIdInput.value.trim();
+    const query = DOM.reportIdInput?.value?.trim();
 
     if (!query) {
       showError('Silakan masukkan Kode Laporan atau Email.');
@@ -177,18 +178,19 @@
     const searchType = isEmail ? 'email' : 'kode';
     const displayQuery = isEmail ? query : query.toUpperCase();
 
-    console.log(`🔎 Searching by ${searchType}:`, displayQuery);
+    console.log(`Searching by ${searchType}:`, displayQuery);
 
+    // Set state IMMEDIATELY to prevent double click
     State.isSearching = true;
     State.searchType = searchType;
+    
+    // UI updates
     disableInput();
     hideError();
     showSearchLoader();
 
     try {
-      // ==========================================
-      // CALL BACKEND API (v2.0 - Dual Search)
-      // ==========================================
+      // CALL BACKEND API
       const url = `${CONFIG.apiEndpoint}?query=${encodeURIComponent(displayQuery)}`;
       
       console.log('API Request:', url);
@@ -205,31 +207,35 @@
       const result = await response.json();
       console.log('API Response:', result);
 
+      // Hide loader FIRST
       hideSearchLoader();
 
       if (result.success && result.data) {
         // SUCCESS!
-        console.log('✅ Report found:', result.data);
-        console.log('📊 Searched by:', result.data.searchedBy);
+        console.log('Report found:', result.data);
         
         State.currentReport = result.data;
 
+        // Show timeline immediately
         updateTimelineHeader();
         clearTimeline();
         showCenteredLoading();
 
+        // Wait for animation then display
         setTimeout(() => {
           hideCenteredLoading();
           displayCurrentStep();
-          State.isSearching = false;
+          
+          // Re-enable input AFTER animation completes
           enableInput();
+          State.isSearching = false;
 
           checkCompletionConfetti();
         }, CONFIG.centeredCubeDelay);
 
       } else {
         // NOT FOUND
-        console.log('❌ Report not found');
+        console.log('Report not found');
         
         const errorMsg = searchType === 'email' 
           ? `Email "${query}" tidak ditemukan. Pastikan email yang digunakan sama dengan saat melapor.`
@@ -241,7 +247,7 @@
       }
 
     } catch (error) {
-      console.error('❌ Error fetching report:', error);
+      console.error('Error fetching report:', error);
       hideSearchLoader();
       showError('Terjadi kesalahan saat mengambil data. Silakan coba lagi.');
       enableInput();
