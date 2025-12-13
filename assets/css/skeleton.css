@@ -1,0 +1,348 @@
+/* ============================================
+   SKELETON LOADING STYLES
+   Consistent loading placeholders for forms and lists
+   ============================================ */
+
+/* Base Skeleton Animation */
+@keyframes skeleton-shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+.skeleton {
+    background: linear-gradient(
+        90deg,
+        #e8ecef 0%,
+        #f8f9fa 25%,
+        #e8ecef 50%,
+        #f8f9fa 75%,
+        #e8ecef 100%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.5s ease-in-out infinite;
+    border-radius: 8px;
+}
+
+/* Skeleton Text Lines */
+.skeleton-text {
+    height: 16px;
+    margin-bottom: 12px;
+}
+
+.skeleton-text.short {
+    width: 60%;
+}
+
+.skeleton-text.medium {
+    width: 80%;
+}
+
+.skeleton-text.long {
+    width: 100%;
+}
+
+/* Skeleton Title */
+.skeleton-title {
+    height: 24px;
+    width: 70%;
+    margin-bottom: 16px;
+}
+
+/* Skeleton Avatar/Image */
+.skeleton-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+}
+
+.skeleton-image {
+    width: 100%;
+    height: 200px;
+    border-radius: 12px;
+}
+
+.skeleton-thumbnail {
+    width: 100%;
+    aspect-ratio: 16/9;
+    border-radius: 12px;
+}
+
+/* Skeleton Button */
+.skeleton-button {
+    height: 48px;
+    width: 150px;
+    border-radius: 50px;
+}
+
+/* Skeleton Input */
+.skeleton-input {
+    height: 56px;
+    width: 100%;
+    border-radius: 12px;
+}
+
+/* ============================================
+   FORM SKELETON (For Lapor Form)
+   ============================================ */
+.form-skeleton {
+    padding: 24px;
+}
+
+.form-skeleton-group {
+    margin-bottom: 24px;
+}
+
+.form-skeleton-label {
+    height: 14px;
+    width: 30%;
+    margin-bottom: 8px;
+}
+
+.form-skeleton-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+/* ============================================
+   BLOG CARD SKELETON
+   ============================================ */
+.blog-skeleton-card {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.blog-skeleton-image {
+    height: 180px;
+    background: linear-gradient(
+        90deg,
+        #e8ecef 0%,
+        #f8f9fa 25%,
+        #e8ecef 50%,
+        #f8f9fa 75%,
+        #e8ecef 100%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-shimmer 1.5s ease-in-out infinite;
+}
+
+.blog-skeleton-content {
+    padding: 20px;
+}
+
+.blog-skeleton-meta {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.blog-skeleton-tag {
+    height: 24px;
+    width: 60px;
+    border-radius: 12px;
+}
+
+.blog-skeleton-date {
+    height: 16px;
+    width: 80px;
+    border-radius: 4px;
+}
+
+.blog-skeleton-title {
+    height: 22px;
+    width: 90%;
+    margin-bottom: 10px;
+}
+
+.blog-skeleton-excerpt {
+    height: 14px;
+    width: 100%;
+    margin-bottom: 6px;
+}
+
+.blog-skeleton-excerpt:last-child {
+    width: 70%;
+}
+
+/* ============================================
+   BLOG LIST SKELETON GRID
+   ============================================ */
+.blog-list-skeleton {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+    padding: 24px 0;
+}
+
+/* ============================================
+   FORM FIELD SKELETON VARIANTS
+   ============================================ */
+.skeleton-textarea {
+    height: 150px;
+    width: 100%;
+    border-radius: 12px;
+}
+
+.skeleton-select {
+    height: 56px;
+    width: 100%;
+    border-radius: 12px;
+}
+
+.skeleton-radio-group {
+    display: flex;
+    gap: 16px;
+}
+
+.skeleton-radio {
+    height: 40px;
+    width: 120px;
+    border-radius: 8px;
+}
+
+/* ============================================
+   CARD SKELETON (Generic)
+   ============================================ */
+.card-skeleton {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.card-skeleton-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.card-skeleton-body {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* ============================================
+   TIMELINE SKELETON (For Monitoring)
+   ============================================ */
+.timeline-skeleton {
+    padding-left: 60px;
+    position: relative;
+}
+
+.timeline-skeleton::before {
+    content: '';
+    position: absolute;
+    left: 24px;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: #e8ecef;
+    border-radius: 10px;
+}
+
+.timeline-skeleton-item {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 32px;
+    position: relative;
+}
+
+.timeline-skeleton-marker {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    position: absolute;
+    left: -60px;
+}
+
+.timeline-skeleton-content {
+    flex: 1;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* ============================================
+   PULSE ANIMATION (Alternative)
+   ============================================ */
+@keyframes skeleton-pulse {
+    0%, 100% {
+        opacity: 0.6;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+.skeleton-pulse {
+    background: #e8ecef;
+    animation: skeleton-pulse 1.5s ease-in-out infinite;
+    border-radius: 8px;
+}
+
+/* ============================================
+   TABLE SKELETON
+   ============================================ */
+.table-skeleton {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-skeleton-row {
+    display: flex;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid #e8ecef;
+}
+
+.table-skeleton-cell {
+    flex: 1;
+    height: 20px;
+}
+
+.table-skeleton-cell.small {
+    flex: 0.5;
+}
+
+.table-skeleton-cell.large {
+    flex: 2;
+}
+
+/* ============================================
+   HIDE SKELETON WHEN CONTENT LOADS
+   ============================================ */
+.content-loaded .skeleton,
+.content-loaded .skeleton-text,
+.content-loaded .skeleton-title,
+.content-loaded .skeleton-image,
+.content-loaded .blog-skeleton-card,
+.content-loaded .form-skeleton,
+.content-loaded .card-skeleton {
+    display: none;
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS
+   ============================================ */
+@media (max-width: 768px) {
+    .blog-list-skeleton {
+        grid-template-columns: 1fr;
+    }
+
+    .form-skeleton-row {
+        grid-template-columns: 1fr;
+    }
+
+    .skeleton-radio-group {
+        flex-direction: column;
+    }
+}

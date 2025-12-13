@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Halaman Tidak Ditemukan | Sigap PPKPT</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(180deg, #1e3a5f 0%, #132338 50%, #0a1628 100%);
+        }
+
+        .error-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Stars Background */
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 40%;
+            overflow: hidden;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 2s infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+
+            0%,
+            100% {
+                opacity: 0.3;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        /* Ocean Scene */
+        .ocean-scene {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 55%;
+            background: linear-gradient(180deg, #1a4a6e 0%, #0d2840 100%);
+            overflow: hidden;
+        }
+
+        /* Waves */
+        .waves {
+            position: absolute;
+            top: -5%;
+            left: 0;
+            width: 200%;
+            height: 100%;
+        }
+
+        .wave {
+            position: absolute;
+            width: 200%;
+            height: 100px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%231a4a6e' d='M0,160L48,170.7C96,181,192,203,288,202.7C384,203,480,181,576,181.3C672,181,768,203,864,202.7C960,203,1056,181,1152,165.3C1248,149,1344,139,1392,133.3L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+            background-size: 50% 100%;
+            animation: waveMove 8s linear infinite;
+            opacity: 0.6;
+        }
+
+        .wave:nth-child(2) {
+            top: 10px;
+            animation-duration: 12s;
+            animation-direction: reverse;
+            opacity: 0.4;
+        }
+
+        @keyframes waveMove {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* Lifebuoy (Pelampung) */
+        .lifebuoy {
+            position: absolute;
+            bottom: 35%;
+            left: 15%;
+            width: 120px;
+            height: 120px;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .lifebuoy-ring {
+            width: 100%;
+            height: 100%;
+            border: 20px solid;
+            border-color: #e74c3c white #e74c3c white;
+            border-radius: 50%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), inset 0 0 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .lifebuoy-ring::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40%;
+            height: 40%;
+            background: #0d2840;
+            border-radius: 50%;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(-5deg);
+            }
+
+            50% {
+                transform: translateY(-15px) rotate(5deg);
+            }
+        }
+
+        /* Paper Boat (Perahu Kertas) - Simbolis harapan */
+        .paper-boat {
+            position: absolute;
+            bottom: 32%;
+            right: 20%;
+            animation: boatFloat 5s ease-in-out infinite;
+        }
+
+        .boat-body {
+            width: 80px;
+            height: 40px;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+            clip-path: polygon(0 0, 100% 0, 85% 100%, 15% 100%);
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .boat-sail {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 35px solid transparent;
+            border-right: 5px solid transparent;
+            border-bottom: 60px solid #e74c3c;
+        }
+
+        .boat-mast {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            width: 3px;
+            height: 65px;
+            background: #8b4513;
+        }
+
+        @keyframes boatFloat {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(3deg);
+            }
+
+            25% {
+                transform: translateY(-8px) rotate(-2deg);
+            }
+
+            50% {
+                transform: translateY(-5px) rotate(2deg);
+            }
+
+            75% {
+                transform: translateY(-12px) rotate(-3deg);
+            }
+        }
+
+        /* Main Content */
+        .error-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            color: white;
+            padding: 20px;
+        }
+
+        .error-code {
+            font-size: clamp(8rem, 20vw, 14rem);
+            font-weight: 800;
+            letter-spacing: -10px;
+            background: linear-gradient(180deg, #ffffff 0%, #a8d4e6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            margin-bottom: 10px;
+            animation: pulse404 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse404 {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.02);
+            }
+        }
+
+        .error-badge {
+            display: inline-block;
+            background: rgba(231, 76, 60, 0.9);
+            color: white;
+            padding: 12px 32px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(231, 76, 60, 0.4);
+        }
+
+        .error-message {
+            font-size: 1.15rem;
+            line-height: 1.8;
+            max-width: 500px;
+            margin: 0 auto 40px;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .error-actions {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 36px;
+            background: linear-gradient(135deg, #4b8a7b 0%, #2d5a4e 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+            box-shadow: 0 4px 20px rgba(75, 138, 123, 0.4);
+        }
+
+        .btn-home:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(75, 138, 123, 0.5);
+        }
+
+        .btn-report {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 36px;
+            background: transparent;
+            color: white;
+            text-decoration: none;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+
+        .btn-report:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: white;
+            transform: translateY(-4px);
+        }
+
+        /* Bubbles Animation */
+        .bubbles {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .bubble {
+            position: absolute;
+            bottom: -50px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: rise 8s infinite ease-in;
+        }
+
+        @keyframes rise {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: translateY(-100vh) scale(0.5);
+                opacity: 0;
+            }
+        }
+
+        /* Floating Help Icon */
+        .help-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            box-shadow: 0 4px 20px rgba(231, 76, 60, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 100;
+            text-decoration: none;
+        }
+
+        .help-float:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(231, 76, 60, 0.6);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .error-code {
+                letter-spacing: -5px;
+            }
+
+            .lifebuoy {
+                width: 80px;
+                height: 80px;
+                left: 10%;
+            }
+
+            .paper-boat {
+                right: 10%;
+            }
+
+            .boat-body {
+                width: 60px;
+                height: 30px;
+            }
+
+            .boat-sail {
+                border-left: 25px solid transparent;
+                border-right: 3px solid transparent;
+                border-bottom: 45px solid #e74c3c;
+            }
+
+            .error-message {
+                font-size: 1rem;
+                padding: 0 20px;
+            }
+
+            .error-actions {
+                flex-direction: column;
+                padding: 0 20px;
+            }
+
+            .btn-home,
+            .btn-report {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="error-container">
+        <!-- Stars -->
+        <div class="stars" id="stars"></div>
+
+        <!-- Ocean Scene -->
+        <div class="ocean-scene">
+            <div class="waves">
+                <div class="wave"></div>
+                <div class="wave"></div>
+            </div>
+
+            <!-- Lifebuoy (Pelampung - Simbol Bantuan) -->
+            <div class="lifebuoy">
+                <div class="lifebuoy-ring"></div>
+            </div>
+
+            <!-- Paper Boat (Perahu Kertas - Simbol Harapan) -->
+            <div class="paper-boat">
+                <div class="boat-mast"></div>
+                <div class="boat-sail"></div>
+                <div class="boat-body"></div>
+            </div>
+
+            <!-- Bubbles -->
+            <div class="bubbles" id="bubbles"></div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="error-content">
+            <div class="error-code">404</div>
+            <div class="error-badge">HALAMAN TIDAK DITEMUKAN</div>
+            <p class="error-message">
+                Sepertinya halaman yang kamu cari sudah tenggelam atau berpindah tempat.
+                Jangan khawatir, kami tetap di sini untuk membantu kamu.
+            </p>
+            <div class="error-actions">
+                <a href="/Bismillahirrahmanirrahim/Landing Page/Landing_Page.html" class="btn-home">
+                    <i class="fas fa-home"></i>
+                    Kembali ke Beranda
+                </a>
+                <a href="/Bismillahirrahmanirrahim/Lapor/lapor.html" class="btn-report">
+                    <i class="fas fa-file-alt"></i>
+                    Buat Laporan
+                </a>
+            </div>
+        </div>
+
+        <!-- Floating Help -->
+        <a href="https://wa.me/6282188467793" class="help-float" title="Butuh Bantuan?">
+            <i class="fas fa-life-ring"></i>
+        </a>
+    </div>
+
+    <script>
+        // Generate Stars
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.width = Math.random() * 3 + 1 + 'px';
+            star.style.height = star.style.width;
+            star.style.animationDelay = Math.random() * 2 + 's';
+            starsContainer.appendChild(star);
+        }
+
+        // Generate Bubbles
+        const bubblesContainer = document.getElementById('bubbles');
+        for (let i = 0; i < 20; i++) {
+            const bubble = document.createElement('div');
+            bubble.className = 'bubble';
+            bubble.style.left = Math.random() * 100 + '%';
+            bubble.style.width = Math.random() * 30 + 10 + 'px';
+            bubble.style.height = bubble.style.width;
+            bubble.style.animationDelay = Math.random() * 8 + 's';
+            bubble.style.animationDuration = Math.random() * 4 + 6 + 's';
+            bubblesContainer.appendChild(bubble);
+        }
+    </script>
+</body>
+
+</html>

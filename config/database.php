@@ -61,8 +61,6 @@ $options = [
 
 try {
     $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
-
-    // Pengaturan sesi tambahan (Strict Mode & Timezone UTC)
     $pdo->exec("SET SESSION sql_mode = 'STRICT_ALL_TABLES'");
     $pdo->exec("SET SESSION time_zone = '+00:00'");
 
