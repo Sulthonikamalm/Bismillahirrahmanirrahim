@@ -726,15 +726,12 @@
     // STEP 1: KEADAAN DARURAT
     // ============================================
     function initStep1() {
+        // Button still needed for manual navigation or accessibility
         const btnLanjutkan1 = document.getElementById('btnLanjutkan1');
         
         if (btnLanjutkan1) {
             btnLanjutkan1.addEventListener('click', function() {
-                if (formData.statusDarurat === 'darurat') {
-                    redirectToWhatsApp();
-                } else if (formData.statusDarurat === 'tidak') {
-                    goToStep(2);
-                }
+                processStep1();
             });
         }
     }
@@ -743,6 +740,19 @@
         const btnLanjutkan1 = document.getElementById('btnLanjutkan1');
         if (btnLanjutkan1 && formData.statusDarurat) {
             btnLanjutkan1.disabled = false;
+        }
+
+        // AUTO-ADVANCE LOGIC
+        setTimeout(() => {
+            processStep1();
+        }, 300); // Small delay for visual feedback
+    }
+
+    function processStep1() {
+        if (formData.statusDarurat === 'darurat') {
+            redirectToWhatsApp();
+        } else if (formData.statusDarurat === 'tidak') {
+            goToStep(2);
         }
     }
 
@@ -769,7 +779,6 @@
         if (btnLanjutkan2) {
             btnLanjutkan2.addEventListener('click', function() {
                 if (step2Status.korban && step2Status.kehawatiran) {
-                    console.log('Step 2 Complete:', formData);
                     goToStep(3);
                 }
             });
@@ -779,15 +788,30 @@
     function handleStep2Selection(groupName) {
         if (groupName === 'korban') {
             step2Status.korban = true;
+            // Scroll to next section smoothly if worry level not picked yet
+            if (!step2Status.kehawatiran) {
+                const worrySection = document.querySelector('.lapor-choice[data-group="kehawatiran"]');
+                if (worrySection) {
+                    worrySection.closest('.form-group').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
         } else if (groupName === 'kehawatiran') {
             step2Status.kehawatiran = true;
         }
         
         const btnLanjutkan2 = document.getElementById('btnLanjutkan2');
+        
+        // AUTO-ADVANCE LOGIC
         if (step2Status.korban && step2Status.kehawatiran) {
-            if (btnLanjutkan2) {
-                btnLanjutkan2.disabled = false;
-            }
+            if (btnLanjutkan2) btnLanjutkan2.disabled = false;
+            
+            console.log('Step 2 Complete (Auto):', formData);
+            setTimeout(() => {
+                goToStep(3);
+            }, 400); // Slightly longer delay to register the second click
+        } else if (btnLanjutkan2 && (step2Status.korban || step2Status.kehawatiran)) {
+            // Keep disabled until both are selected
+             // but maybe highlight missing part?
         }
     }
 
@@ -816,6 +840,12 @@
                     if (btnLanjutkan3) {
                         btnLanjutkan3.disabled = false;
                     }
+
+                    // AUTO-ADVANCE LOGIC
+                    console.log('Step 3 Complete (Auto):', formData);
+                    setTimeout(() => {
+                        goToStep(4);
+                    }, 300);
                 }
             });
         });
@@ -829,7 +859,6 @@
         if (btnLanjutkan3) {
             btnLanjutkan3.addEventListener('click', function() {
                 if (formData.genderKorban) {
-                    console.log('Step 3 Complete:', formData);
                     goToStep(4);
                 }
             });
