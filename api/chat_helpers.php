@@ -395,6 +395,177 @@ class ChatHelpers {
     }
     
     /**
+     * ============================================================
+     * SMART AUTOFILL: Data Normalization Functions
+     * ============================================================
+     * @version 1.0
+     * @date 2025-12-14
+     */
+    
+    /**
+     * Normalize extracted data for form autofill
+     * Converts snake_case to camelCase and applies transformations
+     */
+    public static function normalizeExtractedData($rawData) {
+        return [
+            'pelakuKekerasan' => self::normalizePelaku($rawData['pelaku_kekerasan'] ?? null),
+            'waktuKejadian' => self::normalizeDate($rawData['waktu_kejadian'] ?? null),
+            'lokasiKejadian' => self::normalizeLocation($rawData['lokasi_kejadian'] ?? null),
+            'detailKejadian' => $rawData['detail_kejadian'] ?? null,
+            'tingkatKekhawatiran' => self::normalizeKekhawatiran($rawData['tingkat_kekhawatiran'] ?? null),
+            'usiaKorban' => $rawData['usia_korban'] ?? null,
+            'genderKorban' => self::normalizeGender($rawData['gender_korban'] ?? null),
+            'korbanSebagai' => $rawData['korban_sebagai'] ?? null,
+            'emailKorban' => $rawData['email_korban'] ?? null,
+            'whatsappKorban' => $rawData['whatsapp_korban'] ?? null,
+            'confidence' => $rawData['confidence_scores'] ?? [
+                'pelaku' => 0.7,
+                'waktu' => 0.7,
+                'lokasi' => 0.7,
+                'detail' => 0.8
+            ]
+        ];
+    }
+    
+    /**
+     * Normalize pelaku (perpetrator) field
+     */
+    private static function normalizePelaku($pelaku) {
+        if (empty($pelaku)) return null;
+        
+        $lower = strtolower(trim($pelaku));
+        
+        $mappings = [
+            'dosen' => 'Dosen',
+            'tenaga pendidik' => 'Dosen',
+            'pengajar' => 'Dosen',
+            'teman' => 'Teman',
+            'kawan' => 'Teman',
+            'sahabat' => 'Teman',
+            'senior' => 'Senior',
+            'kakak tingkat' => 'Senior',
+            'asing' => 'Orang yang tidak dikenal',
+            'orang asing' => 'Orang yang tidak dikenal',
+            'orang tidak dikenal' => 'Orang yang tidak dikenal',
+            'tidak kenal' => 'Orang yang tidak dikenal',
+            'pacar' => 'Pacar',
+            'mantan' => 'Mantan (Pacar)',
+            'keluarga' => 'Keluarga',
+            'pegawai' => 'Pegawai',
+            'staf' => 'Pegawai',
+            'mahasiswa' => 'Teman'
+        ];
+        
+        foreach ($mappings as $keyword => $normalized) {
+            if (strpos($lower, $keyword) !== false) {
+                return $normalized;
+            }
+        }
+        
+        // Return capitalized original if no match
+        return ucwords($pelaku);
+    }
+    
+    /**
+     * Normalize location to standard campus locations
+     */
+    private static function normalizeLocation($location) {
+        if (empty($location)) return null;
+        
+        $lower = strtolower(trim($location));
+        
+        $mappings = [
+            'kelas' => 'Di dalam gedung kampus',
+            'ruang kelas' => 'Di dalam gedung kampus',
+            'lab' => 'Di dalam gedung kampus',
+            'laboratorium' => 'Di dalam gedung kampus',
+            'perpustakaan' => 'Di dalam gedung kampus',
+            'gedung' => 'Di dalam gedung kampus',
+            'fakultas' => 'Di dalam gedung kampus',
+            'kantor' => 'Di dalam gedung kampus',
+            'asrama' => 'Asrama / Kos',
+            'kos' => 'Asrama / Kos',
+            'kost' => 'Asrama / Kos',
+            'tempat tinggal' => 'Asrama / Kos',
+            'rumah' => 'Asrama / Kos',
+            'kantin' => 'Lingkungan kampus',
+            'taman' => 'Lingkungan kampus',
+            'parkir' => 'Lingkungan kampus',
+            'halaman' => 'Lingkungan kampus',
+            'koridor' => 'Lingkungan kampus',
+            'jalan' => 'Luar kampus (Tempat umum)',
+            'mall' => 'Luar kampus (Tempat umum)',
+            'cafe' => 'Luar kampus (Tempat umum)',
+            'restoran' => 'Luar kampus (Tempat umum)',
+            'online' => 'Online',
+            'medsos' => 'Online',
+            'sosial media' => 'Online',
+            'whatsapp' => 'Online',
+            'instagram' => 'Online',
+            'twitter' => 'Online'
+        ];
+        
+        foreach ($mappings as $keyword => $normalized) {
+            if (strpos($lower, $keyword) !== false) {
+                return $normalized;
+            }
+        }
+        
+        // Return original with proper capitalization if no match
+        return ucwords($location);
+    }
+    
+    /**
+     * Normalize kekhawatiran (concern level)
+     */
+    private static function normalizeKekhawatiran($level) {
+        if (empty($level)) return null;
+        
+        $lower = strtolower(trim($level));
+        
+        $mappings = [
+            'sangat' => 'SangatKhawatir',
+            'sangat khawatir' => 'SangatKhawatir',
+            'khawatir' => 'Khawatir',
+            'sedikit' => 'Lumayan',
+            'lumayan' => 'Lumayan',
+            'biasa' => 'Lumayan',
+            'stalking' => 'Khawatir',
+            'pelecehan' => 'SangatKhawatir',
+            'kekerasan' => 'SangatKhawatir',
+            'fisik' => 'SangatKhawatir',
+            'seksual' => 'SangatKhawatir'
+        ];
+        
+        foreach ($mappings as $keyword => $normalized) {
+            if (strpos($lower, $keyword) !== false) {
+                return $normalized;
+            }
+        }
+        
+        return 'Khawatir'; // Default
+    }
+    
+    /**
+     * Normalize gender
+     */
+    private static function normalizeGender($gender) {
+        if (empty($gender)) return null;
+        
+        $lower = strtolower(trim($gender));
+        
+        if (strpos($lower, 'perempuan') !== false || strpos($lower, 'wanita') !== false || strpos($lower, 'cewe') !== false) {
+            return 'Perempuan';
+        }
+        
+        if (strpos($lower, 'laki') !== false || strpos($lower, 'pria') !== false || strpos($lower, 'cowo') !== false) {
+            return 'Laki-laki';
+        }
+        
+        return null;
+    }
+
+    /**
      * Detect if message is off-topic (non-PPKPT)
      */
     public static function isOffTopic($message) {

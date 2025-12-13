@@ -159,7 +159,7 @@
   }
 
   // ============================================
-  // SEND MESSAGE
+  // SEND MESSAGE (ENHANCED - Smart Autofill Integration)
   // ============================================
   async function sendMessage() {
     const message = chatInput.value.trim();
@@ -212,6 +212,15 @@
           console.log("✅ Session ID:", sessionId);
         }
 
+        // ============================================================
+        // SMART AUTOFILL: Detect redirect action and handle payload
+        // ============================================================
+        if (data.action === 'redirect_to_form' && data.payload) {
+          console.log("🔄 Autofill redirect detected");
+          handleAutoFillRedirect(data.payload, data.response);
+          return; // Stop normal flow
+        }
+
         if (data.phase === "emergency") {
           handleEmergency(data.response);
         } else {
@@ -233,6 +242,96 @@
           "Jika masalah berlanjut, hubungi: 0821-8846-7793"
       );
     }
+  }
+
+  // ============================================
+  // SMART AUTOFILL: Handle Redirect to Form
+  // ============================================
+  async function handleAutoFillRedirect(extractedData, botMessage) {
+    console.log("🔄 Handling autofill redirect...");
+    console.log("📦 Extracted data:", extractedData);
+    
+    // Show transition message
+    addBotMessage(botMessage);
+    
+    setTimeout(async () => {
+      addBotMessage(
+        "✅ Data kamu sudah aku siapkan. Sekarang aku akan arahkan kamu ke formulir. " +
+        "Beberapa field sudah terisi otomatis berdasarkan ceritamu, tapi kamu tetap bisa mengubahnya ya."
+      );
+      
+      try {
+        // ============================================================
+        // PRIVACY-FIRST: Encrypt data before storage
+        // Uses existing shared encryption module (Web Crypto API)
+        // ============================================================
+        const dataToStore = JSON.stringify(extractedData);
+        
+        // Generate ephemeral session key for this transfer
+        const sessionKey = generateEphemeralKey();
+        
+        // Use shared encryption if available, fallback to simple base64
+        let encryptedData;
+        if (window.sharedEncryption) {
+          encryptedData = await window.sharedEncryption.encrypt(dataToStore, sessionKey);
+        } else {
+          // Fallback: Simple base64 encoding (less secure but functional)
+          encryptedData = btoa(unescape(encodeURIComponent(dataToStore)));
+        }
+        
+        // Store encrypted data in sessionStorage (auto-clears on tab close)
+        sessionStorage.setItem('_chatbot_autofill', encryptedData);
+        sessionStorage.setItem('_autofill_timestamp', Date.now().toString());
+        sessionStorage.setItem('_autofill_key', sessionKey);
+        
+        console.log("✅ Autofill data encrypted and stored");
+        
+        // Show loading animation
+        showRedirectAnimation();
+        
+        // Redirect after 2.5 seconds
+        setTimeout(() => {
+          window.location.href = '../Lapor/lapor.html?source=chatbot';
+        }, 2500);
+        
+      } catch (error) {
+        console.error("❌ Autofill storage error:", error);
+        
+        // Fallback: Store unencrypted (still uses sessionStorage for privacy)
+        sessionStorage.setItem('_chatbot_autofill', btoa(JSON.stringify(extractedData)));
+        sessionStorage.setItem('_autofill_timestamp', Date.now().toString());
+        
+        setTimeout(() => {
+          window.location.href = '../Lapor/lapor.html?source=chatbot';
+        }, 2500);
+      }
+      
+    }, 1500);
+  }
+
+  // ============================================
+  // GENERATE EPHEMERAL KEY
+  // ============================================
+  function generateEphemeralKey() {
+    const array = new Uint8Array(16);
+    crypto.getRandomValues(array);
+    return Array.from(array, b => b.toString(16).padStart(2, '0')).join('');
+  }
+
+  // ============================================
+  // SHOW REDIRECT ANIMATION
+  // ============================================
+  function showRedirectAnimation() {
+    const redirectDiv = document.createElement("div");
+    redirectDiv.className = "redirect-animation";
+    redirectDiv.innerHTML = `
+      <div class="redirect-content">
+        <div class="redirect-spinner"></div>
+        <p>Mengarahkan ke formulir laporan...</p>
+      </div>
+    `;
+    chatMessages.appendChild(redirectDiv);
+    scrollToBottom();
   }
 
   // ============================================

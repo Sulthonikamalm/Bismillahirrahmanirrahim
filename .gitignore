@@ -11,6 +11,9 @@
 .env.local
 .env.*.local
 
+# SECURITY: API Keys Config
+/config/config.php
+
 # IDE
 .idea/
 .vscode/

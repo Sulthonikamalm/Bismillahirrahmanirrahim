@@ -36,7 +36,7 @@
     const formSteps = document.querySelectorAll('.form-step');
 
     // ============================================
-    // INITIALIZE
+    // INITIALIZE (ENHANCED - Smart Autofill Integration)
     // ============================================
     function init() {
         initChoiceCards();
@@ -46,7 +46,646 @@
         initStep4();
         initStep5();
         injectModalStyles();
-        console.log('✅ Lapor Form Initialized (Backend Integrated)');
+        injectAutofillStyles();
+        
+        // NEW: Check for autofill data from chatbot
+        checkAndApplyAutoFill();
+        
+        console.log('✅ Lapor Form Initialized (Backend Integrated + Smart Autofill)');
+    }
+
+    // ============================================
+    // SMART AUTOFILL ENGINE
+    // ============================================
+    
+    /**
+     * Check for autofill data and apply if valid
+     */
+    async function checkAndApplyAutoFill() {
+        const encryptedData = sessionStorage.getItem('_chatbot_autofill');
+        const timestamp = sessionStorage.getItem('_autofill_timestamp');
+        const sessionKey = sessionStorage.getItem('_autofill_key');
+        
+        // Check URL source parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const source = urlParams.get('source');
+        
+        if (!encryptedData) {
+            console.log('ℹ️ No autofill data found');
+            return;
+        }
+        
+        // Security: Expire data after 5 minutes (300000ms)
+        if (timestamp && (Date.now() - parseInt(timestamp) > 300000)) {
+            console.log('⚠️ Autofill data expired, clearing...');
+            clearAutofillData();
+            return;
+        }
+        
+        try {
+            let extractedData;
+            
+            // Try decryption with shared encryption module
+            if (window.sharedEncryption && sessionKey) {
+                try {
+                    const decryptedJson = await window.sharedEncryption.decrypt(encryptedData, sessionKey);
+                    extractedData = JSON.parse(decryptedJson);
+                    console.log('✅ Autofill data decrypted successfully');
+                } catch (decryptError) {
+                    console.warn('⚠️ Decryption failed, trying base64 fallback');
+                    extractedData = JSON.parse(decodeURIComponent(escape(atob(encryptedData))));
+                }
+            } else {
+                // Fallback: Base64 decode
+                extractedData = JSON.parse(decodeURIComponent(escape(atob(encryptedData))));
+            }
+            
+            console.log('📦 Autofill data loaded:', extractedData);
+            
+            // Apply data to form
+            applyAutoFillData(extractedData);
+            
+            // Show notification
+            showAutoFillNotification(extractedData.confidence || {});
+            
+            // Self-destruct: Remove data immediately after use
+            clearAutofillData();
+            
+        } catch (error) {
+            console.error('❌ Autofill error:', error);
+            clearAutofillData();
+        }
+    }
+    
+    /**
+     * Clear autofill data from storage
+     */
+    function clearAutofillData() {
+        sessionStorage.removeItem('_chatbot_autofill');
+        sessionStorage.removeItem('_autofill_timestamp');
+        sessionStorage.removeItem('_autofill_key');
+        console.log('🗑️ Autofill data cleared');
+    }
+    
+    /**
+     * Apply extracted data to form fields
+     */
+    function applyAutoFillData(data) {
+        console.log('🔄 Applying autofill data...');
+        
+        const fieldMappings = [
+            { key: 'pelakuKekerasan', id: 'pelakuKekerasan', step: 4, type: 'select' },
+            { key: 'waktuKejadian', id: 'waktuKejadian', step: 4, type: 'date', transform: formatDateForInput },
+            { key: 'lokasiKejadian', id: 'lokasiKejadian', step: 4, type: 'select' },
+            { key: 'detailKejadian', id: 'detailKejadian', step: 4, type: 'textarea' },
+            { key: 'usiaKorban', id: 'usiaKorban', step: 5, type: 'select' },
+            { key: 'genderKorban', id: 'genderKorban', step: 3, type: 'radio' },
+            { key: 'tingkatKekhawatiran', id: 'kehawatiran', step: 2, type: 'choice-card' },
+            { key: 'korbanSebagai', id: 'korban', step: 2, type: 'choice-card' }
+        ];
+        
+        let filledCount = 0;
+        
+        fieldMappings.forEach(mapping => {
+            let value = data[mapping.key];
+            
+            if (!value || value === 'null' || value === null) {
+                console.log(`⏭️ Skipping ${mapping.key}: no value`);
+                return;
+            }
+            
+            // Apply transformation if needed
+            if (mapping.transform) {
+                value = mapping.transform(value);
+                if (!value) {
+                    console.log(`⏭️ Skipping ${mapping.key}: transform returned null`);
+                    return;
+                }
+            }
+            
+            const filled = fillField(mapping, value, data.confidence);
+            if (filled) {
+                filledCount++;
+                console.log(`✅ Filled ${mapping.key}: ${value}`);
+            }
+        });
+        
+        console.log(`✅ Autofill complete: ${filledCount} fields filled`);
+        
+        // Update form state
+        updateFormStateAfterAutofill(data);
+    }
+    
+    /**
+     * Fill a single field based on its type
+     */
+    function fillField(mapping, value, confidence) {
+        const element = document.getElementById(mapping.id);
+        
+        if (mapping.type === 'choice-card') {
+            return fillChoiceCard(mapping.id, value, confidence);
+        }
+        
+        if (!element) {
+            console.warn(`⚠️ Element not found: ${mapping.id}`);
+            return false;
+        }
+        
+        // Add visual indicator for autofilled fields
+        element.classList.add('autofilled');
+        
+        switch (mapping.type) {
+            case 'select':
+                return fillSelect(element, value, confidence, mapping.key);
+                
+            case 'date':
+                element.value = value;
+                element.dispatchEvent(new Event('change', { bubbles: true }));
+                addConfidenceIndicator(element, confidence?.waktu || 0.7);
+                return true;
+                
+            case 'textarea':
+            case 'input':
+                element.value = value;
+                element.dispatchEvent(new Event('input', { bubbles: true }));
+                addConfidenceIndicator(element, confidence?.detail || 0.8);
+                return true;
+                
+            case 'radio':
+                return fillRadio(mapping.id, value, confidence);
+                
+            default:
+                element.value = value;
+                return true;
+        }
+    }
+    
+    /**
+     * Fill select dropdown
+     */
+    function fillSelect(element, value, confidence, fieldKey) {
+        const normalizedValue = value.toLowerCase().trim();
+        
+        // Find matching option
+        const option = Array.from(element.options).find(opt => {
+            const optValue = opt.value.toLowerCase().trim();
+            const optText = opt.textContent.toLowerCase().trim();
+            return optValue === normalizedValue || 
+                   optText === normalizedValue ||
+                   optValue.includes(normalizedValue) ||
+                   normalizedValue.includes(optValue);
+        });
+        
+        if (option) {
+            element.value = option.value;
+            element.dispatchEvent(new Event('change', { bubbles: true }));
+            addConfidenceIndicator(element, confidence?.[fieldKey] || 0.7);
+            return true;
+        }
+        
+        console.warn(`⚠️ No matching option for ${fieldKey}: ${value}`);
+        return false;
+    }
+    
+    /**
+     * Fill radio button
+     */
+    function fillRadio(name, value, confidence) {
+        const normalizedValue = value.toLowerCase().trim();
+        const radios = document.querySelectorAll(`input[name="${name}"]`);
+        
+        for (const radio of radios) {
+            const radioValue = radio.value.toLowerCase().trim();
+            if (radioValue === normalizedValue || radioValue.includes(normalizedValue)) {
+                radio.checked = true;
+                radio.dispatchEvent(new Event('change', { bubbles: true }));
+                radio.closest('.lapor-gender-option')?.classList.add('selected', 'autofilled');
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Fill choice card (step 2 selections)
+     */
+    function fillChoiceCard(groupName, value, confidence) {
+        const normalizedValue = value.toLowerCase().trim();
+        const cards = document.querySelectorAll(`[data-group="${groupName}"] .lapor-choice, .lapor-choice[data-group="${groupName}"]`);
+        
+        // Also try by radio name
+        const radios = document.querySelectorAll(`input[name="${groupName}"]`);
+        
+        for (const radio of radios) {
+            const card = radio.closest('.lapor-choice');
+            if (!card) continue;
+            
+            const cardValue = card.getAttribute('data-value')?.toLowerCase().trim() || '';
+            const radioValue = radio.value.toLowerCase().trim();
+            
+            if (cardValue === normalizedValue || 
+                radioValue === normalizedValue ||
+                cardValue.includes(normalizedValue) ||
+                normalizedValue.includes(cardValue)) {
+                
+                // Simulate click
+                card.classList.add('selected', 'autofilled');
+                radio.checked = true;
+                
+                // Update step status
+                if (groupName === 'korban') {
+                    step2Status.korban = true;
+                    formData.korban = card.getAttribute('data-value');
+                } else if (groupName === 'kehawatiran') {
+                    step2Status.kehawatiran = true;
+                    formData.kehawatiran = card.getAttribute('data-value');
+                }
+                
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Update form state after autofill
+     */
+    function updateFormStateAfterAutofill(data) {
+        // Update button states
+        const btnLanjutkan2 = document.getElementById('btnLanjutkan2');
+        if (btnLanjutkan2 && step2Status.korban && step2Status.kehawatiran) {
+            btnLanjutkan2.disabled = false;
+        }
+        
+        const btnLanjutkan3 = document.getElementById('btnLanjutkan3');
+        if (btnLanjutkan3 && formData.genderKorban) {
+            btnLanjutkan3.disabled = false;
+        }
+        
+        // Update form data object
+        if (data.pelakuKekerasan) formData.pelakuKekerasan = data.pelakuKekerasan;
+        if (data.waktuKejadian) formData.waktuKejadian = formatDateForInput(data.waktuKejadian);
+        if (data.lokasiKejadian) formData.lokasiKejadian = data.lokasiKejadian;
+        if (data.detailKejadian) formData.detailKejadian = data.detailKejadian;
+        if (data.genderKorban) formData.genderKorban = data.genderKorban;
+        if (data.usiaKorban) formData.usiaKorban = data.usiaKorban;
+        
+        // Validate step 4 if we have data for it
+        validateStep4();
+    }
+    
+    /**
+     * Format date for input field (YYYY-MM-DD)
+     */
+    function formatDateForInput(dateString) {
+        if (!dateString) return '';
+        
+        // Already in correct format
+        if (/^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
+            return dateString;
+        }
+        
+        // Try parsing with Date
+        const date = new Date(dateString);
+        if (!isNaN(date.getTime())) {
+            return date.toISOString().split('T')[0];
+        }
+        
+        // Handle Indonesian relative dates
+        const lower = dateString.toLowerCase();
+        const today = new Date();
+        
+        if (lower.includes('hari ini') || lower.includes('tadi')) {
+            return today.toISOString().split('T')[0];
+        }
+        
+        if (lower.includes('kemarin')) {
+            const yesterday = new Date(today);
+            yesterday.setDate(yesterday.getDate() - 1);
+            return yesterday.toISOString().split('T')[0];
+        }
+        
+        return ''; // Invalid date, let user fill manually
+    }
+    
+    /**
+     * Add confidence indicator to field
+     */
+    function addConfidenceIndicator(element, score) {
+        // Remove existing indicator
+        const existingIndicator = element.parentElement?.querySelector('.confidence-indicator');
+        if (existingIndicator) {
+            existingIndicator.remove();
+        }
+        
+        const indicator = document.createElement('span');
+        indicator.className = 'confidence-indicator';
+        
+        if (score >= 0.8) {
+            indicator.innerHTML = '✓ <span>Tinggi</span>';
+            indicator.classList.add('high');
+        } else if (score >= 0.5) {
+            indicator.innerHTML = '⚠️ <span>Sedang</span>';
+            indicator.classList.add('medium');
+        } else {
+            indicator.innerHTML = '❓ <span>Rendah</span>';
+            indicator.classList.add('low');
+        }
+        
+        element.parentElement?.appendChild(indicator);
+    }
+    
+    /**
+     * Show autofill notification
+     */
+    function showAutoFillNotification(confidenceScores) {
+        // Remove existing notification
+        const existingNotif = document.querySelector('.autofill-notification');
+        if (existingNotif) existingNotif.remove();
+        
+        const notification = document.createElement('div');
+        notification.className = 'autofill-notification';
+        notification.innerHTML = `
+            <div class="autofill-header">
+                <i class="fas fa-robot"></i>
+                <h4>Formulir Terisi Otomatis</h4>
+                <button class="autofill-close" onclick="this.closest('.autofill-notification').remove()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <p>Data dari percakapanmu dengan TemanKu sudah diisi. Silakan periksa dan ubah jika perlu.</p>
+            <div class="autofill-legend">
+                <span class="legend-item high"><span class="dot"></span> Tinggi</span>
+                <span class="legend-item medium"><span class="dot"></span> Sedang</span>
+                <span class="legend-item low"><span class="dot"></span> Perlu Cek</span>
+            </div>
+            <div class="autofill-actions">
+                <button class="btn-review" onclick="reviewAutoFilledFields()">
+                    <i class="fas fa-search"></i> Periksa Field
+                </button>
+                <button class="btn-dismiss" onclick="this.closest('.autofill-notification').remove()">
+                    Mengerti
+                </button>
+            </div>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // Auto-dismiss after 15 seconds
+        setTimeout(() => {
+            if (notification.parentElement) {
+                notification.style.animation = 'slideOutRight 0.3s ease-out forwards';
+                setTimeout(() => notification.remove(), 300);
+            }
+        }, 15000);
+    }
+    
+    /**
+     * Review autofilled fields - highlight them
+     */
+    window.reviewAutoFilledFields = function() {
+        const autofilledFields = document.querySelectorAll('.autofilled');
+        
+        if (autofilledFields.length === 0) {
+            alert('Tidak ada field yang terisi otomatis.');
+            return;
+        }
+        
+        // Highlight all autofilled fields
+        autofilledFields.forEach((field, index) => {
+            setTimeout(() => {
+                field.style.animation = 'highlightPulse 1.5s ease-in-out';
+                field.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                
+                setTimeout(() => {
+                    field.style.animation = '';
+                }, 1500);
+            }, index * 800);
+        });
+        
+        // Close notification
+        const notif = document.querySelector('.autofill-notification');
+        if (notif) notif.remove();
+    };
+    
+    /**
+     * Inject autofill-specific styles
+     */
+    function injectAutofillStyles() {
+        if (document.getElementById('autofillStyles')) return;
+        
+        const styles = document.createElement('style');
+        styles.id = 'autofillStyles';
+        styles.textContent = `
+            /* Autofilled field styling */
+            .lapor-input.autofilled,
+            .lapor-textarea.autofilled,
+            .lapor-select.autofilled {
+                background: linear-gradient(90deg, rgba(102, 126, 234, 0.1) 0%, rgba(255, 255, 255, 1) 100%);
+                border-left: 4px solid #667eea;
+                animation: pulseGlow 1.5s ease-in-out;
+            }
+            
+            .lapor-choice.autofilled {
+                border-color: #667eea;
+                background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            }
+            
+            .lapor-gender-option.autofilled {
+                border-color: #667eea;
+            }
+            
+            @keyframes pulseGlow {
+                0%, 100% { box-shadow: 0 0 0 0 rgba(102, 126, 234, 0); }
+                50% { box-shadow: 0 0 15px 3px rgba(102, 126, 234, 0.3); }
+            }
+            
+            @keyframes highlightPulse {
+                0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(102, 126, 234, 0); }
+                25% { transform: scale(1.02); box-shadow: 0 0 20px 5px rgba(102, 126, 234, 0.4); }
+                75% { transform: scale(1.02); box-shadow: 0 0 20px 5px rgba(102, 126, 234, 0.4); }
+            }
+            
+            /* Confidence indicator */
+            .confidence-indicator {
+                display: inline-flex;
+                align-items: center;
+                gap: 5px;
+                font-size: 11px;
+                margin-left: 10px;
+                padding: 3px 10px;
+                border-radius: 12px;
+                font-weight: 600;
+                position: absolute;
+                right: 10px;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+            
+            .confidence-indicator.high {
+                background: rgba(76, 175, 80, 0.15);
+                color: #2e7d32;
+            }
+            
+            .confidence-indicator.medium {
+                background: rgba(255, 193, 7, 0.15);
+                color: #f57c00;
+            }
+            
+            .confidence-indicator.low {
+                background: rgba(244, 67, 54, 0.15);
+                color: #c62828;
+            }
+            
+            /* Input wrapper for confidence indicator positioning */
+            .input-group {
+                position: relative;
+            }
+            
+            /* Autofill notification */
+            .autofill-notification {
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                max-width: 380px;
+                background: white;
+                border-radius: 16px;
+                box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+                padding: 20px;
+                z-index: 10000;
+                animation: slideInRight 0.4s ease-out;
+                border-left: 4px solid #667eea;
+            }
+            
+            @keyframes slideInRight {
+                from { transform: translateX(420px); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            
+            @keyframes slideOutRight {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(420px); opacity: 0; }
+            }
+            
+            .autofill-header {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                margin-bottom: 12px;
+            }
+            
+            .autofill-header i.fa-robot {
+                font-size: 24px;
+                color: #667eea;
+            }
+            
+            .autofill-header h4 {
+                margin: 0;
+                color: #333;
+                font-size: 16px;
+                flex: 1;
+            }
+            
+            .autofill-close {
+                background: none;
+                border: none;
+                color: #999;
+                cursor: pointer;
+                padding: 5px;
+                font-size: 14px;
+            }
+            
+            .autofill-close:hover {
+                color: #333;
+            }
+            
+            .autofill-notification p {
+                color: #666;
+                margin: 0 0 15px;
+                font-size: 14px;
+                line-height: 1.5;
+            }
+            
+            .autofill-legend {
+                display: flex;
+                gap: 15px;
+                margin-bottom: 15px;
+                font-size: 12px;
+            }
+            
+            .legend-item {
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                color: #666;
+            }
+            
+            .legend-item .dot {
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+            }
+            
+            .legend-item.high .dot { background: #4caf50; }
+            .legend-item.medium .dot { background: #ff9800; }
+            .legend-item.low .dot { background: #f44336; }
+            
+            .autofill-actions {
+                display: flex;
+                gap: 10px;
+            }
+            
+            .autofill-actions button {
+                flex: 1;
+                padding: 10px 15px;
+                border: none;
+                border-radius: 8px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.2s;
+                font-size: 13px;
+            }
+            
+            .btn-review {
+                background: linear-gradient(135deg, #667eea, #764ba2);
+                color: white;
+            }
+            
+            .btn-review:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            }
+            
+            .btn-dismiss {
+                background: #f0f0f0;
+                color: #666;
+            }
+            
+            .btn-dismiss:hover {
+                background: #e0e0e0;
+            }
+            
+            /* Mobile responsive */
+            @media (max-width: 480px) {
+                .autofill-notification {
+                    top: auto;
+                    bottom: 20px;
+                    left: 10px;
+                    right: 10px;
+                    max-width: none;
+                }
+                
+                .confidence-indicator {
+                    position: static;
+                    transform: none;
+                    margin-top: 5px;
+                    display: inline-flex;
+                }
+            }
+        `;
+        document.head.appendChild(styles);
     }
 
     // ============================================

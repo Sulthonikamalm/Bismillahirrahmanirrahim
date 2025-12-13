@@ -78,6 +78,151 @@ class GroqClient {
     }
     
     /**
+     * ============================================================
+     * TUGAS C: Extract Labels for Smart Autofill (OPTIMIZED)
+     * ============================================================
+     * This is the ONLY extraction call in Zero-Waste architecture.
+     * Called once when user gives consent.
+     * 
+     * Features:
+     * - Enhanced prompt with confidence scoring
+     * - Better normalization rules
+     * - Optimized for form autofill
+     * 
+     * @param string $conversationText Full conversation history
+     * @return array Extracted data with confidence scores
+     */
+    public function extractLabelsForAutofill($conversationText) {
+        $autofillPrompt = $this->getAutofillExtractionPrompt();
+        
+        $messages = [
+            ['role' => 'system', 'content' => $autofillPrompt],
+            ['role' => 'user', 'content' => "Ekstrak informasi dari percakapan berikut untuk mengisi formulir pelaporan:\n\n" . $conversationText]
+        ];
+        
+        $response = $this->callGroqAPI($messages, 1200);
+        
+        try {
+            $cleanResponse = $this->cleanJsonResponse($response);
+            $labels = json_decode($cleanResponse, true);
+            
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                error_log("Autofill JSON Parse Error: " . json_last_error_msg());
+                error_log("Raw response: " . substr($response, 0, 500));
+                return $this->getEmptyLabelsWithConfidence();
+            }
+            
+            // Ensure confidence scores exist
+            if (!isset($labels['confidence_scores'])) {
+                $labels['confidence_scores'] = [
+                    'pelaku' => 0.5,
+                    'waktu' => 0.5,
+                    'lokasi' => 0.5,
+                    'detail' => 0.5
+                ];
+            }
+            
+            error_log("Autofill extraction successful: " . count(array_filter($labels)) . " fields");
+            
+            return $labels;
+            
+        } catch (Exception $e) {
+            error_log("Autofill extraction error: " . $e->getMessage());
+            return $this->getEmptyLabelsWithConfidence();
+        }
+    }
+    
+    /**
+     * Enhanced extraction prompt for autofill (with confidence scores)
+     */
+    private function getAutofillExtractionPrompt() {
+        $today = date('Y-m-d');
+        $yesterday = date('Y-m-d', strtotime('-1 day'));
+        $lastWeek = date('Y-m-d', strtotime('-7 days'));
+        
+        return "Kamu adalah AI ekstraktor data untuk sistem pelaporan kekerasan seksual (PPKPT).
+
+TUGAS: Ekstrak informasi dari percakapan untuk autofill formulir.
+
+FORMAT OUTPUT (JSON STRICT, tanpa teks lain):
+{
+  \"pelaku_kekerasan\": \"<hubungan dengan korban atau null>\",
+  \"waktu_kejadian\": \"<tanggal YYYY-MM-DD atau deskripsi>\",
+  \"lokasi_kejadian\": \"<lokasi atau null>\",
+  \"tingkat_kekhawatiran\": \"<sedikit|khawatir|sangat|null>\",
+  \"detail_kejadian\": \"<ringkasan 1-2 kalimat atau null>\",
+  \"gender_korban\": \"<laki-laki|perempuan|null>\",
+  \"usia_korban\": \"<range: 12-17|18-25|26-35|36-45|46-55|56+|null>\",
+  \"korban_sebagai\": \"<saya|oranglain|null>\",
+  \"email_korban\": \"<email atau null>\",
+  \"whatsapp_korban\": \"<nomor WA atau null>\",
+  \"confidence_scores\": {
+    \"pelaku\": <0.0-1.0>,
+    \"waktu\": <0.0-1.0>,
+    \"lokasi\": <0.0-1.0>,
+    \"detail\": <0.0-1.0>
+  }
+}
+
+NORMALISASI TANGGAL:
+- 'hari ini' / 'tadi' → '$today'
+- 'kemarin' → '$yesterday'
+- 'minggu lalu' → '$lastWeek'
+- Jika tidak jelas, tulis deskripsi apa adanya
+
+NORMALISASI PELAKU:
+- 'dosen' / 'pengajar' → 'Dosen'
+- 'teman' / 'kawan' → 'Teman'
+- 'senior' / 'kakak tingkat' → 'Senior'
+- 'tidak kenal' / 'orang asing' → 'Orang yang tidak dikenal'
+- 'pacar' → 'Pacar'
+
+NORMALISASI LOKASI:
+- 'kelas' / 'lab' / 'perpus' → 'sekolah_kampus'
+- 'kos' / 'asrama' / 'rumah' → 'rumah_tangga'
+- 'online' / 'WA' / 'IG' → 'daring_elektronik'
+- 'jalan' / 'mall' / 'cafe' → 'sarana_umum'
+
+CONFIDENCE SCORING:
+- 1.0: Eksplisit disebutkan dengan jelas
+- 0.8: Tersirat kuat dari konteks
+- 0.5: Disebutkan samar atau ambigu
+- 0.3: Inferensi lemah
+- 0.0: Tidak disebutkan (gunakan null untuk value)
+
+ATURAN:
+1. Ekstrak HANYA informasi yang disebutkan/tersirat
+2. Gunakan null untuk yang tidak diketahui
+3. JANGAN mengarang data
+4. Prioritaskan akurasi di atas kelengkapan
+5. HANYA kembalikan JSON valid, tanpa penjelasan";
+    }
+    
+    /**
+     * Empty labels structure with confidence scores
+     */
+    private function getEmptyLabelsWithConfidence() {
+        return [
+            'pelaku_kekerasan' => null,
+            'waktu_kejadian' => null,
+            'lokasi_kejadian' => null,
+            'tingkat_kekhawatiran' => null,
+            'detail_kejadian' => null,
+            'gender_korban' => null,
+            'usia_korban' => null,
+            'korban_sebagai' => null,
+            'email_korban' => null,
+            'whatsapp_korban' => null,
+            'confidence_scores' => [
+                'pelaku' => 0.0,
+                'waktu' => 0.0,
+                'lokasi' => 0.0,
+                'detail' => 0.0
+            ]
+        ];
+    }
+    
+    /**
      * IMPROVED SYSTEM PROMPTS V3 - More natural and context-aware
      */
     private function getSystemPrompt($phase) {
@@ -290,45 +435,66 @@ TETAP FOKUS KE MISI: Membantu korban kekerasan seksual.";
     }
     
     /**
-     * Extraction prompt (unchanged)
+     * Enhanced extraction prompt with confidence scoring for Smart Autofill
+     * @version 2.0 - Zero-Waste AI Integration
      */
     private function getExtractionPrompt() {
-        return "Kamu adalah AI yang bertugas mengekstrak informasi dari percakapan untuk keperluan laporan PPKPT.
+        // Get today's date for relative date calculations
+        $today = date('Y-m-d');
+        $yesterday = date('Y-m-d', strtotime('-1 day'));
+        
+        return "You are a precise data extraction AI for sexual violence reports (PPKPT system).
 
-TUGAS: Ekstrak informasi berikut dari percakapan (jika ada):
-1. pelaku_kekerasan: Siapa pelaku (dosen, senior, teman, orang asing, dll)
-2. waktu_kejadian: Kapan terjadi (format: YYYY-MM-DD jika lengkap, atau deskripsi seperti 'kemarin malam')
-3. lokasi_kejadian: Di mana terjadi (kampus, asrama, lab, jalan, dll)
-4. tingkat_kekhawatiran: Jenis kekerasan (fisik, seksual, psikologis, verbal, stalking)
-5. detail_kejadian: Ringkasan singkat kejadian (1-2 kalimat)
-6. gender_korban: Gender korban (laki-laki/perempuan/tidak disebutkan)
-7. usia_korban: Usia atau kisaran usia (18-20, 20-25, dll)
-8. korban_sebagai: Siapa yang melapor (saya sendiri/teman saya/orang lain)
-9. email_korban: Email jika disebutkan
-10. whatsapp_korban: Nomor WA jika disebutkan
-
-ATURAN PENTING:
-- Jika informasi TIDAK disebutkan, gunakan null
-- Jangan mengarang atau menebak
-- Ekstrak persis seperti yang dikatakan user
-- Untuk waktu_kejadian, coba convert ke format YYYY-MM-DD jika memungkinkan
-- Untuk tingkat_kekhawatiran, identifikasi jenis: stalking, pelecehan, kekerasan fisik, dll
-
-RESPONSE FORMAT (JSON):
+STRICT OUTPUT FORMAT (JSON only, no explanations):
 {
-  \"pelaku_kekerasan\": \"...\",
-  \"waktu_kejadian\": \"...\",
-  \"lokasi_kejadian\": \"...\",
-  \"tingkat_kekhawatiran\": \"...\",
-  \"detail_kejadian\": \"...\",
-  \"gender_korban\": \"...\",
-  \"usia_korban\": \"...\",
-  \"korban_sebagai\": \"...\",
-  \"email_korban\": null,
-  \"whatsapp_korban\": null
+  \"pelaku_kekerasan\": \"<relationship: dosen|teman|senior|orang asing|keluarga|pacar|null>\",
+  \"waktu_kejadian\": \"<ISO date YYYY-MM-DD or descriptive text if unclear>\",
+  \"lokasi_kejadian\": \"<normalized location or null>\",
+  \"detail_kejadian\": \"<concise summary 1-2 sentences in Indonesian>\",
+  \"tingkat_kekhawatiran\": \"<stalking|pelecehan|kekerasan fisik|seksual|psikologis|verbal|null>\",
+  \"usia_korban\": \"<range: 18-20|20-25|25-30|30+|null>\",
+  \"gender_korban\": \"<laki-laki|perempuan|null>\",
+  \"korban_sebagai\": \"<saya sendiri|teman saya|orang lain|null>\",
+  \"email_korban\": \"<email if mentioned, else null>\",
+  \"whatsapp_korban\": \"<phone number if mentioned, else null>\",
+  \"confidence_scores\": {
+    \"pelaku\": 0.0-1.0,
+    \"waktu\": 0.0-1.0,
+    \"lokasi\": 0.0-1.0,
+    \"detail\": 0.0-1.0
+  }
 }
 
-HANYA kembalikan JSON, tanpa penjelasan lain.";
+NORMALIZATION RULES:
+- Dates: 
+  * 'hari ini' / 'tadi' → '$today'
+  * 'kemarin' / 'kemarin malam' → '$yesterday'
+  * 'minggu lalu' → calculate date
+  * 'bulan lalu' → calculate date
+  * Keep relative descriptions if specific date unclear
+- Locations: 
+  * 'kelas' / 'lab' / 'perpustakaan' → 'Di dalam gedung kampus'
+  * 'asrama' / 'kos' → 'Asrama / Kos'
+  * 'online' / 'whatsapp' / 'instagram' → 'Online'
+- Perpetrators: 
+  * 'dia' → infer from context (dosen/senior/teman)
+  * 'orang itu' / 'orang asing' → 'Orang yang tidak dikenal'
+
+CONFIDENCE SCORING GUIDELINES:
+- 1.0: Explicitly stated with clear details
+- 0.8: Clearly implied from context
+- 0.5: Partially mentioned or ambiguous
+- 0.3: Inferred with low confidence
+- 0.0: Not mentioned at all (use null for value)
+
+CRITICAL RULES:
+1. Extract ONLY explicitly mentioned or clearly implied information
+2. Use null for unknowns - NEVER guess or make up data
+3. Keep detail_kejadian brief but comprehensive (max 2 sentences)
+4. For ambiguous dates, prefer descriptive text over wrong dates
+5. ONLY return valid JSON, no additional text or explanation
+
+HANYA kembalikan JSON yang valid, tanpa penjelasan lain.";
     }
     
     /**
