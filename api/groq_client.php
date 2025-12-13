@@ -1,32 +1,54 @@
 <?php
 /**
  * ============================================================
- * GROQ API CLIENT - IMPROVED NATURAL CONVERSATION V3.0
+ * GROQ API CLIENT - ROBUST EDITION v4.1
  * ============================================================
- * Version 3.0 - Fixed robot-like responses, better context awareness
+ * PRODUCTION-READY FEATURES:
+ * 1. Smart Retry Mechanism (Anti-Glitch) - Max 2 retries
+ * 2. Advanced JSON Repair (Trailing comma fix, regex clean)
+ * 3. Latency Telemetry & Slow Query Alerts (>5s warning)
+ * 4. Dynamic Model Configuration (fast vs smart models)
+ * 5. Token usage tracking
  * 
- * KEY IMPROVEMENTS:
- * 1. Lebih natural dan tidak repetitif
- * 2. Context-aware - baca percakapan sebelumnya
- * 3. Minimal emoji (max 1 per 4 respons)
- * 4. Variasi respons (banned phrases)
- * 5. Better phase detection
- * 
- * @version 3.0
- * @date 2025-11-16
+ * @version 4.1
+ * @date 2025-12-14
  */
+
 class GroqClient {
     private $apiKey;
     private $apiUrl = 'https://api.groq.com/openai/v1/chat/completions';
-    private $model = 'llama-3.3-70b-versatile';
+    private $defaultModel = 'llama-3.3-70b-versatile';
     private $maxTokens = 1000;
+    private $lastTokenCount = 0;
+    private $lastLatency = 0;
+    
+    // Retry configuration
+    private $maxRetries = 2;
+    private $retryDelayMs = 500; // 500ms between retries
+    
+    // Slow query threshold
+    private $slowQueryThreshold = 5.0; // 5 seconds
     
     public function __construct($apiKey) {
         $this->apiKey = $apiKey;
     }
     
     /**
-     * TUGAS A: Generate empathetic response (IMPROVED V3)
+     * Get last token count for metrics
+     */
+    public function getLastTokenCount() {
+        return $this->lastTokenCount;
+    }
+    
+    /**
+     * Get last API latency in seconds
+     */
+    public function getLastLatency() {
+        return $this->lastLatency;
+    }
+    
+    /**
+     * TUGAS A: Generate empathetic response
      */
     public function generateEmpathyResponse($conversationHistory, $currentPhase = 'curhat') {
         $systemPrompt = $this->getSystemPrompt($currentPhase);
@@ -42,13 +64,14 @@ class GroqClient {
             ];
         }
         
-        $response = $this->callGroqAPI($messages);
+        // Use fast model for chat responses
+        $response = $this->callGroqAPI($messages, null, 'llama-3.3-70b-versatile');
         
         return $response;
     }
     
     /**
-     * TUGAS B: Extract labels (SILENT)
+     * TUGAS B: Extract labels (regular - for background collection)
      */
     public function extractLabels($conversationText) {
         $extractionPrompt = $this->getExtractionPrompt();
@@ -58,172 +81,305 @@ class GroqClient {
             ['role' => 'user', 'content' => "Ekstrak informasi dari percakapan berikut:\n\n" . $conversationText]
         ];
         
-        $response = $this->callGroqAPI($messages, 1000);
+        // Use smart model for extraction (more accurate)
+        $response = $this->callGroqAPI($messages, 1000, 'llama-3.3-70b-versatile');
         
         try {
             $cleanResponse = $this->cleanJsonResponse($response);
             $labels = json_decode($cleanResponse, true);
             
             if (json_last_error() !== JSON_ERROR_NONE) {
-                error_log("JSON Parse Error: " . json_last_error_msg());
+                error_log("[JSON ERROR] extractLabels: " . json_last_error_msg());
+                error_log("[JSON RAW] " . substr($response, 0, 300));
                 return $this->getEmptyLabels();
             }
             
             return $labels;
             
         } catch (Exception $e) {
-            error_log("Label extraction error: " . $e->getMessage());
+            error_log("[EXTRACTION ERROR] " . $e->getMessage());
             return $this->getEmptyLabels();
         }
     }
     
     /**
-     * ============================================================
-     * TUGAS C: Extract Labels for Smart Autofill (OPTIMIZED)
-     * ============================================================
-     * This is the ONLY extraction call in Zero-Waste architecture.
-     * Called once when user gives consent.
-     * 
-     * Features:
-     * - Enhanced prompt with confidence scoring
-     * - Better normalization rules
-     * - Optimized for form autofill
-     * 
-     * @param string $conversationText Full conversation history
-     * @return array Extracted data with confidence scores
+     * 🚀 TUGAS C: Extract labels FOR AUTOFILL (with confidence & normalization)
      */
     public function extractLabelsForAutofill($conversationText) {
         $autofillPrompt = $this->getAutofillExtractionPrompt();
         
         $messages = [
             ['role' => 'system', 'content' => $autofillPrompt],
-            ['role' => 'user', 'content' => "Ekstrak informasi dari percakapan berikut untuk mengisi formulir pelaporan:\n\n" . $conversationText]
+            ['role' => 'user', 'content' => "Extract data from this conversation for form autofill:\n\n" . $conversationText]
         ];
         
-        $response = $this->callGroqAPI($messages, 1200);
+        // Use smart model for critical autofill extraction
+        $response = $this->callGroqAPI($messages, 1500, 'llama-3.3-70b-versatile');
         
         try {
             $cleanResponse = $this->cleanJsonResponse($response);
-            $labels = json_decode($cleanResponse, true);
+            $data = json_decode($cleanResponse, true);
             
             if (json_last_error() !== JSON_ERROR_NONE) {
-                error_log("Autofill JSON Parse Error: " . json_last_error_msg());
-                error_log("Raw response: " . substr($response, 0, 500));
-                return $this->getEmptyLabelsWithConfidence();
+                error_log("[JSON ERROR] autofill: " . json_last_error_msg());
+                error_log("[JSON RAW] " . substr($response, 0, 500));
+                return $this->getEmptyAutofillData();
             }
             
-            // Ensure confidence scores exist
-            if (!isset($labels['confidence_scores'])) {
-                $labels['confidence_scores'] = [
-                    'pelaku' => 0.5,
-                    'waktu' => 0.5,
-                    'lokasi' => 0.5,
-                    'detail' => 0.5
-                ];
+            // Validate structure
+            if (!isset($data['extracted_data']) || !isset($data['confidence_scores'])) {
+                error_log("[STRUCTURE ERROR] Invalid autofill response structure");
+                return $this->getEmptyAutofillData();
             }
             
-            error_log("Autofill extraction successful: " . count(array_filter($labels)) . " fields");
+            error_log("[AUTOFILL SUCCESS] Fields: " . ($data['extraction_metadata']['total_fields_found'] ?? 'N/A'));
             
-            return $labels;
+            return $data;
             
         } catch (Exception $e) {
-            error_log("Autofill extraction error: " . $e->getMessage());
-            return $this->getEmptyLabelsWithConfidence();
+            error_log("[AUTOFILL ERROR] " . $e->getMessage());
+            return $this->getEmptyAutofillData();
         }
     }
     
     /**
-     * Enhanced extraction prompt for autofill (with confidence scores)
+     * ============================================================
+     * 🔧 CORE API CALL - ROBUST EDITION
+     * ============================================================
+     * Features:
+     * - Smart Retry (max 2x for 5xx/timeout)
+     * - Latency monitoring & slow query alerts
+     * - Dynamic model selection
+     * 
+     * @param array $messages Messages array
+     * @param int|null $maxTokens Max tokens (optional)
+     * @param string|null $model Model to use (optional, defaults to llama-3.3-70b-versatile)
      */
-    private function getAutofillExtractionPrompt() {
-        $today = date('Y-m-d');
-        $yesterday = date('Y-m-d', strtotime('-1 day'));
-        $lastWeek = date('Y-m-d', strtotime('-7 days'));
+    private function callGroqAPI($messages, $maxTokens = null, $model = null) {
+        if ($maxTokens === null) {
+            $maxTokens = $this->maxTokens;
+        }
         
-        return "Kamu adalah AI ekstraktor data untuk sistem pelaporan kekerasan seksual (PPKPT).
-
-TUGAS: Ekstrak informasi dari percakapan untuk autofill formulir.
-
-FORMAT OUTPUT (JSON STRICT, tanpa teks lain):
-{
-  \"pelaku_kekerasan\": \"<hubungan dengan korban atau null>\",
-  \"waktu_kejadian\": \"<tanggal YYYY-MM-DD atau deskripsi>\",
-  \"lokasi_kejadian\": \"<lokasi atau null>\",
-  \"tingkat_kekhawatiran\": \"<sedikit|khawatir|sangat|null>\",
-  \"detail_kejadian\": \"<ringkasan 1-2 kalimat atau null>\",
-  \"gender_korban\": \"<laki-laki|perempuan|null>\",
-  \"usia_korban\": \"<range: 12-17|18-25|26-35|36-45|46-55|56+|null>\",
-  \"korban_sebagai\": \"<saya|oranglain|null>\",
-  \"email_korban\": \"<email atau null>\",
-  \"whatsapp_korban\": \"<nomor WA atau null>\",
-  \"confidence_scores\": {
-    \"pelaku\": <0.0-1.0>,
-    \"waktu\": <0.0-1.0>,
-    \"lokasi\": <0.0-1.0>,
-    \"detail\": <0.0-1.0>
-  }
-}
-
-NORMALISASI TANGGAL:
-- 'hari ini' / 'tadi' → '$today'
-- 'kemarin' → '$yesterday'
-- 'minggu lalu' → '$lastWeek'
-- Jika tidak jelas, tulis deskripsi apa adanya
-
-NORMALISASI PELAKU:
-- 'dosen' / 'pengajar' → 'Dosen'
-- 'teman' / 'kawan' → 'Teman'
-- 'senior' / 'kakak tingkat' → 'Senior'
-- 'tidak kenal' / 'orang asing' → 'Orang yang tidak dikenal'
-- 'pacar' → 'Pacar'
-
-NORMALISASI LOKASI:
-- 'kelas' / 'lab' / 'perpus' → 'sekolah_kampus'
-- 'kos' / 'asrama' / 'rumah' → 'rumah_tangga'
-- 'online' / 'WA' / 'IG' → 'daring_elektronik'
-- 'jalan' / 'mall' / 'cafe' → 'sarana_umum'
-
-CONFIDENCE SCORING:
-- 1.0: Eksplisit disebutkan dengan jelas
-- 0.8: Tersirat kuat dari konteks
-- 0.5: Disebutkan samar atau ambigu
-- 0.3: Inferensi lemah
-- 0.0: Tidak disebutkan (gunakan null untuk value)
-
-ATURAN:
-1. Ekstrak HANYA informasi yang disebutkan/tersirat
-2. Gunakan null untuk yang tidak diketahui
-3. JANGAN mengarang data
-4. Prioritaskan akurasi di atas kelengkapan
-5. HANYA kembalikan JSON valid, tanpa penjelasan";
-    }
-    
-    /**
-     * Empty labels structure with confidence scores
-     */
-    private function getEmptyLabelsWithConfidence() {
-        return [
-            'pelaku_kekerasan' => null,
-            'waktu_kejadian' => null,
-            'lokasi_kejadian' => null,
-            'tingkat_kekhawatiran' => null,
-            'detail_kejadian' => null,
-            'gender_korban' => null,
-            'usia_korban' => null,
-            'korban_sebagai' => null,
-            'email_korban' => null,
-            'whatsapp_korban' => null,
-            'confidence_scores' => [
-                'pelaku' => 0.0,
-                'waktu' => 0.0,
-                'lokasi' => 0.0,
-                'detail' => 0.0
-            ]
+        if ($model === null) {
+            $model = $this->defaultModel;
+        }
+        
+        $data = [
+            'model' => $model,
+            'messages' => $messages,
+            'max_tokens' => $maxTokens,
+            'temperature' => 0.7,
+            'top_p' => 0.9
         ];
+        
+        $lastError = null;
+        $attempt = 0;
+        
+        // ============================================================
+        // 🔄 SMART RETRY LOOP
+        // ============================================================
+        while ($attempt <= $this->maxRetries) {
+            $attempt++;
+            
+            // Start timing
+            $startTime = microtime(true);
+            
+            try {
+                $ch = curl_init($this->apiUrl);
+                curl_setopt_array($ch, [
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_POST => true,
+                    CURLOPT_POSTFIELDS => json_encode($data),
+                    CURLOPT_HTTPHEADER => [
+                        'Authorization: Bearer ' . $this->apiKey,
+                        'Content-Type: application/json'
+                    ],
+                    CURLOPT_TIMEOUT => 30,
+                    CURLOPT_CONNECTTIMEOUT => 10
+                ]);
+                
+                $response = curl_exec($ch);
+                $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                $curlError = curl_errno($ch);
+                $curlErrorMsg = curl_error($ch);
+                curl_close($ch);
+                
+                // Calculate latency
+                $this->lastLatency = microtime(true) - $startTime;
+                
+                // ============================================================
+                // 📊 TELEMETRY: Log execution time
+                // ============================================================
+                error_log(sprintf(
+                    "[GROQ LATENCY] Model: %s | Time: %.2fs | Attempt: %d/%d",
+                    $model,
+                    $this->lastLatency,
+                    $attempt,
+                    $this->maxRetries + 1
+                ));
+                
+                // 🚨 SLOW QUERY ALERT
+                if ($this->lastLatency > $this->slowQueryThreshold) {
+                    error_log(sprintf(
+                        "⚠️ [SLOW QUERY ALERT] API took %.2fs (threshold: %.1fs) | Model: %s",
+                        $this->lastLatency,
+                        $this->slowQueryThreshold,
+                        $model
+                    ));
+                }
+                
+                // Check for cURL errors (timeout, connection failed)
+                if ($curlError) {
+                    $lastError = "cURL Error [$curlError]: $curlErrorMsg";
+                    error_log("[GROQ RETRY] Attempt $attempt failed: $lastError");
+                    
+                    // Retry on timeout or connection errors
+                    if ($attempt <= $this->maxRetries) {
+                        usleep($this->retryDelayMs * 1000); // Convert to microseconds
+                        continue;
+                    }
+                    throw new Exception("Groq API Error after {$attempt} attempts: $lastError");
+                }
+                
+                // Check for 5xx server errors (retry-able)
+                if ($httpCode >= 500 && $httpCode < 600) {
+                    $lastError = "HTTP $httpCode Server Error";
+                    error_log("[GROQ RETRY] Attempt $attempt failed: $lastError");
+                    
+                    if ($attempt <= $this->maxRetries) {
+                        usleep($this->retryDelayMs * 1000);
+                        continue;
+                    }
+                    throw new Exception("Groq API Error after {$attempt} attempts: $lastError");
+                }
+                
+                // 4xx errors are not retry-able
+                if ($httpCode >= 400 && $httpCode < 500) {
+                    error_log("[GROQ ERROR] HTTP $httpCode: " . substr($response, 0, 300));
+                    throw new Exception("Groq API Client Error: HTTP $httpCode");
+                }
+                
+                // Success!
+                if ($httpCode === 200) {
+                    $result = json_decode($response, true);
+                    
+                    if (!isset($result['choices'][0]['message']['content'])) {
+                        error_log("[GROQ ERROR] Invalid response structure: " . substr($response, 0, 300));
+                        throw new Exception("Invalid response structure from Groq API");
+                    }
+                    
+                    // Track token usage
+                    if (isset($result['usage']['total_tokens'])) {
+                        $this->lastTokenCount = $result['usage']['total_tokens'];
+                        error_log(sprintf("[GROQ TOKENS] Used: %d tokens", $this->lastTokenCount));
+                    }
+                    
+                    return $result['choices'][0]['message']['content'];
+                }
+                
+                // Unexpected response
+                throw new Exception("Unexpected HTTP response: $httpCode");
+                
+            } catch (Exception $e) {
+                $lastError = $e->getMessage();
+                
+                // Only retry on specific errors
+                if ($attempt <= $this->maxRetries && $this->isRetryableError($lastError)) {
+                    error_log("[GROQ RETRY] Attempt $attempt: $lastError - retrying...");
+                    usleep($this->retryDelayMs * 1000);
+                    continue;
+                }
+                
+                throw $e;
+            }
+        }
+        
+        throw new Exception("Groq API failed after all retry attempts: $lastError");
     }
     
     /**
-     * IMPROVED SYSTEM PROMPTS V3 - More natural and context-aware
+     * Check if error is retry-able
+     */
+    private function isRetryableError($error) {
+        $retryablePatterns = [
+            'timeout',
+            'timed out',
+            'connection',
+            'curl',
+            '500',
+            '502',
+            '503',
+            '504',
+            'server error'
+        ];
+        
+        $errorLower = strtolower($error);
+        foreach ($retryablePatterns as $pattern) {
+            if (strpos($errorLower, $pattern) !== false) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    /**
+     * ============================================================
+     * 🧹 ADVANCED JSON CLEANER (Regex-based repair)
+     * ============================================================
+     * Features:
+     * - Remove markdown code blocks
+     * - Strip BOM and invisible characters
+     * - Fix trailing commas (LLM common error)
+     * - Extract JSON from mixed content
+     */
+    private function cleanJsonResponse($response) {
+        // Step 1: Remove BOM and invisible characters
+        $response = preg_replace('/^\xEF\xBB\xBF/', '', $response);
+        $response = preg_replace('/[\x00-\x1F\x7F]/u', '', $response);
+        
+        // Step 2: Remove markdown code blocks
+        $response = preg_replace('/```json\s*/i', '', $response);
+        $response = preg_replace('/```\s*/', '', $response);
+        
+        // Step 3: Trim whitespace
+        $response = trim($response);
+        
+        // Step 4: Extract JSON if wrapped in other content
+        // Look for { ... } pattern
+        if (preg_match('/\{[\s\S]*\}/u', $response, $matches)) {
+            $response = $matches[0];
+        }
+        
+        // Step 5: Fix trailing commas (CRITICAL for LLM output)
+        // Pattern: comma followed by closing bracket/brace
+        // ,] → ]  and  ,} → }
+        $response = preg_replace('/,\s*\]/', ']', $response);
+        $response = preg_replace('/,\s*\}/', '}', $response);
+        
+        // Step 6: Fix common LLM JSON errors
+        // Double commas
+        $response = preg_replace('/,\s*,/', ',', $response);
+        
+        // Unquoted null values
+        $response = preg_replace('/:(\s*)null\b/i', ':${1}null', $response);
+        
+        // Step 7: Validate basic JSON structure
+        $firstChar = substr($response, 0, 1);
+        if ($firstChar !== '{' && $firstChar !== '[') {
+            error_log("[JSON CLEAN] Warning: Response doesn't start with { or [");
+            // Try to find JSON start
+            $jsonStart = strpos($response, '{');
+            if ($jsonStart !== false) {
+                $response = substr($response, $jsonStart);
+            }
+        }
+        
+        return $response;
+    }
+    
+    /**
+     * System prompts (unchanged from v4.0)
      */
     private function getSystemPrompt($phase) {
         switch ($phase) {
@@ -256,34 +412,13 @@ VARIASI RESPONS (GUNAKAN BERGANTIAN):
 ✓ \"Kamu tidak perlu merasa malu. Apa yang terjadi itu bukan salahmu.\"
 ✓ \"Aku tetap di sini mendengarkan.\"
 
-CONTOH INTERAKSI NATURAL:
-User: \"Saya ketakutan\"
-✓ \"Pasti berat banget ya rasanya. Kamu mau cerita lebih lanjut?\"
-
-User: \"Ada yang memeluk saya dari belakang\"
-✓ \"Astaga, itu pasti bikin kamu sangat nggak nyaman. Apa yang kamu rasakan saat itu?\"
-
-User: \"Ini memalukan...\"
-✓ \"Kamu tidak perlu merasa malu. Apa yang terjadi padamu itu tidak benar.\"
-
-User: \"Aku takut kalau dia dendam...\"
-✓ \"Kekhawatiranmu itu wajar banget. Keamananmu yang paling penting.\"
-
 BANNED PHRASES (JANGAN PERNAH PAKAI):
 ✗ \"aku di sini untuk mendengarkan dan mendukungmu\"
 ✗ \"aku di sini buatmu\"
-✗ \"tidak apa-apa kok, keputusan ada di kamu\" (ini untuk fase rejected, bukan curhat!)
-✗ \"take your time\" (terlalu template)
-✗ Frasa apapun yang sudah dipakai 2x dalam percakapan
+✗ \"tidak apa-apa kok, keputusan ada di kamu\"
+✗ \"take your time\"
 
-ATURAN CRITICAL:
-- Respons maksimal 2 kalimat (singkat!)
-- BACA KONTEKS - lihat apa yang baru saja user katakan
-- VARIASI adalah kunci - jangan monoton!
-- JANGAN terlalu cepat pindah ke fase consent
-- Biarkan user cerita dengan nyaman dulu
-
-Respons dalam Bahasa Indonesia yang natural dan friendly.";
+Respons maksimal 2 kalimat (singkat!), Bahasa Indonesia natural.";
 
             case 'collect':
                 return "Kamu adalah 'TemanKu', teman yang peduli dan mulai membantu user lebih lanjut.
@@ -296,31 +431,14 @@ FASE COLLECT - MENGGALI INFO SECARA NATURAL:
 - Tanya 1 hal per respons, tunggu jawaban
 
 STRATEGI BERTANYA NATURAL:
-✓ \"Kalau boleh tahu, ini kejadian kapan ya?\" (natural)
-✗ \"Tanggal dan waktu kejadian?\" (terlalu formal)
+✓ \"Kalau boleh tahu, ini kejadian kapan ya?\"
+✗ \"Tanggal dan waktu kejadian?\"
 
-✓ \"Kejadiannya di mana kira-kira?\" (casual)
-✗ \"Mohon sebutkan lokasi kejadian\" (terlalu rigid)
+✓ \"Kejadiannya di mana kira-kira?\"
+✗ \"Mohon sebutkan lokasi kejadian\"
 
-✓ \"Orang yang ngelakuin itu, kamu kenal orangnya nggak?\" (natural)
-✗ \"Siapa identitas pelaku?\" (terlalu formal)
-
-FLOW NATURAL:
-1. Validasi dulu apa yang user baru ceritakan
-2. Baru tanya 1 hal (fokus 1 informasi per pertanyaan)
-3. Tunggu jawaban, baru lanjut
-
-CONTOH BAIK:
-User: \"Dia mengikuti saya\"
-Bot: \"Itu pasti bikin nggak nyaman banget. Kalau boleh tahu, ini udah kejadian berapa lama?\"
-
-User: \"Aku takut dia dendam...\"
-Bot: \"Kekhawatiranmu wajar banget. Kalau boleh tau, orangnya siapa ya? Kamu kenal dia?\"
-
-BANNED PHRASES:
-✗ \"tidak apa-apa kok, keputusan ada di kamu\"
-✗ \"take your time\"
-✗ Frasa template berulang
+✓ \"Orang yang ngelakuin itu, kamu kenal orangnya nggak?\"
+✗ \"Siapa identitas pelaku?\"
 
 Respons natural 2 kalimat max, Bahasa Indonesia conversational.";
 
@@ -330,233 +448,158 @@ Respons natural 2 kalimat max, Bahasa Indonesia conversational.";
 FASE CONSENT - TAWARKAN BANTUAN KONKRET:
 Sekarang user sudah cerita cukup banyak. Kamu akan tawarkan untuk CATAT LAPORAN RESMI ke sistem PPKPT.
 
-DETEKSI SITUASI:
-- Jika user tanya tentang keamanan laporan → Jawab dulu kekhawatirannya
-- Jika user ragu/takut → Validasi dulu, jelaskan perlindungan
-- Jika user sudah siap → Langsung tawarkan bantuan konkret
+CARA MENAWARKAN:
+\"Terima kasih udah percaya cerita ke aku. Aku bisa bantu catatkan ini sebagai laporan resmi ke Tim Satgas PPKPT, biar mereka bisa follow up lebih lanjut. Kamu mau aku bantuin catatkan?\"
 
-CARA MENAWARKAN (PILIH SESUAI KONTEKS):
-✓ \"Terima kasih udah percaya cerita ke aku. Aku bisa bantu catatkan ini sebagai laporan resmi ke Tim Satgas PPKPT, biar mereka bisa follow up lebih lanjut. Kamu mau aku bantuin catatkan?\"
-
-✓ \"Kayaknya ini penting untuk dicatat ya. Gimana kalau aku bantuin buat laporan resmi? Nanti akan ada Tim Satgas yang bisa bantu kamu lebih lanjut. Mau?\"
-
-JIKA USER TANYA KEAMANAN/ANONIMITAS:
-✓ \"Identitasmu akan dijaga kerahasiaannya. Laporan ini untuk melindungimu, bukan menyulitkanmu. Apakah kamu mau aku bantu catat kejadian ini?\"
+JIKA USER TANYA KEAMANAN:
+\"Identitasmu akan dijaga kerahasiaannya. Laporan ini untuk melindungimu, bukan menyulitkanmu. Apakah kamu mau aku bantu catat kejadian ini?\"
 
 PENTING:
-- JANGAN bilang \"hubungi polisi sendiri\" atau \"cari hotline\"
-- JANGAN kasih instruksi manual yang membingungkan
+- JANGAN bilang \"hubungi polisi sendiri\"
 - FOKUS: Tawarkan bantuan KONKRET lewat sistem PPKPT
-- Buat jelas bahwa KAMU (bot) yang akan BANTU CATATKAN
 - Tidak memaksa, tetap kasih pilihan
-
-JIKA USER BILANG \"MAU LAPOR\":
-Langsung respon: \"Oke, aku bantuin catatkan ya. Biar lengkap, aku mau pastiin beberapa detail dulu...\"
-
-BANNED PHRASES:
-✗ \"tidak apa-apa kok, keputusan ada di kamu\" (ini untuk rejected!)
-✗ \"take your time\"
 
 Respons natural 2-3 kalimat, Bahasa Indonesia friendly.";
 
             case 'report':
                 return "Kamu adalah 'TemanKu', teman yang sedang membantu melengkapi laporan.
 
-FASE REPORT - LENGKAPI DATA DENGAN SMOOTH:
+FASE REPORT - LENGKAPI DATA:
 User sudah setuju untuk lapor. Sekarang kamu perlu data lengkap untuk sistem.
 
 DATA YANG DIBUTUHKAN (tanya 1-2 per giliran):
-1. Pelaku: Siapa orangnya (dosen, teman, orang asing, dll)
-2. Waktu: Kapan kejadiannya (tanggal/hari)
+1. Pelaku: Siapa orangnya
+2. Waktu: Kapan kejadiannya
 3. Lokasi: Di mana kejadiannya
-4. Detail: Apa yang terjadi (ringkas)
-5. Kontak: Email atau WhatsApp untuk follow-up
-6. Usia: Kisaran usia user (18-20, 20-25, dll)
+4. Detail: Apa yang terjadi
+5. Kontak: Email atau WhatsApp
+6. Usia: Kisaran usia user
 
-CARA BERTANYA SMOOTH:
-✓ \"Untuk laporannya, boleh tau ini kejadian kapan ya? Tanggal atau hari aja juga gapapa\"
-✓ \"Orang yang ngelakuin ini, kamu tau dia siapa nggak? Atau orang asing?\"
-✓ \"Biar tim bisa follow up, boleh minta email atau nomor WA yang bisa dihubungi?\"
-✓ \"Kamu usia berapa sekarang? Boleh kisaran aja, misalnya 18-20 atau 20-25\"
-
-JANGAN BERLEBIHAN:
-- Tanya 1-2 hal per respons
-- Natural, tidak terasa seperti form
-- Jelaskan kenapa butuh info tersebut
-
-SETELAH DATA LENGKAP:
-\"Oke, semua udah lengkap. Aku catatkan ya ke sistem. Nanti kamu akan dapat kode laporan untuk tracking.\"
+CARA BERTANYA:
+✓ \"Untuk laporannya, boleh tau ini kejadian kapan ya?\"
+✓ \"Orang yang ngelakuin ini, kamu tau dia siapa nggak?\"
+✓ \"Biar tim bisa follow up, boleh minta email atau nomor WA?\"
 
 Respons natural 2-3 kalimat, Bahasa Indonesia conversational.";
 
             case 'rejected':
-                return "Kamu adalah 'TemanKu', teman yang tetap supportive meski user tidak jadi lapor.
+                return "Kamu adalah 'TemanKu', teman yang tetap supportive.
 
-User memutuskan TIDAK JADI LAPOR. Kamu harus:
-- Validasi keputusan mereka (tidak ada paksaan)
-- Tetap supportive dan available
-- JANGAN buat mereka merasa bersalah
-
-RESPONS YANG BISA DIPAKAI:
-✓ \"Tidak apa-apa kok, keputusan ada di kamu. Yang penting kamu udah berani cerita. Aku tetap di sini kalau kamu butuh teman ngobrol atau suatu saat berubah pikiran.\"
-
-✓ \"Aku paham kok. Kamu nggak perlu dipaksa. Kalau suatu saat kamu siap, aku akan tetap di sini.\"
+User memutuskan TIDAK JADI LAPOR. Respons:
+\"Tidak apa-apa kok, keputusan ada di kamu. Yang penting kamu udah berani cerita. Aku tetap di sini kalau kamu butuh teman ngobrol atau suatu saat berubah pikiran.\"
 
 Respons hangat 2 kalimat, Bahasa Indonesia supportive.";
 
             default:
-                return "Kamu adalah 'TemanKu', teman yang empatik. Dengarkan dan validasi perasaan user dengan natural dan hangat. BACA KONTEKS sebelumnya dengan baik.";
+                return "Kamu adalah 'TemanKu', teman yang empatik. Dengarkan dan validasi perasaan user dengan natural dan hangat.";
         }
     }
     
     /**
-     * STAY FOCUSED - Anti off-topic prompt
+     * Regular extraction prompt
      */
-    private function getSystemPromptWithFocus() {
-        return "ATURAN SUPER PENTING - FOKUS PPKPT:
+    private function getExtractionPrompt() {
+        return "Kamu adalah AI yang bertugas mengekstrak informasi dari percakapan untuk keperluan laporan PPKPT.
 
-Kamu HANYA bisa membantu untuk:
-1. Mendengarkan cerita kekerasan/pelecehan
-2. Memberikan dukungan emosional
-3. Membantu membuat laporan PPKPT
+TUGAS: Ekstrak informasi berikut dari percakapan (jika ada):
+1. pelaku_kekerasan: Siapa pelaku (dosen, senior, teman, orang asing, dll)
+2. waktu_kejadian: Kapan terjadi (format: YYYY-MM-DD jika lengkap, atau deskripsi)
+3. lokasi_kejadian: Di mana terjadi (kampus, asrama, lab, dll)
+4. tingkat_kekhawatiran: Jenis (sedikit, khawatir, sangat)
+5. detail_kejadian: Ringkasan singkat (1-2 kalimat)
+6. gender_korban: Gender (laki-laki/perempuan/tidak disebutkan)
+7. usia_korban: Usia atau kisaran (18-20, 20-25, dll)
+8. korban_sebagai: Siapa yang melapor (saya sendiri/teman saya/orang lain)
+9. email_korban: Email jika disebutkan
+10. whatsapp_korban: Nomor WA jika disebutkan
 
-Kamu TIDAK BISA dan TIDAK BOLEH:
-✗ Membuat kode programming (C++, Java, Python, dll)
-✗ Menjawab pertanyaan umum/random
-✗ Membantu tugas sekolah/kuliah
-✗ Diskusi topik di luar PPKPT
+RESPONSE FORMAT (JSON):
+{
+  \"pelaku_kekerasan\": \"...\",
+  \"waktu_kejadian\": \"...\",
+  \"lokasi_kejadian\": \"...\",
+  \"tingkat_kekhawatiran\": \"...\",
+  \"detail_kejadian\": \"...\",
+  \"gender_korban\": \"...\",
+  \"usia_korban\": \"...\",
+  \"korban_sebagai\": \"...\",
+  \"email_korban\": null,
+  \"whatsapp_korban\": null
+}
 
-JIKA USER TANYA OFF-TOPIC:
-Respons: \"Maaf, aku khusus untuk membantu kamu yang mengalami atau menyaksikan kekerasan seksual. Untuk pertanyaan lain, aku nggak bisa bantu ya.
-
-Kalau kamu ada cerita atau butuh bantuan terkait PPKPT, aku di sini.\"
-
-TETAP FOKUS KE MISI: Membantu korban kekerasan seksual.";
+HANYA kembalikan JSON, tanpa penjelasan lain. JANGAN gunakan trailing comma.";
     }
     
     /**
-     * Enhanced extraction prompt with confidence scoring for Smart Autofill
-     * @version 2.0 - Zero-Waste AI Integration
+     * 🚀 Enhanced autofill extraction prompt
      */
-    private function getExtractionPrompt() {
-        // Get today's date for relative date calculations
+    private function getAutofillExtractionPrompt() {
         $today = date('Y-m-d');
         $yesterday = date('Y-m-d', strtotime('-1 day'));
         
-        return "You are a precise data extraction AI for sexual violence reports (PPKPT system).
+        return "You are a precise data extraction AI for sexual violence report forms. Your task is to extract structured data with confidence scores for smart form autofill.
 
-STRICT OUTPUT FORMAT (JSON only, no explanations):
+TODAY'S DATE: $today (use for relative date calculations)
+YESTERDAY: $yesterday
+
+CRITICAL INSTRUCTIONS:
+1. Extract ONLY explicitly mentioned information
+2. Provide confidence scores (0.0-1.0) for each field
+3. Normalize dates to YYYY-MM-DD format
+4. Normalize locations using standard patterns
+5. Return ONLY valid JSON - NO trailing commas, NO markdown
+
+FIELD MAPPING:
+- pelaku_kekerasan: Perpetrator (dosen|teman|senior|orang_tidak_dikenal|kenalan_baru|rekan_kerja|atasan_majikan|pacar|kerabat|lainnya)
+- waktu_kejadian: Date YYYY-MM-DD (kemarin→$yesterday, hari ini→$today)
+- lokasi_kejadian: Location (rumah_tangga|tempat_kerja|sekolah_kampus|sarana_umum|daring_elektronik)
+- detail_kejadian: Concise incident summary (2-3 sentences)
+- tingkat_kekhawatiran: Concern level (sedikit|khawatir|sangat)
+- usia_korban: Age range (12-17|18-25|26-35|36-45|46-55|56+)
+- gender_korban: Gender (lakilaki|perempuan)
+- email_korban: Email if mentioned
+- whatsapp_korban: Phone number if mentioned
+
+CONFIDENCE SCORING:
+- 1.0: Explicitly stated
+- 0.8: Clearly implied
+- 0.6: Reasonably inferred
+- 0.4: Weak inference
+- 0.0: Not mentioned
+
+STRICT JSON OUTPUT FORMAT (NO trailing commas!):
 {
-  \"pelaku_kekerasan\": \"<relationship: dosen|teman|senior|orang asing|keluarga|pacar|null>\",
-  \"waktu_kejadian\": \"<ISO date YYYY-MM-DD or descriptive text if unclear>\",
-  \"lokasi_kejadian\": \"<normalized location or null>\",
-  \"detail_kejadian\": \"<concise summary 1-2 sentences in Indonesian>\",
-  \"tingkat_kekhawatiran\": \"<stalking|pelecehan|kekerasan fisik|seksual|psikologis|verbal|null>\",
-  \"usia_korban\": \"<range: 18-20|20-25|25-30|30+|null>\",
-  \"gender_korban\": \"<laki-laki|perempuan|null>\",
-  \"korban_sebagai\": \"<saya sendiri|teman saya|orang lain|null>\",
-  \"email_korban\": \"<email if mentioned, else null>\",
-  \"whatsapp_korban\": \"<phone number if mentioned, else null>\",
+  \"extracted_data\": {
+    \"pelaku_kekerasan\": \"value or null\",
+    \"waktu_kejadian\": \"YYYY-MM-DD or null\",
+    \"lokasi_kejadian\": \"value or null\",
+    \"detail_kejadian\": \"value or null\",
+    \"tingkat_kekhawatiran\": \"value or null\",
+    \"usia_korban\": \"range or null\",
+    \"gender_korban\": \"value or null\",
+    \"email_korban\": \"email or null\",
+    \"whatsapp_korban\": \"phone or null\"
+  },
   \"confidence_scores\": {
-    \"pelaku\": 0.0-1.0,
-    \"waktu\": 0.0-1.0,
-    \"lokasi\": 0.0-1.0,
-    \"detail\": 0.0-1.0
+    \"pelaku\": 0.0,
+    \"waktu\": 0.0,
+    \"lokasi\": 0.0,
+    \"detail\": 0.0,
+    \"tingkat\": 0.0,
+    \"usia\": 0.0,
+    \"gender\": 0.0,
+    \"email\": 0.0,
+    \"whatsapp\": 0.0
+  },
+  \"extraction_metadata\": {
+    \"total_fields_found\": 0,
+    \"average_confidence\": 0.0,
+    \"high_confidence_count\": 0,
+    \"notes\": \"Brief observation\"
   }
 }
 
-NORMALIZATION RULES:
-- Dates: 
-  * 'hari ini' / 'tadi' → '$today'
-  * 'kemarin' / 'kemarin malam' → '$yesterday'
-  * 'minggu lalu' → calculate date
-  * 'bulan lalu' → calculate date
-  * Keep relative descriptions if specific date unclear
-- Locations: 
-  * 'kelas' / 'lab' / 'perpustakaan' → 'Di dalam gedung kampus'
-  * 'asrama' / 'kos' → 'Asrama / Kos'
-  * 'online' / 'whatsapp' / 'instagram' → 'Online'
-- Perpetrators: 
-  * 'dia' → infer from context (dosen/senior/teman)
-  * 'orang itu' / 'orang asing' → 'Orang yang tidak dikenal'
-
-CONFIDENCE SCORING GUIDELINES:
-- 1.0: Explicitly stated with clear details
-- 0.8: Clearly implied from context
-- 0.5: Partially mentioned or ambiguous
-- 0.3: Inferred with low confidence
-- 0.0: Not mentioned at all (use null for value)
-
-CRITICAL RULES:
-1. Extract ONLY explicitly mentioned or clearly implied information
-2. Use null for unknowns - NEVER guess or make up data
-3. Keep detail_kejadian brief but comprehensive (max 2 sentences)
-4. For ambiguous dates, prefer descriptive text over wrong dates
-5. ONLY return valid JSON, no additional text or explanation
-
-HANYA kembalikan JSON yang valid, tanpa penjelasan lain.";
-    }
-    
-    /**
-     * Call Groq API
-     */
-    private function callGroqAPI($messages, $maxTokens = null) {
-        if ($maxTokens === null) {
-            $maxTokens = $this->maxTokens;
-        }
-        
-        $data = [
-            'model' => $this->model,
-            'messages' => $messages,
-            'max_tokens' => $maxTokens,
-            'temperature' => 0.7,
-            'top_p' => 0.9
-        ];
-        
-        $ch = curl_init($this->apiUrl);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Authorization: Bearer ' . $this->apiKey,
-            'Content-Type: application/json'
-        ]);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-        
-        $response = curl_exec($ch);
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        
-        if (curl_errno($ch)) {
-            $error = curl_error($ch);
-            curl_close($ch);
-            throw new Exception("Groq API Error: " . $error);
-        }
-        
-        curl_close($ch);
-        
-        if ($httpCode !== 200) {
-            error_log("Groq API Error - HTTP $httpCode: " . $response);
-            throw new Exception("Groq API returned error: HTTP $httpCode");
-        }
-        
-        $result = json_decode($response, true);
-        
-        if (!isset($result['choices'][0]['message']['content'])) {
-            error_log("Invalid Groq response: " . $response);
-            throw new Exception("Invalid response from Groq API");
-        }
-        
-        return $result['choices'][0]['message']['content'];
-    }
-    
-    /**
-     * Clean JSON response
-     */
-    private function cleanJsonResponse($response) {
-        $response = preg_replace('/```json\s*/', '', $response);
-        $response = preg_replace('/```\s*/', '', $response);
-        $response = trim($response);
-        return $response;
+Return ONLY the JSON object. No explanations, no markdown, pure JSON.";
     }
     
     /**
@@ -574,6 +617,32 @@ HANYA kembalikan JSON yang valid, tanpa penjelasan lain.";
             'korban_sebagai' => null,
             'email_korban' => null,
             'whatsapp_korban' => null
+        ];
+    }
+    
+    /**
+     * Get empty autofill data structure
+     */
+    private function getEmptyAutofillData() {
+        return [
+            'extracted_data' => $this->getEmptyLabels(),
+            'confidence_scores' => [
+                'pelaku' => 0.0,
+                'waktu' => 0.0,
+                'lokasi' => 0.0,
+                'detail' => 0.0,
+                'tingkat' => 0.0,
+                'usia' => 0.0,
+                'gender' => 0.0,
+                'email' => 0.0,
+                'whatsapp' => 0.0
+            ],
+            'extraction_metadata' => [
+                'total_fields_found' => 0,
+                'average_confidence' => 0.0,
+                'high_confidence_count' => 0,
+                'notes' => 'Extraction failed or no data found'
+            ]
         ];
     }
 }

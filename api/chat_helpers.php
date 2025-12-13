@@ -1,606 +1,625 @@
 <?php
 /**
  * ============================================================
- * CHAT HELPERS - IMPROVED VERSION 3.0
+ * CHAT HELPERS - ULTIMATE VERSION 4.2
  * ============================================================
- * Version 3.0 - Smarter phase detection, better context awareness
- * 
- * @version 3.0
- * @date 2025-11-16
+ * PRODUCTION-READY FEATURES:
+ * 1. Smart Autofill Normalization with Security Sanitization
+ * 2. Slang-Aware Date Parsing (kmrn, bsk, hr, mg, bln)
+ * 3. Precision Emergency Detection (Regex word boundaries)
+ * 4. XSS-Safe Output Sanitization
+ * 5. Enhanced Phase Detection
+ *
+ * @version 4.2
+ * @date 2025-12-14
  */
 
 class ChatHelpers {
     
     /**
-     * Determine current phase (IMPROVED V3 - smarter logic)
+     * ============================================================
+     * 🚀 CORE: Normalize AI data for Form Autofill
+     * ============================================================
+     * Converts AI extracted data to form-compatible format
+     * Includes security sanitization for XSS prevention
      */
-    public static function determinePhase($labels, $messageCount, $consentAsked = false, $lastUserMessage = '', $conversationHistory = []) {
-        // CRITICAL: Check if user is asking about reporting concerns (not rejecting)
-        if (self::isAskingAboutReporting($lastUserMessage)) {
-            // User is concerned about reporting process, stay in CONSENT phase
-            return 'consent';
-        }
+    public static function normalizeExtractedData($rawData) {
+        // Handle both nested and flat structures
+        $extracted = isset($rawData['extracted_data']) ? $rawData['extracted_data'] : $rawData;
+        $confidence = isset($rawData['confidence_scores']) ? $rawData['confidence_scores'] : [];
         
-        // Check for explicit report intent
-        if (self::detectReportIntent($lastUserMessage)) {
-            if (!$consentAsked) {
-                return 'consent';  // Ask for consent first
-            } else {
-                return 'report';  // Start collecting data
-            }
-        }
-        
-        // Phase 1: Curhat (first 6-8 messages - give more space)
-        if ($messageCount < 8) {
-            return 'curhat';
-        }
-        
-        // Check labels filled
-        $filledLabels = self::countFilledLabels($labels);
-        
-        // Phase 2: Collect (gathering labels naturally, 8-12 messages)
-        if ($filledLabels < 3 && $messageCount < 14) {
-            return 'collect';
-        }
-        
-        // Phase 3: Consent (ask permission if enough info gathered)
-        if ($filledLabels >= 3 && !$consentAsked) {
-            return 'consent';
-        }
-        
-        // Phase 4: Report (filling missing data after consent)
-        if ($consentAsked) {
-            return 'report';
-        }
-        
-        return 'curhat';  // Default to curhat if unclear
-    }
-    
-    /**
-     * NEW: Detect if user is ASKING about reporting (not rejecting)
-     */
-    public static function isAskingAboutReporting($message) {
-        $message = strtolower(trim($message));
-        
-        $questionPatterns = [
-            // Questions about safety/anonymity
-            'bakal ada orang yang tau',
-            'orang tau aku yang',
-            'bakal ketahuan',
-            'identitas',
-            'nama aku',
-            'rahasia',
-            'aman',
-            'takut dia dendam',
-            'kalau dia tau',
-            
-            // Questions about process
-            'gimana caranya',
-            'bagaimana prosesnya',
-            'apa yang akan terjadi',
-            'nanti gimana',
-            'terus gimana',
-            
-            // Concerns but not rejection
-            'tapi aku takut',
-            'tapi aku khawatir',
-            'aku takut kalau',
-            'aku khawatir',
-            'masalah ini selesai'
+        return [
+            'pelakuKekerasan'     => self::sanitize(self::normalizePerpetrator($extracted['pelaku_kekerasan'] ?? null)),
+            'waktuKejadian'       => self::sanitize(self::normalizeDate($extracted['waktu_kejadian'] ?? null)),
+            'lokasiKejadian'      => self::sanitize(self::normalizeLocation($extracted['lokasi_kejadian'] ?? null)),
+            'detailKejadian'      => self::sanitize($extracted['detail_kejadian'] ?? null),
+            'tingkatKekhawatiran' => self::sanitize(self::normalizeKekhawatiran($extracted['tingkat_kekhawatiran'] ?? null)),
+            'usiaKorban'          => self::sanitize(self::normalizeUsia($extracted['usia_korban'] ?? null)),
+            'genderKorban'        => self::sanitize(self::normalizeGender($extracted['gender_korban'] ?? null)),
+            'korbanSebagai'       => 'saya', // Default: korban sendiri yang melapor
+            'emailKorban'         => self::sanitize($extracted['email_korban'] ?? null),
+            'whatsappKorban'      => self::sanitize($extracted['whatsapp_korban'] ?? null),
+            'confidence'          => $confidence
         ];
-        
-        foreach ($questionPatterns as $pattern) {
-            if (strpos($message, $pattern) !== false) {
-                return true;
-            }
-        }
-        
-        return false;
     }
-    
+
     /**
-     * DETECT REPORT INTENT - User explicitly wants to report
+     * ============================================================
+     * 🛡️ SECURITY: Sanitize output strings (XSS Prevention)
+     * ============================================================
+     * Strips HTML tags and encodes special characters
      */
-    public static function detectReportIntent($message) {
-        $message = strtolower(trim($message));
+    private static function sanitize($input) {
+        if ($input === null || $input === 'null') return null;
         
-        $reportKeywords = [
-            // Explicit report intent
-            'saya mau lapor',
-            'saya ingin melapor',
-            'saya ingin lapor',
-            'mau lapor',
-            'ingin melapor',
-            'tolong bantu saya lapor',
-            'bantu saya melapor',
-            'pengen masalah ini selesai', // User wants resolution
-            
-            // Questions about reporting
-            'apakah saya bisa lapor',
-            'bisa lapor',
-            'gimana cara lapor',
-            'bagaimana caranya melapor',
-            
-            // Affirmative after being asked
-            'ya saya mau',
-            'iya tolong',
-            'iya bantu saya',
-            'tolong catatkan',
-            
-            // Direct "yes" variants (when in context)
-            'ya lapor',
-            'iya lapor'
-        ];
+        // Remove any HTML/script tags first
+        $clean = strip_tags($input);
         
-        foreach ($reportKeywords as $keyword) {
-            if (strpos($message, $keyword) !== false) {
-                return true;
-            }
-        }
+        // Encode special characters for safe HTML output
+        $clean = htmlspecialchars(trim($clean), ENT_QUOTES | ENT_HTML5, 'UTF-8');
         
-        return false;
+        return $clean;
     }
     
     /**
-     * Count filled labels
-     */
-    public static function countFilledLabels($labels) {
-        $count = 0;
-        $criticalFields = [
-            'pelaku_kekerasan',
-            'waktu_kejadian',
-            'lokasi_kejadian',
-            'tingkat_kekhawatiran',
-            'detail_kejadian'
-        ];
-        
-        foreach ($criticalFields as $field) {
-            if (isset($labels[$field]) && !empty($labels[$field]) && $labels[$field] !== null) {
-                $count++;
-            }
-        }
-        
-        return $count;
-    }
-    
-    /**
-     * Merge labels (unchanged)
-     */
-    public static function mergeLabels($existingLabels, $newLabels) {
-        $merged = $existingLabels;
-        
-        foreach ($newLabels as $key => $value) {
-            if (empty($merged[$key]) && !empty($value)) {
-                $merged[$key] = $value;
-            } elseif (!empty($value) && isset($merged[$key])) {
-                if (strlen($value) > strlen($merged[$key])) {
-                    $merged[$key] = $value;
-                }
-            }
-        }
-        
-        return $merged;
-    }
-    
-    /**
-     * Detect consent (IMPROVED - more nuanced)
-     */
-    public static function detectConsent($message) {
-        $message = strtolower(trim($message));
-        
-        // Check if this is a QUESTION about reporting (not consent answer)
-        if (self::isAskingAboutReporting($message)) {
-            return 'unclear';  // They're asking, not answering
-        }
-        
-        // Negative consent patterns (high priority)
-        $noPatterns = [
-            'tidak', 'gak', 'ga ', 'enggak', 'engga',
-            'belum siap', 'belum mau', 'nanti dulu',
-            'takut', 'khawatir',
-            'tidak mau', 'tidak bersedia', 'tidak setuju',
-            'jangan dulu', 'nggak mau', 'nggak dulu'
-        ];
-        
-        // Check negative first (higher priority)
-        foreach ($noPatterns as $pattern) {
-            if (strpos($message, $pattern) !== false) {
-                // But if they also say "tapi pengen" - it's unclear
-                if (strpos($message, 'tapi') !== false || strpos($message, 'pengen') !== false) {
-                    return 'unclear';
-                }
-                return 'no';
-            }
-        }
-        
-        // Positive consent patterns
-        $yesPatterns = [
-            'ya ', 'iya ', 'yah ', 'iyah ',
-            'saya mau', 'saya bersedia', 'saya setuju',
-            'oke', 'okay', 'ok ',
-            'boleh', 'siap', 'baik',
-            'saya ingin melapor', 'tolong bantu saya',
-            'mau', 'bersedia', 'setuju',
-            'pengen masalah ini selesai'  // Implicit yes
-        ];
-        
-        // Check positive
-        foreach ($yesPatterns as $pattern) {
-            if (strpos($message, $pattern) !== false) {
-                return 'yes';
-            }
-        }
-        
-        return 'unclear';
-    }
-    
-    /**
-     * Get missing required fields
-     */
-    public static function getMissingFields($labels) {
-        $required = [
-            'pelaku_kekerasan' => 'Pelaku kekerasan',
-            'waktu_kejadian' => 'Waktu kejadian',
-            'lokasi_kejadian' => 'Lokasi kejadian',
-            'detail_kejadian' => 'Detail kejadian',
-            'usia_korban' => 'Usia korban'
-        ];
-        
-        $missing = [];
-        
-        foreach ($required as $field => $label) {
-            if (empty($labels[$field]) || $labels[$field] === null) {
-                $missing[$field] = $label;
-            }
-        }
-        
-        return $missing;
-    }
-    
-    /**
-     * Check if labels complete
-     */
-    public static function isLabelsComplete($labels) {
-        $required = [
-            'pelaku_kekerasan',
-            'waktu_kejadian',
-            'lokasi_kejadian',
-            'detail_kejadian',
-            'usia_korban'
-        ];
-        
-        foreach ($required as $field) {
-            if (empty($labels[$field]) || $labels[$field] === null) {
-                return false;
-            }
-        }
-        
-        return true;
-    }
-    
-    /**
-     * Normalize date
+     * ============================================================
+     * 🗓️ SMART DATE PARSER (Slang Support)
+     * ============================================================
+     * Handles:
+     * - Standard formats (YYYY-MM-DD)
+     * - Indonesian words (kemarin, tadi, minggu lalu)
+     * - Chat slang (kmrn, hr, mg, bln)
+     * - Relative expressions (3 hari lalu, 2 minggu lalu)
      */
     public static function normalizeDate($dateString) {
-        if (empty($dateString)) {
-            return null;
-        }
+        if (empty($dateString) || $dateString === 'null') return null;
         
+        // 1. Already in correct format
         if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $dateString)) {
             return $dateString;
         }
         
+        $text = strtolower(trim($dateString));
         $today = date('Y-m-d');
-        $yesterday = date('Y-m-d', strtotime('-1 day'));
         
-        $lower = strtolower($dateString);
-        
-        // Indonesian date patterns
-        if (strpos($lower, 'hari ini') !== false || strpos($lower, 'tadi') !== false) {
-            return $today;
-        }
-        
-        if (strpos($lower, 'kemarin') !== false) {
-            return $yesterday;
-        }
-        
-        // Relative days
-        if (preg_match('/(\d+)\s*(hari|minggu|bulan)\s*(yang\s*)?(lalu|kemarin)/i', $lower, $matches)) {
-            $number = intval($matches[1]);
-            $unit = $matches[2];
+        // 2. Direct keyword mapping (Indonesian + slang)
+        $directMappings = [
+            // Today
+            'hari ini'  => $today,
+            'hr ini'    => $today,
+            'hri ini'   => $today,
+            'sekarang'  => $today,
+            'barusan'   => $today,
+            'tadi'      => $today,
+            'tadi pagi' => $today,
+            'tadi siang'=> $today,
+            'tadi malam'=> date('Y-m-d', strtotime('-1 day')), // Tadi malam = semalam
             
-            switch ($unit) {
-                case 'hari':
-                    return date('Y-m-d', strtotime("-$number days"));
-                case 'minggu':
-                    return date('Y-m-d', strtotime("-$number weeks"));
-                case 'bulan':
-                    return date('Y-m-d', strtotime("-$number months"));
+            // Yesterday
+            'kemarin'   => date('Y-m-d', strtotime('-1 day')),
+            'kmrn'      => date('Y-m-d', strtotime('-1 day')),
+            'kemaren'   => date('Y-m-d', strtotime('-1 day')),
+            'kmren'     => date('Y-m-d', strtotime('-1 day')),
+            'semalam'   => date('Y-m-d', strtotime('-1 day')),
+            'semalem'   => date('Y-m-d', strtotime('-1 day')),
+            
+            // Two days ago
+            'lusa'          => date('Y-m-d', strtotime('-2 days')),
+            'kemarin lusa'  => date('Y-m-d', strtotime('-2 days')),
+            'kmrn lusa'     => date('Y-m-d', strtotime('-2 days')),
+            '2 hari lalu'   => date('Y-m-d', strtotime('-2 days')),
+            
+            // Week
+            'minggu lalu'   => date('Y-m-d', strtotime('-7 days')),
+            'mg lalu'       => date('Y-m-d', strtotime('-7 days')),
+            'pekan lalu'    => date('Y-m-d', strtotime('-7 days')),
+            'seminggu lalu' => date('Y-m-d', strtotime('-7 days')),
+            
+            // Month
+            'bulan lalu'    => date('Y-m-d', strtotime('-30 days')),
+            'bln lalu'      => date('Y-m-d', strtotime('-30 days')),
+            'sebulan lalu'  => date('Y-m-d', strtotime('-30 days'))
+        ];
+
+        foreach ($directMappings as $keyword => $date) {
+            if (strpos($text, $keyword) !== false) {
+                return $date;
             }
         }
         
-        $timestamp = strtotime($dateString);
-        if ($timestamp !== false) {
-            return date('Y-m-d', $timestamp);
+        // 3. Relative date parsing with regex (N hari/minggu/bulan lalu)
+        // Patterns: "3 hari lalu", "2 hr lalu", "1 minggu lalu", "2 mg lalu", "1 bulan lalu"
+        $relativePatterns = [
+            // Days
+            '/(\d+)\s*(hari|hr|hri)\s*(lalu|yang\s*lalu)/i' => 'days',
+            // Weeks  
+            '/(\d+)\s*(minggu|mg|pekan)\s*(lalu|yang\s*lalu)/i' => 'weeks',
+            // Months
+            '/(\d+)\s*(bulan|bln)\s*(lalu|yang\s*lalu)/i' => 'months'
+        ];
+
+        foreach ($relativePatterns as $pattern => $unit) {
+            if (preg_match($pattern, $text, $matches)) {
+                $num = (int)$matches[1];
+                return date('Y-m-d', strtotime("-$num $unit"));
+            }
         }
         
+        // 4. Try PHP's strtotime as fallback
+        $timestamp = strtotime($dateString);
+        if ($timestamp !== false && $timestamp > 0) {
+            $parsedDate = date('Y-m-d', $timestamp);
+            // Sanity check: date should be in the past or today
+            if ($parsedDate <= $today) {
+                return $parsedDate;
+            }
+        }
+        
+        // Return original if can't parse
         return $dateString;
     }
-    
+
     /**
-     * Sanitize labels
-     */
-    public static function sanitizeLabels($labels) {
-        $sanitized = [];
-        
-        foreach ($labels as $key => $value) {
-            if ($value === null || $value === '' || $value === 'null') {
-                $sanitized[$key] = null;
-            } else {
-                $sanitized[$key] = trim($value);
-                
-                if ($key === 'waktu_kejadian') {
-                    $sanitized[$key] = self::normalizeDate($value);
-                }
-            }
-        }
-        
-        return $sanitized;
-    }
-    
-    /**
-     * Get conversation text for extraction
-     */
-    public static function getConversationText($messages) {
-        $text = '';
-        
-        foreach ($messages as $msg) {
-            if ($msg['role'] === 'user') {
-                $text .= "User: " . $msg['content'] . "\n";
-            }
-        }
-        
-        return $text;
-    }
-    
-    /**
-     * Emergency detection (unchanged)
+     * ============================================================
+     * 🚨 EMERGENCY DETECTION (Precision Mode with Word Boundaries)
+     * ============================================================
+     * Uses regex \b (word boundary) to avoid false positives
+     * Example: "saya TIDAK ingin mati" won't trigger (negation)
      */
     public static function isEmergency($message) {
-        $emergencyKeywords = [
-            'bunuh diri', 'akhiri hidup', 'mengakhiri hidup',
-            'ingin mati', 'mau mati', 'lebih baik mati',
-            'mati aja', 'mati saja', 'mati lebih baik',
-            'ingin menghilang', 'ingin lenyap', 'hilang selamanya',
-            'sudah tidak tahan', 'tidak kuat lagi', 'tidak sanggup lagi',
-            'sudah tidak sanggup', 'tidak ada harapan',
-            'hidup hancur', 'capek hidup', 'cape hidup',
-            'hidup percuma', 'hidup sia sia', 'hidup tidak berarti',
-            'biar ketabrak', 'pengen ketabrak', 'ditabrak aja',
-            'selamat tinggal', 'goodbye semuanya',
-            'pesan terakhirku', 'ini akhir dari semuanya',
-            'mending mati', 'mau ngilang', 'gak kuat hidup',
-            'pengen end', 'end hidupku', 'game over aja'
+        // Normalize message: lowercase, remove punctuation
+        $cleanMsg = strtolower(preg_replace('/[^\w\s]/u', ' ', $message));
+        $cleanMsg = preg_replace('/\s+/', ' ', trim($cleanMsg)); // Collapse multiple spaces
+        
+        // Emergency phrases (using regex-safe patterns)
+        $emergencyPatterns = [
+            'bunuh\s+diri',
+            'ingin\s+mati',
+            'mau\s+mati',
+            'pengen\s+mati',
+            'akhiri\s+hidup',
+            'mengakhiri\s+hidup',
+            'gantung\s+diri',
+            'lompat\s+dari',
+            'minum\s+racun',
+            'gores\s+tangan',
+            'iris\s+tangan',
+            'potong\s+urat',
+            'gak\s+kuat\s+hidup',
+            'ga\s+kuat\s+hidup',
+            'tidak\s+kuat\s+hidup',
+            'lebih\s+baik\s+mati',
+            'mending\s+mati',
+            'capek\s+hidup',
+            'cape\s+hidup',
+            'males\s+hidup'
         ];
         
-        $lower = strtolower($message);
+        // Check for negation patterns that should NOT trigger emergency
+        $negationPatterns = [
+            '/tidak\s+(mau|ingin|pengen)\s+mati/i',
+            '/ga(k)?\s+(mau|ingin|pengen)\s+mati/i',
+            '/bukan\s+bunuh\s+diri/i',
+            '/jangan\s+bunuh\s+diri/i'
+        ];
         
-        foreach ($emergencyKeywords as $keyword) {
-            if (strpos($lower, $keyword) !== false) {
+        // First check if this is a negation (NOT an emergency)
+        foreach ($negationPatterns as $negPattern) {
+            if (preg_match($negPattern, $cleanMsg)) {
+                return false;
+            }
+        }
+        
+        // Now check for emergency patterns with word boundaries
+        foreach ($emergencyPatterns as $pattern) {
+            // \b = word boundary, prevents partial matches
+            if (preg_match('/\b' . $pattern . '\b/iu', $cleanMsg)) {
+                error_log("[EMERGENCY DETECTED] Pattern: $pattern | Message: " . substr($message, 0, 100));
                 return true;
             }
         }
         
         return false;
     }
-    
+
     /**
      * ============================================================
-     * SMART AUTOFILL: Data Normalization Functions
+     * 📍 LOCATION NORMALIZER
      * ============================================================
-     * @version 1.0
-     * @date 2025-12-14
-     */
-    
-    /**
-     * Normalize extracted data for form autofill
-     * Converts snake_case to camelCase and applies transformations
-     */
-    public static function normalizeExtractedData($rawData) {
-        return [
-            'pelakuKekerasan' => self::normalizePelaku($rawData['pelaku_kekerasan'] ?? null),
-            'waktuKejadian' => self::normalizeDate($rawData['waktu_kejadian'] ?? null),
-            'lokasiKejadian' => self::normalizeLocation($rawData['lokasi_kejadian'] ?? null),
-            'detailKejadian' => $rawData['detail_kejadian'] ?? null,
-            'tingkatKekhawatiran' => self::normalizeKekhawatiran($rawData['tingkat_kekhawatiran'] ?? null),
-            'usiaKorban' => $rawData['usia_korban'] ?? null,
-            'genderKorban' => self::normalizeGender($rawData['gender_korban'] ?? null),
-            'korbanSebagai' => $rawData['korban_sebagai'] ?? null,
-            'emailKorban' => $rawData['email_korban'] ?? null,
-            'whatsappKorban' => $rawData['whatsapp_korban'] ?? null,
-            'confidence' => $rawData['confidence_scores'] ?? [
-                'pelaku' => 0.7,
-                'waktu' => 0.7,
-                'lokasi' => 0.7,
-                'detail' => 0.8
-            ]
-        ];
-    }
-    
-    /**
-     * Normalize pelaku (perpetrator) field
-     */
-    private static function normalizePelaku($pelaku) {
-        if (empty($pelaku)) return null;
-        
-        $lower = strtolower(trim($pelaku));
-        
-        $mappings = [
-            'dosen' => 'Dosen',
-            'tenaga pendidik' => 'Dosen',
-            'pengajar' => 'Dosen',
-            'teman' => 'Teman',
-            'kawan' => 'Teman',
-            'sahabat' => 'Teman',
-            'senior' => 'Senior',
-            'kakak tingkat' => 'Senior',
-            'asing' => 'Orang yang tidak dikenal',
-            'orang asing' => 'Orang yang tidak dikenal',
-            'orang tidak dikenal' => 'Orang yang tidak dikenal',
-            'tidak kenal' => 'Orang yang tidak dikenal',
-            'pacar' => 'Pacar',
-            'mantan' => 'Mantan (Pacar)',
-            'keluarga' => 'Keluarga',
-            'pegawai' => 'Pegawai',
-            'staf' => 'Pegawai',
-            'mahasiswa' => 'Teman'
-        ];
-        
-        foreach ($mappings as $keyword => $normalized) {
-            if (strpos($lower, $keyword) !== false) {
-                return $normalized;
-            }
-        }
-        
-        // Return capitalized original if no match
-        return ucwords($pelaku);
-    }
-    
-    /**
-     * Normalize location to standard campus locations
+     * Maps various location descriptions to form values
      */
     private static function normalizeLocation($location) {
-        if (empty($location)) return null;
+        if (empty($location) || $location === 'null') return null;
         
-        $lower = strtolower(trim($location));
+        $loc = strtolower(trim($location));
         
         $mappings = [
-            'kelas' => 'Di dalam gedung kampus',
-            'ruang kelas' => 'Di dalam gedung kampus',
-            'lab' => 'Di dalam gedung kampus',
-            'laboratorium' => 'Di dalam gedung kampus',
-            'perpustakaan' => 'Di dalam gedung kampus',
-            'gedung' => 'Di dalam gedung kampus',
-            'fakultas' => 'Di dalam gedung kampus',
-            'kantor' => 'Di dalam gedung kampus',
-            'asrama' => 'Asrama / Kos',
-            'kos' => 'Asrama / Kos',
-            'kost' => 'Asrama / Kos',
-            'tempat tinggal' => 'Asrama / Kos',
-            'rumah' => 'Asrama / Kos',
-            'kantin' => 'Lingkungan kampus',
-            'taman' => 'Lingkungan kampus',
-            'parkir' => 'Lingkungan kampus',
-            'halaman' => 'Lingkungan kampus',
-            'koridor' => 'Lingkungan kampus',
-            'jalan' => 'Luar kampus (Tempat umum)',
-            'mall' => 'Luar kampus (Tempat umum)',
-            'cafe' => 'Luar kampus (Tempat umum)',
-            'restoran' => 'Luar kampus (Tempat umum)',
-            'online' => 'Online',
-            'medsos' => 'Online',
-            'sosial media' => 'Online',
-            'whatsapp' => 'Online',
-            'instagram' => 'Online',
-            'twitter' => 'Online'
+            // Campus/School
+            'sekolah_kampus' => ['kelas', 'kampus', 'kuliah', 'lab', 'laboratorium', 'perpus', 'perpustakaan', 'fakultas', 'gedung', 'ruang', 'kantin kampus', 'toilet kampus', 'auditorium'],
+            
+            // Home
+            'rumah_tangga' => ['rumah', 'kos', 'kost', 'asrama', 'kontrakan', 'apartemen', 'kamar', 'dapur', 'kamar mandi rumah'],
+            
+            // Workplace
+            'tempat_kerja' => ['kantor', 'tempat kerja', 'office', 'gudang', 'pabrik', 'toko', 'warung'],
+            
+            // Public places
+            'sarana_umum' => ['jalan', 'angkot', 'bus', 'kereta', 'stasiun', 'bandara', 'mall', 'cafe', 'resto', 'taman', 'parkir', 'toilet umum', 'halte'],
+            
+            // Online/Digital
+            'daring_elektronik' => ['online', 'chat', 'wa', 'whatsapp', 'dm', 'ig', 'instagram', 'tiktok', 'twitter', 'facebook', 'medsos', 'video call', 'zoom', 'telepon', 'sms']
         ];
         
-        foreach ($mappings as $keyword => $normalized) {
-            if (strpos($lower, $keyword) !== false) {
-                return $normalized;
+        foreach ($mappings as $formValue => $keywords) {
+            foreach ($keywords as $keyword) {
+                if (strpos($loc, $keyword) !== false) {
+                    return $formValue;
+                }
             }
         }
         
-        // Return original with proper capitalization if no match
-        return ucwords($location);
-    }
-    
-    /**
-     * Normalize kekhawatiran (concern level)
-     */
-    private static function normalizeKekhawatiran($level) {
-        if (empty($level)) return null;
-        
-        $lower = strtolower(trim($level));
-        
-        $mappings = [
-            'sangat' => 'SangatKhawatir',
-            'sangat khawatir' => 'SangatKhawatir',
-            'khawatir' => 'Khawatir',
-            'sedikit' => 'Lumayan',
-            'lumayan' => 'Lumayan',
-            'biasa' => 'Lumayan',
-            'stalking' => 'Khawatir',
-            'pelecehan' => 'SangatKhawatir',
-            'kekerasan' => 'SangatKhawatir',
-            'fisik' => 'SangatKhawatir',
-            'seksual' => 'SangatKhawatir'
-        ];
-        
-        foreach ($mappings as $keyword => $normalized) {
-            if (strpos($lower, $keyword) !== false) {
-                return $normalized;
-            }
-        }
-        
-        return 'Khawatir'; // Default
-    }
-    
-    /**
-     * Normalize gender
-     */
-    private static function normalizeGender($gender) {
-        if (empty($gender)) return null;
-        
-        $lower = strtolower(trim($gender));
-        
-        if (strpos($lower, 'perempuan') !== false || strpos($lower, 'wanita') !== false || strpos($lower, 'cewe') !== false) {
-            return 'Perempuan';
-        }
-        
-        if (strpos($lower, 'laki') !== false || strpos($lower, 'pria') !== false || strpos($lower, 'cowo') !== false) {
-            return 'Laki-laki';
+        // If it already matches a form value
+        $validValues = ['rumah_tangga', 'tempat_kerja', 'sekolah_kampus', 'sarana_umum', 'situasi_darurat', 'daring_elektronik'];
+        if (in_array($location, $validValues)) {
+            return $location;
         }
         
         return null;
     }
 
     /**
-     * Detect if message is off-topic (non-PPKPT)
+     * ============================================================
+     * 👤 PERPETRATOR NORMALIZER
+     * ============================================================
+     * Maps perpetrator descriptions to form values
      */
-    public static function isOffTopic($message) {
-        $message = strtolower(trim($message));
+    private static function normalizePerpetrator($pelaku) {
+        if (empty($pelaku) || $pelaku === 'null') return null;
         
-        $offTopicPatterns = [
-            // Programming requests
-            'buatkan.*kode', 'buat.*kode', 'code.*c\+\+', 'code.*java',
-            'program.*java', 'program.*python', 'buatkan.*program',
-            'script.*php', 'function.*javascript',
-            
-            // General questions not related to PPKPT
-            'apa itu.*', 'jelaskan tentang.*', 'ceritakan tentang.*',
-            'bagaimana cara.*membuat', 'tutorial.*',
-            
-            // Academic help
-            'tugas.*kuliah', 'pr.*sekolah', 'help.*assignment'
+        $p = strtolower(trim($pelaku));
+        
+        $mappings = [
+            'orang_tidak_dikenal' => ['tidak kenal', 'asing', 'stranger', 'orang asing', 'gak kenal', 'ga kenal', 'nggak kenal'],
+            'dosen' => ['dosen', 'guru', 'pengajar', 'lecturer', 'profesor', 'prof'],
+            'teman' => ['teman', 'kawan', 'sahabat', 'friend', 'tmen', 'tmn'],
+            'senior' => ['senior', 'kakak tingkat', 'kating', 'kakak kelas'],
+            'atasan_majikan' => ['atasan', 'bos', 'majikan', 'manager', 'supervisor', 'HRD'],
+            'rekan_kerja' => ['rekan kerja', 'kolega', 'coworker', 'teman kantor'],
+            'pacar' => ['pacar', 'mantan', 'gebetan', 'doi', 'pasangan'],
+            'kerabat' => ['kerabat', 'saudara', 'paman', 'om', 'tante', 'kakak', 'adik', 'sepupu'],
+            'ayah_kandung' => ['ayah', 'bapak', 'papa', 'abah'],
+            'ibu_kandung' => ['ibu', 'mama', 'emak', 'bunda'],
+            'kenalan_baru' => ['kenalan', 'baru kenal', 'kenalan baru', 'match'],
+            'petugas_layanan' => ['ojol', 'driver', 'kurir', 'satpam', 'security'],
+            'tetangga_teman_keluarga' => ['tetangga', 'neighbor', 'teman ortu', 'teman ayah', 'teman ibu']
         ];
         
-        foreach ($offTopicPatterns as $pattern) {
-            if (preg_match('/' . $pattern . '/i', $message)) {
-                return true;
+        foreach ($mappings as $formValue => $keywords) {
+            foreach ($keywords as $keyword) {
+                if (strpos($p, $keyword) !== false) {
+                    return $formValue;
+                }
             }
         }
         
-        // Specific programming language mentions
-        $programmingWords = ['c++', 'java', 'python', 'javascript', 'php', 'ruby', 'golang'];
-        foreach ($programmingWords as $lang) {
-            if (strpos($message, $lang) !== false && 
-                (strpos($message, 'buatkan') !== false || strpos($message, 'buat') !== false)) {
+        // If it already matches a form value
+        $validValues = ['orang_tidak_dikenal', 'diri_sendiri', 'kenalan_baru', 'pengurus_rumah_tangga', 'guru', 'petugas_layanan', 'petugas_sekolah', 'teman', 'suami_istri', 'tetangga_teman_keluarga', 'kerabat', 'ayah_kandung', 'ibu_kandung', 'pengasuh_utama', 'anak', 'pacar', 'rekan_kerja', 'atasan_majikan', 'lainnya'];
+        if (in_array($pelaku, $validValues)) {
+            return $pelaku;
+        }
+        
+        return 'lainnya';
+    }
+
+    /**
+     * ============================================================
+     * 😟 CONCERN LEVEL NORMALIZER
+     * ============================================================
+     */
+    private static function normalizeKekhawatiran($value) {
+        if (empty($value) || $value === 'null') return 'khawatir'; // Default
+        
+        $v = strtolower(trim($value));
+        
+        // Very worried
+        if (preg_match('/(sangat|banget|parah|tinggi|berat|trauma)/i', $v)) {
+            return 'sangat';
+        }
+        
+        // Slightly worried
+        if (preg_match('/(sedikit|biasa|ringan|kecil)/i', $v)) {
+            return 'sedikit';
+        }
+        
+        // Default moderate
+        return 'khawatir';
+    }
+
+    /**
+     * ============================================================
+     * 👫 GENDER NORMALIZER
+     * ============================================================
+     */
+    private static function normalizeGender($value) {
+        if (empty($value) || $value === 'null') return null;
+        
+        $v = strtolower(trim($value));
+        
+        if (preg_match('/(perempuan|wanita|cewek|female|cewe)/i', $v)) {
+            return 'perempuan';
+        }
+        
+        if (preg_match('/(laki|pria|cowok|male|cowo)/i', $v)) {
+            return 'lakilaki';
+        }
+        
+        return null;
+    }
+
+    /**
+     * ============================================================
+     * 🎂 AGE NORMALIZER
+     * ============================================================
+     */
+    private static function normalizeUsia($value) {
+        if (empty($value) || $value === 'null') return null;
+        
+        // If it's already a valid range
+        $validRanges = ['12-17', '18-25', '26-35', '36-45', '46-55', '56+'];
+        if (in_array($value, $validRanges)) {
+            return $value;
+        }
+        
+        // Try to extract number
+        if (preg_match('/(\d+)/', $value, $matches)) {
+            $age = (int)$matches[1];
+            
+            if ($age >= 12 && $age <= 17) return '12-17';
+            if ($age >= 18 && $age <= 25) return '18-25';
+            if ($age >= 26 && $age <= 35) return '26-35';
+            if ($age >= 36 && $age <= 45) return '36-45';
+            if ($age >= 46 && $age <= 55) return '46-55';
+            if ($age >= 56) return '56+';
+        }
+        
+        return $value;
+    }
+
+    /**
+     * ============================================================
+     * 📊 PHASE DETERMINATION
+     * ============================================================
+     */
+    public static function determinePhase($labels, $messageCount, $consentAsked, $lastUserMessage) {
+        // Check if asking about reporting
+        if (self::isAskingAboutReporting($lastUserMessage)) {
+            return 'consent';
+        }
+        
+        // Check for explicit report intent
+        if (self::detectReportIntent($lastUserMessage)) {
+            return $consentAsked ? 'report' : 'consent';
+        }
+        
+        // Phase 1: Curhat (first 6 messages - allow venting)
+        if ($messageCount < 6) {
+            return 'curhat';
+        }
+        
+        // Check labels filled
+        $filled = self::countFilledLabels($labels);
+        
+        // Phase 2: Collect (gathering info naturally)
+        if ($filled < 3 && $messageCount < 12) {
+            return 'collect';
+        }
+        
+        // Phase 3: Consent (ask permission if enough info)
+        if ($filled >= 3 && !$consentAsked) {
+            return 'consent';
+        }
+        
+        // Phase 4: Report (after consent)
+        if ($consentAsked) {
+            return 'report';
+        }
+        
+        return 'curhat';
+    }
+
+    /**
+     * ============================================================
+     * 🤝 CONSENT DETECTION
+     * ============================================================
+     */
+    public static function detectConsent($message) {
+        $msg = strtolower(trim($message));
+        
+        // Check for NO first (takes priority)
+        $noPatterns = [
+            'tidak', 'enggak', 'gak', 'ga ', 'nggak', 'jangan',
+            'belum', 'nanti aja', 'nanti saja', 'pikir-pikir',
+            'takut', 'ragu', 'bingung', 'gak dulu', 'nggak dulu'
+        ];
+        
+        foreach ($noPatterns as $pattern) {
+            if (strpos($msg, $pattern) !== false) {
+                return 'no';
+            }
+        }
+        
+        // Check for YES
+        $yesPatterns = [
+            'ya', 'iya', 'boleh', 'mau', 'setuju', 'bersedia',
+            'ok', 'oke', 'siap', 'yuk', 'ayo', 'lanjut',
+            'baik', 'silakan', 'tolong', 'bantu'
+        ];
+        
+        foreach ($yesPatterns as $pattern) {
+            if (strpos($msg, $pattern) !== false) {
+                return 'yes';
+            }
+        }
+        
+        return 'unclear';
+    }
+
+    /**
+     * ============================================================
+     * 📝 REPORT INTENT DETECTION
+     * ============================================================
+     */
+    public static function detectReportIntent($message) {
+        $keywords = [
+            'mau lapor', 'ingin melapor', 'bantu lapor', 
+            'catat laporan', 'buat laporan', 'laporkan',
+            'masalah selesai', 'ingin melaporkan'
+        ];
+        
+        $msg = strtolower($message);
+        
+        foreach ($keywords as $keyword) {
+            if (strpos($msg, $keyword) !== false) {
                 return true;
             }
         }
         
         return false;
+    }
+
+    /**
+     * ============================================================
+     * ❓ REPORTING QUESTIONS DETECTION
+     * ============================================================
+     */
+    public static function isAskingAboutReporting($message) {
+        $keywords = [
+            'aman?', 'aman gak', 'aman ga', 
+            'rahasia?', 'rahasia gak', 'rahasia ga',
+            'ketahuan?', 'ketahuan gak',
+            'gimana caranya', 'bagaimana caranya',
+            'prosesnya gimana', 'prosesnya bagaimana',
+            'takut dendam', 'takut balas',
+            'identitas', 'nama saya'
+        ];
+        
+        $msg = strtolower($message);
+        
+        foreach ($keywords as $keyword) {
+            if (strpos($msg, $keyword) !== false) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+
+    /**
+     * ============================================================
+     * 🚫 OFF-TOPIC DETECTION
+     * ============================================================
+     */
+    public static function isOffTopic($message) {
+        $keywords = [
+            'buatkan kode', 'buat kode', 'coding',
+            'python', 'javascript', 'java', 'php',
+            'tugas kuliah', 'tugas sekolah', 'pr sekolah',
+            'resep masak', 'cara masak', 'rekomendasi film',
+            'cuaca hari ini', 'harga bitcoin', 'nilai tukar'
+        ];
+        
+        $msg = strtolower($message);
+        
+        foreach ($keywords as $keyword) {
+            if (strpos($msg, $keyword) !== false) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+
+    /**
+     * ============================================================
+     * 📊 COUNT FILLED LABELS
+     * ============================================================
+     */
+    public static function countFilledLabels($labels) {
+        $criticalFields = [
+            'pelaku_kekerasan',
+            'waktu_kejadian', 
+            'lokasi_kejadian',
+            'detail_kejadian',
+            'tingkat_kekhawatiran'
+        ];
+        
+        $count = 0;
+        foreach ($criticalFields as $field) {
+            if (!empty($labels[$field]) && $labels[$field] !== null && $labels[$field] !== 'null') {
+                $count++;
+            }
+        }
+        
+        return $count;
+    }
+
+    /**
+     * ============================================================
+     * 🔀 MERGE LABELS
+     * ============================================================
+     */
+    public static function mergeLabels($existingLabels, $newLabels) {
+        // Handle nested structure from autofill
+        if (isset($newLabels['extracted_data'])) {
+            $newLabels = $newLabels['extracted_data'];
+        }
+        
+        foreach ($newLabels as $key => $value) {
+            // Only update if new value is meaningful
+            if (!empty($value) && $value !== null && $value !== 'null') {
+                // Only overwrite if existing is empty OR new is longer
+                if (empty($existingLabels[$key]) || strlen($value) > strlen($existingLabels[$key] ?? '')) {
+                    $existingLabels[$key] = $value;
+                }
+            }
+        }
+        
+        return $existingLabels;
+    }
+
+    /**
+     * ============================================================
+     * 📜 GET CONVERSATION TEXT (for AI extraction)
+     * ============================================================
+     */
+    public static function getConversationText($history) {
+        $text = "";
+        foreach ($history as $msg) {
+            if ($msg['role'] === 'user') {
+                $text .= "User: " . $msg['content'] . "\n";
+            }
+        }
+        return $text;
+    }
+    
+    /**
+     * ============================================================
+     * ✅ CHECK LABELS COMPLETENESS
+     * ============================================================
+     */
+    public static function isLabelsComplete($labels) {
+        $required = [
+            'pelaku_kekerasan',
+            'detail_kejadian'
+        ];
+        
+        foreach ($required as $field) {
+            if (empty($labels[$field]) || $labels[$field] === null || $labels[$field] === 'null') {
+                return false;
+            }
+        }
+        
+        return true;
     }
 }
 ?>
