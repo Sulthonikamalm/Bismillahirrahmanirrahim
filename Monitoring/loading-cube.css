@@ -1,0 +1,87 @@
+/* Loading Cube Animation */
+.centered-loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    backdrop-filter: blur(5px);
+}
+
+.centered-cube-wrapper,
+.cube-wrapper {
+    perspective: 300px;
+}
+
+.cube-wrapper.small {
+    transform: scale(0.4);
+}
+
+.cube {
+    width: 60px;
+    height: 60px;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: cubeRotate 2s infinite ease-in-out;
+}
+
+.cube-faces {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+}
+
+.cube-face {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    background: linear-gradient(135deg, rgba(100, 200, 255, 0.2), rgba(80, 150, 200, 0.1));
+    backdrop-filter: blur(5px);
+}
+
+.cube-face.front { transform: translateZ(30px); }
+.cube-face.back { transform: rotateY(180deg) translateZ(30px); }
+.cube-face.right { transform: rotateY(90deg) translateZ(30px); }
+.cube-face.left { transform: rotateY(-90deg) translateZ(30px); }
+.cube-face.top { transform: rotateX(90deg) translateZ(30px); }
+.cube-face.bottom { transform: rotateX(-90deg) translateZ(30px); }
+
+.cube-face.shadow {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    background: radial-gradient(ellipse, rgba(0,0,0,0.3), transparent 70%);
+    transform: rotateX(90deg) translateZ(-40px);
+    border: none;
+    filter: blur(10px);
+}
+
+@keyframes cubeRotate {
+    0%, 100% {
+        transform: rotateX(-20deg) rotateY(0deg);
+    }
+    50% {
+        transform: rotateX(-20deg) rotateY(180deg);
+    }
+}
+
+.loading-text {
+    margin-top: 2rem;
+    color: var(--color-white, #fff);
+    font-size: 1rem;
+    font-weight: 500;
+    animation: textPulse 1.5s infinite ease-in-out;
+}
+
+@keyframes textPulse {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; }
+}

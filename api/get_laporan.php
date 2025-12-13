@@ -73,7 +73,7 @@ try {
     $isEmail = filter_var($query, FILTER_VALIDATE_EMAIL);
     
     // Log search attempt
-    error_log("🔍 Search Request - Type: " . ($isEmail ? 'EMAIL' : 'KODE') . ", Query: $query");
+    error_log("Search Request - Type: " . ($isEmail ? 'EMAIL' : 'KODE') . ", Query: $query");
     
     // ==========================================
     // BUILD DYNAMIC SQL
@@ -122,7 +122,7 @@ try {
     // HANDLE NOT FOUND
     // ==========================================
     if (!$laporan) {
-        error_log("❌ Not found - $searchType: $query");
+        error_log("Not found - $searchType: $query");
         
         $errorDetail = $isEmail ? [
             'email' => $query,
@@ -137,7 +137,7 @@ try {
         sendResponse(false, 'Laporan tidak ditemukan', $errorDetail, 404);
     }
     
-    error_log("✅ Found - $searchType: $query, Kode: " . $laporan['kode_pelaporan']);
+    error_log("Found - $searchType: $query, Kode: " . $laporan['kode_pelaporan']);
     
     // ==========================================
     // GET BUKTI FILES
@@ -191,11 +191,11 @@ try {
     sendResponse(true, 'Laporan ditemukan', $response, 200);
     
 } catch (PDOException $e) {
-    error_log("❌ Database Error: " . $e->getMessage());
+    error_log("Database Error: " . $e->getMessage());
     sendResponse(false, 'Database error', ['detail' => $e->getMessage()], 500);
     
 } catch (Exception $e) {
-    error_log("❌ General Error: " . $e->getMessage());
+    error_log("General Error: " . $e->getMessage());
     sendResponse(false, 'Server error', ['detail' => $e->getMessage()], 500);
 }
 
@@ -256,7 +256,7 @@ function generateTimeline($laporan) {
             'description' => 'Tim investigasi sedang melakukan penyelidikan menyeluruh terhadap laporan Anda. Proses ini memerlukan waktu untuk memastikan keadilan bagi semua pihak.',
             'status' => 'loading',
             'date' => null,
-            'icon' => '🔍'
+            'icon' => 'search'
         ];
     } else {
         $timeline[] = [
@@ -277,7 +277,7 @@ function generateTimeline($laporan) {
             'description' => 'Laporan Anda telah selesai ditindaklanjuti. Terima kasih atas kepercayaan Anda kepada Satgas PPKPT. Jika ada pertanyaan lebih lanjut, silakan hubungi kami.',
             'status' => 'success',
             'date' => $laporan['updated_at'],
-            'icon' => '🎉'
+            'icon' => 'check'
         ];
     } else {
         $timeline[] = [
