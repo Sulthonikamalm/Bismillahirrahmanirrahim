@@ -249,3 +249,188 @@
 [13-Dec-2025 21:06:31 Europe/Berlin] [GROQ] Tokens: 3348
 [13-Dec-2025 21:06:31 Europe/Berlin] Bot response OK: 778 chars
 [13-Dec-2025 21:06:31 Europe/Berlin] === CHAT REQUEST SUCCESS (1.25s) ===
+[13-Dec-2025 21:11:37 Europe/Berlin] === CHAT REQUEST START ===
+[13-Dec-2025 21:11:37 Europe/Berlin] User message: saya mau cerita tapi malu
+[13-Dec-2025 21:11:37 Europe/Berlin] Current phase: report
+[13-Dec-2025 21:11:37 Europe/Berlin] Generating bot response for phase: report
+[13-Dec-2025 21:11:38 Europe/Berlin] [GROQ] Model: llama-3.3-70b-versatile | Time: 1.53s | Attempt: 1/3
+[13-Dec-2025 21:11:38 Europe/Berlin] [GROQ] Tokens: 3905
+[13-Dec-2025 21:11:38 Europe/Berlin] Bot response OK: 678 chars
+[13-Dec-2025 21:11:38 Europe/Berlin] === CHAT REQUEST SUCCESS (1.55s) ===
+[13-Dec-2025 21:11:58 Europe/Berlin] === CHAT REQUEST START ===
+[13-Dec-2025 21:11:58 Europe/Berlin] User message: Sebenernya aku dari kemarin mau cerita, tapi aku ragu banget. Aku takut aku salah nangkep situasinya
+[13-Dec-2025 21:11:58 Europe/Berlin] Current phase: report
+[13-Dec-2025 21:11:58 Europe/Berlin] Generating bot response for phase: report
+[13-Dec-2025 21:12:00 Europe/Berlin] [GROQ] Model: llama-3.3-70b-versatile | Time: 1.51s | Attempt: 1/3
+[13-Dec-2025 21:12:00 Europe/Berlin] [GROQ] Tokens: 4495
+[13-Dec-2025 21:12:00 Europe/Berlin] Bot response OK: 948 chars
+[13-Dec-2025 21:12:00 Europe/Berlin] === CHAT REQUEST SUCCESS (1.52s) ===
+[13-Dec-2025 21:12:12 Europe/Berlin] === CHAT REQUEST START ===
+[13-Dec-2025 21:12:12 Europe/Berlin] User message: 081272064805
+[13-Dec-2025 21:12:12 Europe/Berlin] Current phase: report
+[13-Dec-2025 21:12:12 Europe/Berlin] Generating bot response for phase: report
+[13-Dec-2025 21:12:14 Europe/Berlin] [GROQ] Model: llama-3.3-70b-versatile | Time: 1.84s | Attempt: 1/3
+[13-Dec-2025 21:12:14 Europe/Berlin] [GROQ] Tokens: 2939
+[13-Dec-2025 21:12:14 Europe/Berlin] Bot response OK: 1114 chars
+[13-Dec-2025 21:12:14 Europe/Berlin] === CHAT REQUEST SUCCESS (1.85s) ===
+[13-Dec-2025 21:12:29 Europe/Berlin] === CHAT REQUEST START ===
+[13-Dec-2025 21:12:29 Europe/Berlin] User message: baiklah terimakasih
+[13-Dec-2025 21:12:29 Europe/Berlin] Current phase: report
+[13-Dec-2025 21:12:29 Europe/Berlin] Generating bot response for phase: report
+[13-Dec-2025 21:12:30 Europe/Berlin] [GROQ] Model: llama-3.3-70b-versatile | Time: 1.21s | Attempt: 1/3
+[13-Dec-2025 21:12:30 Europe/Berlin] [GROQ] Tokens: 3081
+[13-Dec-2025 21:12:30 Europe/Berlin] Bot response OK: 443 chars
+[13-Dec-2025 21:12:30 Europe/Berlin] === CHAT REQUEST SUCCESS (1.23s) ===
+[13-Dec-2025 21:12:36 Europe/Berlin] === CHAT REQUEST START ===
+[13-Dec-2025 21:12:40 Europe/Berlin] Search Request - Type: KODE, Query: LPS-001
+[13-Dec-2025 21:12:40 Europe/Berlin] Not found - kode: LPS-001
+[13-Dec-2025 21:13:37 Europe/Berlin] === CHAT REQUEST START ===
+[13-Dec-2025 21:13:37 Europe/Berlin] User message: saya mau cerita tapi malu banget soalnya merasa kotor banget
+[13-Dec-2025 21:13:37 Europe/Berlin] Created DB session: 5
+[13-Dec-2025 21:13:37 Europe/Berlin] Current phase: curhat
+[13-Dec-2025 21:13:37 Europe/Berlin] Generating bot response for phase: curhat
+[13-Dec-2025 21:13:38 Europe/Berlin] [GROQ] Model: llama-3.3-70b-versatile | Time: 0.81s | Attempt: 1/3
+[13-Dec-2025 21:13:38 Europe/Berlin] [GROQ] Tokens: 384
+[13-Dec-2025 21:13:38 Europe/Berlin] Bot response OK: 175 chars
+[13-Dec-2025 21:13:38 Europe/Berlin] === CHAT REQUEST SUCCESS (0.84s) ===
+[13-Dec-2025 21:13:50 Europe/Berlin] === CHAT REQUEST START ===
+[13-Dec-2025 21:13:50 Europe/Berlin] User message: Sebenernya aku dari kemarin mau cerita, tapi aku ragu banget. Aku takut aku salah nangkep situasinya
+[13-Dec-2025 21:13:50 Europe/Berlin] Current phase: curhat
+[13-Dec-2025 21:13:50 Europe/Berlin] Generating bot response for phase: curhat
+[13-Dec-2025 21:13:51 Europe/Berlin] [GROQ] Model: llama-3.3-70b-versatile | Time: 0.99s | Attempt: 1/3
+[13-Dec-2025 21:13:51 Europe/Berlin] [GROQ] Tokens: 801
+[13-Dec-2025 21:13:51 Europe/Berlin] Bot response OK: 279 chars
+[13-Dec-2025 21:13:51 Europe/Berlin] === CHAT REQUEST SUCCESS (1.00s) ===
+[13-Dec-2025 21:14:01 Europe/Berlin] === CHAT REQUEST START ===
+[13-Dec-2025 21:14:01 Europe/Berlin] User message: saya mau lapor
+[13-Dec-2025 21:14:01 Europe/Berlin] Current phase: consent
+[13-Dec-2025 21:14:01 Europe/Berlin] Asking for consent
+[13-Dec-2025 21:14:01 Europe/Berlin] Consent detection: yes
+[13-Dec-2025 21:14:01 Europe/Berlin] Consent given - triggering autofill extraction
+[13-Dec-2025 21:14:02 Europe/Berlin] [GROQ] Model: llama-3.3-70b-versatile | Time: 1.64s | Attempt: 1/3
+[13-Dec-2025 21:14:02 Europe/Berlin] [GROQ] Tokens: 1287
+[13-Dec-2025 21:14:02 Europe/Berlin] [AUTOFILL] Fields: 4
+[13-Dec-2025 21:14:02 Europe/Berlin] Extracted data: {"extracted_data":{"pelaku_kekerasan":"dosen","waktu_kejadian":null,"lokasi_kejadian":"sekolah_kampus","detail_kejadian":"dosen menyentuh tangan korban saat bimbingan skripsi","tingkat_kekhawatiran":"sangat","usia_korban":null,"gender_korban":null,"email_korban":null,"whatsapp_korban":null},"confidence_scores":{"pelaku":0.8,"waktu":0,"lokasi":0.9,"detail":0.8,"tingkat":0.7,"usia":0,"gender":0,"email":0,"whatsapp":0},"extraction_metadata":{"total_fields_found":4,"average_confidence":0.44,"high_confidence_count":1,"notes":"Korban merasa tidak nyaman setelah kejadian dan takut untuk melapor"}}
+[13-Dec-2025 21:14:02 Europe/Berlin] Extraction success: {"pelakuKekerasan":"dosen","waktuKejadian":null,"lokasiKejadian":"sekolah_kampus","detailKejadian":"dosen menyentuh tangan korban saat bimbingan skripsi","tingkatKekhawatiran":"sangat","usiaKorban":null,"genderKorban":null,"korbanSebagai":"saya","emailKorban":null,"whatsappKorban":null,"confidence":{"pelaku":0.8,"waktu":0,"lokasi":0.9,"detail":0.8,"tingkat":0.7,"usia":0,"gender":0,"email":0,"whatsapp":0}}
+[13-Dec-2025 21:14:24 Europe/Berlin] === CHAT REQUEST START ===
+[13-Dec-2025 21:14:24 Europe/Berlin] User message: man kode saya
+[13-Dec-2025 21:14:24 Europe/Berlin] Current phase: curhat
+[13-Dec-2025 21:14:24 Europe/Berlin] Generating bot response for phase: curhat
+[13-Dec-2025 21:14:25 Europe/Berlin] [GROQ] Model: llama-3.3-70b-versatile | Time: 0.98s | Attempt: 1/3
+[13-Dec-2025 21:14:25 Europe/Berlin] [GROQ] Tokens: 915
+[13-Dec-2025 21:14:25 Europe/Berlin] Bot response OK: 205 chars
+[13-Dec-2025 21:14:25 Europe/Berlin] === CHAT REQUEST SUCCESS (0.99s) ===
+[13-Dec-2025 21:14:35 Europe/Berlin] === CHAT REQUEST START ===
+[13-Dec-2025 21:14:35 Europe/Berlin] User message: buatkan dalam c++
+[13-Dec-2025 21:14:35 Europe/Berlin] Current phase: curhat
+[13-Dec-2025 21:14:35 Europe/Berlin] Generating bot response for phase: curhat
+[13-Dec-2025 21:14:37 Europe/Berlin] [GROQ] Model: llama-3.3-70b-versatile | Time: 1.26s | Attempt: 1/3
+[13-Dec-2025 21:14:37 Europe/Berlin] [GROQ] Tokens: 1019
+[13-Dec-2025 21:14:37 Europe/Berlin] Bot response OK: 356 chars
+[13-Dec-2025 21:14:37 Europe/Berlin] === CHAT REQUEST SUCCESS (1.28s) ===
+[13-Dec-2025 21:14:48 Europe/Berlin] === CHAT REQUEST START ===
+[13-Dec-2025 21:15:01 Europe/Berlin] === CHAT REQUEST START ===
+[13-Dec-2025 21:15:01 Europe/Berlin] User message: saya mau cerita dong
+[13-Dec-2025 21:15:01 Europe/Berlin] Created DB session: 6
+[13-Dec-2025 21:15:01 Europe/Berlin] Current phase: curhat
+[13-Dec-2025 21:15:01 Europe/Berlin] Generating bot response for phase: curhat
+[13-Dec-2025 21:15:03 Europe/Berlin] [GROQ] Model: llama-3.3-70b-versatile | Time: 1.92s | Attempt: 1/3
+[13-Dec-2025 21:15:03 Europe/Berlin] [GROQ] Tokens: 370
+[13-Dec-2025 21:15:03 Europe/Berlin] Bot response OK: 174 chars
+[13-Dec-2025 21:15:03 Europe/Berlin] === CHAT REQUEST SUCCESS (1.95s) ===
+[13-Dec-2025 21:15:07 Europe/Berlin] === CHAT REQUEST START ===
+[13-Dec-2025 21:15:07 Europe/Berlin] User message: Sebenernya aku dari kemarin mau cerita, tapi aku ragu banget. Aku takut aku salah nangkep situasinya
+[13-Dec-2025 21:15:07 Europe/Berlin] Current phase: curhat
+[13-Dec-2025 21:15:07 Europe/Berlin] Generating bot response for phase: curhat
+[13-Dec-2025 21:15:09 Europe/Berlin] [GROQ] Model: llama-3.3-70b-versatile | Time: 1.81s | Attempt: 1/3
+[13-Dec-2025 21:15:09 Europe/Berlin] [GROQ] Tokens: 801
+[13-Dec-2025 21:15:09 Europe/Berlin] Bot response OK: 338 chars
+[13-Dec-2025 21:15:09 Europe/Berlin] === CHAT REQUEST SUCCESS (1.82s) ===
+[13-Dec-2025 21:15:23 Europe/Berlin] === CHAT REQUEST START ===
+[13-Dec-2025 21:15:23 Europe/Berlin] User message: tapi aku bingung mau lapor kemana
+[13-Dec-2025 21:15:23 Europe/Berlin] Current phase: consent
+[13-Dec-2025 21:15:23 Europe/Berlin] Asking for consent
+[13-Dec-2025 21:15:23 Europe/Berlin] Consent detection: yes
+[13-Dec-2025 21:15:23 Europe/Berlin] Consent given - triggering autofill extraction
+[13-Dec-2025 21:15:24 Europe/Berlin] [GROQ] Model: llama-3.3-70b-versatile | Time: 1.40s | Attempt: 1/3
+[13-Dec-2025 21:15:24 Europe/Berlin] [GROQ] Tokens: 1288
+[13-Dec-2025 21:15:24 Europe/Berlin] [AUTOFILL] Fields: 4
+[13-Dec-2025 21:15:24 Europe/Berlin] Extracted data: {"extracted_data":{"pelaku_kekerasan":"dosen","waktu_kejadian":null,"lokasi_kejadian":"sekolah_kampus","detail_kejadian":"dosen menyentuh tangan korban saat bimbingan skripsi","tingkat_kekhawatiran":"sangat","usia_korban":null,"gender_korban":null,"email_korban":null,"whatsapp_korban":null},"confidence_scores":{"pelaku":0.8,"waktu":0,"lokasi":0.9,"detail":0.8,"tingkat":0.7,"usia":0,"gender":0,"email":0,"whatsapp":0},"extraction_metadata":{"total_fields_found":4,"average_confidence":0.55,"high_confidence_count":2,"notes":"Korban ragu untuk melaporkan kejadian karena takut dianggap lebay atau cari perhatian"}}
+[13-Dec-2025 21:15:24 Europe/Berlin] Extraction success: {"pelakuKekerasan":"dosen","waktuKejadian":null,"lokasiKejadian":"sekolah_kampus","detailKejadian":"dosen menyentuh tangan korban saat bimbingan skripsi","tingkatKekhawatiran":"sangat","usiaKorban":null,"genderKorban":null,"korbanSebagai":"saya","emailKorban":null,"whatsappKorban":null,"confidence":{"pelaku":0.8,"waktu":0,"lokasi":0.9,"detail":0.8,"tingkat":0.7,"usia":0,"gender":0,"email":0,"whatsapp":0}}
+[13-Dec-2025 21:16:58 Europe/Berlin] File uploaded successfully: bukti_693dc9badb2dd_1765657018.png
+[13-Dec-2025 21:16:58 Europe/Berlin] File uploaded successfully: bukti_693dc9badcc5e_1765657018.png
+[13-Dec-2025 21:16:58 Europe/Berlin] File uploaded successfully: bukti_693dc9bade16a_1765657018.png
+[13-Dec-2025 21:17:06 Europe/Berlin] Search Request - Type: KODE, Query: PPKPT657018634
+[13-Dec-2025 21:17:06 Europe/Berlin] Found - kode: PPKPT657018634, Kode: PPKPT657018634
+[13-Dec-2025 22:21:45 Europe/Berlin] === CHAT REQUEST START ===
+[13-Dec-2025 22:21:45 Europe/Berlin] User message: hallo
+[13-Dec-2025 22:21:45 Europe/Berlin] Current phase: curhat
+[13-Dec-2025 22:21:45 Europe/Berlin] Generating bot response for phase: curhat
+[13-Dec-2025 22:21:46 Europe/Berlin] [GROQ] Model: llama-3.3-70b-versatile | Time: 1.28s | Attempt: 1/3
+[13-Dec-2025 22:21:46 Europe/Berlin] [GROQ] Tokens: 899
+[13-Dec-2025 22:21:46 Europe/Berlin] Bot response OK: 117 chars
+[13-Dec-2025 22:21:46 Europe/Berlin] === CHAT REQUEST SUCCESS (1.29s) ===
+[13-Dec-2025 22:22:07 Europe/Berlin] === CHAT REQUEST START ===
+[13-Dec-2025 22:22:07 Europe/Berlin] User message: memuali proses pelaporan tapi saya mau cerita saja , dan sudah tercatat di sistem apaka bisa
+[13-Dec-2025 22:22:07 Europe/Berlin] Current phase: curhat
+[13-Dec-2025 22:22:07 Europe/Berlin] Generating bot response for phase: curhat
+[13-Dec-2025 22:22:08 Europe/Berlin] [GROQ] Model: llama-3.3-70b-versatile | Time: 0.98s | Attempt: 1/3
+[13-Dec-2025 22:22:08 Europe/Berlin] [GROQ] Tokens: 981
+[13-Dec-2025 22:22:08 Europe/Berlin] Bot response OK: 165 chars
+[13-Dec-2025 22:22:08 Europe/Berlin] === CHAT REQUEST SUCCESS (0.99s) ===
+[13-Dec-2025 22:22:20 Europe/Berlin] === CHAT REQUEST START ===
+[13-Dec-2025 22:22:20 Europe/Berlin] User message: iya saya siap
+[13-Dec-2025 22:22:20 Europe/Berlin] Current phase: report
+[13-Dec-2025 22:22:20 Europe/Berlin] Generating bot response for phase: report
+[13-Dec-2025 22:22:21 Europe/Berlin] [GROQ] Model: llama-3.3-70b-versatile | Time: 0.91s | Attempt: 1/3
+[13-Dec-2025 22:22:21 Europe/Berlin] [GROQ] Tokens: 1202
+[13-Dec-2025 22:22:21 Europe/Berlin] Bot response OK: 193 chars
+[13-Dec-2025 22:22:21 Europe/Berlin] === CHAT REQUEST SUCCESS (0.93s) ===
+[13-Dec-2025 22:22:30 Europe/Berlin] === CHAT REQUEST START ===
+[13-Dec-2025 22:22:30 Europe/Berlin] User message: 081272064805
+[13-Dec-2025 22:22:30 Europe/Berlin] Current phase: report
+[13-Dec-2025 22:22:30 Europe/Berlin] Generating bot response for phase: report
+[13-Dec-2025 22:22:31 Europe/Berlin] [GROQ] Model: llama-3.3-70b-versatile | Time: 0.88s | Attempt: 1/3
+[13-Dec-2025 22:22:31 Europe/Berlin] [GROQ] Tokens: 1279
+[13-Dec-2025 22:22:31 Europe/Berlin] Bot response OK: 235 chars
+[13-Dec-2025 22:22:31 Europe/Berlin] === CHAT REQUEST SUCCESS (0.90s) ===
+[13-Dec-2025 22:22:40 Europe/Berlin] === CHAT REQUEST START ===
+[13-Dec-2025 22:22:40 Europe/Berlin] User message: dikampus
+[13-Dec-2025 22:22:40 Europe/Berlin] Current phase: report
+[13-Dec-2025 22:22:40 Europe/Berlin] Generating bot response for phase: report
+[13-Dec-2025 22:22:41 Europe/Berlin] [GROQ] Model: llama-3.3-70b-versatile | Time: 0.91s | Attempt: 1/3
+[13-Dec-2025 22:22:41 Europe/Berlin] [GROQ] Tokens: 1362
+[13-Dec-2025 22:22:41 Europe/Berlin] Bot response OK: 252 chars
+[13-Dec-2025 22:22:41 Europe/Berlin] === CHAT REQUEST SUCCESS (0.93s) ===
+[13-Dec-2025 22:22:51 Europe/Berlin] === CHAT REQUEST START ===
+[13-Dec-2025 22:22:51 Europe/Berlin] User message: saya diperas payudaranya
+[13-Dec-2025 22:22:51 Europe/Berlin] Current phase: report
+[13-Dec-2025 22:22:51 Europe/Berlin] Generating bot response for phase: report
+[13-Dec-2025 22:22:52 Europe/Berlin] [GROQ] Model: llama-3.3-70b-versatile | Time: 1.29s | Attempt: 1/3
+[13-Dec-2025 22:22:52 Europe/Berlin] [GROQ] Tokens: 1557
+[13-Dec-2025 22:22:52 Europe/Berlin] Bot response OK: 628 chars
+[13-Dec-2025 22:22:52 Europe/Berlin] === CHAT REQUEST SUCCESS (1.31s) ===
+[13-Dec-2025 22:23:06 Europe/Berlin] === CHAT REQUEST START ===
+[13-Dec-2025 22:23:06 Europe/Berlin] User message: iya
+[13-Dec-2025 22:23:06 Europe/Berlin] Current phase: report
+[13-Dec-2025 22:23:06 Europe/Berlin] Generating bot response for phase: report
+[13-Dec-2025 22:23:07 Europe/Berlin] [GROQ] Model: llama-3.3-70b-versatile | Time: 1.14s | Attempt: 1/3
+[13-Dec-2025 22:23:07 Europe/Berlin] [GROQ] Tokens: 1720
+[13-Dec-2025 22:23:07 Europe/Berlin] Bot response OK: 551 chars
+[13-Dec-2025 22:23:07 Europe/Berlin] === CHAT REQUEST SUCCESS (1.16s) ===
+[13-Dec-2025 22:23:18 Europe/Berlin] === CHAT REQUEST START ===
+[13-Dec-2025 22:23:18 Europe/Berlin] User message: iya
+[13-Dec-2025 22:23:18 Europe/Berlin] Current phase: report
+[13-Dec-2025 22:23:18 Europe/Berlin] Generating bot response for phase: report
+[13-Dec-2025 22:23:19 Europe/Berlin] [GROQ] Model: llama-3.3-70b-versatile | Time: 0.98s | Attempt: 1/3
+[13-Dec-2025 22:23:19 Europe/Berlin] [GROQ] Tokens: 1826
+[13-Dec-2025 22:23:19 Europe/Berlin] Bot response OK: 331 chars
+[13-Dec-2025 22:23:19 Europe/Berlin] === CHAT REQUEST SUCCESS (1.01s) ===
+[13-Dec-2025 22:23:29 Europe/Berlin] === CHAT REQUEST START ===
+[13-Dec-2025 22:23:29 Europe/Berlin] User message: mana kode laporannya
+[13-Dec-2025 22:23:29 Europe/Berlin] Current phase: report
+[13-Dec-2025 22:23:29 Europe/Berlin] Generating bot response for phase: report
+[13-Dec-2025 22:23:30 Europe/Berlin] [GROQ] Model: llama-3.3-70b-versatile | Time: 1.00s | Attempt: 1/3
+[13-Dec-2025 22:23:30 Europe/Berlin] [GROQ] Tokens: 1184
+[13-Dec-2025 22:23:30 Europe/Berlin] Bot response OK: 351 chars
+[13-Dec-2025 22:23:30 Europe/Berlin] === CHAT REQUEST SUCCESS (1.01s) ===

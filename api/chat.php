@@ -250,78 +250,14 @@ try {
         $consentResponse = ChatHelpers::detectConsent($userMessage);
         error_log("Consent detection: $consentResponse");
         
-        // Smart autofill trigger
         if ($consentResponse === 'yes') {
             $_SESSION['consent_given'] = true;
             $_SESSION['consent_timestamp'] = date('Y-m-d H:i:s');
-            $_SESSION['extraction_done'] = true;
             
-            error_log("Consent given - triggering autofill extraction");
+            error_log("Consent given - entering report phase");
             
-            $normalizedData = null;
-            $extractionSuccess = false;
-            
-            try {
-                $conversationText = ChatHelpers::getConversationText($_SESSION['conversation_history']);
-                $extractedData = $groq->extractLabelsForAutofill($conversationText);
-                
-                error_log("Extracted data: " . json_encode($extractedData));
-                
-                $normalizedData = ChatHelpers::normalizeExtractedData($extractedData);
-                $extractionSuccess = true;
-                
-                error_log("Extraction success: " . json_encode($normalizedData));
-                
-                $_SESSION['extracted_labels'] = ChatHelpers::mergeLabels(
-                    $_SESSION['extracted_labels'],
-                    $extractedData
-                );
-                
-            } catch (Exception $e) {
-                error_log("Extraction failed, proceeding with redirect: " . $e->getMessage());
-                $normalizedData = null;
-                $extractionSuccess = false;
-            }
-            
-            $executionTime = microtime(true) - $requestStartTime;
-            
-            $transitionMessage = $extractionSuccess 
-                ? "Baik, aku siap membantu kamu mengisi formulir pelaporan. Beberapa data sudah aku siapkan dari ceritamu tadi."
-                : "Baik, aku akan arahkan kamu ke formulir pelaporan. Silakan isi data dengan lengkap ya.";
-            
-            $_SESSION['conversation_history'][] = [
-                'role' => 'assistant',
-                'content' => $transitionMessage,
-                'timestamp' => date('Y-m-d H:i:s')
-            ];
-            
-            if (isset($_SESSION['db_session_id'])) {
-                try {
-                    $stmt = $pdo->prepare("INSERT INTO ChatMessage (session_id, role, content) VALUES (:session_id, 'bot', :content)");
-                    $stmt->execute([
-                        ':session_id' => $_SESSION['db_session_id'],
-                        ':content' => $transitionMessage
-                    ]);
-                } catch (Exception $e) {
-                    error_log("DB save error: " . $e->getMessage());
-                }
-            }
-            
-            ob_clean();
-            echo json_encode([
-                'success' => true,
-                'response' => $transitionMessage,
-                'action' => 'redirect_to_form',
-                'payload' => $normalizedData,
-                'phase' => 'report_ready',
-                'extraction_success' => $extractionSuccess,
-                'session_id' => $_SESSION['session_id_unik'] ?? null,
-                'metrics' => [
-                    'execution_time' => round($executionTime, 2),
-                    'fields_extracted' => $normalizedData ? count(array_filter($normalizedData)) : 0
-                ]
-            ], JSON_UNESCAPED_UNICODE);
-            exit();
+            // Enter report phase, continue chatting to collect data
+            $currentPhase = 'report';
             
         } elseif ($consentResponse === 'no') {
             $currentPhase = 'rejected';
@@ -354,6 +290,27 @@ try {
                 'session_id' => $_SESSION['session_id_unik'] ?? null
             ], JSON_UNESCAPED_UNICODE);
             exit();
+        }
+    }
+    
+    // If consent given, always be in report phase
+    if ($_SESSION['consent_given']) {
+        $currentPhase = 'report';
+        
+        // Progressive extraction: extract from EVERY message
+        try {
+            $conversationText = ChatHelpers::getConversationText($_SESSION['conversation_history']);
+            $extractedData = $groq->extractLabelsForAutofill($conversationText);
+            
+            if ($extractedData) {
+                $_SESSION['extracted_labels'] = ChatHelpers::mergeLabels(
+                    $_SESSION['extracted_labels'],
+                    $extractedData
+                );
+                error_log("Updated labels: " . json_encode($_SESSION['extracted_labels']));
+            }
+        } catch (Exception $e) {
+            error_log("Extraction error (continuing): " . $e->getMessage());
         }
     }
     
