@@ -451,3 +451,19 @@
 [13-Dec-2025 22:50:13 Europe/Berlin] Found - kode: GNJ34, Kode: GNJ34
 [13-Dec-2025 22:50:20 Europe/Berlin] Search Request - Type: KODE, Query: GNJ34
 [13-Dec-2025 22:50:20 Europe/Berlin] Found - kode: GNJ34, Kode: GNJ34
+[13-Dec-2025 23:07:49 Europe/Berlin] === CHAT REQUEST START ===
+[13-Dec-2025 23:07:49 Europe/Berlin] User message: hallo
+[13-Dec-2025 23:07:49 Europe/Berlin] Created DB session: 8
+[13-Dec-2025 23:07:49 Europe/Berlin] Current phase: curhat
+[13-Dec-2025 23:07:49 Europe/Berlin] Generating bot response for phase: curhat
+[13-Dec-2025 23:07:49 Europe/Berlin] [GROQ] Model: llama-3.3-70b-versatile | Time: 0.83s | Attempt: 1/3
+[13-Dec-2025 23:07:49 Europe/Berlin] [GROQ] Tokens: 330
+[13-Dec-2025 23:07:49 Europe/Berlin] Bot response OK: 43 chars
+[13-Dec-2025 23:07:49 Europe/Berlin] === CHAT REQUEST SUCCESS (0.87s) ===
+[13-Dec-2025 23:07:56 Europe/Berlin] === CHAT REQUEST START ===
+[13-Dec-2025 23:08:01 Europe/Berlin] === CHAT REQUEST START ===
+[13-Dec-2025 23:08:13 Europe/Berlin] === CHAT REQUEST START ===
+[13-Dec-2025 23:09:04 Europe/Berlin] Search Request - Type: KODE, Query: GNJ34
+[13-Dec-2025 23:09:04 Europe/Berlin] Found - kode: GNJ34, Kode: GNJ34
+[13-Dec-2025 23:09:14 Europe/Berlin] Search Request - Type: KODE, Query: GNJ34
+[13-Dec-2025 23:09:14 Europe/Berlin] Found - kode: GNJ34, Kode: GNJ34

@@ -27,22 +27,22 @@
                 position: 'bottom'
             },
             {
-                target: '[data-action="chat-temanku"]',
-                title: 'Chat dengan TemanKu 💬',
-                content: 'Butuh seseorang untuk diajak bicara? TemanKu adalah chatbot AI yang siap mendengarkan cerita Anda dengan penuh empati.',
-                position: 'left'
-            },
-            {
-                target: '.nav-item[href*="Lapor"]',
+                target: '.js-lapor-hero',
                 title: 'Buat Laporan 📝',
-                content: 'Siap untuk melapor? Klik di sini untuk mengisi formulir pelaporan. Identitas Anda akan dijaga kerahasiaannya.',
-                position: 'bottom'
+                content: 'Siap untuk melapor? Klik tombol ini untuk mengisi formulir pelaporan. Identitas Anda akan dijaga kerahasiaannya.',
+                position: 'right'
             },
             {
                 target: '.nav-item[href*="Monitoring"]',
                 title: 'Pantau Progress 📊',
                 content: 'Sudah membuat laporan? Lacak perkembangannya secara real-time di halaman Monitoring.',
                 position: 'bottom'
+            },
+            {
+                target: '.stats-grid',
+                title: 'Statistik Pelaporan 📈',
+                content: 'Lihat jumlah korban yang berani bicara dan data penanganan kasus di kampus kita.',
+                position: 'top'
             }
         ],
         lapor: [
