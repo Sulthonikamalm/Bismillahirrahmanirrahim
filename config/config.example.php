@@ -67,7 +67,7 @@ define('AUTOFILL_ENCRYPTION_ENABLED', true);
 // LOGGING
 // ============================================================
 
-define('LOG_DIR', __DIR__ . '/../logs');
+define('LOG_DIR', __DIR__ . '/../api/logs');
 define('LOG_ERRORS', true);
 define('LOG_PERFORMANCE', true);
 
