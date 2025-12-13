@@ -59,49 +59,43 @@ body {
 }
 
 /* -------------------------------------------
-   BACK BUTTON (UTILITY FOCUSED)
+   BACK BUTTON (COMPACT & CLEAN)
    ------------------------------------------- */
 .back-nav-sticky {
     position: fixed;
-    top: 100px; /* Safe distance below Navbar */
-    left: 40px;
-    z-index: 990; /* Below Navbar z-index */
-    pointer-events: none; /* Container pass-through */
+    top: 90px;
+    left: 20px;
+    z-index: 990;
+    pointer-events: none;
 }
 
-/* The actual button */
+/* The actual button - COMPACT SIZE - !important to override inline accessibility styles */
 .back-btn {
-    pointer-events: auto; /* Clickable */
+    pointer-events: auto;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 10px 20px;
+    gap: 6px;
+    padding: 8px 14px !important;
     background: white;
-    color: var(--color-text-heading);
-    border-radius: 50px; /* Pill shape */
+    color: #374151;
+    border-radius: 50px;
     text-decoration: none;
-    font-family: var(--font-ui);
+    font-family: var(--font-ui), -apple-system, sans-serif;
     font-weight: 600;
-    font-size: 0.95rem;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08); /* Soft shadow */
-    border: 1px solid rgba(0,0,0,0.05);
-    transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-.back-btn span {
-    display: inline-block; /* Always visible text */
-    opacity: 1;
-    max-width: none;
+    font-size: 0.8rem !important; /* Force small size */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border: 1px solid rgba(0,0,0,0.08);
+    transition: all 0.2s ease;
 }
 
 .back-btn i {
-    font-size: 1.1rem;
+    font-size: 0.85rem !important;
     color: var(--color-teal);
 }
 
 .back-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     border-color: var(--color-teal);
     color: var(--color-teal);
 }
@@ -110,37 +104,49 @@ body {
    MOBILE RESPONSIVENESS (CRITICAL)
    ------------------------------------------- */
 @media (max-width: 900px) {
-    /* On Mobile/Tablet: Move to Bottom Center for easy thumb access */
+    /* UX CHANGE: Move to Bottom Left (Thumb Friendly Zone) 
+       Centering was obstructing reading flow */
     .back-nav-sticky {
         top: auto;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
+        bottom: 30px; /* Safe distance from bottom edge */
+        left: 24px;   /* Standard margin */
+        right: auto;
+        transform: none; /* Remove centering */
         width: auto;
+        height: auto;
         display: flex;
-        justify-content: center;
+        justify-content: flex-start;
+        align-items: center;
+        pointer-events: none;
     }
 
     .back-btn {
-        background: rgba(17, 24, 39, 0.95);
-        color: white;
-        padding: 10px 20px;
-        font-size: 0.85rem;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        border: none;
-        gap: 6px;
+        pointer-events: auto;
+        background: rgba(255, 255, 255, 0.95); /* Cleaner look than dark mode in light theme */
+        backdrop-filter: blur(8px);
+        color: #1f2937;
+        padding: 8px 16px !important;
+        font-size: 0.85rem !important;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* Softer shadow */
+        border: 1px solid rgba(0,0,0,0.05);
+        border-radius: 50px;
+        gap: 8px;
+        height: auto !important;
+        width: max-content;
+        flex-shrink: 0;
     }
 
     .back-btn i {
-        color: #fbbf24;
-        font-size: 0.9rem;
+        color: var(--color-teal); /* Keep branding consistency */
+        font-size: 0.9rem !important;
+        transform: translateX(0);
+        transition: transform 0.2s;
     }
-
-    .back-btn:hover {
-        background: #000;
-        box-shadow: 0 6px 20px rgba(0,0,0,0.25);
-        color: white;
-        transform: translateY(-2px);
+    
+    /* Animation hint that it's clickable */
+    .back-btn:active {
+        transform: scale(0.95);
+        background: #f3f4f6;
     }
 }
 
@@ -384,36 +390,7 @@ body {
     transition: width 0.1s;
 }
 
-/* Back Button (Sticky/Accessible) */
-.back-nav-sticky {
-    position: fixed;
-    top: 100px;
-    left: 2rem;
-    z-index: 900;
-}
-
-.back-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 18px;
-    background: white;
-    border-radius: 50px;
-    color: var(--color-dark-blue);
-    font-family: var(--font-heading-optimized);
-    font-weight: 600;
-    font-size: 0.9rem;
-    text-decoration: none;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    transition: all 0.3s ease;
-    border: 1px solid rgba(0,0,0,0.05);
-}
-
-.back-btn:hover {
-    transform: translateX(-4px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
-    color: var(--color-teal);
-}
+/* Back Button styles are defined above - removed duplicate */
 
 /* Article Container */
 .article-wrapper {
