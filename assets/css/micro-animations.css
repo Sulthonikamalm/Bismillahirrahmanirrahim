@@ -348,47 +348,48 @@
 
 /* ============================================
    SCROLL REVEAL (Intersection Observer Ready)
+   Use: reveal-anim class (not .reveal to avoid conflict)
    ============================================ */
-.reveal {
+.reveal-anim {
     opacity: 0;
     transform: translateY(30px);
     transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
-.reveal.active {
+.reveal-anim.active {
     opacity: 1;
     transform: translateY(0);
 }
 
-.reveal-left {
+.reveal-anim-left {
     opacity: 0;
     transform: translateX(-30px);
     transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
-.reveal-left.active {
+.reveal-anim-left.active {
     opacity: 1;
     transform: translateX(0);
 }
 
-.reveal-right {
+.reveal-anim-right {
     opacity: 0;
     transform: translateX(30px);
     transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
-.reveal-right.active {
+.reveal-anim-right.active {
     opacity: 1;
     transform: translateX(0);
 }
 
-.reveal-scale {
+.reveal-anim-scale {
     opacity: 0;
     transform: scale(0.9);
     transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
-.reveal-scale.active {
+.reveal-anim-scale.active {
     opacity: 1;
     transform: scale(1);
 }
