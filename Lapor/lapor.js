@@ -45,13 +45,15 @@
         initStep3();
         initStep4();
         initStep5();
+        initVoiceInput(); // NEW: Voice-to-text feature
         injectModalStyles();
         injectAutofillStyles();
+        injectVoiceInputStyles(); // NEW: Voice input styles
         
         // NEW: Check for autofill data from chatbot
         checkAndApplyAutoFill();
         
-        console.log('✅ Lapor Form Initialized (Backend Integrated + Smart Autofill)');
+        console.log('✅ Lapor Form Initialized (Backend Integrated + Smart Autofill + Voice Input)');
     }
 
     // ============================================
@@ -1633,6 +1635,717 @@
             @keyframes slideUp {
                 from { transform: translateY(30px); opacity: 0; }
                 to { transform: translateY(0); opacity: 1; }
+            }
+        `;
+        document.head.appendChild(styles);
+    }
+
+    // ============================================
+    // VOICE INPUT - SPEECH TO TEXT (MASTER VERSION)
+    // Optimized for accuracy with Indonesian language
+    // ============================================
+    
+    let recognition = null;
+    let isRecording = false;
+    let finalTranscript = '';
+    let interimTranscript = '';
+    let audioStream = null;
+    let shouldRestart = false;
+    let restartAttempts = 0;
+    const MAX_RESTART_ATTEMPTS = 3;
+    
+    // Indonesian text correction dictionary (common STT errors)
+    const CORRECTION_MAP = {
+        // Common misheard words
+        'di a': 'dia',
+        'ke ras': 'keras',
+        'me reka': 'mereka',
+        'se kali': 'sekali',
+        'ter jadi': 'terjadi',
+        'ke jadian': 'kejadian',
+        'pe laku': 'pelaku',
+        'kor ban': 'korban',
+        'ke kerasan': 'kekerasan',
+        'sek sual': 'seksual',
+        'pe lecehan': 'pelecehan',
+        'ter paksa': 'terpaksa',
+        'di paksa': 'dipaksa',
+        'me nyentuh': 'menyentuh',
+        'di sentuh': 'disentuh',
+        'me lakukannya': 'melakukannya',
+        'mem buat': 'membuat',
+        'men coba': 'mencoba',
+        'ber ulang': 'berulang',
+        'se ring': 'sering',
+        'ter us': 'terus',
+        'men erus': 'menerus',
+        'ke takutan': 'ketakutan',
+        'ke cewa': 'kecewa',
+        'ter tekanan': 'tertekan',
+        'ter ancam': 'terancam',
+        'di ancam': 'diancam',
+        'men gancam': 'mengancam',
+        'kam pus': 'kampus',
+        'do sen': 'dosen',
+        'maha siswa': 'mahasiswa',
+        'te man': 'teman',
+        'pa car': 'pacar',
+        'atasan': 'atasan',
+        'ker ja': 'kerja',
+        'kan tor': 'kantor',
+        'ru mah': 'rumah',
+        'kos': 'kos',
+        'ka mar': 'kamar',
+        'ma lam': 'malam',
+        'si ang': 'siang',
+        'pa gi': 'pagi',
+        'ke marin': 'kemarin',
+        'ming gu': 'minggu',
+        'bu lan': 'bulan',
+        'ta hun': 'tahun',
+        // Numbers
+        'satu': 'satu',
+        'du a': 'dua',
+        'ti ga': 'tiga',
+        'em pat': 'empat',
+        'li ma': 'lima',
+        // Punctuation hints
+        'titik': '.',
+        'koma': ',',
+        'tanda tanya': '?',
+        'tanda seru': '!',
+    };
+    
+    // Common Indonesian filler words to clean
+    const FILLER_WORDS = ['eh', 'uh', 'um', 'hmm', 'eee', 'emm', 'anu', 'ehm'];
+    
+    function initVoiceInput() {
+        const btnVoiceInput = document.getElementById('btnVoiceInput');
+        const btnStopRecording = document.getElementById('btnStopRecording');
+        const detailKejadian = document.getElementById('detailKejadian');
+        const voiceRecordingIndicator = document.getElementById('voiceRecordingIndicator');
+        
+        if (!btnVoiceInput || !detailKejadian) {
+            console.log('⚠️ Voice input elements not found');
+            return;
+        }
+        
+        // Check browser support
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        
+        if (!SpeechRecognition) {
+            console.warn('❌ Speech Recognition not supported in this browser');
+            btnVoiceInput.style.display = 'none';
+            return;
+        }
+        
+        // ============ MASTER CONFIGURATION ============
+        recognition = new SpeechRecognition();
+        
+        // Core settings for maximum accuracy
+        recognition.continuous = true;           // Keep listening continuously
+        recognition.interimResults = true;       // Show real-time results
+        recognition.lang = 'id-ID';              // Indonesian language
+        recognition.maxAlternatives = 5;         // Get 5 alternatives, pick best one
+        
+        // ============ RESULT HANDLER (MASTER VERSION) ============
+        recognition.onresult = function(event) {
+            let bestTranscript = '';
+            let highestConfidence = 0;
+            
+            for (let i = event.resultIndex; i < event.results.length; i++) {
+                const result = event.results[i];
+                
+                if (result.isFinal) {
+                    // MASTER: Pick the best alternative based on confidence
+                    for (let j = 0; j < result.length; j++) {
+                        const alternative = result[j];
+                        const confidence = alternative.confidence || 0;
+                        
+                        // Only accept if confidence > 0.6 (60%)
+                        if (confidence > highestConfidence && confidence > 0.5) {
+                            highestConfidence = confidence;
+                            bestTranscript = alternative.transcript;
+                        }
+                    }
+                    
+                    // If no good confidence, use first result
+                    if (!bestTranscript && result[0]) {
+                        bestTranscript = result[0].transcript;
+                    }
+                    
+                    if (bestTranscript) {
+                        // Apply post-processing corrections
+                        const correctedText = postProcessText(bestTranscript);
+                        finalTranscript += correctedText + ' ';
+                        
+                        console.log(`✅ Final: "${correctedText}" (confidence: ${(highestConfidence * 100).toFixed(1)}%)`);
+                    }
+                    
+                    // Reset for next
+                    bestTranscript = '';
+                    highestConfidence = 0;
+                    
+                } else {
+                    // Interim results - show immediately for feedback
+                    interimTranscript = result[0].transcript;
+                }
+            }
+            
+            // Update textarea
+            updateTextarea(detailKejadian);
+        };
+        
+        // ============ START HANDLER ============
+        recognition.onstart = function() {
+            isRecording = true;
+            shouldRestart = true;
+            restartAttempts = 0;
+            finalTranscript = '';
+            interimTranscript = '';
+            
+            // UI Feedback
+            btnVoiceInput.classList.add('recording');
+            btnVoiceInput.innerHTML = '<i class="fas fa-stop"></i>';
+            btnVoiceInput.title = 'Klik untuk berhenti';
+            
+            if (voiceRecordingIndicator) {
+                voiceRecordingIndicator.style.display = 'flex';
+            }
+            
+            console.log('🎤 Voice recording started (MASTER MODE)');
+        };
+        
+        // ============ END HANDLER WITH AUTO-RESTART ============
+        recognition.onend = function() {
+            console.log('🎤 Recognition ended, shouldRestart:', shouldRestart);
+            
+            // Auto-restart if user hasn't stopped manually
+            if (shouldRestart && isRecording && restartAttempts < MAX_RESTART_ATTEMPTS) {
+                restartAttempts++;
+                console.log(`🔄 Auto-restarting... (attempt ${restartAttempts})`);
+                
+                setTimeout(() => {
+                    try {
+                        recognition.start();
+                    } catch (e) {
+                        console.log('Could not restart:', e);
+                        finishRecording(btnVoiceInput, voiceRecordingIndicator, detailKejadian);
+                    }
+                }, 100);
+                return;
+            }
+            
+            finishRecording(btnVoiceInput, voiceRecordingIndicator, detailKejadian);
+        };
+        
+        // ============ ERROR HANDLER ============
+        recognition.onerror = function(event) {
+            console.error('❌ Speech recognition error:', event.error);
+            
+            // Handle specific errors
+            switch (event.error) {
+                case 'no-speech':
+                    // Not a fatal error - just no speech detected
+                    if (shouldRestart && restartAttempts < MAX_RESTART_ATTEMPTS) {
+                        restartAttempts++;
+                        return; // Let onend handle restart
+                    }
+                    showVoiceError('Tidak ada suara terdeteksi. Bicara lebih jelas dan dekat ke mikrofon.');
+                    break;
+                    
+                case 'audio-capture':
+                    showVoiceError('Mikrofon tidak ditemukan. Pastikan mikrofon terhubung.');
+                    shouldRestart = false;
+                    break;
+                    
+                case 'not-allowed':
+                    showVoiceError('Izin mikrofon ditolak. Klik ikon 🔒 di address bar untuk mengizinkan.');
+                    shouldRestart = false;
+                    break;
+                    
+                case 'network':
+                    showVoiceError('Koneksi internet diperlukan. Periksa koneksi Anda.');
+                    shouldRestart = false;
+                    break;
+                    
+                case 'aborted':
+                    // User cancelled
+                    shouldRestart = false;
+                    break;
+                    
+                default:
+                    if (restartAttempts >= MAX_RESTART_ATTEMPTS) {
+                        showVoiceError('Terjadi kesalahan. Silakan coba lagi.');
+                        shouldRestart = false;
+                    }
+            }
+            
+            if (!shouldRestart) {
+                finishRecording(btnVoiceInput, voiceRecordingIndicator, detailKejadian);
+            }
+        };
+        
+        // ============ AUDIO START (for better feedback) ============
+        recognition.onaudiostart = function() {
+            console.log('🎵 Audio capture started');
+        };
+        
+        recognition.onspeechstart = function() {
+            console.log('🗣️ Speech detected');
+            restartAttempts = 0; // Reset on successful speech
+        };
+        
+        // ============ BUTTON HANDLERS ============
+        btnVoiceInput.addEventListener('click', async function() {
+            if (isRecording) {
+                stopRecording();
+            } else {
+                await startRecording();
+            }
+        });
+        
+        if (btnStopRecording) {
+            btnStopRecording.addEventListener('click', function() {
+                stopRecording();
+            });
+        }
+        
+        console.log('✅ Voice Input initialized (MASTER MODE - Indonesian Optimized)');
+    }
+    
+    /**
+     * Post-process text for better accuracy
+     */
+    function postProcessText(text) {
+        if (!text) return '';
+        
+        let processed = text.trim();
+        
+        // 1. Apply correction map
+        Object.entries(CORRECTION_MAP).forEach(([wrong, correct]) => {
+            const regex = new RegExp(wrong, 'gi');
+            processed = processed.replace(regex, correct);
+        });
+        
+        // 2. Remove filler words
+        FILLER_WORDS.forEach(filler => {
+            const regex = new RegExp(`\\b${filler}\\b`, 'gi');
+            processed = processed.replace(regex, '');
+        });
+        
+        // 3. Fix multiple spaces
+        processed = processed.replace(/\s+/g, ' ');
+        
+        // 4. Fix common spacing issues
+        processed = processed.replace(/\s+([.,!?])/g, '$1'); // Remove space before punctuation
+        processed = processed.replace(/([.,!?])(\w)/g, '$1 $2'); // Add space after punctuation
+        
+        // 5. Capitalize first letter of sentences
+        processed = processed.replace(/(^|[.!?]\s+)([a-z])/g, (match, p1, p2) => {
+            return p1 + p2.toUpperCase();
+        });
+        
+        // 6. Capitalize first letter if start of text
+        if (processed.length > 0) {
+            processed = processed.charAt(0).toUpperCase() + processed.slice(1);
+        }
+        
+        return processed.trim();
+    }
+    
+    /**
+     * Update textarea with current transcription
+     */
+    function updateTextarea(textarea) {
+        if (!textarea) return;
+        
+        // Get existing text that was typed before recording
+        const existingText = textarea.getAttribute('data-pre-record-text') || '';
+        
+        // Combine: existing + final + interim
+        let newValue = existingText;
+        if (newValue && finalTranscript) newValue += ' ';
+        newValue += finalTranscript;
+        
+        // Show interim in italics effect (will be replaced by final)
+        if (interimTranscript) {
+            newValue += interimTranscript;
+        }
+        
+        textarea.value = newValue.trim();
+        textarea.scrollTop = textarea.scrollHeight;
+        
+        // Trigger validation
+        validateStep4();
+    }
+    
+    /**
+     * Finish recording and cleanup
+     */
+    function finishRecording(btnVoiceInput, voiceRecordingIndicator, detailKejadian) {
+        isRecording = false;
+        shouldRestart = false;
+        
+        // UI Reset
+        if (btnVoiceInput) {
+            btnVoiceInput.classList.remove('recording');
+            btnVoiceInput.innerHTML = '<i class="fas fa-microphone"></i>';
+            btnVoiceInput.title = 'Rekam suara';
+        }
+        
+        if (voiceRecordingIndicator) {
+            voiceRecordingIndicator.style.display = 'none';
+        }
+        
+        // Final cleanup of textarea
+        if (detailKejadian) {
+            const finalValue = detailKejadian.value.trim();
+            if (finalValue) {
+                detailKejadian.value = postProcessText(finalValue);
+            }
+            detailKejadian.removeAttribute('data-pre-record-text');
+        }
+        
+        // Stop audio stream
+        if (audioStream) {
+            audioStream.getTracks().forEach(track => track.stop());
+            audioStream = null;
+        }
+        
+        console.log('🎤 Voice recording finished');
+        validateStep4();
+    }
+    
+    /**
+     * Start recording with optimized audio settings
+     */
+    async function startRecording() {
+        if (!recognition) {
+            showVoiceError('Browser tidak mendukung fitur suara.');
+            return;
+        }
+        
+        const detailKejadian = document.getElementById('detailKejadian');
+        
+        // Save existing text before recording
+        if (detailKejadian && detailKejadian.value.trim()) {
+            detailKejadian.setAttribute('data-pre-record-text', detailKejadian.value.trim());
+        }
+        
+        try {
+            // Request microphone with OPTIMIZED audio settings for speech
+            audioStream = await navigator.mediaDevices.getUserMedia({
+                audio: {
+                    echoCancellation: true,      // Remove echo
+                    noiseSuppression: true,      // Reduce background noise
+                    autoGainControl: true,       // Auto volume adjustment
+                    channelCount: 1,             // Mono for speech
+                    sampleRate: 16000,           // Optimal for speech recognition
+                }
+            });
+            
+            console.log('🎵 Audio stream ready with noise suppression');
+            
+            // Reset state
+            finalTranscript = '';
+            interimTranscript = '';
+            restartAttempts = 0;
+            shouldRestart = true;
+            
+            // Start recognition
+            recognition.start();
+            
+        } catch (error) {
+            console.error('❌ Microphone access error:', error);
+            
+            if (error.name === 'NotAllowedError' || error.name === 'PermissionDeniedError') {
+                showVoiceError('Izin mikrofon ditolak. Klik ikon 🔒 di address bar browser untuk mengizinkan.');
+            } else if (error.name === 'NotFoundError') {
+                showVoiceError('Mikrofon tidak ditemukan. Pastikan perangkat audio terhubung.');
+            } else if (error.name === 'NotReadableError') {
+                showVoiceError('Mikrofon sedang digunakan aplikasi lain.');
+            } else {
+                showVoiceError('Tidak dapat mengakses mikrofon. Pastikan mikrofon berfungsi.');
+            }
+        }
+    }
+    
+    /**
+     * Stop recording
+     */
+    function stopRecording() {
+        shouldRestart = false;
+        
+        if (recognition && isRecording) {
+            try {
+                recognition.stop();
+            } catch (e) {
+                console.log('Stop error (ignoring):', e);
+            }
+        }
+        
+        // Force finish if stop doesn't trigger onend
+        setTimeout(() => {
+            if (isRecording) {
+                const btnVoiceInput = document.getElementById('btnVoiceInput');
+                const voiceRecordingIndicator = document.getElementById('voiceRecordingIndicator');
+                const detailKejadian = document.getElementById('detailKejadian');
+                finishRecording(btnVoiceInput, voiceRecordingIndicator, detailKejadian);
+            }
+        }, 500);
+    }
+    
+    function showVoiceError(message) {
+        // Remove existing error
+        const existingError = document.querySelector('.voice-error-toast');
+        if (existingError) existingError.remove();
+        
+        const toast = document.createElement('div');
+        toast.className = 'voice-error-toast';
+        toast.innerHTML = `
+            <i class="fas fa-exclamation-circle"></i>
+            <span>${message}</span>
+            <button onclick="this.parentElement.remove()">
+                <i class="fas fa-times"></i>
+            </button>
+        `;
+        
+        document.body.appendChild(toast);
+        
+        // Auto-remove after 5 seconds
+        setTimeout(() => {
+            if (toast.parentElement) {
+                toast.classList.add('fade-out');
+                setTimeout(() => toast.remove(), 300);
+            }
+        }, 5000);
+    }
+    
+    function injectVoiceInputStyles() {
+        if (document.getElementById('voiceInputStyles')) return;
+        
+        const styles = document.createElement('style');
+        styles.id = 'voiceInputStyles';
+        styles.textContent = `
+            /* Voice Input Button */
+            .textarea-voice-wrapper {
+                position: relative;
+            }
+            
+            .btn-voice-input {
+                position: absolute;
+                right: 12px;
+                bottom: 12px;
+                width: 48px;
+                height: 48px;
+                border-radius: 50%;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                border: none;
+                color: white;
+                font-size: 20px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+                transition: all 0.3s ease;
+                z-index: 10;
+            }
+            
+            .btn-voice-input:hover {
+                transform: scale(1.1);
+                box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+            }
+            
+            .btn-voice-input:active {
+                transform: scale(0.95);
+            }
+            
+            /* Recording State */
+            .btn-voice-input.recording {
+                background: linear-gradient(135deg, #f44336 0%, #e91e63 100%);
+                animation: pulse-recording 1s ease-in-out infinite;
+                box-shadow: 0 4px 20px rgba(244, 67, 54, 0.5);
+            }
+            
+            @keyframes pulse-recording {
+                0%, 100% { 
+                    transform: scale(1);
+                    box-shadow: 0 4px 20px rgba(244, 67, 54, 0.5);
+                }
+                50% { 
+                    transform: scale(1.1);
+                    box-shadow: 0 6px 30px rgba(244, 67, 54, 0.7);
+                }
+            }
+            
+            /* Recording Indicator */
+            .voice-recording-indicator {
+                display: none;
+                align-items: center;
+                gap: 12px;
+                padding: 12px 20px;
+                background: linear-gradient(135deg, rgba(244, 67, 54, 0.1) 0%, rgba(233, 30, 99, 0.1) 100%);
+                border: 1px solid rgba(244, 67, 54, 0.3);
+                border-radius: 12px;
+                margin-top: 12px;
+                animation: fadeIn 0.3s ease;
+            }
+            
+            .recording-pulse {
+                width: 16px;
+                height: 16px;
+                background: #f44336;
+                border-radius: 50%;
+                animation: pulse-dot 1s ease-in-out infinite;
+            }
+            
+            @keyframes pulse-dot {
+                0%, 100% { opacity: 1; transform: scale(1); }
+                50% { opacity: 0.5; transform: scale(0.8); }
+            }
+            
+            .recording-text {
+                flex: 1;
+                font-weight: 600;
+                color: #f44336;
+                font-size: 14px;
+            }
+            
+            .btn-stop-recording {
+                background: #f44336;
+                color: white;
+                border: none;
+                padding: 8px 16px;
+                border-radius: 20px;
+                font-weight: 600;
+                font-size: 13px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                transition: all 0.2s;
+            }
+            
+            .btn-stop-recording:hover {
+                background: #d32f2f;
+                transform: scale(1.05);
+            }
+            
+            .btn-stop-recording i {
+                font-size: 12px;
+            }
+            
+            /* Textarea with voice styling */
+            .lapor-textarea {
+                padding-right: 70px;
+                min-height: 150px;
+            }
+            
+            /* Voice Error Toast */
+            .voice-error-toast {
+                position: fixed;
+                bottom: 30px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: #f44336;
+                color: white;
+                padding: 14px 20px;
+                border-radius: 12px;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                box-shadow: 0 6px 20px rgba(244, 67, 54, 0.4);
+                z-index: 10001;
+                animation: slideUpToast 0.3s ease;
+                max-width: 90%;
+            }
+            
+            @keyframes slideUpToast {
+                from { 
+                    transform: translateX(-50%) translateY(100px);
+                    opacity: 0;
+                }
+                to { 
+                    transform: translateX(-50%) translateY(0);
+                    opacity: 1;
+                }
+            }
+            
+            .voice-error-toast.fade-out {
+                animation: slideDownToast 0.3s ease forwards;
+            }
+            
+            @keyframes slideDownToast {
+                from { 
+                    transform: translateX(-50%) translateY(0);
+                    opacity: 1;
+                }
+                to { 
+                    transform: translateX(-50%) translateY(100px);
+                    opacity: 0;
+                }
+            }
+            
+            .voice-error-toast i:first-child {
+                font-size: 20px;
+            }
+            
+            .voice-error-toast span {
+                flex: 1;
+                font-size: 14px;
+                line-height: 1.4;
+            }
+            
+            .voice-error-toast button {
+                background: none;
+                border: none;
+                color: white;
+                opacity: 0.7;
+                cursor: pointer;
+                padding: 5px;
+                font-size: 14px;
+            }
+            
+            .voice-error-toast button:hover {
+                opacity: 1;
+            }
+            
+            /* Mobile responsive */
+            @media (max-width: 480px) {
+                .btn-voice-input {
+                    width: 44px;
+                    height: 44px;
+                    font-size: 18px;
+                    right: 10px;
+                    bottom: 10px;
+                }
+                
+                .voice-recording-indicator {
+                    flex-wrap: wrap;
+                    gap: 8px;
+                    padding: 10px 15px;
+                }
+                
+                .voice-error-toast {
+                    bottom: 20px;
+                    left: 10px;
+                    right: 10px;
+                    transform: none;
+                    max-width: none;
+                }
+                
+                @keyframes slideUpToast {
+                    from { 
+                        transform: translateY(100px);
+                        opacity: 0;
+                    }
+                    to { 
+                        transform: translateY(0);
+                        opacity: 1;
+                    }
+                }
             }
         `;
         document.head.appendChild(styles);
