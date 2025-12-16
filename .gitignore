@@ -34,3 +34,6 @@ composer.lock
 !/storage/rate_limit/.htaccess
 !/storage/rate_limit/.gitkeep
 !/storage/rate_limit/index.php
+
+# MAINTENANCE MODE: Ignore toggle file
+.maintenance
