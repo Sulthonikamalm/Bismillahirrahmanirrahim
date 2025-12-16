@@ -34,6 +34,168 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 
+// ============================================================
+// RATE LIMITING LAYER - Anti Spam & DDoS Protection
+// Dual-layer: Session-based (humans) + IP-based (bots)
+// ============================================================
+
+/**
+ * LAYER A: Session-based Rate Limiting (for human users)
+ * Minimum 60 seconds between submissions
+ */
+session_start([
+    'cookie_httponly' => true,
+    'cookie_secure' => isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on',
+    'cookie_samesite' => 'Strict',
+    'use_strict_mode' => true
+]);
+
+$currentTime = time();
+$sessionCooldown = 60; // 60 seconds between submissions
+
+if (isset($_SESSION['last_submit_time'])) {
+    $timeSinceLastSubmit = $currentTime - $_SESSION['last_submit_time'];
+    
+    if ($timeSinceLastSubmit < $sessionCooldown) {
+        $remainingTime = $sessionCooldown - $timeSinceLastSubmit;
+        http_response_code(429);
+        echo json_encode([
+            'success' => false,
+            'message' => 'Terlalu cepat! Harap tunggu ' . $remainingTime . ' detik sebelum mengirim laporan baru.',
+            'error_code' => 'RATE_LIMIT_SESSION',
+            'retry_after' => $remainingTime
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+}
+
+/**
+ * LAYER B: IP-based Rate Limiting (for bots without cookies)
+ * Token Bucket Algorithm: Max 5 requests per 60 seconds window
+ */
+$clientIP = $_SERVER['HTTP_X_FORWARDED_FOR'] ?? 
+            $_SERVER['HTTP_X_REAL_IP'] ?? 
+            $_SERVER['HTTP_CLIENT_IP'] ?? 
+            $_SERVER['REMOTE_ADDR'] ?? 
+            'unknown';
+
+// Sanitize IP (get first IP if multiple)
+$clientIP = explode(',', $clientIP)[0];
+$clientIP = trim($clientIP);
+
+// Rate limit configuration
+$maxRequests = 5;      // Maximum requests allowed
+$timeWindow = 60;      // Time window in seconds (1 minute)
+
+// PRODUCTION-READY: Try system temp first, fallback to project storage
+$rateLimitDir = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'sigap_rate_limit' . DIRECTORY_SEPARATOR;
+$usingFallback = false;
+
+// Try to create in system temp directory
+if (!is_dir($rateLimitDir)) {
+    if (!@mkdir($rateLimitDir, 0755, true)) {
+        // Fallback to project storage directory (protected by .htaccess)
+        $rateLimitDir = __DIR__ . '/../storage/rate_limit/';
+        $usingFallback = true;
+    }
+}
+
+// Verify directory is writable, if not try fallback
+if (!$usingFallback && !is_writable($rateLimitDir)) {
+    $rateLimitDir = __DIR__ . '/../storage/rate_limit/';
+    $usingFallback = true;
+}
+
+// Create fallback directory if needed
+if ($usingFallback && !is_dir($rateLimitDir)) {
+    @mkdir($rateLimitDir, 0755, true);
+    
+    // Create .htaccess to protect the directory
+    $htaccessPath = $rateLimitDir . '.htaccess';
+    if (!file_exists($htaccessPath)) {
+        $htaccessContent = "# Deny all access to rate limit files\nOrder deny,allow\nDeny from all\n\n# Apache 2.4+\n<IfModule mod_authz_core.c>\n    Require all denied\n</IfModule>";
+        @file_put_contents($htaccessPath, $htaccessContent);
+    }
+    
+    // Create index.php to prevent directory listing
+    $indexPath = $rateLimitDir . 'index.php';
+    if (!file_exists($indexPath)) {
+        @file_put_contents($indexPath, "<?php http_response_code(403); exit('Forbidden');");
+    }
+}
+
+// Generate safe filename from IP
+$ipHash = md5($clientIP . '_submit_laporan');
+$rateLimitFile = $rateLimitDir . 'rate_' . $ipHash . '.json';
+
+// Read current rate limit data
+$rateData = ['count' => 0, 'start_time' => $currentTime, 'last_request' => $currentTime];
+
+if (file_exists($rateLimitFile)) {
+    $fileContent = @file_get_contents($rateLimitFile);
+    if ($fileContent !== false) {
+        $decoded = json_decode($fileContent, true);
+        if (is_array($decoded)) {
+            $rateData = $decoded;
+        }
+    }
+}
+
+// Check if time window has expired - reset counter
+if (($currentTime - $rateData['start_time']) > $timeWindow) {
+    // Window expired, reset
+    $rateData = [
+        'count' => 1,
+        'start_time' => $currentTime,
+        'last_request' => $currentTime
+    ];
+} else {
+    // Within window, check rate limit
+    $rateData['count']++;
+    $rateData['last_request'] = $currentTime;
+    
+    if ($rateData['count'] > $maxRequests) {
+        // Rate limit exceeded
+        $retryAfter = $timeWindow - ($currentTime - $rateData['start_time']);
+        
+        // Log suspicious activity
+        error_log("[RATE_LIMIT] IP: {$clientIP} exceeded {$maxRequests} requests in {$timeWindow}s. Count: {$rateData['count']}");
+        
+        http_response_code(429);
+        header('Retry-After: ' . max(1, $retryAfter));
+        echo json_encode([
+            'success' => false,
+            'message' => 'Terlalu banyak permintaan. Harap tunggu ' . max(1, $retryAfter) . ' detik.',
+            'error_code' => 'RATE_LIMIT_IP',
+            'retry_after' => max(1, $retryAfter)
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+}
+
+// Save updated rate limit data with exclusive lock
+@file_put_contents($rateLimitFile, json_encode($rateData), LOCK_EX);
+
+// Update session timestamp (will be committed after successful submission)
+// This is set here but only matters if submission succeeds
+$_SESSION['last_submit_time'] = $currentTime;
+
+// Optional: Clean old rate limit files (run occasionally)
+if (rand(1, 100) === 1) { // 1% chance to run cleanup
+    $files = @glob($rateLimitDir . 'rate_*.json');
+    if (is_array($files)) {
+        foreach ($files as $file) {
+            if (@filemtime($file) < ($currentTime - 3600)) { // Older than 1 hour
+                @unlink($file);
+            }
+        }
+    }
+}
+
+// ============================================================
+// END OF RATE LIMITING LAYER
+// ============================================================
+
 // Only accept POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     sendResponse(false, 'Method not allowed. Use POST.', null, 405);

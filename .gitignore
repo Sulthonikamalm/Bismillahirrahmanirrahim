@@ -28,3 +28,9 @@ Thumbs.db
 # PHP
 vendor/
 composer.lock
+
+# SECURITY: Rate Limit Storage (keep structure, ignore data)
+/storage/rate_limit/*.json
+!/storage/rate_limit/.htaccess
+!/storage/rate_limit/.gitkeep
+!/storage/rate_limit/index.php

@@ -1,0 +1,12 @@
+# ==================================================
+# SECURITY: Deny all access to storage directory
+# ==================================================
+
+# Apache 2.2
+Order deny,allow
+Deny from all
+
+# Apache 2.4+
+<IfModule mod_authz_core.c>
+    Require all denied
+</IfModule>
