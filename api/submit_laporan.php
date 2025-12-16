@@ -1,16 +1,5 @@
 <?php
-/**
- * ==========================================================
- * API SUBMIT LAPORAN - WITH FILE UPLOAD
- * ==========================================================
- * Endpoint untuk submit laporan kekerasan dengan bukti file
- *
- * Method: POST
- * Content-Type: multipart/form-data (untuk file upload)
- *
- * @version 3.0
- * @date 2025-11-21
- */
+// API SUBMIT LAPORAN - POST multipart/form-data
 
 // Start output buffering
 ob_start();
@@ -37,15 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 
-// ============================================================
-// RATE LIMITING LAYER - Anti Spam & DDoS Protection
-// Dual-layer: Session-based (humans) + IP-based (bots)
-// ============================================================
-
-/**
- * LAYER A: Session-based Rate Limiting (for human users)
- * Minimum 60 seconds between submissions
- */
+// Rate Limiting: Session-based (60s cooldown)
 session_start([
     'cookie_httponly' => true,
     'cookie_secure' => isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on',
@@ -72,10 +53,7 @@ if (isset($_SESSION['last_submit_time'])) {
     }
 }
 
-/**
- * LAYER B: IP-based Rate Limiting (for bots without cookies)
- * Token Bucket Algorithm: Max 5 requests per 60 seconds window
- */
+// Rate Limiting: IP-based (max 5 req/min)
 $clientIP = $_SERVER['HTTP_X_FORWARDED_FOR'] ?? 
             $_SERVER['HTTP_X_REAL_IP'] ?? 
             $_SERVER['HTTP_CLIENT_IP'] ?? 
@@ -195,9 +173,7 @@ if (rand(1, 100) === 1) { // 1% chance to run cleanup
     }
 }
 
-// ============================================================
-// END OF RATE LIMITING LAYER
-// ============================================================
+
 
 // Only accept POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
