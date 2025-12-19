@@ -326,6 +326,12 @@
                                         <i class="fas fa-stop"></i> Stop
                                     </button>
                                 </div>
+
+                                <!-- Emotion Detection Indicator -->
+                                <div class="emotion-indicator" id="emotionIndicator" style="display: none;">
+                                    <span class="emotion-icon" id="emotionIcon">😊</span>
+                                    <span class="emotion-text" id="emotionText">Emosi terdeteksi</span>
+                                </div>
                             </div>
 
                             <span class="lapor-error" id="errorDetail">Wajib memberikan keterangan kejadian minimal 10
@@ -473,6 +479,7 @@
 
     <!-- Scripts -->
     <script src="../assets/js/shared/encryption.js"></script>
+    <script src="../assets/js/shared/enhanced_stt.js"></script>
     <script src="../index.js" defer></script>
     <script src="lapor.js" defer></script>
 </body>

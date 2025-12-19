@@ -445,6 +445,7 @@ select.lapor-input {
 
 .btn-lapor {
     -webkit-appearance: none;
+    appearance: none;
     font-family: 'Raleway', var(--font-nav), sans-serif;
     font-size: 1rem;
     font-weight: 600;
@@ -1063,4 +1064,163 @@ select.lapor-input {
         box-shadow: none;
         border: 1px solid #ddd;
     }
+}
+
+/* ============================================
+   EMOTION DETECTION INDICATOR
+   Enhanced STT Integration
+   ============================================ */
+.emotion-indicator {
+    position: absolute;
+    top: -50px;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border: 2px solid #667eea;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+    animation: slideDownEmotion 0.4s ease-out;
+    z-index: 5;
+}
+
+@keyframes slideDownEmotion {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.emotion-icon {
+    font-size: 1.8rem;
+    animation: emotionBounce 0.5s ease;
+}
+
+@keyframes emotionBounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+.emotion-text {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #333;
+}
+
+/* Emotion-specific colors */
+.emotion-indicator.sedih {
+    border-color: #3498db;
+    background: linear-gradient(135deg, #ebf5fb 0%, #d6eaf8 100%);
+}
+
+.emotion-indicator.marah {
+    border-color: #e74c3c;
+    background: linear-gradient(135deg, #fdedec 0%, #f9ebea 100%);
+}
+
+.emotion-indicator.takut {
+    border-color: #9b59b6;
+    background: linear-gradient(135deg, #f5eef8 0%, #ebdef0 100%);
+}
+
+.emotion-indicator.putus-asa {
+    border-color: #e74c3c;
+    background: linear-gradient(135deg, #fdedec 0%, #f9ebea 100%);
+    animation: emergencyPulse 1s infinite;
+}
+
+@keyframes emergencyPulse {
+    0%, 100% {
+        box-shadow: 0 4px 15px rgba(231, 76, 60, 0.2);
+    }
+    50% {
+        box-shadow: 0 4px 25px rgba(231, 76, 60, 0.5);
+    }
+}
+
+.emotion-indicator.lega {
+    border-color: #27ae60;
+    background: linear-gradient(135deg, #eafaf1 0%, #d5f5e3 100%);
+}
+
+/* Audio Event Indicators */
+.audio-event-toast {
+    position: fixed;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 9999;
+    animation: toastSlideUp 0.4s ease-out;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+@keyframes toastSlideUp {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+.audio-event-toast.crying {
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    color: white;
+}
+
+.audio-event-toast.laughing {
+    background: linear-gradient(135deg, #f1c40f 0%, #f39c12 100%);
+    color: #333;
+}
+
+.audio-event-toast.scream {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    color: white;
+    animation: toastSlideUp 0.4s ease-out, emergencyPulse 1s infinite;
+}
+
+.audio-event-toast.distress {
+    background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+    color: white;
+}
+
+.audio-event-icon {
+    font-size: 1.5rem;
+}
+
+/* Voice Input Enhanced Mode Indicator */
+.enhanced-mode-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 20px;
+    margin-left: 10px;
+}
+
+.enhanced-mode-badge i {
+    font-size: 0.8rem;
 }

@@ -2352,6 +2352,305 @@
     }
 
     // ============================================
+    // ENHANCED STT INTEGRATION
+    // Emotion Detection & Audio Event Handling
+    // ============================================
+    
+    /**
+     * Initialize Enhanced STT if available
+     */
+    function initEnhancedSTT() {
+        if (!window.EnhancedSTT) {
+            console.log('ℹ️ EnhancedSTT module not loaded, using basic STT');
+            return false;
+        }
+        
+        // Initialize with callbacks
+        const initialized = window.EnhancedSTT.init({
+            language: 'id-ID',
+            emotionDetectionEnabled: true,
+            audioEventDetectionEnabled: true
+        });
+        
+        if (!initialized) {
+            console.log('⚠️ EnhancedSTT initialization failed');
+            return false;
+        }
+        
+        // Set up callbacks
+        window.EnhancedSTT.setCallbacks({
+            onEmotionDetected: handleEmotionDetected,
+            onAudioEvent: handleAudioEvent
+        });
+        
+        console.log('✅ EnhancedSTT integrated with emotion detection');
+        return true;
+    }
+    
+    /**
+     * Handle detected emotion from text analysis
+     */
+    function handleEmotionDetected(emotionData) {
+        console.log('🎭 Emotion detected:', emotionData);
+        
+        const emotionIndicator = document.getElementById('emotionIndicator');
+        const emotionIcon = document.getElementById('emotionIcon');
+        const emotionText = document.getElementById('emotionText');
+        
+        if (!emotionIndicator || !emotionIcon || !emotionText) return;
+        
+        // Map emotion to icon and message
+        const emotionMap = {
+            sedih: { icon: '😢', text: 'Saya merasakan kesedihan dalam ceritamu', class: 'sedih' },
+            marah: { icon: '😠', text: 'Saya merasakan kemarahan di sini', class: 'marah' },
+            takut: { icon: '😰', text: 'Kamu mungkin merasa takut atau cemas', class: 'takut' },
+            putusAsa: { icon: '💔', text: 'Saya di sini untukmu. Kamu tidak sendiri.', class: 'putus-asa' },
+            malu: { icon: '😶', text: 'Tidak apa-apa merasa malu, itu wajar', class: 'sedih' },
+            bingung: { icon: '🤔', text: 'Saya mengerti kebingunganmu', class: 'sedih' },
+            lega: { icon: '😌', text: 'Senang kamu merasa lebih baik', class: 'lega' },
+            berharap: { icon: '🙏', text: 'Terima kasih sudah berbagi harapanmu', class: 'lega' }
+        };
+        
+        const emotion = emotionMap[emotionData.primary] || { icon: '💙', text: 'Saya mendengarkanmu', class: '' };
+        
+        // Update indicator
+        emotionIcon.textContent = emotion.icon;
+        emotionText.textContent = emotion.text;
+        
+        // Remove old classes and add new
+        emotionIndicator.className = 'emotion-indicator';
+        if (emotion.class) {
+            emotionIndicator.classList.add(emotion.class);
+        }
+        
+        // Show indicator
+        emotionIndicator.style.display = 'flex';
+        
+        // Auto-hide after 5 seconds
+        setTimeout(() => {
+            emotionIndicator.style.display = 'none';
+        }, 5000);
+        
+        // Special handling for crisis keywords
+        if (emotionData.primary === 'putusAsa') {
+            showCrisisSupport();
+        }
+    }
+    
+    /**
+     * Handle audio events (crying, screaming, etc.)
+     */
+    function handleAudioEvent(eventData) {
+        console.log('🔊 Audio event detected:', eventData);
+        
+        // Map audio event to toast display
+        const eventMap = {
+            crying: { icon: '😢', text: 'Tidak apa-apa menangis. Saya di sini.', class: 'crying' },
+            laughing: { icon: '😊', text: '', class: 'laughing' }, // No need to show for laughing
+            scream: { icon: '⚠️', text: 'Apakah kamu baik-baik saja?', class: 'scream' },
+            distress: { icon: '💙', text: 'Saya merasakan kamu sedang dalam kesulitan', class: 'distress' }
+        };
+        
+        const event = eventMap[eventData.type];
+        if (!event || !event.text) return; // Skip if no message needed
+        
+        showAudioEventToast(event.icon, event.text, event.class);
+        
+        // Special handling for distress or screaming
+        if (eventData.type === 'scream' || eventData.type === 'distress') {
+            // Optionally show crisis support after a delay
+            setTimeout(() => {
+                if (eventData.confidence > 0.7) {
+                    showCrisisSupport();
+                }
+            }, 3000);
+        }
+    }
+    
+    /**
+     * Show audio event toast notification
+     */
+    function showAudioEventToast(icon, message, className) {
+        // Remove existing toast
+        const existingToast = document.querySelector('.audio-event-toast');
+        if (existingToast) existingToast.remove();
+        
+        const toast = document.createElement('div');
+        toast.className = `audio-event-toast ${className}`;
+        toast.innerHTML = `
+            <span class="audio-event-icon">${icon}</span>
+            <span>${message}</span>
+        `;
+        
+        document.body.appendChild(toast);
+        
+        // Auto-remove after 4 seconds
+        setTimeout(() => {
+            if (toast.parentElement) {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(-50%) translateY(20px)';
+                setTimeout(() => toast.remove(), 300);
+            }
+        }, 4000);
+    }
+    
+    /**
+     * Show crisis support modal for high-risk situations
+     */
+    function showCrisisSupport() {
+        // Remove existing modal
+        const existingModal = document.querySelector('.crisis-support-modal');
+        if (existingModal) return; // Don't show multiple times
+        
+        const modal = document.createElement('div');
+        modal.className = 'crisis-support-modal';
+        modal.innerHTML = `
+            <div class="crisis-support-content">
+                <div class="crisis-icon">💙</div>
+                <h3>Kamu Tidak Sendiri</h3>
+                <p>Saya mendeteksi bahwa kamu mungkin sedang dalam kondisi yang sulit. 
+                   Bantuan profesional tersedia untukmu.</p>
+                <div class="crisis-actions">
+                    <a href="tel:119" class="crisis-btn primary">
+                        <i class="fas fa-phone"></i> Hubungi 119
+                    </a>
+                    <a href="https://wa.me/6282188467793" target="_blank" class="crisis-btn secondary">
+                        <i class="fab fa-whatsapp"></i> Chat Konselor
+                    </a>
+                    <button class="crisis-btn tertiary" onclick="this.closest('.crisis-support-modal').remove()">
+                        Saya Baik-baik Saja
+                    </button>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+        
+        // Inject styles if not exist
+        if (!document.getElementById('crisisSupportStyles')) {
+            const styles = document.createElement('style');
+            styles.id = 'crisisSupportStyles';
+            styles.textContent = `
+                .crisis-support-modal {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: rgba(0, 0, 0, 0.6);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 99999;
+                    animation: fadeIn 0.3s ease;
+                }
+                
+                .crisis-support-content {
+                    background: white;
+                    padding: 40px;
+                    border-radius: 24px;
+                    max-width: 400px;
+                    text-align: center;
+                    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+                    animation: slideUp 0.4s ease;
+                }
+                
+                .crisis-icon {
+                    font-size: 4rem;
+                    margin-bottom: 20px;
+                }
+                
+                .crisis-support-content h3 {
+                    font-size: 1.5rem;
+                    margin-bottom: 15px;
+                    color: #333;
+                }
+                
+                .crisis-support-content p {
+                    color: #666;
+                    line-height: 1.6;
+                    margin-bottom: 25px;
+                }
+                
+                .crisis-actions {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 12px;
+                }
+                
+                .crisis-btn {
+                    padding: 14px 24px;
+                    border: none;
+                    border-radius: 12px;
+                    font-size: 1rem;
+                    font-weight: 600;
+                    cursor: pointer;
+                    text-decoration: none;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 10px;
+                    transition: all 0.3s ease;
+                }
+                
+                .crisis-btn.primary {
+                    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+                    color: white;
+                }
+                
+                .crisis-btn.primary:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+                }
+                
+                .crisis-btn.secondary {
+                    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+                    color: white;
+                }
+                
+                .crisis-btn.secondary:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+                }
+                
+                .crisis-btn.tertiary {
+                    background: #f0f0f0;
+                    color: #666;
+                }
+                
+                .crisis-btn.tertiary:hover {
+                    background: #e0e0e0;
+                }
+                
+                @keyframes fadeIn {
+                    from { opacity: 0; }
+                    to { opacity: 1; }
+                }
+                
+                @keyframes slideUp {
+                    from { 
+                        opacity: 0;
+                        transform: translateY(30px);
+                    }
+                    to { 
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+            `;
+            document.head.appendChild(styles);
+        }
+    }
+    
+    // Try to initialize EnhancedSTT when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initEnhancedSTT);
+    } else {
+        // Small delay to ensure EnhancedSTT is loaded
+        setTimeout(initEnhancedSTT, 100);
+    }
+
+    // ============================================
     // INITIALIZE ON DOM READY
     // ============================================
     if (document.readyState === 'loading') {

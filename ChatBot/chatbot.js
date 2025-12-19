@@ -899,6 +899,90 @@
   }
 
   // ============================================
+  // ENHANCED STT INTEGRATION FOR CHATBOT
+  // ============================================
+  
+  /**
+   * Initialize Enhanced STT for chatbot
+   */
+  function initEnhancedSTTForChat() {
+    if (!window.EnhancedSTT) {
+      console.log("ℹ️ EnhancedSTT not available for chatbot");
+      return;
+    }
+    
+    const initialized = window.EnhancedSTT.init({
+      language: 'id-ID',
+      emotionDetectionEnabled: true,
+      audioEventDetectionEnabled: true
+    });
+    
+    if (initialized) {
+      window.EnhancedSTT.setCallbacks({
+        onEmotionDetected: handleChatEmotionDetected,
+        onAudioEvent: handleChatAudioEvent
+      });
+      console.log("✅ EnhancedSTT integrated with chatbot");
+    }
+  }
+  
+  /**
+   * Handle emotion detected in chat
+   */
+  function handleChatEmotionDetected(emotionData) {
+    console.log("🎭 Chat emotion detected:", emotionData);
+    
+    // Store emotion data for potential use in response
+    if (emotionData.primary === 'putusAsa') {
+      // Trigger emergency response for crisis keywords
+      handleEmergency("Saya sangat khawatir dengan kondisimu. Ingat, kamu tidak sendirian. " +
+        "Bantuan profesional tersedia untukmu 24 jam. Apakah kamu ingin berbicara dengan konselor sekarang?");
+    } else if (emotionData.primary === 'takut' || emotionData.primary === 'sedih') {
+      // Add supportive context to conversation
+      showEmotionSupportBubble(emotionData.primary);
+    }
+  }
+  
+  /**
+   * Handle audio events in chat
+   */
+  function handleChatAudioEvent(eventData) {
+    console.log("🔊 Chat audio event:", eventData);
+    
+    if (eventData.type === 'crying') {
+      showEmotionSupportBubble('crying');
+    } else if (eventData.type === 'scream' || eventData.type === 'distress') {
+      if (eventData.confidence > 0.6) {
+        handleEmergency("Saya merasakan kamu sedang dalam kondisi yang sulit. " +
+          "Apakah kamu membutuhkan bantuan segera?");
+      }
+    }
+  }
+  
+  /**
+   * Show supportive bubble based on detected emotion
+   */
+  function showEmotionSupportBubble(emotionType) {
+    const supportMessages = {
+      sedih: "💙 Saya merasakan kesedihanmu. Tidak apa-apa untuk merasa sedih.",
+      takut: "💙 Saya di sini bersamamu. Kamu aman untuk berbagi.",
+      marah: "💙 Perasaan marahmu valid. Ceritakan apa yang membuatmu marah.",
+      crying: "💙 Menangis adalah cara yang sehat untuk melepaskan emosi. Saya di sini."
+    };
+    
+    const message = supportMessages[emotionType];
+    if (message && !isTyping) {
+      // Small delay before showing support message
+      setTimeout(() => {
+        addBotMessage(message);
+      }, 1000);
+    }
+  }
+  
+  // Initialize EnhancedSTT for chat on load
+  setTimeout(initEnhancedSTTForChat, 200);
+
+  // ============================================
   // PUBLIC API
   // ============================================
   window.TemanKuChatbot = {
