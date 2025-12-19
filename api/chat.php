@@ -29,16 +29,23 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit();
 }
 
+// Load config FIRST (before session_start) to apply session settings
+require_once __DIR__ . '/../config/config.php';
+
+// Custom error handler - but ignore session-related warnings
 set_error_handler(function($errno, $errstr, $errfile, $errline) {
+    // Ignore session-related warnings that happen after session_start
+    if (strpos($errstr, 'session') !== false && $errno === E_WARNING) {
+        return true; // Suppress this warning
+    }
     error_log("PHP Error [$errno]: $errstr in $errfile:$errline");
     throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
 });
 
 session_start();
 
-// Load dependencies
+// Load remaining dependencies
 try {
-    require_once __DIR__ . '/../config/config.php';
     require_once __DIR__ . '/../config/database.php';
     require_once __DIR__ . '/groq_client.php';
     require_once __DIR__ . '/chat_helpers.php';
