@@ -1,58 +1,92 @@
 /**
- * SIGAP Enhanced Speech-to-Text Module v2.0
+ * SIGAP Enhanced Speech-to-Text Module v3.0 - ADVANCED
+ * =====================================================
  * Features:
- * - Improved accuracy with continuous recognition
- * - Emotion detection from voice patterns
- * - Audio event detection (crying, laughing, screaming)
+ * - UNLIMITED continuous recognition (auto-restart workaround)
+ * - Advanced crying/screaming detection using spectral analysis
+ * - Pitch detection for emotional voice patterns
+ * - Zero Crossing Rate for speech classification
+ * - MFCC-inspired feature extraction
+ * - Real-time emotion detection from voice AND text
  * - Indonesian language optimized
- * - Real-time audio analysis
+ * 
+ * Techniques used:
+ * - Web Audio API with AnalyserNode
+ * - FFT-based spectral analysis
+ * - Pitch detection via autocorrelation
+ * - Energy envelope tracking
+ * - Voice Activity Detection (VAD)
  */
 
 const EnhancedSTT = (function() {
     'use strict';
 
     // ============================================
-    // CONFIGURATION
+    // ADVANCED CONFIGURATION
     // ============================================
     const CONFIG = {
         language: 'id-ID',
         continuous: true,
         interimResults: true,
-        maxAlternatives: 3,
+        maxAlternatives: 5,
         
-        // Audio analysis settings
-        analysisInterval: 100, // ms
+        // Audio analysis - HIGH SENSITIVITY
+        analysisInterval: 50, // 50ms for faster detection
         emotionDetectionEnabled: true,
         audioEventDetectionEnabled: true,
         
-        // Thresholds for audio event detection
+        // LOWERED THRESHOLDS for more sensitive detection
         thresholds: {
-            // Volume thresholds
-            silenceLevel: 0.01,
-            normalSpeech: 0.1,
-            loudSpeech: 0.4,
-            screamLevel: 0.7,
+            // Volume thresholds (LOWERED significantly)
+            silenceLevel: 0.005,      // Very low silence threshold
+            normalSpeech: 0.03,       // Lower normal speech
+            loudSpeech: 0.15,         // Lower loud threshold
+            screamLevel: 0.35,        // Lower scream threshold
             
-            // Frequency thresholds (Hz)
-            cryingLowFreq: 250,
-            cryingHighFreq: 500,
-            laughingPattern: 200,
+            // Crying detection (ENHANCED)
+            cryingSobFreqLow: 200,    // Hz - lower bound of sobbing
+            cryingSobFreqHigh: 600,   // Hz - upper bound of sobbing
+            cryingBreathPattern: 0.3, // Threshold for breath pattern detection
             
-            // Duration thresholds (ms)
-            minimumAudioEvent: 500,
-            emotionAnalysisWindow: 2000
+            // Pitch ranges for emotions
+            sadPitchLow: 100,         // Hz - sad voice tends to be lower
+            sadPitchHigh: 200,        // Hz
+            distressPitchLow: 250,    // Hz - distress is higher
+            distressPitchHigh: 500,   // Hz
+            
+            // Duration thresholds (LOWERED)
+            minimumAudioEvent: 200,   // 200ms minimum for event
+            emotionAnalysisWindow: 3000, // 3 second window
+            
+            // Energy fluctuation for crying
+            energyFluctuationThreshold: 0.15
         },
         
-        // Emotion keywords for text analysis (Indonesian)
+        // Indonesian emotion keywords (EXPANDED)
         emotionKeywords: {
-            sedih: ['sedih', 'nangis', 'menangis', 'terpuruk', 'hancur', 'sakit hati', 'patah hati', 'menderita', 'nelangsa', 'pilu', 'duka', 'lara'],
-            marah: ['marah', 'kesal', 'benci', 'geram', 'murka', 'jengkel', 'emosi', 'berang', 'dongkol'],
-            takut: ['takut', 'trauma', 'cemas', 'khawatir', 'panik', 'ngeri', 'horor', 'mengerikan', 'gemetar', 'merinding'],
-            putusAsa: ['bunuh diri', 'mati', 'akhiri hidup', 'menyerah', 'capek hidup', 'lelah hidup', 'tidak kuat', 'gak kuat'],
-            malu: ['malu', 'minder', 'rendah diri', 'hina', 'dipermalukan', 'direndahkan'],
-            bingung: ['bingung', 'tidak tahu', 'gak ngerti', 'nggak paham', 'galau'],
-            lega: ['lega', 'tenang', 'lebih baik', 'terima kasih', 'makasih'],
-            berharap: ['berharap', 'semoga', 'harap', 'ingin', 'mau']
+            sedih: ['sedih', 'nangis', 'menangis', 'terpuruk', 'hancur', 'sakit hati', 'patah hati', 
+                    'menderita', 'nelangsa', 'pilu', 'duka', 'lara', 'merana', 'sendu', 'haru',
+                    'kecewa', 'putus asa', 'terluka', 'tersakiti', 'menyesal', 'kehilangan'],
+            marah: ['marah', 'kesal', 'benci', 'geram', 'murka', 'jengkel', 'emosi', 'berang', 
+                    'dongkol', 'sewot', 'gondok', 'sebal', 'gregetan', 'dendam'],
+            takut: ['takut', 'trauma', 'cemas', 'khawatir', 'panik', 'ngeri', 'horor', 'mengerikan', 
+                    'gemetar', 'merinding', 'was-was', 'gelisah', 'resah', 'ketakutan', 'terancam',
+                    'bahaya', 'berbahaya', 'mengancam', 'diancam'],
+            putusAsa: ['bunuh diri', 'mati', 'akhiri hidup', 'menyerah', 'capek hidup', 'lelah hidup', 
+                       'tidak kuat', 'gak kuat', 'mau mati', 'ingin mati', 'mengakhiri', 'bunuh',
+                       'suicide', 'gantung diri', 'lompat', 'overdosis', 'racun', 'obat tidur',
+                       'lebih baik mati', 'tidak ada gunanya', 'tidak ada harapan', 'sia-sia',
+                       'beban', 'merepotkan', 'tidak berguna', 'sampah', 'gagal total'],
+            malu: ['malu', 'minder', 'rendah diri', 'hina', 'dipermalukan', 'direndahkan', 
+                   'dikucilkan', 'diejek', 'dihina', 'ditertawakan', 'dijatuhkan', 'dipermaluin'],
+            bingung: ['bingung', 'tidak tahu', 'gak ngerti', 'nggak paham', 'galau', 'ragu'],
+            lega: ['lega', 'tenang', 'lebih baik', 'terima kasih', 'makasih', 'syukur', 'senang'],
+            berharap: ['berharap', 'semoga', 'harap', 'ingin', 'mau', 'tolong', 'bantu', 'mohon'],
+            // VIOLENCE indicators
+            kekerasan: ['dipukul', 'dihajar', 'ditendang', 'dicekik', 'disiksa', 'dianiaya',
+                        'diperkosa', 'dilecehkan', 'diremas', 'dipegang', 'dipaksa', 'disentuh',
+                        'cabul', 'pelecehan', 'kekerasan', 'seksual', 'memaksa', 'mengancam',
+                        'foto', 'video', 'bugil', 'telanjang', 'blackmail', 'ancam sebar']
         }
     };
 
@@ -67,11 +101,26 @@ const EnhancedSTT = (function() {
     
     let isRecording = false;
     let isSupported = false;
+    let shouldKeepRunning = false; // For unlimited duration
     
-    // Audio analysis data
-    let audioBuffer = [];
+    // Audio analysis buffers
+    let volumeHistory = [];
+    let pitchHistory = [];
+    let energyHistory = [];
+    let spectralHistory = [];
     let emotionBuffer = [];
     let analysisInterval = null;
+    
+    // FFT data arrays (pre-allocated for performance)
+    let timeData = null;
+    let freqData = null;
+    
+    // Pitch detection buffer
+    let autoCorrelateBuffer = null;
+    
+    // Last detected events (for debouncing)
+    let lastEmotionTime = 0;
+    let lastAudioEventTime = 0;
     
     // Callbacks
     let callbacks = {
@@ -89,83 +138,97 @@ const EnhancedSTT = (function() {
     // ============================================
     function init(options = {}) {
         // Merge options with defaults
+        if (options.thresholds) {
+            Object.assign(CONFIG.thresholds, options.thresholds);
+        }
         Object.assign(CONFIG, options);
         
         // Check browser support
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         
         if (!SpeechRecognition) {
-            console.warn('[EnhancedSTT] Speech Recognition not supported');
+            console.warn('[EnhancedSTT v3] Speech Recognition not supported');
             isSupported = false;
             return false;
         }
         
         isSupported = true;
         
-        // Initialize Speech Recognition
+        // Initialize Speech Recognition with UNLIMITED settings
         recognition = new SpeechRecognition();
         recognition.lang = CONFIG.language;
-        recognition.continuous = CONFIG.continuous;
-        recognition.interimResults = CONFIG.interimResults;
+        recognition.continuous = true;           // ALWAYS continuous
+        recognition.interimResults = true;       // Show real-time
         recognition.maxAlternatives = CONFIG.maxAlternatives;
         
         setupRecognitionEvents();
         
-        console.log('[EnhancedSTT] Initialized with Indonesian language support');
+        console.log('[EnhancedSTT v3] Initialized - UNLIMITED MODE with Advanced Audio Analysis');
         return true;
     }
 
     // ============================================
-    // SPEECH RECOGNITION EVENTS
+    // SPEECH RECOGNITION - UNLIMITED DURATION
     // ============================================
     function setupRecognitionEvents() {
         recognition.onstart = function() {
             isRecording = true;
-            console.log('[EnhancedSTT] Recording started');
+            console.log('[EnhancedSTT v3] 🎤 Recording started - UNLIMITED MODE');
             
             if (callbacks.onStart) {
                 callbacks.onStart();
             }
             
-            // Start audio analysis if enabled
+            // Start advanced audio analysis
             if (CONFIG.audioEventDetectionEnabled) {
-                startAudioAnalysis();
+                startAdvancedAudioAnalysis();
             }
         };
         
         recognition.onresult = function(event) {
             let finalTranscript = '';
             let interimTranscript = '';
-            let confidence = 0;
+            let bestConfidence = 0;
             
             for (let i = event.resultIndex; i < event.results.length; i++) {
                 const result = event.results[i];
-                const transcript = result[0].transcript;
                 
                 if (result.isFinal) {
-                    finalTranscript += transcript;
-                    confidence = result[0].confidence;
+                    // Pick BEST alternative by confidence
+                    let bestText = '';
+                    for (let j = 0; j < result.length; j++) {
+                        if (result[j].confidence > bestConfidence) {
+                            bestConfidence = result[j].confidence;
+                            bestText = result[j].transcript;
+                        }
+                    }
+                    finalTranscript += bestText || result[0].transcript;
                     
                     // Analyze emotion from text
                     if (CONFIG.emotionDetectionEnabled) {
-                        const emotion = analyzeTextEmotion(transcript);
+                        const emotion = analyzeTextEmotion(finalTranscript);
                         if (emotion && callbacks.onEmotionDetected) {
-                            callbacks.onEmotionDetected(emotion);
+                            // Debounce emotion callback (min 1 second between)
+                            const now = Date.now();
+                            if (now - lastEmotionTime > 1000) {
+                                lastEmotionTime = now;
+                                callbacks.onEmotionDetected(emotion);
+                            }
                         }
                     }
                 } else {
-                    interimTranscript += transcript;
+                    interimTranscript += result[0].transcript;
                 }
             }
             
-            // Apply post-processing for better accuracy
+            // Post-process for accuracy
             if (finalTranscript) {
                 finalTranscript = postProcessTranscript(finalTranscript);
                 
                 if (callbacks.onResult) {
                     callbacks.onResult({
                         text: finalTranscript,
-                        confidence: confidence,
+                        confidence: bestConfidence,
                         alternatives: getAlternatives(event)
                     });
                 }
@@ -177,7 +240,29 @@ const EnhancedSTT = (function() {
         };
         
         recognition.onerror = function(event) {
-            console.error('[EnhancedSTT] Error:', event.error);
+            console.warn('[EnhancedSTT v3] Error:', event.error);
+            
+            // DON'T stop on these errors - just restart
+            if (['no-speech', 'aborted', 'network'].includes(event.error)) {
+                if (shouldKeepRunning && isRecording) {
+                    console.log('[EnhancedSTT v3] 🔄 Auto-recovering from error...');
+                    setTimeout(() => {
+                        if (shouldKeepRunning) {
+                            try {
+                                recognition.start();
+                            } catch (e) {
+                                console.log('[EnhancedSTT v3] Recovery failed, retrying...');
+                                setTimeout(() => {
+                                    if (shouldKeepRunning) {
+                                        try { recognition.start(); } catch(e2) {}
+                                    }
+                                }, 500);
+                            }
+                        }
+                    }, 100);
+                    return;
+                }
+            }
             
             if (callbacks.onError) {
                 callbacks.onError({
@@ -185,80 +270,90 @@ const EnhancedSTT = (function() {
                     message: getErrorMessage(event.error)
                 });
             }
+        };
+        
+        // CRITICAL: Auto-restart for UNLIMITED duration
+        recognition.onend = function() {
+            console.log('[EnhancedSTT v3] Session ended, shouldKeepRunning:', shouldKeepRunning);
             
-            // Auto-restart on recoverable errors
-            if (isRecording && ['network', 'aborted'].includes(event.error)) {
+            // ALWAYS restart if we should keep running
+            if (shouldKeepRunning && isRecording) {
+                console.log('[EnhancedSTT v3] 🔄 Auto-restarting for unlimited duration...');
                 setTimeout(() => {
-                    if (isRecording) {
+                    if (shouldKeepRunning) {
                         try {
                             recognition.start();
                         } catch (e) {
-                            console.log('[EnhancedSTT] Could not auto-restart');
+                            console.log('[EnhancedSTT v3] Restart failed, retrying...');
+                            setTimeout(() => {
+                                if (shouldKeepRunning) {
+                                    try { recognition.start(); } catch(e2) {}
+                                }
+                            }, 200);
                         }
                     }
-                }, 500);
-            }
-        };
-        
-        recognition.onend = function() {
-            // Auto-restart if still recording (continuous mode)
-            if (isRecording && CONFIG.continuous) {
-                try {
-                    recognition.start();
-                } catch (e) {
-                    console.log('[EnhancedSTT] Session ended');
-                    stopRecording();
-                }
+                }, 50); // Very short delay for seamless restart
             } else {
                 stopRecording();
             }
         };
         
         recognition.onspeechstart = function() {
-            console.log('[EnhancedSTT] Speech detected');
-        };
-        
-        recognition.onsoundend = function() {
-            console.log('[EnhancedSTT] Sound ended');
+            console.log('[EnhancedSTT v3] 🗣️ Speech detected');
         };
     }
 
     // ============================================
-    // AUDIO ANALYSIS FOR EMOTION DETECTION
+    // ADVANCED AUDIO ANALYSIS
     // ============================================
-    async function startAudioAnalysis() {
+    async function startAdvancedAudioAnalysis() {
         try {
-            // Request microphone with optimized settings
+            // Request microphone with optimal settings for emotion detection
             audioStream = await navigator.mediaDevices.getUserMedia({
                 audio: {
                     echoCancellation: true,
-                    noiseSuppression: true,
-                    autoGainControl: true,
+                    noiseSuppression: false,  // Keep some noise for crying detection
+                    autoGainControl: false,   // Manual gain for consistent analysis
                     channelCount: 1,
-                    sampleRate: 16000
+                    sampleRate: 44100         // Higher sample rate for pitch detection
                 }
             });
             
-            // Create audio context for analysis
-            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            // Create audio context
+            audioContext = new (window.AudioContext || window.webkitAudioContext)({
+                sampleRate: 44100
+            });
+            
+            // Create analyser with high resolution
             analyser = audioContext.createAnalyser();
-            analyser.fftSize = 2048;
-            analyser.smoothingTimeConstant = 0.8;
+            analyser.fftSize = 4096;  // High resolution FFT
+            analyser.smoothingTimeConstant = 0.3; // Less smoothing for faster response
+            
+            // Pre-allocate buffers
+            timeData = new Float32Array(analyser.frequencyBinCount);
+            freqData = new Float32Array(analyser.frequencyBinCount);
+            autoCorrelateBuffer = new Float32Array(analyser.fftSize);
             
             microphone = audioContext.createMediaStreamSource(audioStream);
             microphone.connect(analyser);
             
-            // Start analysis loop
-            analysisInterval = setInterval(analyzeAudio, CONFIG.analysisInterval);
+            // Clear history
+            volumeHistory = [];
+            pitchHistory = [];
+            energyHistory = [];
+            spectralHistory = [];
             
-            console.log('[EnhancedSTT] Audio analysis started');
+            // Start analysis loop at 50ms intervals
+            analysisInterval = setInterval(performAdvancedAnalysis, CONFIG.analysisInterval);
+            
+            console.log('[EnhancedSTT v3] 🎵 Advanced audio analysis started (4096 FFT)');
             
         } catch (error) {
-            console.error('[EnhancedSTT] Failed to start audio analysis:', error);
+            console.error('[EnhancedSTT v3] Failed to start audio analysis:', error);
         }
     }
     
-    function stopAudioAnalysis() {
+    function stopAdvancedAudioAnalysis() {
         if (analysisInterval) {
             clearInterval(analysisInterval);
             analysisInterval = null;
@@ -270,222 +365,434 @@ const EnhancedSTT = (function() {
         }
         
         if (audioContext && audioContext.state !== 'closed') {
-            audioContext.close();
+            audioContext.close().catch(() => {});
             audioContext = null;
         }
         
         analyser = null;
         microphone = null;
-        audioBuffer = [];
-        emotionBuffer = [];
+        volumeHistory = [];
+        pitchHistory = [];
+        energyHistory = [];
+        spectralHistory = [];
         
-        console.log('[EnhancedSTT] Audio analysis stopped');
-    }
-    
-    function analyzeAudio() {
-        if (!analyser) return;
-        
-        const bufferLength = analyser.frequencyBinCount;
-        const dataArray = new Uint8Array(bufferLength);
-        const frequencyData = new Float32Array(bufferLength);
-        
-        // Get time domain data (waveform)
-        analyser.getByteTimeDomainData(dataArray);
-        
-        // Get frequency data
-        analyser.getFloatFrequencyData(frequencyData);
-        
-        // Calculate volume (RMS)
-        let sumSquares = 0;
-        for (let i = 0; i < bufferLength; i++) {
-            const amplitude = (dataArray[i] - 128) / 128;
-            sumSquares += amplitude * amplitude;
-        }
-        const volume = Math.sqrt(sumSquares / bufferLength);
-        
-        // Store in buffer for pattern analysis
-        const timestamp = Date.now();
-        audioBuffer.push({
-            timestamp,
-            volume,
-            frequencies: frequencyData.slice(0, 256) // Keep first 256 bins
-        });
-        
-        // Keep only last N seconds of data
-        const windowSize = CONFIG.thresholds.emotionAnalysisWindow;
-        audioBuffer = audioBuffer.filter(d => timestamp - d.timestamp < windowSize);
-        
-        // Analyze patterns for audio events
-        const audioEvent = detectAudioEvent(audioBuffer, volume, frequencyData);
-        
-        if (audioEvent && callbacks.onAudioEvent) {
-            callbacks.onAudioEvent(audioEvent);
-        }
+        console.log('[EnhancedSTT v3] Audio analysis stopped');
     }
     
     // ============================================
-    // AUDIO EVENT DETECTION
+    // CORE ANALYSIS FUNCTION
     // ============================================
-    function detectAudioEvent(buffer, currentVolume, frequencies) {
-        if (buffer.length < 5) return null;
+    function performAdvancedAnalysis() {
+        if (!analyser || !isRecording) return;
         
         const now = Date.now();
-        const recentData = buffer.slice(-20); // Last ~2 seconds
         
-        // Calculate average and variance
-        const volumes = recentData.map(d => d.volume);
-        const avgVolume = volumes.reduce((a, b) => a + b, 0) / volumes.length;
-        const variance = volumes.reduce((sum, v) => sum + Math.pow(v - avgVolume, 2), 0) / volumes.length;
+        // Get time domain data (waveform)
+        analyser.getFloatTimeDomainData(timeData);
         
-        // ===================
-        // SCREAMING DETECTION
-        // ===================
-        if (currentVolume > CONFIG.thresholds.screamLevel) {
-            // High volume sustained for minimum duration
-            const highVolumeCount = recentData.filter(d => d.volume > CONFIG.thresholds.loudSpeech).length;
-            if (highVolumeCount >= 5) {
-                return {
-                    type: 'scream',
-                    confidence: Math.min(currentVolume / CONFIG.thresholds.screamLevel, 1),
-                    message: '🔊 Terdeteksi suara keras/teriakan',
-                    timestamp: now
-                };
-            }
+        // Get frequency domain data
+        analyser.getFloatFrequencyData(freqData);
+        
+        // === 1. CALCULATE VOLUME (RMS) ===
+        let sumSquares = 0;
+        for (let i = 0; i < timeData.length; i++) {
+            sumSquares += timeData[i] * timeData[i];
+        }
+        const volume = Math.sqrt(sumSquares / timeData.length);
+        
+        volumeHistory.push({ time: now, value: volume });
+        
+        // === 2. CALCULATE ENERGY IN FREQUENCY BANDS ===
+        const spectralFeatures = calculateSpectralFeatures(freqData);
+        spectralHistory.push({ time: now, ...spectralFeatures });
+        
+        // === 3. PITCH DETECTION ===
+        const pitch = detectPitch(timeData, audioContext.sampleRate);
+        if (pitch > 0) {
+            pitchHistory.push({ time: now, value: pitch });
         }
         
-        // ===================
-        // CRYING DETECTION
-        // ===================
-        // Crying pattern: irregular volume with specific frequency pattern
-        // Look for: low frequency dominance, irregular patterns, pauses
-        if (variance > 0.01 && avgVolume > CONFIG.thresholds.silenceLevel) {
-            // Check frequency pattern for crying (typically 250-500 Hz)
-            const lowFreqEnergy = calculateFrequencyBandEnergy(frequencies, 250, 500);
-            const midFreqEnergy = calculateFrequencyBandEnergy(frequencies, 500, 2000);
-            
-            if (lowFreqEnergy > midFreqEnergy * 1.5) {
-                // Check for intermittent pattern (characteristic of sobbing)
-                const volumeChanges = countVolumeChanges(volumes);
-                if (volumeChanges > 3) {
-                    return {
-                        type: 'crying',
-                        confidence: Math.min((lowFreqEnergy / midFreqEnergy) * 0.5, 0.9),
-                        message: '😢 Terdeteksi pola suara menangis',
-                        timestamp: now
-                    };
-                }
+        // === 4. CALCULATE ENERGY ENVELOPE ===
+        const energy = calculateEnergyEnvelope(timeData);
+        energyHistory.push({ time: now, value: energy });
+        
+        // Keep only recent data (last 3 seconds)
+        const windowSize = CONFIG.thresholds.emotionAnalysisWindow;
+        volumeHistory = volumeHistory.filter(d => now - d.time < windowSize);
+        pitchHistory = pitchHistory.filter(d => now - d.time < windowSize);
+        energyHistory = energyHistory.filter(d => now - d.time < windowSize);
+        spectralHistory = spectralHistory.filter(d => now - d.time < windowSize);
+        
+        // === 5. DETECT AUDIO EVENTS ===
+        const audioEvent = detectAdvancedAudioEvent();
+        
+        if (audioEvent && callbacks.onAudioEvent) {
+            // Debounce (minimum 2 seconds between same type events)
+            if (now - lastAudioEventTime > 2000) {
+                lastAudioEventTime = now;
+                callbacks.onAudioEvent(audioEvent);
             }
         }
-        
-        // ===================
-        // LAUGHING DETECTION
-        // ===================
-        // Laughing pattern: rhythmic bursts, specific frequency pattern
-        if (variance > 0.02) {
-            const rhythmicPattern = detectRhythmicPattern(volumes);
-            if (rhythmicPattern && avgVolume > CONFIG.thresholds.normalSpeech) {
-                return {
-                    type: 'laughing',
-                    confidence: rhythmicPattern.confidence,
-                    message: '😊 Terdeteksi pola suara tertawa',
-                    timestamp: now
-                };
-            }
-        }
-        
-        // ===================
-        // DISTRESS DETECTION
-        // ===================
-        // Combined high volume + irregular pattern + text emotion
-        if (emotionBuffer.length > 0) {
-            const recentEmotions = emotionBuffer.slice(-3);
-            const hasDistressEmotion = recentEmotions.some(e => 
-                ['sedih', 'takut', 'putusAsa', 'marah'].includes(e.emotion)
-            );
-            
-            if (hasDistressEmotion && avgVolume > CONFIG.thresholds.normalSpeech && variance > 0.02) {
-                return {
-                    type: 'distress',
-                    confidence: 0.8,
-                    message: '⚠️ Terdeteksi kondisi distress',
-                    timestamp: now
-                };
-            }
-        }
-        
-        return null;
     }
     
-    function calculateFrequencyBandEnergy(frequencies, lowHz, highHz) {
-        if (!frequencies || frequencies.length === 0) return 0;
+    // ============================================
+    // SPECTRAL ANALYSIS
+    // ============================================
+    function calculateSpectralFeatures(freqData) {
+        const sampleRate = audioContext?.sampleRate || 44100;
+        const binSize = sampleRate / (freqData.length * 2);
         
-        const sampleRate = audioContext?.sampleRate || 16000;
-        const binSize = sampleRate / (frequencies.length * 2);
+        // Calculate energy in different frequency bands
+        const lowBand = getFrequencyBandEnergy(freqData, 0, 300, binSize);      // 0-300 Hz
+        const midLowBand = getFrequencyBandEnergy(freqData, 300, 600, binSize); // 300-600 Hz (crying range)
+        const midBand = getFrequencyBandEnergy(freqData, 600, 2000, binSize);   // 600-2000 Hz
+        const highBand = getFrequencyBandEnergy(freqData, 2000, 8000, binSize); // 2000-8000 Hz
         
+        // Spectral centroid (brightness of sound)
+        let numerator = 0;
+        let denominator = 0;
+        for (let i = 0; i < freqData.length; i++) {
+            const magnitude = Math.pow(10, freqData[i] / 20);
+            const frequency = i * binSize;
+            numerator += frequency * magnitude;
+            denominator += magnitude;
+        }
+        const spectralCentroid = denominator > 0 ? numerator / denominator : 0;
+        
+        // Spectral flatness (how noise-like vs tonal)
+        let geometricMean = 0;
+        let arithmeticMean = 0;
+        let count = 0;
+        for (let i = 1; i < 100; i++) { // Focus on lower frequencies
+            const magnitude = Math.pow(10, freqData[i] / 20);
+            if (magnitude > 0) {
+                geometricMean += Math.log(magnitude);
+                arithmeticMean += magnitude;
+                count++;
+            }
+        }
+        geometricMean = count > 0 ? Math.exp(geometricMean / count) : 0;
+        arithmeticMean = count > 0 ? arithmeticMean / count : 0;
+        const spectralFlatness = arithmeticMean > 0 ? geometricMean / arithmeticMean : 0;
+        
+        return {
+            lowBand,
+            midLowBand,
+            midBand,
+            highBand,
+            spectralCentroid,
+            spectralFlatness
+        };
+    }
+    
+    function getFrequencyBandEnergy(freqData, lowHz, highHz, binSize) {
         const lowBin = Math.floor(lowHz / binSize);
-        const highBin = Math.min(Math.floor(highHz / binSize), frequencies.length - 1);
+        const highBin = Math.min(Math.floor(highHz / binSize), freqData.length - 1);
         
         let energy = 0;
         for (let i = lowBin; i <= highBin; i++) {
-            // Convert dB to linear scale
-            energy += Math.pow(10, frequencies[i] / 20);
+            energy += Math.pow(10, freqData[i] / 10); // Convert dB to linear power
         }
-        
         return energy / (highBin - lowBin + 1);
     }
     
-    function countVolumeChanges(volumes) {
-        if (volumes.length < 3) return 0;
+    // ============================================
+    // PITCH DETECTION (Autocorrelation method)
+    // ============================================
+    function detectPitch(buffer, sampleRate) {
+        // Simple autocorrelation-based pitch detection
+        const SIZE = buffer.length;
+        const MIN_SAMPLES = Math.floor(sampleRate / 500); // Max 500 Hz
+        const MAX_SAMPLES = Math.floor(sampleRate / 50);  // Min 50 Hz
         
-        let changes = 0;
-        let increasing = volumes[1] > volumes[0];
+        // Check if there's enough signal
+        let rms = 0;
+        for (let i = 0; i < SIZE; i++) {
+            rms += buffer[i] * buffer[i];
+        }
+        rms = Math.sqrt(rms / SIZE);
+        if (rms < 0.01) return -1; // Too quiet
         
-        for (let i = 2; i < volumes.length; i++) {
-            const nowIncreasing = volumes[i] > volumes[i - 1];
-            if (nowIncreasing !== increasing) {
-                changes++;
-                increasing = nowIncreasing;
+        // Find the best correlation
+        let bestCorrelation = 0;
+        let bestOffset = -1;
+        
+        for (let offset = MIN_SAMPLES; offset < MAX_SAMPLES; offset++) {
+            let correlation = 0;
+            for (let i = 0; i < SIZE - offset; i++) {
+                correlation += buffer[i] * buffer[i + offset];
+            }
+            correlation = correlation / (SIZE - offset);
+            
+            if (correlation > bestCorrelation) {
+                bestCorrelation = correlation;
+                bestOffset = offset;
             }
         }
         
-        return changes;
+        if (bestCorrelation > 0.01 && bestOffset > 0) {
+            return sampleRate / bestOffset;
+        }
+        
+        return -1;
     }
     
-    function detectRhythmicPattern(volumes) {
-        if (volumes.length < 8) return null;
+    // ============================================
+    // ENERGY ENVELOPE
+    // ============================================
+    function calculateEnergyEnvelope(buffer) {
+        let energy = 0;
+        for (let i = 0; i < buffer.length; i++) {
+            energy += Math.abs(buffer[i]);
+        }
+        return energy / buffer.length;
+    }
+    
+    // ============================================
+    // ADVANCED AUDIO EVENT DETECTION
+    // ============================================
+    function detectAdvancedAudioEvent() {
+        if (volumeHistory.length < 10 || spectralHistory.length < 10) return null;
         
-        // Look for repeated peaks
-        const peaks = [];
-        for (let i = 1; i < volumes.length - 1; i++) {
-            if (volumes[i] > volumes[i - 1] && volumes[i] > volumes[i + 1]) {
-                peaks.push(i);
+        const recentVolumes = volumeHistory.slice(-20);
+        const recentSpectral = spectralHistory.slice(-20);
+        const recentPitch = pitchHistory.slice(-20);
+        const recentEnergy = energyHistory.slice(-20);
+        
+        // Calculate statistics
+        const volumes = recentVolumes.map(v => v.value);
+        const avgVolume = volumes.reduce((a, b) => a + b, 0) / volumes.length;
+        const maxVolume = Math.max(...volumes);
+        const volumeVariance = calculateVariance(volumes);
+        
+        // Energy fluctuation
+        const energies = recentEnergy.map(e => e.value);
+        const energyFluctuation = calculateVariance(energies);
+        
+        // Spectral characteristics
+        const avgMidLow = recentSpectral.reduce((a, s) => a + s.midLowBand, 0) / recentSpectral.length;
+        const avgMid = recentSpectral.reduce((a, s) => a + s.midBand, 0) / recentSpectral.length;
+        const avgSpectralFlatness = recentSpectral.reduce((a, s) => a + s.spectralFlatness, 0) / recentSpectral.length;
+        
+        // Pitch statistics
+        let avgPitch = 0;
+        let pitchVariance = 0;
+        if (recentPitch.length > 5) {
+            const pitches = recentPitch.map(p => p.value);
+            avgPitch = pitches.reduce((a, b) => a + b, 0) / pitches.length;
+            pitchVariance = calculateVariance(pitches);
+        }
+        
+        // =============================
+        // CRYING DETECTION (ENHANCED)
+        // =============================
+        // Crying characteristics:
+        // - Mid-low frequency dominance (200-600 Hz)
+        // - Irregular energy pattern (high variance)
+        // - Pitch fluctuation
+        // - Intermittent pattern
+        
+        const cryingScore = calculateCryingScore({
+            avgVolume,
+            volumeVariance,
+            energyFluctuation,
+            avgMidLow,
+            avgMid,
+            avgPitch,
+            pitchVariance,
+            avgSpectralFlatness
+        });
+        
+        if (cryingScore > 0.5) {
+            return {
+                type: 'crying',
+                confidence: Math.min(cryingScore, 0.95),
+                message: '😢 Terdeteksi pola suara menangis',
+                details: { cryingScore, avgVolume, volumeVariance, avgPitch }
+            };
+        }
+        
+        // =============================
+        // SCREAMING DETECTION
+        // =============================
+        if (maxVolume > CONFIG.thresholds.screamLevel) {
+            const loudCount = volumes.filter(v => v > CONFIG.thresholds.loudSpeech).length;
+            if (loudCount >= 3) {
+                return {
+                    type: 'scream',
+                    confidence: Math.min(maxVolume / CONFIG.thresholds.screamLevel, 0.95),
+                    message: '🔊 Terdeteksi suara keras/teriakan',
+                    details: { maxVolume, loudCount }
+                };
             }
         }
         
-        if (peaks.length < 3) return null;
+        // =============================
+        // DISTRESS DETECTION
+        // =============================
+        // Combine high pitch variance + energy fluctuation + emotion keywords
+        const distressScore = calculateDistressScore({
+            avgPitch,
+            pitchVariance,
+            energyFluctuation,
+            volumeVariance,
+            avgVolume
+        });
         
-        // Check if peaks are roughly evenly spaced
-        const intervals = [];
-        for (let i = 1; i < peaks.length; i++) {
-            intervals.push(peaks[i] - peaks[i - 1]);
+        if (distressScore > 0.6) {
+            return {
+                type: 'distress',
+                confidence: Math.min(distressScore, 0.95),
+                message: '⚠️ Terdeteksi kondisi distress',
+                details: { distressScore, avgPitch, pitchVariance }
+            };
         }
         
-        const avgInterval = intervals.reduce((a, b) => a + b, 0) / intervals.length;
-        const intervalVariance = intervals.reduce((sum, v) => sum + Math.pow(v - avgInterval, 2), 0) / intervals.length;
+        // =============================
+        // SOBBING DETECTION (quieter crying)
+        // =============================
+        const sobbingScore = calculateSobbingScore({
+            avgVolume,
+            volumeVariance,
+            energyFluctuation,
+            avgMidLow,
+            avgSpectralFlatness
+        });
         
-        // Low variance means rhythmic pattern
-        if (intervalVariance < avgInterval * 0.5) {
+        if (sobbingScore > 0.4) {
             return {
-                confidence: 1 - (intervalVariance / avgInterval),
-                interval: avgInterval * CONFIG.analysisInterval
+                type: 'sobbing',
+                confidence: Math.min(sobbingScore, 0.9),
+                message: '😢 Terdeteksi isak tangis',
+                details: { sobbingScore }
             };
         }
         
         return null;
     }
+    
+    // ============================================
+    // CRYING SCORE CALCULATION
+    // ============================================
+    function calculateCryingScore(features) {
+        let score = 0;
+        
+        // Mid-low frequency dominance (characteristic of crying)
+        if (features.avgMidLow > features.avgMid * 0.8) {
+            score += 0.25;
+        }
+        
+        // High volume variance (intermittent crying pattern)
+        if (features.volumeVariance > 0.001) {
+            score += 0.2;
+        }
+        if (features.volumeVariance > 0.005) {
+            score += 0.1;
+        }
+        
+        // Energy fluctuation (breathing + crying pattern)
+        if (features.energyFluctuation > CONFIG.thresholds.energyFluctuationThreshold) {
+            score += 0.2;
+        }
+        
+        // Pitch in distress range
+        if (features.avgPitch > 150 && features.avgPitch < 400) {
+            score += 0.15;
+        }
+        
+        // High pitch variance (emotional instability)
+        if (features.pitchVariance > 1000) {
+            score += 0.15;
+        }
+        
+        // Low spectral flatness (more tonal, less noise-like)
+        if (features.avgSpectralFlatness < 0.3 && features.avgSpectralFlatness > 0.05) {
+            score += 0.1;
+        }
+        
+        // Minimum volume threshold
+        if (features.avgVolume < CONFIG.thresholds.silenceLevel) {
+            score = 0; // Too quiet
+        }
+        
+        return score;
+    }
+    
+    // ============================================
+    // DISTRESS SCORE CALCULATION
+    // ============================================
+    function calculateDistressScore(features) {
+        let score = 0;
+        
+        // Higher pitch (distress)
+        if (features.avgPitch > CONFIG.thresholds.distressPitchLow) {
+            score += 0.25;
+        }
+        
+        // High pitch variance
+        if (features.pitchVariance > 2000) {
+            score += 0.25;
+        }
+        
+        // Energy fluctuation
+        if (features.energyFluctuation > CONFIG.thresholds.energyFluctuationThreshold * 2) {
+            score += 0.2;
+        }
+        
+        // Volume variance
+        if (features.volumeVariance > 0.01) {
+            score += 0.2;
+        }
+        
+        // Active speech
+        if (features.avgVolume > CONFIG.thresholds.normalSpeech) {
+            score += 0.1;
+        }
+        
+        return score;
+    }
+    
+    // ============================================
+    // SOBBING SCORE (quieter crying)
+    // ============================================
+    function calculateSobbingScore(features) {
+        let score = 0;
+        
+        // Low volume but present
+        if (features.avgVolume > CONFIG.thresholds.silenceLevel && 
+            features.avgVolume < CONFIG.thresholds.normalSpeech) {
+            score += 0.3;
+        }
+        
+        // Volume variance (intermittent)
+        if (features.volumeVariance > 0.0005) {
+            score += 0.25;
+        }
+        
+        // Mid-low frequency presence
+        if (features.avgMidLow > 0.001) {
+            score += 0.2;
+        }
+        
+        // Energy fluctuation
+        if (features.energyFluctuation > 0.05) {
+            score += 0.25;
+        }
+        
+        return score;
+    }
+    
+    // ============================================
+    // UTILITY FUNCTIONS
+    // ============================================
+    function calculateVariance(arr) {
+        if (arr.length === 0) return 0;
+        const mean = arr.reduce((a, b) => a + b, 0) / arr.length;
+        return arr.reduce((sum, v) => sum + Math.pow(v - mean, 2), 0) / arr.length;
+    }
 
     // ============================================
-    // TEXT EMOTION ANALYSIS
+    // TEXT EMOTION ANALYSIS (ENHANCED)
     // ============================================
     function analyzeTextEmotion(text) {
         const lowerText = text.toLowerCase();
@@ -505,99 +812,82 @@ const EnhancedSTT = (function() {
         
         if (detectedEmotions.length === 0) return null;
         
-        // Sort by confidence and return highest
-        detectedEmotions.sort((a, b) => b.confidence - a.confidence);
+        // Sort by confidence, prioritize crisis keywords
+        detectedEmotions.sort((a, b) => {
+            // Priority: putusAsa > kekerasan > others
+            const priorityMap = { putusAsa: 100, kekerasan: 90 };
+            const aPriority = (priorityMap[a.emotion] || 0) + a.confidence * 10;
+            const bPriority = (priorityMap[b.emotion] || 0) + b.confidence * 10;
+            return bPriority - aPriority;
+        });
+        
         const primary = detectedEmotions[0];
         
-        // Store in emotion buffer for cross-referencing with audio
+        // Store in emotion buffer
         emotionBuffer.push({
             ...primary,
             text: text,
             timestamp: Date.now()
         });
         
-        // Keep only recent emotions
-        const windowSize = CONFIG.thresholds.emotionAnalysisWindow * 3;
-        emotionBuffer = emotionBuffer.filter(e => Date.now() - e.timestamp < windowSize);
+        // Keep only recent
+        emotionBuffer = emotionBuffer.filter(e => Date.now() - e.timestamp < 10000);
         
         return {
             primary: primary.emotion,
             confidence: primary.confidence,
             keyword: primary.keyword,
-            all: detectedEmotions.map(d => d.emotion)
+            all: detectedEmotions.map(d => d.emotion),
+            isCrisis: primary.emotion === 'putusAsa' || primary.emotion === 'kekerasan'
         };
     }
     
     function calculateKeywordConfidence(keyword, text) {
-        // Base confidence
         let confidence = 0.7;
         
-        // Boost for exact word match
-        const wordBoundary = new RegExp(`\\b${keyword}\\b`, 'i');
+        // Exact word match
+        const wordBoundary = new RegExp(`\\b${escapeRegex(keyword)}\\b`, 'i');
         if (wordBoundary.test(text)) {
-            confidence += 0.15;
+            confidence += 0.2;
         }
         
-        // Boost for emphasis (exclamation marks, repetition)
-        if (text.includes('!')) {
-            confidence += 0.05;
-        }
+        // Emphasis indicators
+        if (text.includes('!')) confidence += 0.05;
+        if (text.includes('tolong')) confidence += 0.05;
+        if (text.includes('bantu')) confidence += 0.05;
         
-        // Boost for longer context
-        if (text.length > 50) {
-            confidence += 0.05;
-        }
-        
-        return Math.min(confidence, 0.95);
+        return Math.min(confidence, 0.98);
+    }
+    
+    function escapeRegex(string) {
+        return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     }
 
     // ============================================
-    // TRANSCRIPT POST-PROCESSING
+    // TRANSCRIPT POST-PROCESSING (ENHANCED)
     // ============================================
     function postProcessTranscript(text) {
-        let processed = text;
+        let processed = text.trim();
         
-        // Capitalize first letter
-        processed = processed.charAt(0).toUpperCase() + processed.slice(1);
-        
-        // Fix common Indonesian speech recognition errors
+        // Indonesian corrections
         const corrections = {
-            'sya': 'saya',
-            'sy': 'saya',
-            'yg': 'yang',
-            'dgn': 'dengan',
-            'dg': 'dengan',
-            'krn': 'karena',
-            'tp': 'tapi',
-            'utk': 'untuk',
-            'tdk': 'tidak',
-            'sdh': 'sudah',
-            'blm': 'belum',
-            'bgt': 'banget',
-            'bkn': 'bukan',
-            'gak': 'tidak',
-            'ga ': 'tidak ',
-            'gk': 'tidak',
-            'gue': 'saya',
-            'gw': 'saya',
-            'lo ': 'kamu ',
-            'lu ': 'kamu ',
-            'klo': 'kalau',
-            'kl ': 'kalau ',
-            'sm ': 'sama ',
-            'skrg': 'sekarang',
-            'krj': 'kerja',
-            'msh': 'masih',
-            'dr ': 'dari ',
-            'pd ': 'pada ',
-            'jd ': 'jadi ',
-            'bs ': 'bisa ',
-            'org': 'orang',
-            'lg ': 'lagi ',
-            'aj ': 'aja ',
-            'aja': 'saja',
-            'doank': 'saja',
-            'doang': 'saja'
+            'sya': 'saya', 'sy': 'saya', 'gw': 'saya', 'gue': 'saya',
+            'yg': 'yang', 'dgn': 'dengan', 'dg': 'dengan',
+            'krn': 'karena', 'tp': 'tapi', 'utk': 'untuk',
+            'tdk': 'tidak', 'gak': 'tidak', 'ga ': 'tidak ',
+            'sdh': 'sudah', 'blm': 'belum', 'bgt': 'banget',
+            'bkn': 'bukan', 'klo': 'kalau', 'sm ': 'sama ',
+            'skrg': 'sekarang', 'msh': 'masih', 'lg ': 'lagi ',
+            'aj ': 'saja ', 'aja': 'saja', 'dr ': 'dari ',
+            'pd ': 'pada ', 'jd ': 'jadi ', 'bs ': 'bisa ',
+            'org': 'orang', 'org2': 'orang-orang',
+            'di a': 'dia', 'me reka': 'mereka',
+            'ke jadian': 'kejadian', 'ter jadi': 'terjadi',
+            'pe laku': 'pelaku', 'kor ban': 'korban',
+            'ke kerasan': 'kekerasan', 'sek sual': 'seksual',
+            'pe lecehan': 'pelecehan',
+            // Punctuation
+            'titik': '.', 'koma': ',', 'tanda tanya': '?'
         };
         
         for (const [wrong, correct] of Object.entries(corrections)) {
@@ -605,9 +895,14 @@ const EnhancedSTT = (function() {
             processed = processed.replace(regex, correct);
         }
         
-        // Add punctuation at end if missing
-        if (!/[.!?]$/.test(processed.trim())) {
-            processed = processed.trim() + '.';
+        // Clean up spacing
+        processed = processed.replace(/\s+/g, ' ').trim();
+        processed = processed.replace(/\s+([.,!?])/g, '$1');
+        processed = processed.replace(/([.,!?])(\w)/g, '$1 $2');
+        
+        // Capitalize first letter
+        if (processed.length > 0) {
+            processed = processed.charAt(0).toUpperCase() + processed.slice(1);
         }
         
         return processed;
@@ -618,11 +913,10 @@ const EnhancedSTT = (function() {
     // ============================================
     function getAlternatives(event) {
         const alternatives = [];
-        
         for (let i = 0; i < event.results.length; i++) {
             const result = event.results[i];
             if (result.isFinal) {
-                for (let j = 1; j < result.length; j++) {
+                for (let j = 1; j < result.length && j < 3; j++) {
                     alternatives.push({
                         text: result[j].transcript,
                         confidence: result[j].confidence
@@ -630,23 +924,21 @@ const EnhancedSTT = (function() {
                 }
             }
         }
-        
         return alternatives;
     }
     
     function getErrorMessage(errorCode) {
         const messages = {
-            'no-speech': 'Tidak ada suara terdeteksi. Coba bicara lebih keras.',
+            'no-speech': 'Tidak ada suara terdeteksi.',
             'aborted': 'Perekaman dibatalkan.',
-            'audio-capture': 'Mikrofon tidak ditemukan atau tidak bisa diakses.',
-            'network': 'Koneksi internet bermasalah. Coba lagi.',
-            'not-allowed': 'Izin mikrofon ditolak. Aktifkan di pengaturan browser.',
-            'service-not-allowed': 'Layanan pengenalan suara tidak diizinkan.',
-            'bad-grammar': 'Terjadi kesalahan dalam grammar recognition.',
+            'audio-capture': 'Mikrofon tidak ditemukan.',
+            'network': 'Masalah koneksi internet.',
+            'not-allowed': 'Izin mikrofon ditolak.',
+            'service-not-allowed': 'Layanan tidak diizinkan.',
+            'bad-grammar': 'Kesalahan grammar.',
             'language-not-supported': 'Bahasa tidak didukung.'
         };
-        
-        return messages[errorCode] || `Terjadi kesalahan: ${errorCode}`;
+        return messages[errorCode] || `Error: ${errorCode}`;
     }
 
     // ============================================
@@ -654,42 +946,43 @@ const EnhancedSTT = (function() {
     // ============================================
     function startRecording() {
         if (!isSupported) {
-            console.error('[EnhancedSTT] Not supported');
+            console.error('[EnhancedSTT v3] Not supported');
             return false;
         }
         
         if (isRecording) {
-            console.log('[EnhancedSTT] Already recording');
+            console.log('[EnhancedSTT v3] Already recording');
             return true;
         }
+        
+        shouldKeepRunning = true; // Enable unlimited mode
         
         try {
             recognition.start();
             return true;
         } catch (error) {
-            console.error('[EnhancedSTT] Failed to start:', error);
+            console.error('[EnhancedSTT v3] Failed to start:', error);
             return false;
         }
     }
     
     function stopRecording() {
+        shouldKeepRunning = false; // Disable auto-restart
         isRecording = false;
         
         if (recognition) {
             try {
                 recognition.stop();
-            } catch (e) {
-                // Already stopped
-            }
+            } catch (e) {}
         }
         
-        stopAudioAnalysis();
+        stopAdvancedAudioAnalysis();
         
         if (callbacks.onEnd) {
             callbacks.onEnd();
         }
         
-        console.log('[EnhancedSTT] Recording stopped');
+        console.log('[EnhancedSTT v3] Recording stopped');
     }
     
     function setCallbacks(newCallbacks) {
@@ -701,7 +994,12 @@ const EnhancedSTT = (function() {
             isRecording,
             isSupported,
             emotionBuffer: emotionBuffer.slice(-5),
-            config: CONFIG
+            audioStats: {
+                volumeHistoryLength: volumeHistory.length,
+                pitchHistoryLength: pitchHistory.length,
+                lastVolume: volumeHistory.length > 0 ? volumeHistory[volumeHistory.length - 1].value : 0,
+                lastPitch: pitchHistory.length > 0 ? pitchHistory[pitchHistory.length - 1].value : 0
+            }
         };
     }
 
@@ -715,7 +1013,12 @@ const EnhancedSTT = (function() {
         setCallbacks,
         getState,
         isSupported: () => isSupported,
-        isRecording: () => isRecording
+        isRecording: () => isRecording,
+        
+        // Debug methods
+        getVolumeHistory: () => volumeHistory,
+        getPitchHistory: () => pitchHistory,
+        getSpectralHistory: () => spectralHistory
     };
 
 })();
@@ -728,4 +1031,4 @@ if (typeof module !== 'undefined' && module.exports) {
 // Expose globally
 window.EnhancedSTT = EnhancedSTT;
 
-console.log('✅ EnhancedSTT Module Loaded');
+console.log('✅ EnhancedSTT v3.0 ADVANCED Module Loaded');

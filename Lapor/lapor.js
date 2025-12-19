@@ -1641,8 +1641,8 @@
     }
 
     // ============================================
-    // VOICE INPUT - SPEECH TO TEXT (MASTER VERSION)
-    // Optimized for accuracy with Indonesian language
+    // VOICE INPUT - SPEECH TO TEXT (UNLIMITED MODE)
+    // No time limits, continuous recognition
     // ============================================
     
     let recognition = null;
@@ -1650,9 +1650,7 @@
     let finalTranscript = '';
     let interimTranscript = '';
     let audioStream = null;
-    let shouldRestart = false;
-    let restartAttempts = 0;
-    const MAX_RESTART_ATTEMPTS = 3;
+    let shouldKeepRunning = false; // Changed to unlimited mode flag
     
     // Indonesian text correction dictionary (common STT errors)
     const CORRECTION_MAP = {
@@ -1799,8 +1797,7 @@
         // ============ START HANDLER ============
         recognition.onstart = function() {
             isRecording = true;
-            shouldRestart = true;
-            restartAttempts = 0;
+            shouldKeepRunning = true;
             finalTranscript = '';
             interimTranscript = '';
             
@@ -1813,76 +1810,66 @@
                 voiceRecordingIndicator.style.display = 'flex';
             }
             
-            console.log('🎤 Voice recording started (MASTER MODE)');
+            console.log('🎤 Voice recording started (UNLIMITED MODE)');
         };
         
-        // ============ END HANDLER WITH AUTO-RESTART ============
+        // ============ END HANDLER - UNLIMITED AUTO-RESTART ============
         recognition.onend = function() {
-            console.log('🎤 Recognition ended, shouldRestart:', shouldRestart);
+            console.log('🎤 Recognition ended, shouldKeepRunning:', shouldKeepRunning);
             
-            // Auto-restart if user hasn't stopped manually
-            if (shouldRestart && isRecording && restartAttempts < MAX_RESTART_ATTEMPTS) {
-                restartAttempts++;
-                console.log(`🔄 Auto-restarting... (attempt ${restartAttempts})`);
+            // ALWAYS auto-restart for UNLIMITED duration
+            if (shouldKeepRunning && isRecording) {
+                console.log('🔄 Auto-restarting for unlimited duration...');
                 
                 setTimeout(() => {
-                    try {
-                        recognition.start();
-                    } catch (e) {
-                        console.log('Could not restart:', e);
-                        finishRecording(btnVoiceInput, voiceRecordingIndicator, detailKejadian);
+                    if (shouldKeepRunning) {
+                        try {
+                            recognition.start();
+                        } catch (e) {
+                            console.log('Restart failed, retrying...');
+                            setTimeout(() => {
+                                if (shouldKeepRunning) {
+                                    try { recognition.start(); } catch(e2) {}
+                                }
+                            }, 200);
+                        }
                     }
-                }, 100);
+                }, 50); // Very short delay for seamless restart
                 return;
             }
             
             finishRecording(btnVoiceInput, voiceRecordingIndicator, detailKejadian);
         };
         
-        // ============ ERROR HANDLER ============
+        // ============ ERROR HANDLER - AUTO-RECOVER ============
         recognition.onerror = function(event) {
-            console.error('❌ Speech recognition error:', event.error);
+            console.warn('⚠️ Speech recognition error:', event.error);
             
-            // Handle specific errors
+            // DON'T stop on recoverable errors - just restart
+            if (['no-speech', 'aborted', 'network'].includes(event.error)) {
+                if (shouldKeepRunning && isRecording) {
+                    console.log('🔄 Auto-recovering from error:', event.error);
+                    return; // Let onend handle restart
+                }
+            }
+            
+            // Only stop for fatal errors
             switch (event.error) {
-                case 'no-speech':
-                    // Not a fatal error - just no speech detected
-                    if (shouldRestart && restartAttempts < MAX_RESTART_ATTEMPTS) {
-                        restartAttempts++;
-                        return; // Let onend handle restart
-                    }
-                    showVoiceError('Tidak ada suara terdeteksi. Bicara lebih jelas dan dekat ke mikrofon.');
-                    break;
-                    
                 case 'audio-capture':
                     showVoiceError('Mikrofon tidak ditemukan. Pastikan mikrofon terhubung.');
-                    shouldRestart = false;
+                    shouldKeepRunning = false;
                     break;
                     
                 case 'not-allowed':
                     showVoiceError('Izin mikrofon ditolak. Klik ikon 🔒 di address bar untuk mengizinkan.');
-                    shouldRestart = false;
-                    break;
-                    
-                case 'network':
-                    showVoiceError('Koneksi internet diperlukan. Periksa koneksi Anda.');
-                    shouldRestart = false;
-                    break;
-                    
-                case 'aborted':
-                    // User cancelled
-                    shouldRestart = false;
+                    shouldKeepRunning = false;
                     break;
                     
                 default:
-                    if (restartAttempts >= MAX_RESTART_ATTEMPTS) {
-                        showVoiceError('Terjadi kesalahan. Silakan coba lagi.');
-                        shouldRestart = false;
+                    // Keep running for other errors
+                    if (!shouldKeepRunning) {
+                        finishRecording(btnVoiceInput, voiceRecordingIndicator, detailKejadian);
                     }
-            }
-            
-            if (!shouldRestart) {
-                finishRecording(btnVoiceInput, voiceRecordingIndicator, detailKejadian);
             }
         };
         
@@ -1893,7 +1880,6 @@
         
         recognition.onspeechstart = function() {
             console.log('🗣️ Speech detected');
-            restartAttempts = 0; // Reset on successful speech
         };
         
         // ============ BUTTON HANDLERS ============
@@ -1985,7 +1971,7 @@
      */
     function finishRecording(btnVoiceInput, voiceRecordingIndicator, detailKejadian) {
         isRecording = false;
-        shouldRestart = false;
+        shouldKeepRunning = false;
         
         // UI Reset
         if (btnVoiceInput) {
@@ -2050,8 +2036,7 @@
             // Reset state
             finalTranscript = '';
             interimTranscript = '';
-            restartAttempts = 0;
-            shouldRestart = true;
+            shouldKeepRunning = true;
             
             // Start recognition
             recognition.start();
@@ -2075,7 +2060,7 @@
      * Stop recording
      */
     function stopRecording() {
-        shouldRestart = false;
+        shouldKeepRunning = false; // Stop auto-restart
         
         if (recognition && isRecording) {
             try {
@@ -2446,6 +2431,7 @@
         // Map audio event to toast display
         const eventMap = {
             crying: { icon: '😢', text: 'Tidak apa-apa menangis. Saya di sini.', class: 'crying' },
+            sobbing: { icon: '😢', text: 'Saya merasakan kesedihanmu. Ceritakan saja.', class: 'crying' },
             laughing: { icon: '😊', text: '', class: 'laughing' }, // No need to show for laughing
             scream: { icon: '⚠️', text: 'Apakah kamu baik-baik saja?', class: 'scream' },
             distress: { icon: '💙', text: 'Saya merasakan kamu sedang dalam kesulitan', class: 'distress' }
