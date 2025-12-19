@@ -35,32 +35,35 @@ const EnhancedSTT = (function() {
         emotionDetectionEnabled: true,
         audioEventDetectionEnabled: true,
         
-        // LOWERED THRESHOLDS for more sensitive detection
+        // ULTRA-SENSITIVE THRESHOLDS for speaker playback detection
         thresholds: {
-            // Volume thresholds (LOWERED significantly)
-            silenceLevel: 0.005,      // Very low silence threshold
-            normalSpeech: 0.03,       // Lower normal speech
-            loudSpeech: 0.15,         // Lower loud threshold
-            screamLevel: 0.35,        // Lower scream threshold
+            // Volume thresholds (ULTRA LOW for speaker detection)
+            silenceLevel: 0.001,          // Almost nothing
+            normalSpeech: 0.01,           // Very low
+            loudSpeech: 0.05,             // Low
+            screamLevel: 0.15,            // Much lower
             
-            // Crying detection (ENHANCED)
-            cryingSobFreqLow: 200,    // Hz - lower bound of sobbing
-            cryingSobFreqHigh: 600,   // Hz - upper bound of sobbing
-            cryingBreathPattern: 0.3, // Threshold for breath pattern detection
+            // Crying detection (VERY SENSITIVE)
+            cryingSobFreqLow: 150,        // Hz - expanded range
+            cryingSobFreqHigh: 800,       // Hz - expanded range
+            cryingBreathPattern: 0.1,     // Lowered
             
             // Pitch ranges for emotions
-            sadPitchLow: 100,         // Hz - sad voice tends to be lower
-            sadPitchHigh: 200,        // Hz
-            distressPitchLow: 250,    // Hz - distress is higher
-            distressPitchHigh: 500,   // Hz
+            sadPitchLow: 80,              // Hz - lowered
+            sadPitchHigh: 300,            // Hz - expanded
+            distressPitchLow: 200,        // Hz - lowered
+            distressPitchHigh: 600,       // Hz - expanded
             
-            // Duration thresholds (LOWERED)
-            minimumAudioEvent: 200,   // 200ms minimum for event
-            emotionAnalysisWindow: 3000, // 3 second window
+            // Duration thresholds (FASTER)
+            minimumAudioEvent: 100,       // 100ms - faster detection
+            emotionAnalysisWindow: 2000,  // 2 second window - faster
             
-            // Energy fluctuation for crying
-            energyFluctuationThreshold: 0.15
+            // Energy fluctuation for crying (LOWERED)
+            energyFluctuationThreshold: 0.01
         },
+        
+        // Debug mode - SET TO TRUE for testing
+        debugMode: true,
         
         // Indonesian emotion keywords (EXPANDED)
         emotionKeywords: {
@@ -380,8 +383,10 @@ const EnhancedSTT = (function() {
     }
     
     // ============================================
-    // CORE ANALYSIS FUNCTION
+    // CORE ANALYSIS FUNCTION - WITH DEBUG LOGGING
     // ============================================
+    let debugCounter = 0;
+    
     function performAdvancedAnalysis() {
         if (!analyser || !isRecording) return;
         
@@ -416,20 +421,34 @@ const EnhancedSTT = (function() {
         const energy = calculateEnergyEnvelope(timeData);
         energyHistory.push({ time: now, value: energy });
         
-        // Keep only recent data (last 3 seconds)
+        // Keep only recent data (last 2 seconds for faster response)
         const windowSize = CONFIG.thresholds.emotionAnalysisWindow;
         volumeHistory = volumeHistory.filter(d => now - d.time < windowSize);
         pitchHistory = pitchHistory.filter(d => now - d.time < windowSize);
         energyHistory = energyHistory.filter(d => now - d.time < windowSize);
         spectralHistory = spectralHistory.filter(d => now - d.time < windowSize);
         
+        // === DEBUG LOGGING (every 500ms) ===
+        debugCounter++;
+        if (CONFIG.debugMode && debugCounter % 10 === 0) {
+            const recentVolumes = volumeHistory.slice(-20).map(v => v.value);
+            const avgVol = recentVolumes.length > 0 ? recentVolumes.reduce((a,b) => a+b, 0) / recentVolumes.length : 0;
+            const volVar = calculateVariance(recentVolumes);
+            
+            const recentEnergy = energyHistory.slice(-20).map(e => e.value);
+            const energyVar = calculateVariance(recentEnergy);
+            
+            console.log(`[AudioDebug] Vol: ${avgVol.toFixed(4)} | VolVar: ${volVar.toFixed(6)} | EnergyVar: ${energyVar.toFixed(6)} | Pitch: ${pitch > 0 ? pitch.toFixed(0) : 'N/A'} Hz | MidLow: ${spectralFeatures.midLowBand.toFixed(6)}`);
+        }
+        
         // === 5. DETECT AUDIO EVENTS ===
         const audioEvent = detectAdvancedAudioEvent();
         
         if (audioEvent && callbacks.onAudioEvent) {
-            // Debounce (minimum 2 seconds between same type events)
-            if (now - lastAudioEventTime > 2000) {
+            // Debounce (minimum 1 second between same type events for faster feedback)
+            if (now - lastAudioEventTime > 1000) {
                 lastAudioEventTime = now;
+                console.log('[EnhancedSTT] 🎯 AUDIO EVENT DETECTED:', audioEvent);
                 callbacks.onAudioEvent(audioEvent);
             }
         }
@@ -552,7 +571,7 @@ const EnhancedSTT = (function() {
     // ADVANCED AUDIO EVENT DETECTION
     // ============================================
     function detectAdvancedAudioEvent() {
-        if (volumeHistory.length < 10 || spectralHistory.length < 10) return null;
+        if (volumeHistory.length < 5 || spectralHistory.length < 5) return null; // Reduced from 10 for faster detection
         
         const recentVolumes = volumeHistory.slice(-20);
         const recentSpectral = spectralHistory.slice(-20);
@@ -584,14 +603,8 @@ const EnhancedSTT = (function() {
         }
         
         // =============================
-        // CRYING DETECTION (ENHANCED)
+        // CRYING DETECTION (ULTRA SENSITIVE)
         // =============================
-        // Crying characteristics:
-        // - Mid-low frequency dominance (200-600 Hz)
-        // - Irregular energy pattern (high variance)
-        // - Pitch fluctuation
-        // - Intermittent pattern
-        
         const cryingScore = calculateCryingScore({
             avgVolume,
             volumeVariance,
@@ -603,7 +616,11 @@ const EnhancedSTT = (function() {
             avgSpectralFlatness
         });
         
-        if (cryingScore > 0.5) {
+        if (CONFIG.debugMode && cryingScore > 0.2) {
+            console.log(`[CryingScore] ${cryingScore.toFixed(2)} - vol:${avgVolume.toFixed(4)} volVar:${volumeVariance.toFixed(6)} energyFluc:${energyFluctuation.toFixed(6)}`);
+        }
+        
+        if (cryingScore > 0.3) {  // LOWERED from 0.5
             return {
                 type: 'crying',
                 confidence: Math.min(cryingScore, 0.95),
@@ -613,11 +630,11 @@ const EnhancedSTT = (function() {
         }
         
         // =============================
-        // SCREAMING DETECTION
+        // SCREAMING DETECTION - LOWERED
         // =============================
         if (maxVolume > CONFIG.thresholds.screamLevel) {
             const loudCount = volumes.filter(v => v > CONFIG.thresholds.loudSpeech).length;
-            if (loudCount >= 3) {
+            if (loudCount >= 2) {  // Lowered from 3
                 return {
                     type: 'scream',
                     confidence: Math.min(maxVolume / CONFIG.thresholds.screamLevel, 0.95),
@@ -639,7 +656,7 @@ const EnhancedSTT = (function() {
             avgVolume
         });
         
-        if (distressScore > 0.6) {
+        if (distressScore > 0.4) {  // LOWERED from 0.6
             return {
                 type: 'distress',
                 confidence: Math.min(distressScore, 0.95),
@@ -659,7 +676,7 @@ const EnhancedSTT = (function() {
             avgSpectralFlatness
         });
         
-        if (sobbingScore > 0.4) {
+        if (sobbingScore > 0.25) {  // LOWERED from 0.4
             return {
                 type: 'sobbing',
                 confidence: Math.min(sobbingScore, 0.9),
@@ -677,42 +694,45 @@ const EnhancedSTT = (function() {
     function calculateCryingScore(features) {
         let score = 0;
         
-        // Mid-low frequency dominance (characteristic of crying)
-        if (features.avgMidLow > features.avgMid * 0.8) {
-            score += 0.25;
+        // ANY audio above silence = start with base score
+        if (features.avgVolume > CONFIG.thresholds.silenceLevel) {
+            score += 0.1;  // Base score for any audio
         }
         
-        // High volume variance (intermittent crying pattern)
-        if (features.volumeVariance > 0.001) {
-            score += 0.2;
+        // Mid-low frequency dominance (characteristic of crying) - RELAXED
+        if (features.avgMidLow > 0) {  // Any presence
+            score += 0.15;
         }
-        if (features.volumeVariance > 0.005) {
+        if (features.avgMidLow > features.avgMid * 0.5) {  // Lowered from 0.8
+            score += 0.15;
+        }
+        
+        // Volume variance (intermittent crying pattern) - RELAXED
+        if (features.volumeVariance > 0.00001) {  // Much lower
+            score += 0.15;
+        }
+        if (features.volumeVariance > 0.0001) {
             score += 0.1;
         }
         
-        // Energy fluctuation (breathing + crying pattern)
+        // Energy fluctuation (breathing + crying pattern) - RELAXED
         if (features.energyFluctuation > CONFIG.thresholds.energyFluctuationThreshold) {
             score += 0.2;
         }
         
-        // Pitch in distress range
-        if (features.avgPitch > 150 && features.avgPitch < 400) {
-            score += 0.15;
-        }
-        
-        // High pitch variance (emotional instability)
-        if (features.pitchVariance > 1000) {
-            score += 0.15;
-        }
-        
-        // Low spectral flatness (more tonal, less noise-like)
-        if (features.avgSpectralFlatness < 0.3 && features.avgSpectralFlatness > 0.05) {
+        // Pitch in any reasonable range
+        if (features.avgPitch > 100 && features.avgPitch < 600) {
             score += 0.1;
         }
         
-        // Minimum volume threshold
-        if (features.avgVolume < CONFIG.thresholds.silenceLevel) {
-            score = 0; // Too quiet
+        // Pitch variance (emotional instability) - RELAXED
+        if (features.pitchVariance > 100) {  // Lowered from 1000
+            score += 0.1;
+        }
+        
+        // Low spectral flatness (more tonal, less noise-like) - RELAXED
+        if (features.avgSpectralFlatness < 0.5) {  // Increased from 0.3
+            score += 0.1;
         }
         
         return score;
@@ -758,24 +778,28 @@ const EnhancedSTT = (function() {
     function calculateSobbingScore(features) {
         let score = 0;
         
-        // Low volume but present
-        if (features.avgVolume > CONFIG.thresholds.silenceLevel && 
-            features.avgVolume < CONFIG.thresholds.normalSpeech) {
-            score += 0.3;
-        }
-        
-        // Volume variance (intermittent)
-        if (features.volumeVariance > 0.0005) {
-            score += 0.25;
-        }
-        
-        // Mid-low frequency presence
-        if (features.avgMidLow > 0.001) {
+        // Any volume above silence
+        if (features.avgVolume > CONFIG.thresholds.silenceLevel) {
             score += 0.2;
         }
         
-        // Energy fluctuation
-        if (features.energyFluctuation > 0.05) {
+        // Low to medium volume
+        if (features.avgVolume < CONFIG.thresholds.loudSpeech) {
+            score += 0.15;
+        }
+        
+        // ANY Volume variance
+        if (features.volumeVariance > 0.000001) {
+            score += 0.2;
+        }
+        
+        // Mid-low frequency presence - any
+        if (features.avgMidLow > 0) {
+            score += 0.2;
+        }
+        
+        // Energy fluctuation - any
+        if (features.energyFluctuation > 0.001) {
             score += 0.25;
         }
         
