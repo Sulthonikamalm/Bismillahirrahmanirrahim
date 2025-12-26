@@ -679,35 +679,37 @@ select.lapor-input {
 }
 
 /* ============================================
-   VOICE INPUT - SPEECH TO TEXT
+   VOICE INPUT - COMPACT DESIGN
    ============================================ */
+
 .textarea-voice-wrapper {
     position: relative;
 }
 
+/* Voice Button */
 .btn-voice-input {
     position: absolute;
-    bottom: 16px;
-    right: 16px;
-    width: 48px;
-    height: 48px;
+    bottom: 12px;
+    right: 12px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     background: linear-gradient(135deg, var(--color-mid-blue) 0%, var(--color-teal) 100%);
     border: none;
     color: white;
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(75, 138, 123, 0.3);
-    z-index: 2;
+    box-shadow: 0 4px 12px rgba(91, 141, 190, 0.3);
+    z-index: 10;
 }
 
 .btn-voice-input:hover {
     transform: scale(1.1);
-    box-shadow: 0 6px 20px rgba(75, 138, 123, 0.4);
+    box-shadow: 0 6px 16px rgba(91, 141, 190, 0.4);
 }
 
 .btn-voice-input:active {
@@ -716,101 +718,354 @@ select.lapor-input {
 
 .btn-voice-input.recording {
     background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
-    animation: recordingPulse 1.5s infinite;
+    animation: recordPulse 1.5s infinite;
 }
 
-@keyframes recordingPulse {
+@keyframes recordPulse {
     0%, 100% {
         box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
     }
     50% {
-        box-shadow: 0 6px 24px rgba(231, 76, 60, 0.6), 0 0 0 8px rgba(231, 76, 60, 0.2);
+        box-shadow: 0 4px 20px rgba(231, 76, 60, 0.6), 0 0 0 6px rgba(231, 76, 60, 0.15);
     }
 }
 
-/* Recording Indicator */
+/* Compact Recording Indicator */
 .voice-recording-indicator {
     position: absolute;
-    bottom: -48px;
+    top: 100%;
     left: 0;
     right: 0;
-    background: linear-gradient(135deg, #fff5f5 0%, #ffe5e5 100%);
-    border: 2px solid #e74c3c;
-    border-radius: 12px;
-    padding: 12px 16px;
+    margin-top: 8px;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 8px 14px;
     display: flex;
     align-items: center;
-    gap: 12px;
-    animation: slideUpFade 0.3s ease;
-    z-index: 3;
+    gap: 10px;
+    animation: fadeSlideUp 0.25s ease;
+    z-index: 15;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-@keyframes slideUpFade {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+@keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .recording-pulse {
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
     background: #e74c3c;
     animation: pulse 1s infinite;
+    flex-shrink: 0;
 }
 
 @keyframes pulse {
-    0%, 100% {
-        transform: scale(1);
-        opacity: 1;
-    }
-    50% {
-        transform: scale(1.3);
-        opacity: 0.7;
-    }
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.7; }
 }
 
 .recording-text {
-    font-family: var(--font-body);
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     font-weight: 600;
     color: #c0392b;
-    flex: 1;
+    white-space: nowrap;
+}
+
+.recording-timer {
+    font-family: 'Courier New', monospace;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #e74c3c;
+    padding: 2px 6px;
+    background: rgba(231, 76, 60, 0.1);
+    border-radius: 4px;
+    white-space: nowrap;
+}
+
+.confidence-badge {
+    padding: 2px 6px;
+    background: #667eea;
+    color: white;
+    border-radius: 10px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.confidence-badge.low {
+    background: #f59e0b;
+}
+
+.confidence-badge.high {
+    background: #10b981;
 }
 
 .btn-stop-recording {
-    font-family: var(--font-nav);
-    font-size: 0.85rem;
+    font-size: 0.7rem;
     font-weight: 600;
     background: #e74c3c;
     color: white;
     border: none;
-    border-radius: 8px;
-    padding: 6px 16px;
+    border-radius: 6px;
+    padding: 4px 10px;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 4px;
     transition: all 0.2s ease;
+    margin-left: auto;
+    flex-shrink: 0;
+    white-space: nowrap;
 }
 
 .btn-stop-recording:hover {
     background: #c0392b;
-    transform: scale(1.05);
 }
 
-.btn-stop-recording:active {
-    transform: scale(0.95);
+.btn-stop-recording i {
+    font-size: 0.6rem;
 }
 
-/* Adjust textarea padding when voice button is present */
+/* Live Transcript Inline - BELOW recording indicator */
+.live-transcript-inline {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 55px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 6px 10px;
+    max-height: 50px;
+    overflow-y: auto;
+    z-index: 14;
+    animation: fadeSlideUp 0.25s ease;
+}
+
+.live-transcript-inline .transcript-text {
+    font-size: 0.8rem;
+    line-height: 1.3;
+    color: #334155;
+}
+
+.live-transcript-inline .interim-text {
+    color: #667eea;
+    font-style: italic;
+}
+
+.live-transcript-inline .final-text {
+    color: #1e293b;
+}
+
+/* Adjust textarea padding */
 .textarea-voice-wrapper .lapor-textarea {
-    padding-right: 72px; /* Make room for voice button */
+    padding-right: 60px;
+}
+
+/* Add margin to parent when recording to prevent overlap */
+.textarea-voice-wrapper {
+    margin-bottom: 0;
+    transition: margin-bottom 0.3s ease;
+}
+
+.textarea-voice-wrapper.recording-active {
+    margin-bottom: 100px;
+}
+
+/* ============================================
+   VOICE INPUT - MOBILE RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+    .btn-voice-input {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+        bottom: 10px;
+        right: 10px;
+    }
+    
+    .voice-recording-indicator {
+        top: 100%;
+        margin-top: 6px;
+        padding: 6px 10px;
+        gap: 6px;
+    }
+    
+    .recording-text {
+        font-size: 0.7rem;
+    }
+    
+    .recording-timer {
+        font-size: 0.7rem;
+        padding: 2px 5px;
+    }
+    
+    .confidence-badge {
+        font-size: 0.6rem;
+        padding: 2px 5px;
+    }
+    
+    .btn-stop-recording {
+        font-size: 0.65rem;
+        padding: 4px 8px;
+    }
+    
+    .live-transcript-inline {
+        top: 100%;
+        margin-top: 50px;
+        padding: 5px 8px;
+        max-height: 40px;
+    }
+    
+    .live-transcript-inline .transcript-text {
+        font-size: 0.75rem;
+    }
+    
+    .textarea-voice-wrapper .lapor-textarea {
+        padding-right: 55px;
+    }
+    
+    .textarea-voice-wrapper.recording-active {
+        margin-bottom: 95px;
+    }
+}
+
+@media (max-width: 480px) {
+    .btn-voice-input {
+        width: 36px;
+        height: 36px;
+        font-size: 0.9rem;
+        bottom: 8px;
+        right: 8px;
+    }
+    
+    /* Use top:100% to position below textarea */
+    .voice-recording-indicator {
+        top: 100%;
+        margin-top: 6px;
+        padding: 6px 10px;
+        gap: 6px;
+    }
+    
+    /* Hide confidence badge on very small screens */
+    .voice-recording-indicator .confidence-badge {
+        display: none;
+    }
+    
+    .recording-text {
+        font-size: 0.7rem;
+    }
+    
+    .recording-timer {
+        font-size: 0.7rem;
+    }
+    
+    .btn-stop-recording {
+        font-size: 0.65rem;
+        padding: 4px 8px;
+        margin-left: auto;
+    }
+    
+    .live-transcript-inline {
+        top: 100%;
+        margin-top: 50px;
+        max-height: 35px;
+    }
+    
+    .textarea-voice-wrapper .lapor-textarea {
+        padding-right: 50px;
+    }
+    
+    /* Add margin to prevent overlap with content below */
+    .textarea-voice-wrapper.recording-active {
+        margin-bottom: 100px;
+    }
+}
+
+/* ========== OPTIONAL BADGE ========== */
+.optional-badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #64748b;
+    background: #f1f5f9;
+    padding: 2px 8px;
+    border-radius: 12px;
+    margin-left: 6px;
+    vertical-align: middle;
+    letter-spacing: 0.02em;
+}
+
+/* ========== EMOTION INDICATOR (Enhanced) ========== */
+.emotion-indicator {
+    display: none;
+    align-items: center;
+    gap: 12px;
+    margin-top: 16px;
+    padding: 14px 20px;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%);
+    border-radius: 14px;
+    border-left: 4px solid #667eea;
+    animation: emotionSlideIn 0.4s ease;
+}
+
+@keyframes emotionSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.emotion-icon {
+    font-size: 1.6rem;
+    animation: emotionBounce 0.6s ease;
+}
+
+@keyframes emotionBounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+.emotion-text {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    color: #555;
+    flex: 1;
+    line-height: 1.5;
+}
+
+.emotion-indicator.sedih {
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.1) 0%, rgba(41, 128, 185, 0.1) 100%);
+    border-left-color: #3498db;
+}
+
+.emotion-indicator.marah {
+    background: linear-gradient(135deg, rgba(231, 76, 60, 0.1) 0%, rgba(192, 57, 43, 0.1) 100%);
+    border-left-color: #e74c3c;
+}
+
+.emotion-indicator.takut {
+    background: linear-gradient(135deg, rgba(155, 89, 182, 0.1) 0%, rgba(142, 68, 173, 0.1) 100%);
+    border-left-color: #9b59b6;
+}
+
+.emotion-indicator.putus-asa {
+    background: linear-gradient(135deg, rgba(231, 76, 60, 0.15) 0%, rgba(192, 57, 43, 0.15) 100%);
+    border-left-color: #c0392b;
+}
+
+.emotion-indicator.lega {
+    background: linear-gradient(135deg, rgba(46, 204, 113, 0.1) 0%, rgba(39, 174, 96, 0.1) 100%);
+    border-left-color: #2ecc71;
 }
 
 /* Browser not supported message */

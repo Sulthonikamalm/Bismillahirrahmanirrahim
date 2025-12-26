@@ -317,14 +317,21 @@
                                     <i class="fas fa-microphone"></i>
                                 </button>
 
-                                <!-- Recording Indicator -->
+                                <!-- Compact Recording Indicator -->
                                 <div class="voice-recording-indicator" id="voiceRecordingIndicator"
                                     style="display: none;">
                                     <div class="recording-pulse"></div>
-                                    <span class="recording-text">Sedang merekam...</span>
+                                    <span class="recording-text">Merekam</span>
+                                    <span class="recording-timer" id="recordingTimer">00:00</span>
+                                    <span class="confidence-badge" id="confidenceBadge">--</span>
                                     <button type="button" class="btn-stop-recording" id="btnStopRecording">
                                         <i class="fas fa-stop"></i> Stop
                                     </button>
+                                </div>
+
+                                <!-- Live Transcript (small inline) -->
+                                <div class="live-transcript-inline" id="liveTranscriptPreview" style="display: none;">
+                                    <span class="transcript-text" id="liveTranscriptText"></span>
                                 </div>
 
                                 <!-- Emotion Detection Indicator -->
@@ -338,15 +345,15 @@
                                 karakter</span>
                         </div>
 
-                        <!-- Upload Bukti Foto/Video -->
+                        <!-- Upload Bukti Foto/Video (Opsional) -->
                         <div class="lapor-field">
                             <label class="lapor-label">
-                                Upload Bukti (Foto/Video) <span class="required">*</span>
+                                Upload Bukti (Foto/Video) <span class="optional-badge">Opsional</span>
                             </label>
                             <p class="lapor-hint">
                                 <i class="fas fa-shield-alt"></i>
-                                Minimal 1 foto atau video untuk memvalidasi laporan Anda. Maksimal 5 file, masing-masing
-                                max 10MB.
+                                Jika Anda memiliki bukti, dapat diunggah di sini. Tidak ada bukti? Tidak apa-apa,
+                                laporan Anda tetap akan diproses. Maksimal 5 file, masing-masing max 10MB.
                             </p>
 
                             <!-- Upload Area -->
@@ -366,7 +373,7 @@
                             <!-- Preview Container -->
                             <div class="file-preview-container" id="filePreviewContainer"></div>
 
-                            <span class="lapor-error" id="errorFiles">Minimal 1 foto atau video wajib diunggah</span>
+                            <span class="lapor-error" id="errorFiles">Terjadi kesalahan saat mengunggah file</span>
                         </div>
 
                         <div class="lapor-nav">

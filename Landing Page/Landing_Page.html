@@ -49,28 +49,66 @@
   <!-- NAVBAR END -->
 
   <!-- HERO START -->
-  <header class="header-bg hero-section" id="main-content">
-    <div class="main-container hero-content reveal" data-reveal>
-      <div class="hero-text reveal" data-reveal>
-        <h1 class="main-title">Satgas PPKPT</h1>
-        <p class="description">
-          Satgas PPKPT Telkom University Surabaya adalah lembaga kampus yang
-          memastikan terciptanya lingkungan akademik yang aman, setara, dan
-          bebas dari kekerasan seksual, sesuai dengan Permendikbudristek No.
-          30 Tahun 2021.
+  <header class="hero-section-new" id="main-content">
+    <!-- Grid Pattern - Upper Left -->
+    <div class="hero-grid-pattern"></div>
+
+    <!-- Decorative Elements - Green Circles like Netfox -->
+    <div class="hero-decorative-circles">
+      <div class="deco-circle deco-circle-1"></div>
+      <div class="deco-circle deco-circle-2"></div>
+      <div class="deco-circle deco-circle-3"></div>
+      <div class="deco-circle deco-circle-4"></div>
+    </div>
+
+    <div class="main-container hero-content-new">
+      <!-- Left: Text Content -->
+      <div class="hero-text-new reveal" data-reveal>
+        <span class="hero-label">Satuan Tugas PPKPT</span>
+        <h1 class="hero-title-new">
+          Ruang Aman untuk<br>
+          <span class="text-gradient highlight-animate">Berani Bersuara</span>
+        </h1>
+
+        <p class="hero-description-new">
+          Satgas PPKPT Telkom University Surabaya hadir sebagai garda terdepan bagi seluruh civitas akademika. Setiap
+          laporan diproses dengan jaminan kerahasiaan ketat, keberpihakan pada penyintas, dan pendampingan hukum sesuai
+          amanat UU TPKS (UU No. 12/2022) serta Permendikbudristek No. 30 Tahun 2021.
         </p>
-        <button class="btn btn-lg btn-outline-light mt-2 js-lapor-hero">LAPOR</button>
+        <div class="hero-buttons">
+          <button class="btn btn-primary-hero js-lapor-hero">LAPOR</button>
+        </div>
       </div>
 
-      <div class="hero-illustration reveal" data-reveal>
-        <img src="../Gambar/Gambar4.png" alt="Gambar Ilustrasi" class="box-blue" />
-        <div></div>
-        <div class="card-overlay card-overlay-top">Kapan Harus Lapor</div>
-        <img src="../Gambar/Gambar5.png" alt="Ilustrasi pendukung keamanan" class="card-overlay2 card-overlay-middle">
-        <div class="card-overlay card-overlay-bottom">
-          <div class="">
-            Lorem Ipsum has been the industry's standard dummy text ever since
-            the 1500s, when an unknown printer
+      <!-- Right: Hand Holding Phone Image with Floating Cards -->
+      <div class="hero-image-new reveal" data-reveal>
+        <img src="assets/herotanganhp.png" alt="Aplikasi SIGAP di smartphone" class="hero-phone-image" />
+
+        <!-- Floating Cards -->
+        <!-- Card 1: Top Left - Privacy -->
+        <div class="floating-card card-top">
+          <div class="floating-card-icon">🔒</div>
+          <div class="floating-card-content">
+            <h4 class="floating-card-title">Privasi Terjamin</h4>
+            <p class="floating-card-text">Identitas pelapor dirahasiakan 100%</p>
+          </div>
+        </div>
+
+        <!-- Card 2: Middle - Fast Response -->
+        <div class="floating-card card-middle">
+          <div class="floating-card-icon">⚡</div>
+          <div class="floating-card-content">
+            <h4 class="floating-card-title">Respon Cepat</h4>
+            <p class="floating-card-text">Tindak lanjut laporan segera diproses</p>
+          </div>
+        </div>
+
+        <!-- Card 3: Bottom Right - Support -->
+        <div class="floating-card card-bottom">
+          <div class="floating-card-icon">❤️</div>
+          <div class="floating-card-content">
+            <h4 class="floating-card-title">Pendampingan Penuh</h4>
+            <p class="floating-card-text">Bantuan hukum & pemulihan psikologis</p>
           </div>
         </div>
       </div>
@@ -78,42 +116,77 @@
   </header>
   <!-- HERO END -->
 
-  <section class="section-padding">
+  <!-- TRANSPARANSI DATA SECTION -->
+  <section class="section-transparansi section-padding">
     <div class="main-container">
-      <h2 class="section-title text-center">Jumlah Pelapor</h2>
-      <div class="stats-grid">
-        <div class="card card-pelapor card-blue-light reveal" data-reveal>
-          <div class="card-inner-flex">
-            <div class="pelapor-icon-circle bg-white">
-              <i class="fas fa-users"></i>
-            </div>
-            <div class="text-content">
-              <h3 class="stat-number" id="total-cases" aria-live="polite" data-loading="true">0</h3>
-              <p class="stat-label">Jumlah Korban Berani Bicara</p>
-            </div>
-          </div>
+      <!-- Main Card Container -->
+      <div class="transparansi-main-card reveal" data-reveal>
+        <!-- SVG Background Shape - Custom Shape with Fade to White -->
+        <div class="transparansi-bg-svg">
+          <svg viewBox="0 0 591 300" fill="none" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <!-- Vertical gradient: Blue top -> White/Transparent bottom -->
+              <linearGradient id="transparansiGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" style="stop-color:#7ba8dc; stop-opacity:1" />
+                <stop offset="50%" style="stop-color:#9ec5e8; stop-opacity:1" />
+                <stop offset="85%" style="stop-color:#e8f4fc; stop-opacity:0.70" />
+                <stop offset="100%" style="stop-color:#ffffff; stop-opacity:0.30" />
+              </linearGradient>
+            </defs>
+
+
+
+            <path
+              d="M0 15C0 6.71573 6.71573 0 15 0H213.062C219.425 0 225.095 4.01433 227.21 10.0156L232.213 24.2186C234.328 30.2198 239.998 34.2341 246.361 34.2341H576C584.284 34.2341 591 40.9499 591 49.2341V300H0V15Z"
+              fill="url(#transparansiGradient)" />
+          </svg>
         </div>
 
-        <div class="card card-pelapor card-green-teal reveal" data-reveal>
-          <div class="card-inner-flex">
-            <div class="pelapor-icon-circle bg-white">
-              <i class="fas fa-hand-holding-heart"></i>
-            </div>
-            <div class="text-content">
-              <h3 class="stat-number" id="cases-received" aria-live="polite" data-loading="true">0</h3>
-              <p class="stat-label">Pelaporan Diterima</p>
-            </div>
-          </div>
-        </div>
 
-        <div class="card card-pelapor card-purple-dark reveal" data-reveal>
-          <div class="card-inner-flex">
-            <div class="pelapor-icon-circle bg-white">
-              <i class="fas fa-shield-alt"></i>
-            </div>
-            <div class="text-content">
-              <h3 class="stat-number" id="cases-completed" aria-live="polite" data-loading="true">0</h3>
-              <p class="stat-label">Korban dalam Perlindungan</p>
+        <!-- Card Content -->
+        <div class="transparansi-main-content">
+          <!-- Header -->
+          <div class="transparansi-main-header">
+            <h2 class="transparansi-main-title">
+              <span class="transparansi-text-black">Transparansi</span><br>
+              <span class="transparansi-text-highlight highlight-animate">Data Penanganan</span>
+            </h2>
+
+          </div>
+
+          <!-- Body -->
+          <div class="transparansi-main-body">
+            <p class="transparansi-main-desc">
+              Komitmen kami dalam menjunjung akuntabilitas publik dan menjaga kepercayaan civitas akademika diwujudkan
+              melalui keterbukaan informasi pada tingkat kebijakan dan proses, dengan tetap mengedepankan perlindungan
+              privasi serta kerahasiaan pihak yang dilayani.
+            </p>
+
+            <!-- Stats Grid - 2 Cards -->
+            <div class="transparansi-stats-grid">
+              <!-- Card 1: Laporan Diterima -->
+              <div class="transparansi-stat-box">
+                <div class="stat-box-icon">
+                  <i class="fas fa-hand-holding-heart"></i>
+                </div>
+                <div class="stat-box-content">
+                  <h3 class="stat-box-number transparansi-stat" id="total-cases" data-loading="true">0</h3>
+                  <p class="stat-box-label">Laporan Diterima</p>
+                  <p class="stat-box-desc">Sebagian masih dalam proses verifikasi dan asesmen</p>
+                </div>
+              </div>
+
+              <!-- Card 2: Penyintas dalam Perlindungan -->
+              <div class="transparansi-stat-box">
+                <div class="stat-box-icon icon-shield">
+                  <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="stat-box-content">
+                  <h3 class="stat-box-number transparansi-stat" id="cases-completed" data-loading="true">0</h3>
+                  <p class="stat-box-label">Penyintas dalam Perlindungan</p>
+                  <p class="stat-box-desc">Pendampingan hukum dan pemulihan berkelanjutan</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -274,7 +347,7 @@
             <div class="faq-answer show" id="faq-1" role="region">
               Satgas PPKPT (Pencegahan dan Penanganan Kekerasan Seksual) adalah
               unit di kampus yang bertugas mencegah, menangani, dan memulihkan
-              korban kekerasan seksual.
+              penyintas kekerasan seksual.
             </div>
           </div>
           <div class="faq-item">
@@ -283,7 +356,7 @@
             </button>
             <div class="faq-answer" id="faq-2" role="region">
               Semua anggota komunitas kampus (mahasiswa, dosen, tendik) yang
-              menjadi korban, saksi, atau mengetahui adanya kasus.
+              menjadi penyintas, saksi, atau mengetahui adanya kasus.
             </div>
           </div>
           <div class="faq-item">
@@ -369,82 +442,8 @@
     </div>
   </footer>
 
-  <!-- ChatBot Modal (Triggered by FABsigap "Chat TemanKu" button) -->
-  <div class="chatbot-modal-overlay" id="chatbotModalOverlay">
-    <div class="chatbot-modal">
-      <!-- Chat Interface Screen -->
-      <div class="chatbot-screen chat-interface-screen" id="chatInterfaceScreen">
-        <!-- Chat Header -->
-        <div class="chat-header">
-          <div class="chat-header-info">
-            <h3 id="chatModeTitle">Chat</h3>
-            <p class="chat-mode-desc" id="chatModeDesc"></p>
-          </div>
-          <div class="chat-header-actions">
-            <button class="btn-minimize-chat" id="btnMinimizeChat" title="Minimize">
-              <i class="fas fa-minus"></i>
-            </button>
-            <button class="btn-close-chatbot" id="btnCloseChatbot2">
-              <i class="fas fa-times"></i>
-            </button>
-          </div>
-        </div>
-
-        <!-- Chat Messages Container -->
-        <div class="chat-messages-container" id="chatMessagesContainer">
-          <div class="chat-messages" id="chatMessages">
-            <!-- Welcome message will be inserted here -->
-          </div>
-
-          <!-- Typing Indicator -->
-          <div class="typing-indicator" id="typingIndicator">
-            <div class="typing-bubble">
-              <div class="typing-dots">
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Chat Input Area -->
-        <div class="chat-input-area">
-          <!-- Voice Recording Mode -->
-          <div class="voice-recording-mode" id="voiceRecordingMode">
-            <div class="recording-animation">
-              <div class="recording-circle">
-                <i class="fas fa-microphone"></i>
-              </div>
-              <div class="sound-wave">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-            </div>
-            <p class="recording-text">Sedang merekam...</p>
-            <button class="btn-stop-recording" id="btnStopRecording">
-              <i class="fas fa-stop-circle"></i>
-              <span>Stop</span>
-            </button>
-          </div>
-
-          <!-- Normal Input Mode -->
-          <div class="chat-input-wrapper" id="chatInputWrapper">
-            <button class="btn-voice-input" id="btnVoiceInput" title="Rekam suara">
-              <i class="fas fa-microphone"></i>
-            </button>
-            <input type="text" class="chat-input" id="chatInput" placeholder="Ketik pesan..." autocomplete="off" />
-            <button class="btn-send-chat" id="btnSendChat" disabled>
-              <i class="fas fa-paper-plane"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <!-- ChatBot Modal (Auto-injected by chatbot.js) -->
+  <div id="chatbot-container"></div>
 
   <!-- Main Website Scripts -->
   <script src="../index.js" defer></script>
@@ -453,7 +452,6 @@
 
   <!-- ChatBot Scripts -->
   <script src="../assets/js/shared/encryption.js"></script>
-  <script src="../ChatBot/config.js"></script>
   <script src="../ChatBot/chatbot.js"></script>
 
   <!-- FAB Sigap Scripts -->

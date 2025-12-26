@@ -31,7 +31,7 @@
 
   /* REVEAL ON SCROLL */
   const revealEls = Array.from(document.querySelectorAll('[data-reveal]'));
-  const statEls = Array.from(document.querySelectorAll('.stat-number'));
+  const statEls = Array.from(document.querySelectorAll('.stat-number, .transparansi-stat'));
   const formatId = new Intl.NumberFormat('id-ID');
 
   const getBaseApiUrl = () => {
@@ -61,7 +61,8 @@
       updateElement('total-cases', total_cases);
       updateElement('cases-received', cases_received);
       updateElement('cases-completed', cases_completed);
-      updateElement('about-cases-received', cases_received);
+      // About page: Laporan Diterima = total semua laporan
+      updateElement('about-cases-received', total_cases);
       updateElement('about-cases-completed', cases_completed);
 
     } catch (error) {

@@ -3112,6 +3112,15 @@
   max-width: 100%;
 }
 
+.dampak-section .stat-sublabel {
+  font-size: 0.85rem;
+  font-weight: 400;
+  margin: 0.5rem 0 0 0;
+  opacity: 0.8;
+  line-height: 1.4;
+  font-style: italic;
+}
+
 /* Responsive: Tablet */
 @media (max-width: 992px) {
   .dampak-section .stats-grid {

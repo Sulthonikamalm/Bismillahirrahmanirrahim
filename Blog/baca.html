@@ -93,73 +93,8 @@
         </div>
     </footer>
 
-    <!-- ChatBot Modal -->
-    <div class="chatbot-modal-overlay" id="chatbotModalOverlay">
-        <div class="chatbot-modal">
-            <div class="chatbot-screen chat-interface-screen" id="chatInterfaceScreen">
-                <div class="chat-header">
-                    <div class="chat-header-info">
-                        <h3 id="chatModeTitle">Chat</h3>
-                        <p class="chat-mode-desc" id="chatModeDesc"></p>
-                    </div>
-                    <div class="chat-header-actions">
-                        <button class="btn-minimize-chat" id="btnMinimizeChat" title="Minimize">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                        <button class="btn-close-chatbot" id="btnCloseChatbot2">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="chat-messages-container" id="chatMessagesContainer">
-                    <div class="chat-messages" id="chatMessages"></div>
-                    <div class="typing-indicator" id="typingIndicator">
-                        <div class="typing-bubble">
-                            <div class="typing-dots">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="chat-input-area">
-                    <div class="voice-recording-mode" id="voiceRecordingMode">
-                        <div class="recording-animation">
-                            <div class="recording-circle">
-                                <i class="fas fa-microphone"></i>
-                            </div>
-                            <div class="sound-wave">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
-                        </div>
-                        <p class="recording-text">Sedang merekam...</p>
-                        <button class="btn-stop-recording" id="btnStopRecording">
-                            <i class="fas fa-stop-circle"></i>
-                            <span>Stop</span>
-                        </button>
-                    </div>
-
-                    <div class="chat-input-wrapper" id="chatInputWrapper">
-                        <button class="btn-voice-input" id="btnVoiceInput" title="Rekam suara">
-                            <i class="fas fa-microphone"></i>
-                        </button>
-                        <input type="text" class="chat-input" id="chatInput" placeholder="Ketik pesan..."
-                            autocomplete="off" />
-                        <button class="btn-send-chat" id="btnSendChat" disabled>
-                            <i class="fas fa-paper-plane"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- ChatBot Modal (Auto-injected) -->
+    <div id="chatbot-container"></div>
 
     <!-- Scripts -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -169,7 +104,6 @@
 
     <!-- Component Scripts -->
     <script src="../assets/js/shared/encryption.js"></script>
-    <script src="../ChatBot/config.js"></script>
     <script src="../ChatBot/chatbot.js"></script>
     <script src="../FABsigap/modules/breathing.js" defer></script>
     <script src="../FABsigap/modules/text_to_speech.js" defer></script>

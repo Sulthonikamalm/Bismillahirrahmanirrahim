@@ -990,17 +990,19 @@ li,
   }
 
   .nav-actions {
-    gap: 10px;
+    gap: 8px;
   }
 
+  /* Smaller LAPOR button on mobile navbar */
   .nav-actions .btn {
-    padding: 8px 16px;
-    font-size: 0.95rem;
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    border-width: 1.5px;
   }
 
   .nav-content {
-    padding: 0 16px;
-    gap: 10px;
+    padding: 0 12px;
+    gap: 8px;
   }
 
   body.menu-open::before {

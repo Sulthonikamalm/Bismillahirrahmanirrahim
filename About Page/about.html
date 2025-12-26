@@ -514,6 +514,7 @@
             <div class="text-content">
               <h3 class="stat-number" id="about-cases-received" aria-live="polite" data-loading="true">0</h3>
               <p class="stat-label">Laporan Diterima</p>
+              <p class="stat-sublabel">Sebagian masih dalam proses verifikasi dan asesmen</p>
             </div>
           </div>
         </div>
@@ -525,7 +526,8 @@
             </div>
             <div class="text-content">
               <h3 class="stat-number" id="about-cases-completed" aria-live="polite" data-loading="true">0</h3>
-              <p class="stat-label">Korban dalam Perlindungan</p>
+              <p class="stat-label">Penyintas dalam Tahap Perlindungan</p>
+              <p class="stat-sublabel">Pendampingan hukum dan pemulihan berkelanjutan</p>
             </div>
           </div>
         </div>
@@ -575,82 +577,8 @@
     </div>
   </footer>
 
-  <!-- ChatBot Modal (Triggered by FABsigap "Chat TemanKu" button) -->
-  <div class="chatbot-modal-overlay" id="chatbotModalOverlay">
-    <div class="chatbot-modal">
-      <!-- Chat Interface Screen -->
-      <div class="chatbot-screen chat-interface-screen" id="chatInterfaceScreen">
-        <!-- Chat Header -->
-        <div class="chat-header">
-          <div class="chat-header-info">
-            <h3 id="chatModeTitle">Chat</h3>
-            <p class="chat-mode-desc" id="chatModeDesc"></p>
-          </div>
-          <div class="chat-header-actions">
-            <button class="btn-minimize-chat" id="btnMinimizeChat" title="Minimize">
-              <i class="fas fa-minus"></i>
-            </button>
-            <button class="btn-close-chatbot" id="btnCloseChatbot2">
-              <i class="fas fa-times"></i>
-            </button>
-          </div>
-        </div>
-
-        <!-- Chat Messages Container -->
-        <div class="chat-messages-container" id="chatMessagesContainer">
-          <div class="chat-messages" id="chatMessages">
-            <!-- Welcome message will be inserted here -->
-          </div>
-
-          <!-- Typing Indicator -->
-          <div class="typing-indicator" id="typingIndicator">
-            <div class="typing-bubble">
-              <div class="typing-dots">
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Chat Input Area -->
-        <div class="chat-input-area">
-          <!-- Voice Recording Mode -->
-          <div class="voice-recording-mode" id="voiceRecordingMode">
-            <div class="recording-animation">
-              <div class="recording-circle">
-                <i class="fas fa-microphone"></i>
-              </div>
-              <div class="sound-wave">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-            </div>
-            <p class="recording-text">Sedang merekam...</p>
-            <button class="btn-stop-recording" id="btnStopRecording">
-              <i class="fas fa-stop-circle"></i>
-              <span>Stop</span>
-            </button>
-          </div>
-
-          <!-- Normal Input Mode -->
-          <div class="chat-input-wrapper" id="chatInputWrapper">
-            <button class="btn-voice-input" id="btnVoiceInput" title="Rekam suara">
-              <i class="fas fa-microphone"></i>
-            </button>
-            <input type="text" class="chat-input" id="chatInput" placeholder="Ketik pesan..." autocomplete="off" />
-            <button class="btn-send-chat" id="btnSendChat" disabled>
-              <i class="fas fa-paper-plane"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <!-- ChatBot Modal (Auto-injected by chatbot.js) -->
+  <div id="chatbot-container"></div>
 
   <!-- JS: Shared + About -->
   <script src="../index.js" defer></script>
@@ -658,7 +586,6 @@
 
   <!-- ChatBot Scripts -->
   <script src="../assets/js/shared/encryption.js"></script>
-  <script src="../ChatBot/config.js"></script>
   <script src="../ChatBot/chatbot.js"></script>
 
   <!-- FAB Sigap Scripts (Load in Order) -->

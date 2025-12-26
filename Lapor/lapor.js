@@ -1,43 +1,27 @@
-// ============================================
-// LAPOR FORM JAVASCRIPT - FINAL VERSION
-// Integrated with Backend API
-// Fixed: waktuKejadian now supports date input
-// ============================================
+// LAPOR FORM - Satgas PPKPT
 
 (function() {
     'use strict';
 
-    // ============================================
-    // STATE MANAGEMENT
-    // ============================================
+    // State
     let currentStep = 1;
     const totalSteps = 5;
     const formData = {};
+    const step2Status = { korban: false, kehawatiran: false };
 
-    // Track step 2 selections (needs both)
-    const step2Status = {
-        korban: false,
-        kehawatiran: false
-    };
-
-    // File upload state
+    // File upload
     const uploadedFiles = [];
     const MAX_FILES = 5;
-    const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB in bytes
+    const MAX_FILE_SIZE = 10 * 1024 * 1024;
     const ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png'];
     const ALLOWED_VIDEO_TYPES = ['video/mp4', 'video/quicktime'];
     const ALLOWED_TYPES = [...ALLOWED_IMAGE_TYPES, ...ALLOWED_VIDEO_TYPES];
 
-    // ============================================
-    // DOM ELEMENTS
-    // ============================================
+    // DOM Elements
     const progressBar = document.getElementById('progressBar');
     const currentStepNumber = document.getElementById('currentStepNumber');
     const formSteps = document.querySelectorAll('.form-step');
 
-    // ============================================
-    // INITIALIZE (ENHANCED - Smart Autofill Integration)
-    // ============================================
     function init() {
         initChoiceCards();
         initStep1();
@@ -45,20 +29,15 @@
         initStep3();
         initStep4();
         initStep5();
-        initVoiceInput(); // NEW: Voice-to-text feature
+        initVoiceInput();
         injectModalStyles();
         injectAutofillStyles();
-        injectVoiceInputStyles(); // NEW: Voice input styles
-        
-        // NEW: Check for autofill data from chatbot
+        injectVoiceInputStyles();
         checkAndApplyAutoFill();
-        
-        console.log('✅ Lapor Form Initialized (Backend Integrated + Smart Autofill + Voice Input)');
+        console.log('Lapor Form Initialized');
     }
 
-    // ============================================
-    // SMART AUTOFILL ENGINE
-    // ============================================
+    // SMART AUTOFILL
     
     /**
      * Check for autofill data and apply if valid
@@ -73,13 +52,13 @@
         const source = urlParams.get('source');
         
         if (!encryptedData) {
-            console.log('ℹ️ No autofill data found');
+            console.log('No autofill data found');
             return;
         }
         
         // Security: Expire data after 5 minutes (300000ms)
         if (timestamp && (Date.now() - parseInt(timestamp) > 300000)) {
-            console.log('⚠️ Autofill data expired, clearing...');
+            console.log('Autofill data expired, clearing...');
             clearAutofillData();
             return;
         }
@@ -92,9 +71,9 @@
                 try {
                     const decryptedJson = await window.sharedEncryption.decrypt(encryptedData, sessionKey);
                     extractedData = JSON.parse(decryptedJson);
-                    console.log('✅ Autofill data decrypted successfully');
+                    console.log('Autofill data decrypted successfully');
                 } catch (decryptError) {
-                    console.warn('⚠️ Decryption failed, trying base64 fallback');
+                    console.warn('Decryption failed, trying base64 fallback');
                     extractedData = JSON.parse(decodeURIComponent(escape(atob(encryptedData))));
                 }
             } else {
@@ -102,7 +81,7 @@
                 extractedData = JSON.parse(decodeURIComponent(escape(atob(encryptedData))));
             }
             
-            console.log('📦 Autofill data loaded:', extractedData);
+            console.log('Autofill data loaded:', extractedData);
             
             // Apply data to form
             applyAutoFillData(extractedData);
@@ -114,7 +93,7 @@
             clearAutofillData();
             
         } catch (error) {
-            console.error('❌ Autofill error:', error);
+            console.error('Autofill error:', error);
             clearAutofillData();
         }
     }
@@ -126,14 +105,14 @@
         sessionStorage.removeItem('_chatbot_autofill');
         sessionStorage.removeItem('_autofill_timestamp');
         sessionStorage.removeItem('_autofill_key');
-        console.log('🗑️ Autofill data cleared');
+        console.log('Autofill data cleared');
     }
     
     /**
      * Apply extracted data to form fields
      */
     function applyAutoFillData(data) {
-        console.log('🔄 Applying autofill data...');
+        console.log('Applying autofill data...');
         
         const fieldMappings = [
             { key: 'pelakuKekerasan', id: 'pelakuKekerasan', step: 4, type: 'select' },
@@ -152,7 +131,7 @@
             let value = data[mapping.key];
             
             if (!value || value === 'null' || value === null) {
-                console.log(`⏭️ Skipping ${mapping.key}: no value`);
+                console.log(`Skipping ${mapping.key}: no value`);
                 return;
             }
             
@@ -160,7 +139,7 @@
             if (mapping.transform) {
                 value = mapping.transform(value);
                 if (!value) {
-                    console.log(`⏭️ Skipping ${mapping.key}: transform returned null`);
+                    console.log(`Skipping ${mapping.key}: transform returned null`);
                     return;
                 }
             }
@@ -168,11 +147,11 @@
             const filled = fillField(mapping, value, data.confidence);
             if (filled) {
                 filledCount++;
-                console.log(`✅ Filled ${mapping.key}: ${value}`);
+                console.log(`Filled ${mapping.key}: ${value}`);
             }
         });
         
-        console.log(`✅ Autofill complete: ${filledCount} fields filled`);
+        console.log(`Autofill complete: ${filledCount} fields filled`);
         
         // Update form state
         updateFormStateAfterAutofill(data);
@@ -189,7 +168,7 @@
         }
         
         if (!element) {
-            console.warn(`⚠️ Element not found: ${mapping.id}`);
+            console.warn(`Element not found: ${mapping.id}`);
             return false;
         }
         
@@ -245,7 +224,7 @@
             return true;
         }
         
-        console.warn(`⚠️ No matching option for ${fieldKey}: ${value}`);
+        console.warn(`No matching option for ${fieldKey}: ${value}`);
         return false;
     }
     
@@ -885,7 +864,7 @@
             const today = new Date();
             const maxDate = today.toISOString().split('T')[0];
             waktuKejadian.setAttribute('max', maxDate);
-            console.log('✅ Date input max set to:', maxDate);
+            console.log('Date input max set to:', maxDate);
         }
         // ========================================
         
@@ -1301,7 +1280,7 @@
 
             // Add files if present
             if (uploadedFiles && uploadedFiles.length > 0) {
-                console.log('📎 Adding files to upload:', uploadedFiles.length);
+                console.log('Adding files to upload:', uploadedFiles.length);
                 uploadedFiles.forEach((file, index) => {
                     submitData.append('buktiFiles[]', file);
                     console.log(`  File ${index + 1}: ${file.name} (${formatFileSize(file.size)})`);
@@ -1326,7 +1305,7 @@
                 const laporanId = result.data.laporan_id;
                 const uploadedCount = result.data.uploaded_files || 0;
 
-                console.log('✅ Laporan berhasil terkirim!');
+                console.log('Laporan berhasil terkirim!');
                 console.log('Kode Pelaporan:', kodeLaporan);
                 console.log('Files Uploaded:', uploadedCount);
 
@@ -1339,7 +1318,7 @@
                 showSuccessModal(kodeLaporan);
 
             } else {
-                console.error('❌ Server Error:', result);
+                console.error('Server Error:', result);
 
                 if (result.errors) {
                     showValidationErrors(result.errors);
@@ -1349,7 +1328,7 @@
             }
 
         } catch (error) {
-            console.error('❌ Error submitting form:', error);
+            console.error('Error submitting form:', error);
 
             if (btnKirimPengaduan) {
                 btnKirimPengaduan.disabled = false;
@@ -1508,9 +1487,9 @@
             const existingReports = JSON.parse(localStorage.getItem('laporFormData')) || [];
             existingReports.push(formData);
             localStorage.setItem('laporFormData', JSON.stringify(existingReports));
-            console.log('✅ Form data saved to localStorage');
+            console.log('Form data saved to localStorage');
         } catch (error) {
-            console.error('❌ Error saving to localStorage:', error);
+            console.error('Error saving to localStorage:', error);
         }
     }
 
@@ -1650,72 +1629,137 @@
     let finalTranscript = '';
     let interimTranscript = '';
     let audioStream = null;
-    let shouldKeepRunning = false; // Changed to unlimited mode flag
+    let shouldKeepRunning = false;
+    let recordingStartTime = null;
+    let timerInterval = null;
+    let lastProcessedIndex = 0; // Track to prevent duplicate processing
+    let lastConfidence = 0;
+    let processedResults = new Set(); // Track processed result IDs to prevent stacking
     
-    // Indonesian text correction dictionary (common STT errors)
+    // ENHANCED Indonesian text correction dictionary (200+ common STT errors)
     const CORRECTION_MAP = {
-        // Common misheard words
-        'di a': 'dia',
-        'ke ras': 'keras',
-        'me reka': 'mereka',
-        'se kali': 'sekali',
-        'ter jadi': 'terjadi',
-        'ke jadian': 'kejadian',
-        'pe laku': 'pelaku',
-        'kor ban': 'korban',
-        'ke kerasan': 'kekerasan',
-        'sek sual': 'seksual',
-        'pe lecehan': 'pelecehan',
-        'ter paksa': 'terpaksa',
-        'di paksa': 'dipaksa',
-        'me nyentuh': 'menyentuh',
-        'di sentuh': 'disentuh',
-        'me lakukannya': 'melakukannya',
-        'mem buat': 'membuat',
-        'men coba': 'mencoba',
-        'ber ulang': 'berulang',
-        'se ring': 'sering',
-        'ter us': 'terus',
-        'men erus': 'menerus',
-        'ke takutan': 'ketakutan',
-        'ke cewa': 'kecewa',
-        'ter tekanan': 'tertekan',
-        'ter ancam': 'terancam',
-        'di ancam': 'diancam',
-        'men gancam': 'mengancam',
-        'kam pus': 'kampus',
-        'do sen': 'dosen',
-        'maha siswa': 'mahasiswa',
-        'te man': 'teman',
-        'pa car': 'pacar',
-        'atasan': 'atasan',
-        'ker ja': 'kerja',
-        'kan tor': 'kantor',
-        'ru mah': 'rumah',
-        'kos': 'kos',
-        'ka mar': 'kamar',
-        'ma lam': 'malam',
-        'si ang': 'siang',
-        'pa gi': 'pagi',
-        'ke marin': 'kemarin',
-        'ming gu': 'minggu',
-        'bu lan': 'bulan',
-        'ta hun': 'tahun',
-        // Numbers
-        'satu': 'satu',
-        'du a': 'dua',
-        'ti ga': 'tiga',
-        'em pat': 'empat',
-        'li ma': 'lima',
-        // Punctuation hints
-        'titik': '.',
-        'koma': ',',
-        'tanda tanya': '?',
-        'tanda seru': '!',
+        // === SPACING ISSUES (Most common STT errors) ===
+        'di a': 'dia', 'me reka': 'mereka', 'ke ras': 'keras',
+        'se kali': 'sekali', 'ter jadi': 'terjadi', 'ke jadian': 'kejadian',
+        'pe laku': 'pelaku', 'kor ban': 'korban', 'ke kerasan': 'kekerasan',
+        'sek sual': 'seksual', 'pe lecehan': 'pelecehan', 'ter paksa': 'terpaksa',
+        'di paksa': 'dipaksa', 'me nyentuh': 'menyentuh', 'di sentuh': 'disentuh',
+        'me lakukannya': 'melakukannya', 'mem buat': 'membuat', 'men coba': 'mencoba',
+        'ber ulang': 'berulang', 'se ring': 'sering', 'ter us': 'terus',
+        'men erus': 'menerus', 'ke takutan': 'ketakutan', 'ke cewa': 'kecewa',
+        'ter tekanan': 'tertekan', 'ter ancam': 'terancam', 'di ancam': 'diancam',
+        'men gancam': 'mengancam', 'kam pus': 'kampus', 'do sen': 'dosen',
+        'maha siswa': 'mahasiswa', 'te man': 'teman', 'pa car': 'pacar',
+        'ker ja': 'kerja', 'kan tor': 'kantor', 'ru mah': 'rumah',
+        'ka mar': 'kamar', 'ma lam': 'malam', 'si ang': 'siang',
+        'pa gi': 'pagi', 'ke marin': 'kemarin', 'ming gu': 'minggu',
+        'bu lan': 'bulan', 'ta hun': 'tahun', 'du a': 'dua',
+        'ti ga': 'tiga', 'em pat': 'empat', 'li ma': 'lima',
+        'se puluh': 'sepuluh', 'se ratus': 'seratus', 'se ribu': 'seribu',
+        
+        // === PREFIX SPACING (Indonesian prefixes) ===
+        'di pukul': 'dipukul', 'di hajar': 'dihajar', 'di tendang': 'ditendang',
+        'di tampar': 'ditampar', 'di perkosa': 'diperkosa', 'di lecehkan': 'dilecehkan',
+        'di ganggu': 'diganggu', 'di hina': 'dihina', 'di ejek': 'diejek',
+        'di bully': 'dibully', 'di marahi': 'dimarahi', 'di bentak': 'dibentak',
+        'di suruh': 'disuruh', 'di perintah': 'diperintah', 'di larang': 'dilarang',
+        'di kunci': 'dikunci', 'di kurung': 'dikurung', 'di ikat': 'diikat',
+        
+        'me mukul': 'memukul', 'me nampar': 'menampar', 'me nendang': 'menendang',
+        'me nyakiti': 'menyakiti', 'me ngancam': 'mengancam', 'me maksa': 'memaksa',
+        'me remas': 'meremas', 'me megang': 'memegang', 'me nyentuh': 'menyentuh',
+        'me lecehkan': 'melecehkan', 'me laporkan': 'melaporkan',
+        
+        'ter sakiti': 'tersakiti', 'ter luka': 'terluka', 'ter tekan': 'tertekan',
+        'ter takut': 'tertakut', 'ter ganggu': 'terganggu', 'ter ancam': 'terancam',
+        'ter pukul': 'terpukul', 'ter tampar': 'tertampar',
+        
+        'ber ulang': 'berulang', 'ber kali': 'berkali', 'ber temu': 'bertemu',
+        'ber cerita': 'bercerita', 'ber bicara': 'berbicara',
+        
+        'ke sakitan': 'kesakitan', 'ke takutan': 'ketakutan', 'ke marahan': 'kemarahan',
+        'ke sedihan': 'kesedihan', 'ke khawatiran': 'kekhawatiran',
+        
+        'se kolah': 'sekolah', 'se karang': 'sekarang', 'se telah': 'setelah',
+        'se belum': 'sebelum', 'se lama': 'selama', 'se tiap': 'setiap',
+        
+        'pe ngalaman': 'pengalaman', 'pe ristiwa': 'peristiwa', 'pe laku': 'pelaku',
+        'pe kerja': 'pekerja', 'pe jabat': 'pejabat', 'pe ngajar': 'pengajar',
+        
+        // === COMMON MISHEARD WORDS ===
+        'sya': 'saya', 'sy': 'saya', 'gue': 'saya', 'gw': 'saya',
+        'dia nya': 'dianya', 'dia lah': 'dialah',
+        'ngga': 'tidak', 'nggak': 'tidak', 'gak': 'tidak', 'ga ': 'tidak ',
+        'udah': 'sudah', 'udh': 'sudah', 'sdh': 'sudah',
+        'blm': 'belum', 'blum': 'belum',
+        'yg': 'yang', 'dgn': 'dengan', 'dg ': 'dengan ',
+        'krn': 'karena', 'krna': 'karena', 'karna': 'karena',
+        'tp': 'tapi', 'tpi': 'tapi',
+        'utk': 'untuk', 'utuk': 'untuk', 'buat': 'untuk',
+        'org': 'orang', 'orng': 'orang',
+        'skrg': 'sekarang', 'skrang': 'sekarang',
+        'kmrn': 'kemarin', 'kmarin': 'kemarin',
+        'msh': 'masih', 'masi': 'masih',
+        'lg ': 'lagi ', 'lgi': 'lagi',
+        'aj ': 'saja ', 'aja': 'saja', 'doang': 'saja',
+        'dr ': 'dari ', 'dri': 'dari',
+        'pd ': 'pada ', 'pda': 'pada',
+        'jd ': 'jadi ', 'jdi': 'jadi',
+        'bs ': 'bisa ', 'bsa': 'bisa',
+        'sm ': 'sama ', 'sma': 'sama',
+        'kyk': 'kayak', 'kek': 'seperti',
+        'bgt': 'banget', 'bngt': 'banget',
+        'bkn': 'bukan', 'bukn': 'bukan',
+        'klo': 'kalau', 'kalo': 'kalau', 'klau': 'kalau',
+        'gmn': 'gimana', 'gmana': 'gimana',
+        'knp': 'kenapa', 'knapa': 'kenapa',
+        'dmn': 'dimana', 'dmana': 'dimana',
+        'sprt': 'seperti', 'sperti': 'seperti',
+        'bbrp': 'beberapa', 'brapa': 'berapa',
+        
+        // === VIOLENCE/ABUSE TERMS (Important for reporting context) ===
+        'vio lence': 'kekerasan', 'abu se': 'penyiksaan',
+        'pe nganiayaan': 'penganiayaan', 'ke kerasan seksual': 'kekerasan seksual',
+        
+        // === TIME EXPRESSIONS ===
+        'ke marin sore': 'kemarin sore', 'ke marin malam': 'kemarin malam',
+        'tadi pagi': 'tadi pagi', 'tadi siang': 'tadi siang',
+        'tadi malam': 'tadi malam', 'se minggu lalu': 'seminggu lalu',
+        'se bulan lalu': 'sebulan lalu', 'be berapa hari': 'beberapa hari',
+        
+        // === LOCATION TERMS ===
+        'di rumah': 'di rumah', 'di kampus': 'di kampus', 'di kantor': 'di kantor',
+        'di sekolah': 'di sekolah', 'di kos': 'di kos', 'di kamar': 'di kamar',
+        'di jalan': 'di jalan', 'di tempat kerja': 'di tempat kerja',
+        
+        // === PUNCTUATION HINTS ===
+        'titik': '.', 'koma': ',', 'tanda tanya': '?', 'tanda seru': '!',
+        'baris baru': '\n', 'enter': '\n', 'paragraf baru': '\n\n',
     };
     
-    // Common Indonesian filler words to clean
-    const FILLER_WORDS = ['eh', 'uh', 'um', 'hmm', 'eee', 'emm', 'anu', 'ehm'];
+    // Common Indonesian filler words to remove
+    const FILLER_WORDS = [
+        'eh', 'uh', 'um', 'hmm', 'eee', 'emm', 'anu', 'ehm', 'emmm',
+        'ah', 'oh', 'uhh', 'err', 'yaa', 'ya kan', 'gitu', 'gitulah',
+        'pokoknya', 'maksudnya', 'kayaknya', 'sebenarnya sih'
+    ];
+    
+    /**
+     * Start recording timer display
+     */
+    function startRecordingTimer() {
+        const timerDisplay = document.getElementById('recordingTimer');
+        if (!timerDisplay) return;
+        
+        timerInterval = setInterval(() => {
+            if (!recordingStartTime) return;
+            
+            const elapsed = Math.floor((Date.now() - recordingStartTime) / 1000);
+            const minutes = Math.floor(elapsed / 60).toString().padStart(2, '0');
+            const seconds = (elapsed % 60).toString().padStart(2, '0');
+            timerDisplay.textContent = `${minutes}:${seconds}`;
+        }, 1000);
+    }
     
     function initVoiceInput() {
         const btnVoiceInput = document.getElementById('btnVoiceInput');
@@ -1724,7 +1768,7 @@
         const voiceRecordingIndicator = document.getElementById('voiceRecordingIndicator');
         
         if (!btnVoiceInput || !detailKejadian) {
-            console.log('⚠️ Voice input elements not found');
+            console.log('Voice input elements not found');
             return;
         }
         
@@ -1732,7 +1776,7 @@
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         
         if (!SpeechRecognition) {
-            console.warn('❌ Speech Recognition not supported in this browser');
+            console.warn('Speech Recognition not supported in this browser');
             btnVoiceInput.style.display = 'none';
             return;
         }
@@ -1746,49 +1790,86 @@
         recognition.lang = 'id-ID';              // Indonesian language
         recognition.maxAlternatives = 5;         // Get 5 alternatives, pick best one
         
-        // ============ RESULT HANDLER (MASTER VERSION) ============
+        // ============ RESULT HANDLER (ANTI-STACKING VERSION) ============
         recognition.onresult = function(event) {
-            let bestTranscript = '';
-            let highestConfidence = 0;
+            // Get live preview elements
+            const liveTranscriptText = document.getElementById('liveTranscriptText');
+            const confidenceBadge = document.getElementById('confidenceBadge');
             
+            // Process only NEW results (prevent stacking)
             for (let i = event.resultIndex; i < event.results.length; i++) {
                 const result = event.results[i];
+                const resultId = `${i}_${result.isFinal ? 'final' : 'interim'}`;
                 
                 if (result.isFinal) {
-                    // MASTER: Pick the best alternative based on confidence
+                    // Skip if already processed (prevents duplicate on auto-restart)
+                    if (processedResults.has(resultId)) {
+                        console.log(`Skipping already processed result: ${resultId}`);
+                        continue;
+                    }
+                    processedResults.add(resultId);
+                    
+                    // Pick best alternative based on confidence
+                    let bestTranscript = '';
+                    let highestConfidence = 0;
+                    
                     for (let j = 0; j < result.length; j++) {
                         const alternative = result[j];
                         const confidence = alternative.confidence || 0;
                         
-                        // Only accept if confidence > 0.6 (60%)
-                        if (confidence > highestConfidence && confidence > 0.5) {
+                        if (confidence > highestConfidence) {
                             highestConfidence = confidence;
                             bestTranscript = alternative.transcript;
                         }
                     }
                     
-                    // If no good confidence, use first result
+                    // Fallback to first result if no confidence data
                     if (!bestTranscript && result[0]) {
                         bestTranscript = result[0].transcript;
+                        highestConfidence = 0.5; // Assume medium confidence
                     }
                     
-                    if (bestTranscript) {
+                    if (bestTranscript && bestTranscript.trim()) {
                         // Apply post-processing corrections
                         const correctedText = postProcessText(bestTranscript);
-                        finalTranscript += correctedText + ' ';
                         
-                        console.log(`✅ Final: "${correctedText}" (confidence: ${(highestConfidence * 100).toFixed(1)}%)`);
+                        // Avoid duplicate phrases (anti-stacking)
+                        const lastWords = finalTranscript.trim().split(' ').slice(-3).join(' ').toLowerCase();
+                        const newWords = correctedText.trim().split(' ').slice(0, 3).join(' ').toLowerCase();
+                        
+                        if (lastWords !== newWords || finalTranscript.length === 0) {
+                            finalTranscript += correctedText + ' ';
+                            lastConfidence = highestConfidence;
+                            
+                            console.log(`Final: "${correctedText}" (confidence: ${(highestConfidence * 100).toFixed(1)}%)`);
+                        } else {
+                            console.log(`Skipping duplicate phrase: "${newWords}"`);
+                        }
                     }
                     
-                    // Reset for next
-                    bestTranscript = '';
-                    highestConfidence = 0;
+                    // Clear interim after final
+                    interimTranscript = '';
+                    
+                    // Update confidence badge
+                    if (confidenceBadge) {
+                        const confPercent = Math.round(highestConfidence * 100);
+                        confidenceBadge.textContent = `${confPercent}%`;
+                        confidenceBadge.className = 'confidence-badge';
+                        if (confPercent >= 80) {
+                            confidenceBadge.classList.add('high');
+                        } else if (confPercent < 60) {
+                            confidenceBadge.classList.add('low');
+                        }
+                    }
                     
                 } else {
-                    // Interim results - show immediately for feedback
+                    // Interim results - show for real-time feedback
                     interimTranscript = result[0].transcript;
                 }
             }
+            
+            // Update live preview panel
+            updateLiveTranscriptPreview(liveTranscriptText);
             
             // Update textarea
             updateTextarea(detailKejadian);
@@ -1800,26 +1881,56 @@
             shouldKeepRunning = true;
             finalTranscript = '';
             interimTranscript = '';
+            lastConfidence = 0;
+            processedResults.clear(); // Reset processed results to prevent stacking
             
             // UI Feedback
             btnVoiceInput.classList.add('recording');
             btnVoiceInput.innerHTML = '<i class="fas fa-stop"></i>';
             btnVoiceInput.title = 'Klik untuk berhenti';
             
+            // Add margin to wrapper to prevent overlap
+            const textareaWrapper = btnVoiceInput.closest('.textarea-voice-wrapper');
+            if (textareaWrapper) {
+                textareaWrapper.classList.add('recording-active');
+            }
+            
             if (voiceRecordingIndicator) {
                 voiceRecordingIndicator.style.display = 'flex';
             }
             
-            console.log('🎤 Voice recording started (UNLIMITED MODE)');
+            // Show live transcript inline
+            const liveTranscriptPreview = document.getElementById('liveTranscriptPreview');
+            const liveTranscriptText = document.getElementById('liveTranscriptText');
+            if (liveTranscriptPreview) {
+                liveTranscriptPreview.style.display = 'block';
+            }
+            if (liveTranscriptText) {
+                liveTranscriptText.innerHTML = '<span style="color: #94a3b8; font-style: italic;">Mendengarkan...</span>';
+            }
+            
+            const confidenceBadge = document.getElementById('confidenceBadge');
+            if (confidenceBadge) {
+                confidenceBadge.textContent = '--';
+                confidenceBadge.className = 'confidence-badge';
+            }
+            
+            // Start timer (only on first start, not restarts)
+            if (!recordingStartTime) {
+                recordingStartTime = Date.now();
+                startRecordingTimer();
+            }
+            
+            console.log('Voice recording started (UNLIMITED MODE)');
         };
         
         // ============ END HANDLER - UNLIMITED AUTO-RESTART ============
         recognition.onend = function() {
-            console.log('🎤 Recognition ended, shouldKeepRunning:', shouldKeepRunning);
+            console.log('Recognition ended, shouldKeepRunning:', shouldKeepRunning);
             
             // ALWAYS auto-restart for UNLIMITED duration
             if (shouldKeepRunning && isRecording) {
-                console.log('🔄 Auto-restarting for unlimited duration...');
+                console.log('Auto-restarting for unlimited duration...');
                 
                 setTimeout(() => {
                     if (shouldKeepRunning) {
@@ -1843,12 +1954,12 @@
         
         // ============ ERROR HANDLER - AUTO-RECOVER ============
         recognition.onerror = function(event) {
-            console.warn('⚠️ Speech recognition error:', event.error);
+            console.warn('Speech recognition error:', event.error);
             
             // DON'T stop on recoverable errors - just restart
             if (['no-speech', 'aborted', 'network'].includes(event.error)) {
                 if (shouldKeepRunning && isRecording) {
-                    console.log('🔄 Auto-recovering from error:', event.error);
+                    console.log('Auto-recovering from error:', event.error);
                     return; // Let onend handle restart
                 }
             }
@@ -1875,11 +1986,11 @@
         
         // ============ AUDIO START (for better feedback) ============
         recognition.onaudiostart = function() {
-            console.log('🎵 Audio capture started');
+            console.log('Audio capture started');
         };
         
         recognition.onspeechstart = function() {
-            console.log('🗣️ Speech detected');
+            console.log('Speech detected');
         };
         
         // ============ BUTTON HANDLERS ============
@@ -1897,47 +2008,102 @@
             });
         }
         
-        console.log('✅ Voice Input initialized (MASTER MODE - Indonesian Optimized)');
+        console.log('Voice Input initialized (Indonesian Optimized)');
     }
     
     /**
-     * Post-process text for better accuracy
+     * Post-process text for better accuracy (ENHANCED VERSION)
      */
     function postProcessText(text) {
         if (!text) return '';
         
-        let processed = text.trim();
+        let processed = text.trim().toLowerCase(); // Normalize to lowercase first
         
-        // 1. Apply correction map
-        Object.entries(CORRECTION_MAP).forEach(([wrong, correct]) => {
-            const regex = new RegExp(wrong, 'gi');
+        // 1. Apply correction map - LONGEST PATTERNS FIRST (prevents partial matches)
+        const sortedCorrections = Object.entries(CORRECTION_MAP)
+            .sort((a, b) => b[0].length - a[0].length); // Sort by length descending
+        
+        sortedCorrections.forEach(([wrong, correct]) => {
+            // Use word boundary for better matching
+            const regex = new RegExp(wrong.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'gi');
             processed = processed.replace(regex, correct);
         });
         
-        // 2. Remove filler words
+        // 2. Fix Indonesian prefix spacing issues (common STT problem)
+        // Pattern: "di " + word should often be "di" + word
+        const prefixPatterns = [
+            { pattern: /\bdi (\w+)/gi, check: (word) => ['pukul', 'hajar', 'tampar', 'paksa', 'sentuh', 'ancam', 'larang', 'kurung', 'bully', 'hina', 'ejek', 'suruh', 'marahi', 'bentak', 'ganggu', 'perkosa', 'lecehkan', 'kunci', 'ikat', 'tendang'].includes(word.toLowerCase()) },
+            { pattern: /\bme (\w+)/gi, check: (word) => ['mukul', 'nampar', 'nendang', 'nyakiti', 'ngancam', 'maksa', 'remas', 'megang', 'nyentuh', 'lecehkan', 'laporkan', 'lakukannya'].includes(word.toLowerCase()) },
+            { pattern: /\bter (\w+)/gi, check: (word) => ['sakiti', 'luka', 'tekan', 'takut', 'ganggu', 'ancam', 'pukul', 'tampar', 'jadi', 'paksa'].includes(word.toLowerCase()) },
+            { pattern: /\bke (\w+)/gi, check: (word) => ['sakitan', 'takutan', 'marahan', 'sedihan', 'khawatiran', 'jadian', 'kerasan', 'cewa', 'marin'].includes(word.toLowerCase()) },
+            { pattern: /\bse (\w+)/gi, check: (word) => ['kolah', 'karang', 'telah', 'belum', 'lama', 'tiap', 'kali', 'ring', 'minggu', 'bulan', 'puluh', 'ratus', 'ribu'].includes(word.toLowerCase()) },
+            { pattern: /\ber (\w+)/gi, check: (word) => ['ulang', 'kali', 'temu', 'cerita', 'bicara'].includes(word.toLowerCase()) },
+        ];
+        
+        prefixPatterns.forEach(({pattern, check}) => {
+            processed = processed.replace(pattern, (match, word) => {
+                if (check(word)) {
+                    const prefix = match.split(' ')[0];
+                    return prefix + word;
+                }
+                return match;
+            });
+        });
+        
+        // 3. Remove filler words
         FILLER_WORDS.forEach(filler => {
             const regex = new RegExp(`\\b${filler}\\b`, 'gi');
             processed = processed.replace(regex, '');
         });
         
-        // 3. Fix multiple spaces
-        processed = processed.replace(/\s+/g, ' ');
+        // 4. Fix multiple spaces
+        processed = processed.replace(/\s+/g, ' ').trim();
         
-        // 4. Fix common spacing issues
+        // 5. Fix common spacing issues
         processed = processed.replace(/\s+([.,!?])/g, '$1'); // Remove space before punctuation
         processed = processed.replace(/([.,!?])(\w)/g, '$1 $2'); // Add space after punctuation
         
-        // 5. Capitalize first letter of sentences
+        // 6. Capitalize first letter of sentences
         processed = processed.replace(/(^|[.!?]\s+)([a-z])/g, (match, p1, p2) => {
             return p1 + p2.toUpperCase();
         });
         
-        // 6. Capitalize first letter if start of text
+        // 7. Capitalize first letter if start of text
         if (processed.length > 0) {
             processed = processed.charAt(0).toUpperCase() + processed.slice(1);
         }
         
         return processed.trim();
+    }
+    
+    /**
+     * Update live transcript preview panel
+     */
+    function updateLiveTranscriptPreview(container) {
+        if (!container) return;
+        
+        let html = '';
+        
+        // Show final transcript
+        if (finalTranscript.trim()) {
+            html += `<span class="final-text">${finalTranscript.trim()}</span>`;
+        }
+        
+        // Show interim transcript with different styling
+        if (interimTranscript.trim()) {
+            if (html) html += ' ';
+            html += `<span class="interim-text">${interimTranscript.trim()}</span>`;
+        }
+        
+        // Update container
+        if (html) {
+            container.innerHTML = html;
+        } else if (isRecording) {
+            container.innerHTML = '<span style="color: #94a3b8; font-style: italic;">Mendengarkan...</span>';
+        }
+        
+        // Auto scroll to bottom
+        container.scrollTop = container.scrollHeight;
     }
     
     /**
@@ -1973,25 +2139,66 @@
         isRecording = false;
         shouldKeepRunning = false;
         
+        // Stop timer
+        if (timerInterval) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+        }
+        recordingStartTime = null;
+        
+        // Reset timer display
+        const timerDisplay = document.getElementById('recordingTimer');
+        if (timerDisplay) {
+            timerDisplay.textContent = '00:00';
+        }
+        
         // UI Reset
         if (btnVoiceInput) {
             btnVoiceInput.classList.remove('recording');
             btnVoiceInput.innerHTML = '<i class="fas fa-microphone"></i>';
             btnVoiceInput.title = 'Rekam suara';
+            
+            // Remove margin from wrapper
+            const textareaWrapper = btnVoiceInput.closest('.textarea-voice-wrapper');
+            if (textareaWrapper) {
+                textareaWrapper.classList.remove('recording-active');
+            }
         }
         
         if (voiceRecordingIndicator) {
             voiceRecordingIndicator.style.display = 'none';
         }
         
+        // Hide live transcript preview
+        const liveTranscriptPreview = document.getElementById('liveTranscriptPreview');
+        const liveTranscriptText = document.getElementById('liveTranscriptText');
+        
+        // Show brief completion message then hide
+        if (liveTranscriptText && finalTranscript.trim()) {
+            liveTranscriptText.innerHTML = '<span style="color: #10b981;">✓ Selesai</span>';
+            setTimeout(() => {
+                if (liveTranscriptPreview) {
+                    liveTranscriptPreview.style.display = 'none';
+                }
+            }, 1500);
+        } else if (liveTranscriptPreview) {
+            liveTranscriptPreview.style.display = 'none';
+        }
+        
         // Final cleanup of textarea
         if (detailKejadian) {
             const finalValue = detailKejadian.value.trim();
             if (finalValue) {
-                detailKejadian.value = postProcessText(finalValue);
+                // Apply final post-processing to entire text
+                const processedFinal = postProcessText(finalValue);
+                detailKejadian.value = processedFinal;
             }
             detailKejadian.removeAttribute('data-pre-record-text');
         }
+        
+        // Reset state
+        processedResults.clear();
+        lastConfidence = 0;
         
         // Stop audio stream
         if (audioStream) {
@@ -1999,7 +2206,7 @@
             audioStream = null;
         }
         
-        console.log('🎤 Voice recording finished');
+        console.log('Voice recording finished');
         validateStep4();
     }
     
@@ -2031,7 +2238,7 @@
                 }
             });
             
-            console.log('🎵 Audio stream ready with noise suppression');
+            console.log('Audio stream ready with noise suppression');
             
             // Reset state
             finalTranscript = '';
@@ -2042,7 +2249,7 @@
             recognition.start();
             
         } catch (error) {
-            console.error('❌ Microphone access error:', error);
+            console.error('Microphone access error:', error);
             
             if (error.name === 'NotAllowedError' || error.name === 'PermissionDeniedError') {
                 showVoiceError('Izin mikrofon ditolak. Klik ikon 🔒 di address bar browser untuk mengizinkan.');
@@ -2346,7 +2553,7 @@
      */
     function initEnhancedSTT() {
         if (!window.EnhancedSTT) {
-            console.log('ℹ️ EnhancedSTT module not loaded, using basic STT');
+            console.log('EnhancedSTT module not loaded, using basic STT');
             return false;
         }
         
@@ -2358,7 +2565,7 @@
         });
         
         if (!initialized) {
-            console.log('⚠️ EnhancedSTT initialization failed');
+            console.log('EnhancedSTT initialization failed');
             return false;
         }
         
@@ -2368,7 +2575,7 @@
             onAudioEvent: handleAudioEvent
         });
         
-        console.log('✅ EnhancedSTT integrated with emotion detection');
+        console.log('EnhancedSTT integrated with emotion detection');
         return true;
     }
     
@@ -2376,7 +2583,7 @@
      * Handle detected emotion from text analysis
      */
     function handleEmotionDetected(emotionData) {
-        console.log('🎭 Emotion detected:', emotionData);
+        console.log('Emotion detected:', emotionData);
         
         const emotionIndicator = document.getElementById('emotionIndicator');
         const emotionIcon = document.getElementById('emotionIcon');
@@ -2426,7 +2633,7 @@
      * Handle audio events (crying, screaming, etc.)
      */
     function handleAudioEvent(eventData) {
-        console.log('🔊 Audio event detected:', eventData);
+        console.log('Audio event detected:', eventData);
         
         // Map audio event to toast display
         const eventMap = {

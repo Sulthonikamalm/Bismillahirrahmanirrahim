@@ -6,6 +6,163 @@
     'use strict';
   
     console.log('✅ Landing Page JS Loaded');
+
+    // ============================================
+    // STABILO/HIGHLIGHTER ANIMATION ON SCROLL
+    // ============================================
+    
+    function initScrollAnimations() {
+      // Elements to animate: highlight texts + stat cards
+      const highlightElements = document.querySelectorAll('.highlight-animate');
+      const statCards = document.querySelectorAll('.transparansi-stat-box');
+      
+      // Combine all elements
+      const allElements = [...highlightElements, ...statCards];
+      
+      if (allElements.length === 0) return;
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            // Add in-view class to trigger animation
+            entry.target.classList.add('in-view');
+            // Stop observing after animation triggered
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.3, // Trigger when 30% visible
+        rootMargin: '0px 0px -30px 0px'
+      });
+      
+      allElements.forEach(el => observer.observe(el));
+      console.log('✅ Scroll animations initialized:', allElements.length, 'elements');
+    }
+    
+    // Initialize on DOM ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initScrollAnimations);
+    } else {
+      initScrollAnimations();
+    }
+
+
+    // ============================================
+    // FETCH STATISTICS FROM DATABASE
+    // Fetch on load, but animate only when in view
+    // ============================================
+
+    // Store fetched data
+    let statisticsData = null;
+    let countersAnimated = false;
+    
+    async function fetchStatistics() {
+      const API_URL = '../api/get_public_statistics.php';
+      
+      try {
+        const response = await fetch(API_URL, {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch statistics');
+        }
+
+        const result = await response.json();
+
+        if (result.status === 'success' && result.data) {
+          // Store data, don't animate yet
+          statisticsData = result.data;
+          console.log('✅ Statistics fetched (waiting for scroll):', result.data);
+          
+          // Setup observer to animate when in view
+          setupCounterObserver();
+        } else {
+          console.warn('Statistics API returned unexpected format:', result);
+        }
+
+      } catch (error) {
+        console.error('❌ Failed to fetch statistics:', error);
+        const totalCasesEl = document.getElementById('total-cases');
+        const casesCompletedEl = document.getElementById('cases-completed');
+        if (totalCasesEl) totalCasesEl.textContent = '-';
+        if (casesCompletedEl) casesCompletedEl.textContent = '-';
+      }
+    }
+
+    // Observer to trigger counter animation when stats section is visible
+    function setupCounterObserver() {
+      const statsGrid = document.querySelector('.transparansi-stats-grid');
+      if (!statsGrid || countersAnimated) return;
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && !countersAnimated && statisticsData) {
+            countersAnimated = true;
+            
+            // Now animate the counters
+            const totalCasesEl = document.getElementById('total-cases');
+            const casesCompletedEl = document.getElementById('cases-completed');
+            
+            if (totalCasesEl) {
+              animateCounter(totalCasesEl, statisticsData.cases_received || 0);
+            }
+            if (casesCompletedEl) {
+              animateCounter(casesCompletedEl, statisticsData.cases_completed || 0);
+            }
+            
+            console.log('✅ Counter animation started (in view)');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.3
+      });
+
+      observer.observe(statsGrid);
+    }
+
+    // Animated counter effect
+    function animateCounter(element, target) {
+      const duration = 1500; // 1.5 seconds
+      const start = 0;
+      const startTime = performance.now();
+
+      function update(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        // Easing function (ease-out)
+        const easeOut = 1 - Math.pow(1 - progress, 3);
+        const current = Math.floor(start + (target - start) * easeOut);
+        
+        element.textContent = current;
+        element.removeAttribute('data-loading');
+
+        if (progress < 1) {
+          requestAnimationFrame(update);
+        } else {
+          element.textContent = target;
+        }
+      }
+
+      requestAnimationFrame(update);
+    }
+
+    // Fetch statistics when DOM is ready (but don't animate yet)
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', fetchStatistics);
+    } else {
+      fetchStatistics();
+    }
+
+
+    // ============================================
+    // CHECK PROGRESS FUNCTIONALITY
+    // ============================================
   
     const checkBtn = document.getElementById('checkProgressBtn');
     const progressStatusDiv = document.getElementById('progressStatus');

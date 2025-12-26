@@ -1,8 +1,802 @@
+/* Global Fix for Horizontal Overflow - CRITICAL */
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+  position: relative;
+}
+
+/* Prevent any element from causing overflow */
+* {
+  max-width: 100%;
+}
+
+/* Exception for elements that need to overflow */
+.hero-image-new,
+.hero-phone-image,
+.transparansi-main-card {
+  max-width: none;
+}
+
 /* ============================================
-   LANDING PAGE SPECIFIC STYLES
+   STABILO/HIGHLIGHTER ANIMATION
+   Efek highlight dari kiri ke kanan saat scroll
    ============================================ */
 
-/* --- Monitoring Section --- */
+/* Keyframe animation - sweep from left to right */
+@keyframes stabilo-sweep {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+/* Keyframe animation - fade in + slide up (NO ZOOM) */
+@keyframes fadeSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== Data Penanganan - White highlight sweep ===== */
+.transparansi-text-highlight.highlight-animate {
+  position: relative;
+  color: #7ba8dc;
+  background: transparent !important;
+  padding: 4px 12px;
+  display: inline-block;
+  border-radius: 6px;
+  /* Preserve font size */
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.transparansi-text-highlight.highlight-animate::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  background: #ffffff;
+  border-radius: 6px;
+  z-index: -1;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.transparansi-text-highlight.highlight-animate.in-view::before {
+  animation: stabilo-sweep 0.8s ease-out forwards;
+}
+
+
+/* ===== Berani Bersuara - Blue background sweep ===== */
+.hero-title-new .text-gradient.highlight-animate {
+  position: relative;
+  color: #ffffff;
+  background: transparent !important;
+  padding: 4px 12px;
+  display: inline-block;
+  border-radius: 6px;
+  /* Preserve font size */
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.hero-title-new .text-gradient.highlight-animate::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  background: #7ba8dc;
+  border-radius: 6px;
+  z-index: -1;
+}
+
+.hero-title-new .text-gradient.highlight-animate.in-view::before {
+  animation: stabilo-sweep 0.8s ease-out forwards;
+  animation-delay: 0.5s;
+}
+
+
+
+/* ===== Stat Cards - Fade + Slide Up Animation ===== */
+.transparansi-stat-box {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.transparansi-stat-box.in-view {
+  animation: fadeSlideUp 0.6s ease-out forwards;
+}
+
+/* Stagger animation for second card */
+.transparansi-stat-box:nth-child(2).in-view {
+  animation-delay: 0.2s;
+}
+
+
+/* ============================================
+   NEW HERO SECTION - Clean White Design
+   Grid Pattern + Hand Phone Image (Netfox Style)
+   ============================================ */
+
+.hero-section-new {
+  position: relative;
+  background: #ffffff;
+  min-height: 100vh;
+  padding-top: 100px;
+  padding-bottom: 0;
+  overflow: visible;
+  display: flex;
+  align-items: center;
+  z-index: 1;
+}
+
+/* Grid Pattern - Upper Left - CLEARLY VISIBLE */
+.hero-grid-pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60%;
+  height: 100%;
+  background-image:
+    linear-gradient(to right, #e5e7eb 1px, transparent 1px),
+    linear-gradient(to bottom, #e5e7eb 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity: 1;
+  pointer-events: none;
+  z-index: 0;
+  /* Visible past LAPOR button but fade before phone image - 10% lower opacity */
+  mask-image: linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.85) 70%, rgba(0,0,0,0.25) 85%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.85) 70%, rgba(0,0,0,0.25) 85%, transparent 100%);
+}
+
+/* Decorative Circles - Static (no animation) */
+.hero-decorative-circles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.deco-circle {
+  position: absolute;
+  border-radius: 50%;
+}
+
+/* Large blue circle - top left */
+.deco-circle-1 {
+  width: 140px;
+  height: 140px;
+  background: #7ba8dc;
+  opacity: 0.35;
+  top: 12%;
+  left: 5%;
+}
+
+/* Medium blue circle - left side */
+.deco-circle-2 {
+  width: 70px;
+  height: 70px;
+  background: #7ba8dc;
+  opacity: 0.45;
+  top: 35%;
+  left: 15%;
+}
+
+/* Small blue circle - top right area */
+.deco-circle-3 {
+  width: 50px;
+  height: 50px;
+  background: #7ba8dc;
+  opacity: 0.4;
+  top: 10%;
+  right: 30%;
+}
+
+/* Extra circle */
+.deco-circle-4 {
+  width: 30px;
+  height: 30px;
+  background: #7ba8dc;
+  opacity: 0.5;
+  top: 20%;
+  left: 30%;
+}
+
+/* Hero Content Container */
+.hero-content-new {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+/* Left: Text Content - Shifted slightly to left */
+.hero-text-new {
+  max-width: 600px;
+  margin-left: -2%;
+}
+
+.hero-label {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: #558198;
+  background: rgba(85, 129, 152, 0.1);
+  padding: 10px 20px;
+  border-radius: 100px;
+  margin-bottom: 24px;
+  /* Entrance animation */
+  opacity: 0;
+  animation: textFadeIn 0.7s ease-out 0.2s forwards;
+}
+
+.hero-title-new {
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 700;
+  color: #1a1a2e;
+  line-height: 1.05;
+  margin-bottom: 24px;
+  letter-spacing: -0.02em;
+  /* Entrance animation */
+  opacity: 0;
+  animation: textFadeIn 0.7s ease-out 0.4s forwards;
+}
+
+.hero-title-new .text-gradient {
+  color: #ffffff;
+  background: #7ba8dc;
+  padding: 4px 12px;
+  display: inline;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.hero-description-new {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: #4a5568;
+  line-height: 1.8;
+  margin-bottom: 32px;
+  /* Entrance animation */
+  opacity: 0;
+  animation: textFadeIn 0.7s ease-out 0.6s forwards;
+}
+
+/* Text fade in animation */
+@keyframes textFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hero Buttons */
+.hero-buttons {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.btn-primary-hero {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #dc2626;
+  color: #ffffff;
+  padding: 14px 32px;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+  letter-spacing: 0.05em;
+  /* Entrance animation for desktop */
+  opacity: 0;
+  animation: textFadeIn 0.7s ease-out 0.8s forwards;
+}
+
+.btn-primary-hero:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(220, 38, 38, 0.4);
+  background: #b91c1c;
+}
+
+.btn-outline-hero {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #ffffff;
+  color: #1a1a2e;
+  padding: 14px 28px;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: 2px solid #1a1a2e;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-hero:hover {
+  background: #1a1a2e;
+  color: #ffffff;
+  transform: translateY(-3px);
+}
+
+/* Right: Phone Image - Large & Overflows Section */
+.hero-image-new {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  position: relative;
+  margin-bottom: -200px;
+  margin-right: -150px;
+  margin-top: -60px;
+}
+
+.hero-phone-image {
+  width: 100%;
+  max-width: 968px;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 40px 80px rgba(0, 0, 0, 0.2));
+  position: relative;
+  z-index: 10;
+  /* Entrance animation - arm straightening from right to left */
+  animation: armStraighten 1.4s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+  transform-origin: bottom center;
+}
+
+/* Phone animation - bent to straight, right to left */
+@keyframes armStraighten {
+  0% {
+    opacity: 0;
+    transform: rotate(20deg) translateX(40px);
+  }
+  50% {
+    opacity: 1;
+    transform: rotate(5deg) translateX(10px);
+  }
+  80% {
+    transform: rotate(-1deg) translateX(-3px);
+  }
+  100% {
+    opacity: 1;
+    transform: rotate(0deg) translateX(0);
+  }
+}
+
+/* ============================================
+   FLOATING CARDS - Overlay on Phone Image
+   ============================================ */
+
+.floating-card {
+  position: absolute;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 
+    0 10px 40px rgba(0, 0, 0, 0.12),
+    0 4px 12px rgba(0, 0, 0, 0.08);
+  z-index: 20;
+  min-width: 220px;
+  max-width: 280px;
+}
+
+.floating-card-icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border-radius: 12px;
+}
+
+.floating-card-content {
+  flex: 1;
+}
+
+.floating-card-title {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0 0 4px 0;
+  line-height: 1.3;
+}
+
+.floating-card-text {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Card Positions - All on RIGHT side overlaying phone */
+/* Card 1: Privasi - appears first */
+.card-top {
+  top: 5%;
+  right: 10%;
+  left: auto;
+  opacity: 0;
+  animation: cardSlideIn 0.8s ease-out 0.6s forwards;
+}
+
+/* Card 2: Respon Cepat - appears second */
+.card-middle {
+  top: 38%;
+  right: 60%;
+  left: auto;
+  opacity: 0;
+  animation: cardSlideIn 0.8s ease-out 0.9s forwards;
+}
+
+/* Card 3: Pendampingan - appears third */
+.card-bottom {
+  bottom: 30%;
+  right: 10%;
+  left: auto;
+  opacity: 0;
+  animation: cardSlideIn 0.8s ease-out 1.2s forwards;
+}
+
+/* Card slide in animation - smooth fade with subtle movement */
+@keyframes cardSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(30px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+/* Card icon color variations */
+.card-top .floating-card-icon {
+  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+}
+
+.card-middle .floating-card-icon {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+}
+
+.card-bottom .floating-card-icon {
+  background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%);
+}
+
+/* ============================================
+   HERO SECTION RESPONSIVE
+   ============================================ */
+
+@media (max-width: 1200px) {
+  .hero-content-new {
+    gap: 40px;
+  }
+
+  .hero-title-new {
+    font-size: clamp(2rem, 4.5vw, 3.5rem);
+  }
+
+  .hero-phone-image {
+    max-width: 764px;
+  }
+
+  .hero-image-new {
+    margin-bottom: -180px;
+    margin-right: -60px;
+    margin-top: -40px;
+  }
+
+  /* Floating cards smaller */
+  .floating-card {
+    padding: 12px 16px;
+    min-width: 180px;
+    max-width: 220px;
+    gap: 10px;
+  }
+
+  .floating-card-icon {
+    font-size: 1.5rem;
+    width: 40px;
+    height: 40px;
+  }
+
+  .floating-card-title {
+    font-size: 0.85rem;
+  }
+
+  .floating-card-text {
+    font-size: 0.7rem;
+  }
+
+  .card-top {
+    right: 10%;
+    left: auto;
+  }
+
+  .card-middle {
+    right: 50%;
+    left: auto;
+  }
+
+  .card-bottom {
+    right: 10%;
+    left: auto;
+  }
+}
+
+@media (max-width: 992px) {
+  .hero-section-new {
+    padding-top: 120px;
+    padding-bottom: 0;
+  }
+
+  .hero-content-new {
+    grid-template-columns: 1fr;
+    gap: 50px;
+    text-align: center;
+  }
+
+  .hero-text-new {
+    max-width: 100%;
+    order: 1;
+    margin-left: 0;
+  }
+
+  .hero-image-new {
+    order: 2;
+  }
+
+  .hero-buttons {
+    justify-content: center;
+  }
+
+  .hero-grid-pattern {
+    width: 100%;
+    height: 80%;
+    mask-image: 
+      linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 60%, transparent 90%);
+    -webkit-mask-image: 
+      linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 60%, transparent 90%);
+  }
+
+  .hero-phone-image {
+    max-width: 612px;
+  }
+
+  /* Hide phone image on mobile for cleaner layout */
+  .hero-image-new {
+    display: none;
+  }
+
+  /* Bubbles visible on mobile */
+  .deco-circle-1 {
+    width: 100px;
+    height: 100px;
+    top: 8%;
+    left: 5%;
+  }
+
+  .deco-circle-2 {
+    width: 50px;
+    height: 50px;
+    top: 25%;
+    right: 10%;
+    left: auto;
+  }
+
+  .deco-circle-3 {
+    display: block;
+    width: 35px;
+    height: 35px;
+    top: 45%;
+    left: 8%;
+  }
+
+  .deco-circle-4 {
+    display: block;
+    width: 25px;
+    height: 25px;
+    top: 15%;
+    right: 25%;
+    left: auto;
+  }
+
+  /* Hide label on mobile for cleaner layout */
+  .hero-label {
+    display: none;
+  }
+
+  /* Disable button animation on mobile for quick access */
+  .btn-primary-hero {
+    opacity: 1;
+    animation: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section-new {
+    padding-top: 100px;
+    padding-bottom: 0;
+    min-height: auto;
+  }
+
+  .hero-title-new {
+    font-size: clamp(2rem, 9vw, 3rem);
+  }
+
+  /* Ensure text-gradient is same size as title */
+  .hero-title-new .text-gradient,
+  .hero-title-new .text-gradient.highlight-animate {
+    font-size: inherit !important;
+  }
+
+
+  .hero-description-new {
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+  }
+
+  /* Button should not be 100% width - better centered look */
+  .btn-primary-hero,
+  .btn-outline-hero {
+    width: auto;
+    max-width: 280px;
+    padding: 14px 40px;
+    justify-content: center;
+  }
+
+  .hero-phone-image {
+    max-width: 490px;
+  }
+
+  .hero-image-new {
+    margin-bottom: -120px;
+    margin-top: 0;
+    justify-content: center;
+  }
+}
+
+
+@media (max-width: 480px) {
+  .hero-section-new {
+    padding-top: 85px;
+    padding-bottom: 30px;
+  }
+
+  .hero-label {
+    font-size: 0.7rem;
+    padding: 8px 16px;
+  }
+
+  .hero-title-new {
+    font-size: clamp(1.8rem, 9vw, 2.5rem);
+    margin-bottom: 16px;
+  }
+
+  /* Ensure text-gradient is same size as title */
+  .hero-title-new .text-gradient,
+  .hero-title-new .text-gradient.highlight-animate {
+    font-size: inherit !important;
+  }
+
+
+  .hero-description-new {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 24px;
+  }
+
+  .btn-primary-hero,
+  .btn-outline-hero {
+    padding: 12px 32px;
+    font-size: 0.9rem;
+    max-width: 240px;
+  }
+
+  .hero-phone-image {
+    max-width: 388px;
+  }
+
+  .hero-image-new {
+    margin-bottom: -100px;
+    margin-top: 0;
+    justify-content: center;
+  }
+
+  .hero-grid-pattern {
+    background-size: 30px 30px;
+    opacity: 0.6;
+  }
+
+  /* Decorative circles smaller on mobile */
+  .deco-circle-1 {
+    width: 80px;
+    height: 80px;
+  }
+
+  .deco-circle-2 {
+    width: 40px;
+    height: 40px;
+  }
+
+  .deco-circle-3 {
+    width: 30px;
+    height: 30px;
+  }
+
+  .deco-circle-4 {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 360px) {
+  .hero-section-new {
+    padding-top: 80px;
+    padding-bottom: 24px;
+  }
+
+  .hero-title-new {
+    font-size: 1.4rem;
+    line-height: 1.25;
+  }
+
+  .hero-description-new {
+    font-size: 0.85rem;
+  }
+
+  .btn-primary-hero,
+  .btn-outline-hero {
+    padding: 10px 28px;
+    font-size: 0.85rem;
+    max-width: 220px;
+  }
+}
+
+
+
 #monitoring {
   position: relative;
   overflow: hidden;
@@ -141,19 +935,12 @@
     order: 1; 
   }
   
+  /* HIDE "Proses Terjamin Aman" section on mobile */
   .monitoring-text-content {
-    order: 2; 
-    text-align: center; 
-  }
-
-  .monitoring-text-content .clean-list li {
-    justify-content: center;
-  }
-
-  .monitoring-text-content h3 {
-    margin-top: 0;
+    display: none;
   }
 }
+
 
 @media (max-width: 480px) {
   .input-group {
@@ -166,5 +953,390 @@
 
   .card-monitoring {
     padding: 1.5rem;
+  }
+}
+
+/* ============================================
+   TRANSPARANSI DATA SECTION - NEW CARD DESIGN
+   ============================================ */
+
+.section-transparansi {
+  background: #ffffff;
+  position: relative;
+  overflow: visible; /* Allow curve to extend on desktop */
+  padding-top: 60px;
+}
+
+/* Main Card Container - SVG Based with Extended Width */
+.transparansi-main-card {
+  position: relative;
+  /* Kiri: extend 5% lebih ke kiri */
+  margin-left: -5%;
+  /* Kanan: extend sampai viewport edge */
+  margin-right: calc(-5vw - (50vw - 50%));
+  /* Width: container + 5% kiri + extension ke kanan */
+  width: calc(100% + 5% + 5vw + (50vw - 50%));
+  min-height: 380px;
+  filter: drop-shadow(0 20px 40px rgba(85, 129, 152, 0.25));
+  /* Override max-width constraint */
+  max-width: none !important;
+}
+
+
+
+
+
+/* SVG Background Shape */
+.transparansi-bg-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.transparansi-bg-svg svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+
+/* Main Content */
+.transparansi-main-content {
+  position: relative;
+  z-index: 1;
+  padding: 40px 50px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Header */
+.transparansi-main-header {
+  margin-bottom: 24px;
+  max-width: 45%;
+}
+
+.transparansi-main-title {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  /* Memperbesar ukuran font agar mendekati Hero (Hero maks 4rem) */
+  font-size: clamp(2.2rem, 4.5vw, 3.5rem); 
+  line-height: 1.15;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.transparansi-text-black {
+  color: #1a1a2e; /* Black */
+}
+
+.transparansi-text-highlight {
+  color: #7ba8dc;        /* Blue Text */
+  /* Background handled by animation - start transparent */
+  background: transparent;
+  padding: 4px 12px;
+  display: inline-block;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  border-radius: 6px;
+  position: relative;
+  z-index: 1;
+}
+
+
+/* Body */
+.transparansi-main-body {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.transparansi-main-desc {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 1rem;
+  /* Warna Putih sesuai request */
+  color: #ffffff; 
+  line-height: 1.8;
+  max-width: 85%;
+  margin: 0;
+}
+
+/* Stats Grid - 2 Cards */
+.transparansi-stats-grid {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* Individual Stat Box - Wider cards with large icons */
+.transparansi-stat-box {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  /* Shadow sangat subtle */
+  box-shadow: 
+    0 2px 8px rgba(0, 0, 0, 0.02),
+    0 1px 4px rgba(0, 0, 0, 0.02);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  /* Card lebih lebar */
+  max-width: 380px;
+  min-width: 300px;
+  flex: 1 1 auto;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+}
+
+
+.transparansi-stat-box:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+
+
+/* Stat Box Icon - BESAR hampir 50% card width */
+.stat-box-icon {
+  width: 100px;
+  height: 100px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 2.5rem;
+  /* Background biru #7ba8dc */
+  background: linear-gradient(135deg, #7ba8dc 0%, #9ec5e8 100%);
+  /* Icon putih */
+  color: #ffffff;
+}
+
+/* Both icons use same blue */
+.stat-box-icon.icon-shield {
+  background: linear-gradient(135deg, #7ba8dc 0%, #9ec5e8 100%);
+  color: #ffffff;
+}
+
+
+/* Stat Box Content */
+.stat-box-content {
+  flex: 1;
+}
+
+.stat-box-number {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 800;
+  color: #1a1a2e;
+  line-height: 1;
+  margin: 0 0 6px 0;
+}
+
+/* Label - White text with blue highlight, single line */
+.stat-box-label {
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  font-weight: 600;
+  /* White text on blue background */
+  color: #ffffff;
+  background-color: #7ba8dc;
+  padding: 4px 10px;
+  border-radius: 6px;
+  display: inline-block;
+  margin: 0 0 6px 0;
+  /* Prevent text wrapping */
+  white-space: nowrap;
+}
+
+.stat-box-desc {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: #64748b;
+  line-height: 1.4;
+  margin: 0;
+}
+
+
+/* Keep .transparansi-stat for JS counter */
+.transparansi-stat {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 800;
+  color: #1a1a2e;
+  line-height: 1;
+  margin: 0 0 6px 0;
+}
+
+/* Responsive - Tablet */
+@media (max-width: 992px) {
+  /* Prevent overflow on smaller screens */
+  .section-transparansi {
+    overflow: hidden;
+  }
+
+  .transparansi-main-card {
+    /* Reset extended margins for mobile */
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    border-radius: 16px;
+    /* Background fallback when SVG is hidden */
+    background: linear-gradient(135deg, #7ba8dc 0%, #9ec5e8 100%);
+  }
+
+  .transparansi-main-content {
+    padding: 30px;
+  }
+
+  .transparansi-main-header {
+    max-width: 100%;
+  }
+
+  .transparansi-main-title {
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+  }
+
+  /* Ensure highlight text inherits size */
+  .transparansi-text-highlight,
+  .transparansi-text-highlight.highlight-animate {
+    font-size: inherit !important;
+  }
+
+  .transparansi-main-desc {
+    max-width: 100%;
+  }
+
+  /* Hide complex SVG shape on tablet/mobile */
+  .transparansi-bg-svg {
+    display: none;
+  }
+}
+
+
+/* Responsive - Mobile */
+@media (max-width: 768px) {
+  .section-transparansi {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+
+  .transparansi-main-card {
+    min-height: auto;
+    border-radius: 12px;
+  }
+
+  .transparansi-main-content {
+    padding: 24px 20px;
+  }
+
+  .transparansi-main-header {
+    max-width: 100%;
+    margin-bottom: 16px;
+  }
+
+  .transparansi-main-title {
+    font-size: clamp(1.6rem, 6vw, 2rem);
+    line-height: 1.3;
+  }
+
+  /* Ensure highlight text inherits size */
+  .transparansi-text-highlight,
+  .transparansi-text-highlight.highlight-animate {
+    padding: 2px 8px;
+    font-size: inherit !important;
+  }
+
+
+  .transparansi-main-body {
+    gap: 20px;
+  }
+
+  .transparansi-main-desc {
+    font-size: 0.9rem;
+    max-width: 100%;
+    line-height: 1.6;
+  }
+
+  .transparansi-stats-grid {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .transparansi-stat-box {
+    max-width: 100%;
+    min-width: unset;
+    width: 100%;
+    padding: 14px 16px;
+  }
+
+  .stat-box-number,
+  .transparansi-stat {
+    font-size: 1.75rem;
+  }
+
+  .stat-box-label {
+    font-size: 0.9rem;
+  }
+
+  .stat-box-desc {
+    font-size: 0.75rem;
+  }
+}
+
+
+@media (max-width: 480px) {
+  .section-transparansi {
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
+
+  .transparansi-main-content {
+    padding: 20px 16px;
+  }
+
+  .transparansi-main-title {
+    font-size: 1.3rem;
+  }
+
+  .transparansi-main-desc {
+    font-size: 0.85rem;
+  }
+
+  .stat-box-icon {
+    width: 38px;
+    height: 38px;
+    font-size: 0.95rem;
+  }
+
+  .stat-box-number,
+  .transparansi-stat {
+    font-size: 1.5rem;
+  }
+
+  .stat-box-label {
+    font-size: 0.85rem;
+  }
+
+  .stat-box-desc {
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .transparansi-main-title {
+    font-size: 1.15rem;
+  }
+
+  .stat-box-number,
+  .transparansi-stat {
+    font-size: 1.35rem;
+  }
+
+  .stat-box-label {
+    font-size: 0.8rem;
   }
 }
