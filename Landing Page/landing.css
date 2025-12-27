@@ -2640,3 +2640,908 @@ html, body {
     font-size: 0.8rem;
   }
 }
+
+/* ============================================
+   KABAR SIGAP - Article Carousel Section
+   ============================================ */
+
+/* Entrance Animations */
+@keyframes kabarSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes kabarFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes kabarScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.section-kabar-sigap {
+  /* White on top, very subtle blue-gray tint at bottom (like the reference image) */
+  background: linear-gradient(180deg, 
+    #ffffff 0%, 
+    #ffffff 60%, 
+    #f8fbff 100%
+  );
+  padding: 100px 0 120px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Animate text section on scroll */
+.section-kabar-sigap .kabar-text-section.reveal.in-view {
+  animation: kabarSlideUp 0.8s ease-out forwards;
+}
+
+.section-kabar-sigap .kabar-text-section.reveal.in-view .kabar-label {
+  animation: kabarFadeIn 0.6s ease-out 0.2s forwards;
+  opacity: 0;
+}
+
+.section-kabar-sigap .kabar-text-section.reveal.in-view h2 {
+  animation: kabarSlideUp 0.7s ease-out 0.3s forwards;
+  opacity: 0;
+}
+
+.section-kabar-sigap .kabar-text-section.reveal.in-view .description {
+  animation: kabarSlideUp 0.7s ease-out 0.4s forwards;
+  opacity: 0;
+}
+
+.section-kabar-sigap .kabar-text-section.reveal.in-view .kabar-cta-btn {
+  animation: kabarSlideUp 0.7s ease-out 0.5s forwards;
+  opacity: 0;
+}
+
+/* Card entrance animation */
+.kabar-card {
+  animation: kabarScaleIn 0.6s ease-out forwards;
+}
+
+.kabar-card.state-1 { animation-delay: 0.1s; }
+.kabar-card.state-2 { animation-delay: 0.2s; }
+.kabar-card.state-3 { animation-delay: 0.3s; }
+
+/* Decorative Ornaments - Using Website Colors */
+.kabar-decorations {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+/* Decorative Blob - Primary Blue (#7ba8dc) */
+.kabar-decor-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.kabar-decor-blob.blob-1 {
+  width: 500px;
+  height: 500px;
+  background: rgba(123, 168, 220, 0.3); /* #7ba8dc with transparency */
+  left: -200px;
+  top: -150px;
+}
+
+.kabar-decor-blob.blob-2 {
+  width: 400px;
+  height: 400px;
+  background: rgba(123, 168, 220, 0.25); /* #7ba8dc lighter */
+  right: -100px;
+  bottom: -100px;
+}
+
+/* Decorative Dots Pattern */
+.kabar-deco-dots {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  bottom: 20%;
+  right: 5%;
+  background-image: radial-gradient(circle, rgba(123, 168, 220, 0.25) 2px, transparent 2px);
+  background-size: 16px 16px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Decorative Ring */
+.kabar-deco-ring {
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  top: 15%;
+  left: 3%;
+  border: 3px solid rgba(123, 168, 220, 0.15);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Decorative Circle */
+.kabar-deco-circle {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  background: rgba(123, 168, 220, 0.1);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.kabar-deco-circle.circle-1 {
+  top: 30%;
+  right: 10%;
+}
+
+.kabar-deco-circle.circle-2 {
+  bottom: 35%;
+  left: 8%;
+  width: 50px;
+  height: 50px;
+}
+
+.kabar-sigap-container {
+  width: 100%;
+  max-width: 1720px; /* Lebar container disesuaikan agar muat layout lebar */
+  padding: 0 40px;
+  display: flex;
+  align-items: flex-start; /* Align top slightly */
+  gap: 60px;
+  position: relative;
+  margin: 0 auto;
+}
+
+/* --- Left Text Section --- */
+.kabar-text-section {
+  width: 450px; /* Adjusted slightly for standard screens */
+  flex-shrink: 0;
+  z-index: 10;
+  padding-top: 40px; /* Visual alignment with cards */
+}
+
+.kabar-label {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 700;
+  color: #7ba8dc; /* Brand color */
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 20px;
+  background: rgba(123, 168, 220, 0.1);
+  padding: 8px 16px;
+  border-radius: 30px;
+  border: 1px solid rgba(123, 168, 220, 0.2);
+}
+
+.kabar-text-section h2 {
+  font-size: 52px;
+  font-weight: 800;
+  line-height: 1.05;
+  color: #0f172a;
+  margin-bottom: 28px;
+  letter-spacing: -1.5px;
+}
+
+.kabar-text-section .text-gradient {
+  /* Brand color gradient */
+  background: linear-gradient(135deg, #7ba8dc 0%, #5a8fc9 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block; 
+}
+
+/* Decoration Blobs */
+.kabar-decor-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  z-index: 1;
+  opacity: 0.6;
+  pointer-events: none; /* Prevent interference with clicks */
+}
+
+.blob-1 {
+  width: 500px;
+  height: 500px;
+  background: rgba(59, 130, 246, 0.15); /* Blueish */
+  left: -150px;
+  top: -100px;
+}
+
+.blob-2 {
+  width: 400px;
+  height: 400px;
+  background: rgba(139, 92, 246, 0.15); /* Purplish */
+  right: -50px;
+  bottom: -50px;
+}
+
+.kabar-text-section .description {
+  font-size: 18px;
+  line-height: 1.7;
+  color: #64748b;
+  margin-bottom: 48px;
+  max-width: 90%;
+  font-weight: 400;
+}
+
+.kabar-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 32px;
+  /* Menggunakan warna brand #7ba8dc */
+  background: linear-gradient(135deg, #7ba8dc 0%, #5a8fc9 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  box-shadow: 0 4px 15px rgba(123, 168, 220, 0.3);
+  letter-spacing: 0.02em;
+}
+
+.kabar-cta-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(123, 168, 220, 0.4);
+  background: linear-gradient(135deg, #6a9bd1 0%, #4a7fb9 100%);
+}
+
+/* --- Carousel SectionWrapper --- */
+.kabar-carousel-wrapper {
+  flex: 1;
+  height: 700px; 
+  position: relative;
+}
+
+.kabar-track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* --- Card Styling --- */
+.kabar-card {
+  position: absolute;
+  top: 0;
+  border-radius: 25px;
+  background-color: #cbd5e1;
+  background-size: cover;
+  background-position: center;
+  transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  /* Default size for stacked cards */
+  width: 373px; 
+  height: 507px;
+  opacity: 1;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* Gradient Overlay for text readability */
+.kabar-card-gradient {
+  position: absolute;
+  inset: 0;
+  border-radius: 25px;
+  background: linear-gradient(
+    180deg, 
+    rgba(0,0,0,0) 0%, 
+    rgba(0,0,0,0) 40%,
+    rgba(0,0,0,0.3) 70%,
+    rgba(0,0,0,0.7) 100%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Mini Info for side cards */
+.kabar-card-info-mini {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  z-index: 2;
+}
+
+.kabar-card-category-mini {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background: rgba(123, 168, 220, 0.9);
+  padding: 4px 10px;
+  border-radius: 20px;
+  margin-bottom: 8px;
+}
+
+.kabar-card-title-mini {
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.3;
+  margin: 0;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Category styling for active card */
+.kabar-card-category {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  color: #7ba8dc;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background: rgba(123, 168, 220, 0.15);
+  padding: 5px 12px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
+
+/* Overlay for inactive cards - removed, using gradient instead */
+.kabar-card-overlay {
+  display: none;
+}
+
+/* --- States Logic --- */
+
+/* STATE 0: Active Card (Large, Left) */
+.kabar-card.state-0 {
+  width: 485px; 
+  height: 600px; 
+  left: 0; 
+  top: 0; 
+  z-index: 5;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+}
+.kabar-card.state-0 .kabar-card-overlay { opacity: 0; }
+
+/* STATE 1: Next Card (Smaller, Top Aligned) */
+.kabar-card.state-1 {
+  width: 320px; /* Lebih kecil dari card utama */
+  height: 430px;
+  left: 540px; 
+  top: 0; /* Sejajar atas dengan card utama */
+  z-index: 4;
+}
+
+/* STATE 2: Next Next Card (Smaller, Top Aligned) */
+.kabar-card.state-2 {
+  width: 320px;
+  height: 430px;
+  left: 900px; /* Jarak disesuaikan */
+  top: 0;
+  z-index: 3;
+}
+
+/* STATE 3: Out of view right */
+.kabar-card.state-3 {
+  width: 320px;
+  height: 430px;
+  left: 1260px;
+  top: 0;
+  z-index: 2;
+  opacity: 0.5;
+}
+
+/* Hidden States */
+.kabar-card.state-hidden {
+  width: 320px;
+  height: 430px;
+  left: 1620px;
+  opacity: 0;
+  top: 0;
+}
+
+/* Adjust Info Box - Compact at bottom */
+.kabar-info-box {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  right: 80px; /* Leave space for the round button */
+  width: auto;
+  max-width: 320px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.4s 0.2s ease;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  /* Simple left accent bar */
+  border-left: 3px solid #7ba8dc;
+}
+
+/* No decorative pseudo-elements - keep it clean */
+.kabar-info-box::before,
+.kabar-info-box::after {
+  display: none;
+}
+
+/* Adjust Controls Position (Below Side Cards) */
+.kabar-controls {
+  left: 540px; /* Sejajar dengan card state-1 */
+  top: 480px; /* Di bawah kartu samping (430px + 50px gap) */
+  bottom: auto;
+}
+
+.kabar-card.state-0 .kabar-info-box {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.kabar-info-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+.kabar-info-desc {
+  font-size: 14px;
+  color: #64748b;
+  margin-bottom: 0px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Round Button inside Card */
+.kabar-card-btn {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 70px;
+  height: 70px;
+  /* Menggunakan warna brand */
+  background: linear-gradient(135deg, #7ba8dc 0%, #5a8fc9 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 3px solid white;
+  opacity: 0;
+  transform: scale(0.8);
+  box-shadow: 0 4px 15px rgba(123, 168, 220, 0.4);
+}
+.kabar-card.state-0 .kabar-card-btn {
+  opacity: 1;
+  transform: scale(1);
+}
+.kabar-card-btn svg {
+  width: 26px;
+  height: 26px;
+  fill: white;
+}
+.kabar-card-btn:hover { 
+  transform: scale(1.1) !important; 
+  box-shadow: 0 8px 25px rgba(123, 168, 220, 0.5);
+}
+
+
+/* --- Bottom Controls (Below 2nd Card) --- */
+.kabar-controls {
+  position: absolute;
+  left: 540px; /* Aligned with State 1 */
+  bottom: 40px; /* Adjust based on container height */
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  z-index: 20;
+}
+
+.kabar-pagination {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.kabar-dot {
+  width: 12px;
+  height: 12px;
+  background: rgba(123, 168, 220, 0.3); /* Brand color dengan transparency */
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  padding: 0;
+}
+
+.kabar-dot:hover {
+  background: rgba(123, 168, 220, 0.5);
+}
+
+.kabar-dot.active {
+  width: 32px; 
+  background: #7ba8dc; /* Brand color solid */
+}
+
+.kabar-arrows {
+  display: flex;
+  gap: 16px;
+}
+
+.kabar-arrow-btn {
+  width: 48px;
+  height: 48px;
+  background: #ffffff;
+  border: 2px solid #7ba8dc;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(123, 168, 220, 0.15);
+  color: #7ba8dc;
+}
+.kabar-arrow-btn:hover { 
+  background: #7ba8dc; 
+  border-color: #7ba8dc;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(123, 168, 220, 0.3);
+}
+.kabar-arrow-btn svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  stroke-width: 2.5;
+}
+
+/* --- Responsive Scaling --- */
+@media (max-width: 1400px) {
+    .kabar-sigap-container {
+        transform: scale(0.85);
+        transform-origin: top left;
+        width: 117%; /* Compensate scale */
+        margin-bottom: -100px; /* Remove gaps */
+    }
+}
+
+@media (max-width: 1024px) {
+  .section-kabar-sigap {
+    padding: 60px 20px 80px;
+  }
+
+  .kabar-sigap-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    transform: none;
+    width: 100%;
+    margin-bottom: 0;
+    padding: 0 20px;
+  }
+
+  /* Text Section */
+  .kabar-text-section {
+    width: 100%;
+    text-align: center;
+    padding-top: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .kabar-label {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .kabar-text-section h2 {
+    font-size: 32px;
+  }
+
+  .kabar-text-section .description {
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 15px;
+    margin-bottom: 24px;
+    max-width: 100%;
+  }
+
+  /* Carousel Wrapper - Fixed height container */
+  .kabar-carousel-wrapper {
+    width: calc(100% + 40px); /* Extend beyond padding */
+    margin-left: -20px;
+    margin-right: -20px;
+    height: 440px; /* Fixed height */
+    overflow-x: scroll;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: 10px 20px;
+  }
+
+  .kabar-carousel-wrapper::-webkit-scrollbar {
+    display: none;
+  }
+
+  .kabar-track {
+    display: flex;
+    gap: 16px;
+    padding: 0;
+    height: 100%;
+    width: max-content;
+    align-items: center;
+  }
+
+  /* Cards - Reset absolute positioning for flex layout */
+  .kabar-card {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+    flex-shrink: 0;
+    width: 300px;
+    height: 420px;
+    opacity: 1 !important;
+    scroll-snap-align: center;
+    z-index: 1 !important;
+    pointer-events: auto !important;
+  }
+
+  /* Active Card - Slightly larger */
+  .kabar-card.state-0 {
+    width: 320px;
+    height: 450px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+  }
+
+  /* Mobile cards (rendered with mobile-card class) */
+  .kabar-card.mobile-card {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+    flex-shrink: 0;
+    width: 280px;
+    height: 400px;
+    opacity: 1 !important;
+    scroll-snap-align: center;
+    z-index: 1 !important;
+    pointer-events: auto !important;
+    animation: none !important; /* Disable entrance animation on mobile scroll */
+  }
+
+  /* Show ALL cards - swipe carousel style */
+  .kabar-card.state-1,
+  .kabar-card.state-2,
+  .kabar-card.state-3,
+  .kabar-card.state-hidden {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    z-index: 1 !important;
+    width: 280px;
+    height: 400px;
+    animation: none !important;
+  }
+
+  /* Mini info visible on all cards in mobile */
+  .kabar-card-info-mini {
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+  }
+
+  .kabar-card-title-mini {
+    font-size: 14px;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .kabar-card-category-mini {
+    font-size: 9px;
+    padding: 3px 8px;
+    margin-bottom: 6px;
+  }
+
+  /* Hide info-box on mobile, use mini info instead */
+  .kabar-info-box {
+    display: none;
+  }
+
+  .kabar-info-title {
+    font-size: 14px;
+  }
+  
+  .kabar-info-desc {
+    display: none;
+  }
+
+  /* Round button smaller */
+  .kabar-card-btn {
+    width: 56px;
+    height: 56px;
+    bottom: 12px;
+    right: 12px;
+    border-width: 3px;
+    opacity: 1 !important;
+    transform: scale(1) !important;
+  }
+
+  .kabar-card-btn svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  /* Controls - Center below carousel */
+  .kabar-controls {
+    position: relative;
+    left: auto;
+    top: auto;
+    bottom: auto;
+    margin-top: 24px;
+    justify-content: center;
+    width: 100%;
+    gap: 24px;
+  }
+
+  .kabar-arrows {
+    display: flex;
+    gap: 12px;
+  }
+
+  .kabar-arrow-btn {
+    width: 44px;
+    height: 44px;
+  }
+
+  /* Decorations - smaller on mobile */
+  .kabar-decor-blob.blob-1 {
+    width: 300px;
+    height: 300px;
+    left: -150px;
+    top: -100px;
+  }
+
+  .kabar-decor-blob.blob-2 {
+    width: 250px;
+    height: 250px;
+    right: -80px;
+    bottom: -50px;
+  }
+}
+
+@media (max-width: 480px) {
+  .section-kabar-sigap {
+    padding: 40px 12px 50px;
+  }
+
+  .kabar-sigap-container {
+    padding: 0 8px;
+    gap: 20px;
+  }
+
+  .kabar-text-section h2 {
+    font-size: 26px;
+  }
+
+  .kabar-text-section .description {
+    font-size: 14px;
+  }
+
+  .kabar-carousel-wrapper {
+    min-height: 380px;
+  }
+
+  .kabar-track {
+    gap: 12px;
+  }
+
+  .kabar-card {
+    width: 260px;
+    height: 360px;
+    border-radius: 20px;
+  }
+
+  .kabar-card.state-0 {
+    width: 280px;
+    height: 380px;
+  }
+  
+  .kabar-info-box {
+    bottom: 10px;
+    padding: 12px;
+    width: calc(100% - 20px);
+    left: 10px;
+    border-radius: 16px;
+  }
+
+  .kabar-info-title {
+    font-size: 14px;
+  }
+
+  .kabar-info-desc {
+    font-size: 11px;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+
+  .kabar-card-btn {
+    width: 48px;
+    height: 48px;
+    bottom: 10px;
+    right: 10px;
+    border-width: 2px;
+  }
+
+  .kabar-card-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .kabar-controls {
+    margin-top: 20px;
+    gap: 16px;
+  }
+
+  .kabar-arrow-btn {
+    width: 40px;
+    height: 40px;
+  }
+
+  .kabar-dot {
+    width: 10px;
+    height: 10px;
+  }
+
+  .kabar-dot.active {
+    width: 24px;
+  }
+
+  /* Hide decorations on small screens */
+  .kabar-decor-blob {
+    opacity: 0.2;
+  }
+}
+

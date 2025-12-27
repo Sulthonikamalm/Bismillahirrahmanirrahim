@@ -428,45 +428,54 @@
     </div>
   </section>
 
-  <section class="section-white section-padding">
-    <div class="main-container">
-      <h2 class="section-title text-center" id="kapanLapor">
-        Kapan Harus Lapor?
-      </h2>
-      <div class="info-grid">
-        <div class="card card-info reveal" data-reveal>
-          <img src="https://via.placeholder.com/400x200.png?text=Ilustrasi+A" alt="Kondisi A" />
-          <div class="card-body">
-            <h5 class="card-title">Kekerasan Verbal</h5>
-            <p class="card-text">
-              Penting untuk segera melapor saat terjadi penghinaan, ancaman,
-              atau ujaran yang merendahkan martabat.
-            </p>
-            <a href="#" class="btn btn-primary">Baca Selengkapnya</a>
-          </div>
+  <!-- Kabar Sigap / Wawasan - Article Carousel Section -->
+  <!-- Kabar Sigap Section (Stacked Layout) -->
+  <section class="section-kabar-sigap" id="kabarSigap">
+    <!-- Decorations using brand color #7ba8dc -->
+    <div class="kabar-decor-blob blob-1"></div>
+    <div class="kabar-decor-blob blob-2"></div>
+    <div class="kabar-deco-ring"></div>
+    <div class="kabar-deco-dots"></div>
+    <div class="kabar-deco-circle circle-1"></div>
+    <div class="kabar-deco-circle circle-2"></div>
+    <div class="kabar-sigap-container">
+      <!-- Left Text Section -->
+      <div class="kabar-text-section reveal" data-reveal>
+        <span class="kabar-label">Wawasan & Edukasi</span>
+        <h2>Baca. Pahami.<br><span class="text-gradient">Lindungi.</span></h2>
+        <p class="description">
+          Tingkatkan kewaspadaan dengan artikel pilihan tentang pencegahan kekerasan,
+          panduan praktis, dan kisah inspiratif dari para penyintas.
+        </p>
+        <a href="../Blog/index.html" class="kabar-cta-btn">
+          <span>Baca Artikel Terbaru</span>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </a>
+      </div>
+
+      <!-- Right Carousel Section -->
+      <div class="kabar-carousel-wrapper">
+        <div class="kabar-track" id="kabarCarouselTrack">
+          <!-- Cards rendered by JS -->
         </div>
 
-        <div class="card card-info reveal" data-reveal>
-          <img src="https://via.placeholder.com/400x200.png?text=Ilustrasi+B" alt="Kondisi B" />
-          <div class="card-body">
-            <h5 class="card-title">Kekerasan Fisik</h5>
-            <p class="card-text">
-              Setiap bentuk kekerasan fisik, baik langsung maupun tidak
-              langsung, harus segera dilaporkan.
-            </p>
-            <a href="#" class="btn btn-primary">Baca Selengkapnya</a>
-          </div>
-        </div>
+        <!-- Controls (Positioned via CSS) -->
+        <div class="kabar-controls">
+          <div class="kabar-pagination" id="kabarPagination"></div>
 
-        <div class="card card-info reveal" data-reveal>
-          <img src="https://via.placeholder.com/400x200.png?text=Ilustrasi+C" alt="Kondisi C" />
-          <div class="card-body">
-            <h5 class="card-title">Kekerasan Digital</h5>
-            <p class="card-text">
-              Pelaporan penting dilakukan untuk kasus penyebaran konten intim
-              atau pelecehan online.
-            </p>
-            <a href="#" class="btn btn-primary">Baca Selengkapnya</a>
+          <div class="kabar-arrows">
+            <button class="kabar-arrow-btn" id="kabarPrevBtn" aria-label="Previous">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M15 18L9 12L15 6" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button>
+            <button class="kabar-arrow-btn" id="kabarNextBtn" aria-label="Next">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M9 18L15 12L9 6" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button>
           </div>
         </div>
       </div>

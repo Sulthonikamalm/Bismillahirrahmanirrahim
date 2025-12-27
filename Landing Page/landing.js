@@ -441,3 +441,341 @@
     }
   
   })();
+
+// ============================================
+// KABAR SIGAP / WAWASAN CAROUSEL
+// ============================================
+
+// ============================================
+// KABAR SIGAP / WAWASAN CAROUSEL
+// ============================================
+
+(function initKabarSigapCarousel() {
+  const track = document.getElementById('kabarCarouselTrack');
+  const pagination = document.getElementById('kabarPagination');
+  const prevBtn = document.getElementById('kabarPrevBtn');
+  const nextBtn = document.getElementById('kabarNextBtn');
+  const wrapper = document.querySelector('.kabar-carousel-wrapper');
+  
+  if (!track || !pagination) return;
+  
+  // Articles Data
+  const articlesData = [
+    {
+      title: 'Mengenali Tanda-Tanda Kekerasan di Lingkungan Kampus',
+      category: 'Edukasi',
+      desc: 'Pelajari bentuk-bentuk kekerasan yang mungkin terjadi di sekitar Anda untuk pencegahan dini.',
+      image: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80',
+      link: '../Blog/artikel-1.html'
+    },
+    {
+      title: 'Langkah-Langkah Melaporkan Insiden dengan Aman',
+      category: 'Panduan',
+      desc: 'Panduan lengkap cara melaporkan insiden dengan tetap menjaga kerahasiaan dan keamanan diri.',
+      image: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=800&q=80',
+      link: '../Blog/artikel-2.html'
+    },
+    {
+      title: 'Dampak Psikologis Kekerasan dan Cara Mengatasinya',
+      category: 'Kesehatan Mental',
+      desc: 'Memahami trauma psikologis akibat kekerasan dan strategi pemulihan yang efektif.',
+      image: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=800&q=80',
+      link: '../Blog/artikel-3.html'
+    },
+    {
+      title: 'Peran Mahasiswa dalam Menciptakan Kampus Aman',
+      category: 'Komunitas',
+      desc: 'Bagaimana mahasiswa dapat berkontribusi aktif dalam menciptakan lingkungan kampus yang aman.',
+      image: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=800&q=80',
+      link: '../Blog/artikel-4.html'
+    },
+    {
+      title: 'Kekerasan Digital: Ancaman Nyata di Era Modern',
+      category: 'Teknologi',
+      desc: 'Waspadai bentuk kekerasan berbasis gender online (KBGO) dan cara melindunginya.',
+      image: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=800&q=80',
+      link: '../Blog/artikel-5.html'
+    }
+  ];
+  
+  let activeIndex = 0;
+  let isAnimating = false;
+  
+  // Detect if mobile
+  function isMobile() {
+    return window.innerWidth <= 1024;
+  }
+
+  // Render cards for DESKTOP (stacked carousel)
+  function renderDesktopCarousel() {
+    track.innerHTML = '';
+    pagination.innerHTML = '';
+    
+    for (let i = 0; i < articlesData.length; i++) {
+      let relativeIndex = (i - activeIndex + articlesData.length) % articlesData.length;
+      const article = articlesData[i];
+      const cardEl = document.createElement('div');
+      
+      let stateClass = relativeIndex <= 3 ? `state-${relativeIndex}` : 'state-hidden';
+      
+      cardEl.className = `kabar-card ${stateClass}`;
+      cardEl.style.backgroundImage = `url(${article.image})`;
+      
+      // All cards get gradient and info
+      if (relativeIndex === 0) {
+        cardEl.innerHTML = `
+          <div class="kabar-card-gradient"></div>
+          <div class="kabar-info-box">
+            <div>
+              <span class="kabar-card-category">${article.category}</span>
+              <h3 class="kabar-info-title">${article.title}</h3>
+              <p class="kabar-info-desc">${article.desc}</p>
+            </div>
+          </div>
+          <div class="kabar-card-btn" onclick="window.location.href='${article.link}'">
+            <svg viewBox="0 0 24 24">
+              <path d="M9 18L15 12L9 6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            </svg>
+          </div>
+        `;
+      } else {
+        cardEl.innerHTML = `
+          <div class="kabar-card-gradient"></div>
+          <div class="kabar-card-info-mini">
+            <span class="kabar-card-category-mini">${article.category}</span>
+            <h4 class="kabar-card-title-mini">${article.title}</h4>
+          </div>
+        `;
+        cardEl.style.cursor = 'pointer';
+        cardEl.addEventListener('click', () => {
+          if (!isAnimating) goToSlide(i);
+        });
+      }
+      
+      track.appendChild(cardEl);
+    }
+    
+    // Render Dots
+    articlesData.forEach((_, idx) => {
+      const dot = document.createElement('button');
+      dot.className = `kabar-dot ${idx === activeIndex ? 'active' : ''}`;
+      dot.onclick = () => goToSlide(idx);
+      pagination.appendChild(dot);
+    });
+  }
+
+  // Render cards for MOBILE (horizontal scroll)
+  function renderMobileCarousel() {
+    track.innerHTML = '';
+    pagination.innerHTML = '';
+    
+    articlesData.forEach((article, idx) => {
+      const cardEl = document.createElement('div');
+      cardEl.className = 'kabar-card mobile-card';
+      cardEl.style.backgroundImage = `url(${article.image})`;
+      cardEl.setAttribute('data-index', idx);
+      
+      cardEl.innerHTML = `
+        <div class="kabar-card-gradient"></div>
+        <div class="kabar-card-info-mini">
+          <span class="kabar-card-category-mini">${article.category}</span>
+          <h4 class="kabar-card-title-mini">${article.title}</h4>
+        </div>
+      `;
+      
+      // Click to open article
+      cardEl.style.cursor = 'pointer';
+      cardEl.addEventListener('click', () => {
+        window.location.href = article.link;
+      });
+      
+      track.appendChild(cardEl);
+    });
+    
+    // Render Dots
+    articlesData.forEach((_, idx) => {
+      const dot = document.createElement('button');
+      dot.className = `kabar-dot ${idx === 0 ? 'active' : ''}`;
+      dot.onclick = () => scrollToCard(idx);
+      pagination.appendChild(dot);
+    });
+    
+    // Update dots on scroll
+    if (wrapper) {
+      wrapper.addEventListener('scroll', updateDotsOnScroll, { passive: true });
+    }
+  }
+  
+  // Scroll to specific card (mobile)
+  function scrollToCard(idx) {
+    if (!wrapper) return;
+    const cards = track.querySelectorAll('.kabar-card');
+    if (cards[idx]) {
+      // Get the card's position relative to the track
+      const card = cards[idx];
+      const cardRect = card.getBoundingClientRect();
+      const wrapperRect = wrapper.getBoundingClientRect();
+      const currentScroll = wrapper.scrollLeft;
+      
+      // Calculate target scroll position to center the card
+      const cardCenter = card.offsetLeft + (card.offsetWidth / 2);
+      const wrapperCenter = wrapper.offsetWidth / 2;
+      const targetScroll = cardCenter - wrapperCenter;
+      
+      wrapper.scrollTo({ 
+        left: Math.max(0, targetScroll), 
+        behavior: 'smooth' 
+      });
+    }
+  }
+  
+  // Update dots based on scroll position
+  function updateDotsOnScroll() {
+    if (!wrapper) return;
+    const cards = track.querySelectorAll('.kabar-card');
+    const dots = pagination.querySelectorAll('.kabar-dot');
+    const scrollLeft = wrapper.scrollLeft;
+    const cardWidth = cards[0]?.offsetWidth || 280;
+    const gap = 16;
+    
+    let currentIdx = Math.round(scrollLeft / (cardWidth + gap));
+    currentIdx = Math.max(0, Math.min(currentIdx, articlesData.length - 1));
+    
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('active', i === currentIdx);
+    });
+  }
+
+  function renderCarousel() {
+    if (isMobile()) {
+      renderMobileCarousel();
+    } else {
+      renderDesktopCarousel();
+    }
+  }
+  
+  function goToSlide(index) {
+    if (isAnimating || index === activeIndex) return;
+    isAnimating = true;
+    activeIndex = index;
+    renderCarousel();
+    setTimeout(() => { isAnimating = false; }, 600);
+  }
+
+  function nextSlide() {
+    if (isMobile()) {
+      const currentDot = pagination.querySelector('.kabar-dot.active');
+      const dots = Array.from(pagination.querySelectorAll('.kabar-dot'));
+      const currentIdx = dots.indexOf(currentDot);
+      const nextIdx = (currentIdx + 1) % articlesData.length;
+      scrollToCard(nextIdx);
+    } else {
+      if (isAnimating) return;
+      isAnimating = true;
+      activeIndex = (activeIndex + 1) % articlesData.length;
+      renderCarousel();
+      setTimeout(() => { isAnimating = false; }, 600);
+    }
+  }
+
+  function prevSlide() {
+    if (isMobile()) {
+      const currentDot = pagination.querySelector('.kabar-dot.active');
+      const dots = Array.from(pagination.querySelectorAll('.kabar-dot'));
+      const currentIdx = dots.indexOf(currentDot);
+      const prevIdx = (currentIdx - 1 + articlesData.length) % articlesData.length;
+      scrollToCard(prevIdx);
+    } else {
+      if (isAnimating) return;
+      isAnimating = true;
+      activeIndex = (activeIndex - 1 + articlesData.length) % articlesData.length;
+      renderCarousel();
+      setTimeout(() => { isAnimating = false; }, 600);
+    }
+  }
+
+  // Event Listeners
+  if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+  if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    const section = document.getElementById('kabarSigap');
+    if (!section) return;
+    const rect = section.getBoundingClientRect();
+    const isInView = rect.top < window.innerHeight && rect.bottom > 0;
+    
+    if (isInView) {
+      if (e.key === 'ArrowRight') nextSlide();
+      if (e.key === 'ArrowLeft') prevSlide();
+    }
+  });
+
+  // Re-render on resize
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      renderCarousel();
+    }, 250);
+  });
+
+  // Initial render
+  renderCarousel();
+
+  // --- DRAG / SWIPE SUPPORT ---
+  let startX = 0;
+  let isDragging = false;
+  let startTime = 0;
+
+  function handleDragStart(e) {
+    if (isAnimating) return;
+    startX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+    isDragging = true;
+    startTime = new Date().getTime();
+    track.style.cursor = 'grabbing';
+  }
+
+  function handleDragMove(e) {
+    if (!isDragging) return;
+    e.preventDefault(); // Prevent scrolling while swiping
+  }
+
+  function handleDragEnd(e) {
+    if (!isDragging) return;
+    const endX = e.type.includes('mouse') ? e.pageX : e.changedTouches[0].clientX;
+    const diffX = startX - endX;
+    const timeElapsed = new Date().getTime() - startTime;
+    
+    // Threshold for swipe: 50px distance or fast swipe
+    if (Math.abs(diffX) > 50 || (Math.abs(diffX) > 20 && timeElapsed < 300)) {
+      if (diffX > 0) {
+        nextSlide();
+      } else {
+        prevSlide();
+      }
+    }
+    
+    isDragging = false;
+    track.style.cursor = 'grab';
+  }
+
+  // Mouse Events
+  track.addEventListener('mousedown', handleDragStart);
+  track.addEventListener('mousemove', handleDragMove);
+  track.addEventListener('mouseup', handleDragEnd);
+  track.addEventListener('mouseleave', () => {
+    if (isDragging) {
+      isDragging = false;
+      track.style.cursor = 'grab';
+    }
+  });
+
+  // Touch Events
+  track.addEventListener('touchstart', handleDragStart, { passive: true });
+  track.addEventListener('touchmove', handleDragMove, { passive: false });
+  track.addEventListener('touchend', handleDragEnd);
+
+  console.log('✅ Kabar Sigap Carousel Initialized with Swipe Support');
+})();
+
