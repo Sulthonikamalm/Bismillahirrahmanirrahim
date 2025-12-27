@@ -12,13 +12,14 @@
     // ============================================
     
     function initScrollAnimations() {
-      // Elements to animate: highlight texts + stat cards + proses section elements
+      // Elements to animate: highlight texts + stat cards + proses section elements + roadmap
       const highlightElements = document.querySelectorAll('.highlight-animate');
       const statCards = document.querySelectorAll('.transparansi-stat-box');
       const prosesElements = document.querySelectorAll('.proses-oleh-animate, .proses-description-animate');
+      const roadmapElements = document.querySelectorAll('.roadmap-animate');
       
       // Combine all elements
-      const allElements = [...highlightElements, ...statCards, ...prosesElements];
+      const allElements = [...highlightElements, ...statCards, ...prosesElements, ...roadmapElements];
       
       if (allElements.length === 0) return;
       
@@ -32,19 +33,189 @@
           }
         });
       }, {
-        threshold: 0.3, // Trigger when 30% visible
-        rootMargin: '0px 0px -30px 0px'
+        threshold: 0.2, // Lower threshold for earlier trigger
+        rootMargin: '0px 0px -50px 0px'
       });
       
       allElements.forEach(el => observer.observe(el));
       console.log('✅ Scroll animations initialized:', allElements.length, 'elements');
     }
     
+    // ============================================
+    // CONTINUOUS LINE DRAWING ON SCROLL
+    // Line follows scroll position precisely
+    // ============================================
+    
+    function initContinuousLineDrawing() {
+      const drawingLine = document.querySelector('.timeline-drawing-line');
+      const timeline = document.querySelector('.process-timeline');
+      
+      if (!drawingLine || !timeline) return;
+      
+      function updateLineHeight() {
+        const timelineRect = timeline.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        const viewportCenter = windowHeight * 0.6; // Line follows this point
+        
+        // Calculate where the "pen" is based on scroll
+        const timelineTop = timelineRect.top;
+        const timelineHeight = timelineRect.height;
+        
+        // How far has the viewport center traveled into the timeline
+        const distanceIntoTimeline = viewportCenter - timelineTop;
+        
+        // No line if we haven't entered yet
+        if (distanceIntoTimeline <= 0) {
+          drawingLine.style.height = '0px';
+          return;
+        }
+        
+        // Calculate line height - directly proportional to scroll
+        // Line should reach max when viewport center is near bottom of timeline
+        const maxLineHeight = timelineHeight - 100;
+        let lineHeight = distanceIntoTimeline;
+        
+        // Clamp to max height
+        lineHeight = Math.min(lineHeight, maxLineHeight);
+        lineHeight = Math.max(0, lineHeight);
+        
+        drawingLine.style.height = `${lineHeight}px`;
+      }
+      
+      // Update on scroll with requestAnimationFrame for smooth performance
+      let ticking = false;
+      function onScroll() {
+        if (!ticking) {
+          requestAnimationFrame(() => {
+            updateLineHeight();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }
+      
+      // Listen to scroll
+      window.addEventListener('scroll', onScroll, { passive: true });
+      
+      // Initial update
+      updateLineHeight();
+      
+      console.log('✅ Continuous line drawing initialized');
+    }
+    
+    // ============================================
+    // VIDEO PLAYER CONTROL - YouTube IFrame API
+    // ============================================
+    
+    function initVideoPlayer() {
+      const playBtn = document.getElementById('videoPlayBtn');
+      const playIcon = document.getElementById('playIconTriangle');
+      const pauseIcon = document.getElementById('pauseIconBars');
+      const iframe = document.getElementById('ppkptVideo');
+      const videoContainer = document.querySelector('.video-inner-container');
+      const coverOverlay = document.getElementById('videoCoverOverlay');
+      
+      if (!playBtn || !iframe) return;
+      
+      let player = null;
+      let isPlaying = false;
+      let hasPlayedOnce = false; // Track if video has been played
+      
+      // Load YouTube IFrame API
+      if (!window.YT) {
+        const tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        const firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+      }
+      
+      // Initialize player when API is ready
+      window.onYouTubeIframeAPIReady = function() {
+        player = new YT.Player('ppkptVideo', {
+          events: {
+            'onStateChange': onPlayerStateChange
+          }
+        });
+      };
+      
+      // If API already loaded
+      if (window.YT && window.YT.Player) {
+        player = new YT.Player('ppkptVideo', {
+          events: {
+            'onStateChange': onPlayerStateChange
+          }
+        });
+      }
+      
+      function onPlayerStateChange(event) {
+        if (event.data === YT.PlayerState.PLAYING) {
+          isPlaying = true;
+          hasPlayedOnce = true; // Mark that video has been played
+          updateUI();
+        } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
+          isPlaying = false;
+          updateUI();
+        }
+      }
+      
+      function updateUI() {
+        if (isPlaying) {
+          // Video playing - hide cover, show pause icon
+          playIcon.classList.add('hidden');
+          pauseIcon.classList.add('active');
+          if (videoContainer) videoContainer.classList.add('playing');
+          if (coverOverlay) coverOverlay.classList.add('hidden');
+        } else {
+          // Video paused - show play icon, but DON'T show cover again
+          playIcon.classList.remove('hidden');
+          pauseIcon.classList.remove('active');
+          if (videoContainer) videoContainer.classList.remove('playing');
+          // Cover stays hidden after first play
+        }
+      }
+      
+      function playVideo() {
+        if (player && player.playVideo) {
+          player.playVideo();
+        }
+      }
+      
+      function pauseVideo() {
+        if (player && player.pauseVideo) {
+          player.pauseVideo();
+        }
+      }
+      
+      // Play button click
+      playBtn.addEventListener('click', function() {
+        if (isPlaying) {
+          pauseVideo();
+        } else {
+          playVideo();
+        }
+      });
+      
+      // Cover overlay click - start video
+      if (coverOverlay) {
+        coverOverlay.addEventListener('click', function() {
+          playVideo();
+        });
+      }
+      
+      console.log('✅ Video player initialized');
+    }
+    
     // Initialize on DOM ready
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initScrollAnimations);
+      document.addEventListener('DOMContentLoaded', () => {
+        initScrollAnimations();
+        initContinuousLineDrawing();
+        initVideoPlayer();
+      });
     } else {
       initScrollAnimations();
+      initContinuousLineDrawing();
+      initVideoPlayer();
     }
 
 
