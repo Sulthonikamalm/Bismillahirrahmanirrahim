@@ -349,6 +349,7 @@ li,
   letter-spacing: 0.02em;
 }
 
+/* Original nav-item hover effect */
 .nav-links .nav-item:hover {
   background-color: rgba(255, 255, 255, 0.15);
   border-color: rgba(255, 255, 255, 0.3);
@@ -356,6 +357,73 @@ li,
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
+
+/* ===== LOGO FLIP EFFECT ===== */
+.logo.logo-flip {
+  perspective: 1000px;
+  display: inline-block;
+  position: relative;
+  padding: 5px 10px;
+}
+
+.logo-flip-front,
+.logo-flip-back {
+  display: block;
+  backface-visibility: hidden;
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.logo-flip-front {
+  position: relative;
+}
+
+.logo-flip-back {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%) rotateY(180deg);
+  width: auto;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* White background for visibility */
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 10px;
+  padding: 10px 16px;
+  /* Subtle white border */
+  border: 2px solid rgba(255, 255, 255, 0.8);
+}
+
+.logo-flip-back img {
+  /* Bigger HD image */
+  max-height: 100px;
+  width: auto;
+  min-width: 120px;
+  object-fit: contain;
+  /* HD rendering */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+
+/* Hover: Flip the logo */
+.logo.logo-flip:hover .logo-flip-front {
+  transform: rotateY(-180deg);
+}
+
+.logo.logo-flip:hover .logo-flip-back {
+  transform: translateX(-50%) translateY(-50%) rotateY(0deg);
+}
+
+/* Override the old logo hover for flip version */
+.logo.logo-flip:hover {
+  color: inherit;
+  transform: none;
+  text-shadow: none;
+
+}
+
 
 .nav-item.active {
   background: #fff !important;

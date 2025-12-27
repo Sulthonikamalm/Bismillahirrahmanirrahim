@@ -42,7 +42,11 @@
          ============================================ -->
     <nav class="navbar header-bg fixed-top" role="navigation" aria-label="Navigasi Utama">
         <div class="main-container nav-content">
-            <a class="logo" href="../Landing Page/Landing_Page.html">Sigap</a>
+            <a class="logo logo-flip" href="../Landing Page/Landing_Page.html">
+                <span class="logo-flip-front">SIGAP</span>
+                <span class="logo-flip-back"><img src="../Landing Page/assets/flip.png" alt="SIGAP"></span>
+            </a>
+
 
             <div class="nav-links" id="primary-navigation">
                 <a class="nav-item" href="../About Page/about.html">TENTANG</a>
@@ -66,9 +70,35 @@
          ============================================ -->
     <section class="monitoring-hero header-bg section-padding" id="main-content">
         <div class="main-container monitoring-hero-grid">
-            <!-- Left: Text Content -->
-            <div class="monitoring-hero-text reveal" data-reveal>
+            <!-- Title (Order 1 on mobile) -->
+            <div class="monitoring-hero-title reveal" data-reveal>
                 <h1 class="main-title">Monitoring Progress</h1>
+            </div>
+
+            <!-- Video Card (Order 2 on mobile) -->
+            <div class="monitoring-hero-video reveal" data-reveal>
+                <div class="video-card">
+                    <video autoplay loop muted playsinline class="hero-video" aria-label="Video panduan monitoring">
+                        <source src="assets/monitoringsearch.mp4" type="video/mp4">
+                        Browser Anda tidak mendukung video HTML5.
+                    </video>
+                </div>
+
+                <!-- Info Card Below Video (hidden on mobile) -->
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <div class="info-text">
+                        <strong>Keamanan Terjamin</strong>
+                        <p>Setiap data laporan dienkripsi dan dijaga kerahasiaannya sesuai standar keamanan Satgas
+                            PPKPT.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Description (Order 3 on mobile) -->
+            <div class="monitoring-hero-desc reveal" data-reveal>
                 <p class="description">
                     Pantau setiap tahapan penanganan laporan Anda secara transparan dan real-time.
                     Dengan memasukkan kode unik yang telah diberikan, Anda dapat melihat perkembangan
@@ -81,30 +111,9 @@
                     <span>REAL-TIME TRACKING</span>
                 </div>
             </div>
-
-            <!-- Right: Video Card -->
-            <div class="monitoring-hero-video reveal" data-reveal>
-                <div class="video-card">
-                    <video autoplay loop muted playsinline class="hero-video" aria-label="Video panduan monitoring">
-                        <source src="assets/monitoringsearch.mp4" type="video/mp4">
-                        Browser Anda tidak mendukung video HTML5.
-                    </video>
-                </div>
-
-                <!-- Info Card Below Video -->
-                <div class="info-card">
-                    <div class="info-icon">
-                        <i class="fas fa-lock"></i>
-                    </div>
-                    <div class="info-text">
-                        <strong>Keamanan Terjamin</strong>
-                        <p>Setiap data laporan dienkripsi dan dijaga kerahasiaannya sesuai standar keamanan Satgas
-                            PPKPT.</p>
-                    </div>
-                </div>
-            </div>
         </div>
     </section>
+
 
     <!-- ============================================
          MAIN CONTENT: Search & Timeline

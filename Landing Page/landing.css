@@ -18,6 +18,452 @@ html, body {
   max-width: none;
 }
 
+/* Section White Background */
+.section-white {
+  background: #ffffff;
+}
+
+/* ============================================
+   PROSES PENANGANAN SECTION
+   Grid + Clouds + Animated Text
+   ============================================ */
+
+.section-proses-penanganan {
+  position: relative;
+  background: #ffffff;
+  min-height: 400px;
+  /* Reduced top padding to move content UP closer to cards */
+  padding: 30px 0 80px;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-start; /* Align to top instead of center */
+  justify-content: center;
+  padding-top: 60px; /* Fine-tune vertical position */
+}
+
+/* Grid Pattern - Full Width, VERY aggressive fade toward top */
+.proses-grid-pattern {
+  position: absolute;
+  /* Extend upward toward stat cards area */
+  top: -250px;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: calc(100% + 250px);
+  background-image:
+    linear-gradient(to right, rgba(180, 190, 200, 0.7) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(180, 190, 200, 0.7) 1px, transparent 1px);
+  background-size: 50px 50px;
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 0;
+  /* AGGRESSIVE fade: completely invisible at top 35%, then gradually visible */
+  mask-image: 
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      transparent 25%,
+      transparent 30%,
+      rgba(0,0,0,0.01) 32%,
+      rgba(0,0,0,0.03) 35%,
+      rgba(0,0,0,0.08) 40%,
+      rgba(0,0,0,0.2) 45%,
+      rgba(0,0,0,0.4) 50%,
+      rgba(0,0,0,0.7) 55%,
+      rgba(0,0,0,0.9) 60%,
+      rgba(0,0,0,1) 65%,
+      rgba(0,0,0,0.9) 75%,
+      rgba(0,0,0,0.5) 85%,
+      rgba(0,0,0,0.2) 92%,
+      transparent 100%
+    );
+  -webkit-mask-image: 
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      transparent 25%,
+      transparent 30%,
+      rgba(0,0,0,0.01) 32%,
+      rgba(0,0,0,0.03) 35%,
+      rgba(0,0,0,0.08) 40%,
+      rgba(0,0,0,0.2) 45%,
+      rgba(0,0,0,0.4) 50%,
+      rgba(0,0,0,0.7) 55%,
+      rgba(0,0,0,0.9) 60%,
+      rgba(0,0,0,1) 65%,
+      rgba(0,0,0,0.9) 75%,
+      rgba(0,0,0,0.5) 85%,
+      rgba(0,0,0,0.2) 92%,
+      transparent 100%
+    );
+}
+
+/* Cloud/Smoke Effects - Static, subtle, muted blue tones */
+.proses-clouds {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.cloud {
+  position: absolute;
+  background: radial-gradient(ellipse at center, 
+    rgba(180, 200, 230, 0.2) 0%, 
+    rgba(200, 215, 240, 0.12) 40%,
+    transparent 70%);
+  border-radius: 50%;
+  filter: blur(50px);
+  /* NO ANIMATION - static clouds */
+}
+
+.cloud-1 {
+  width: 600px;
+  height: 300px;
+  top: 0%;
+  left: -15%;
+  opacity: 0.8;
+}
+
+.cloud-2 {
+  width: 500px;
+  height: 250px;
+  top: 40%;
+  right: -15%;
+  opacity: 0.7;
+}
+
+.cloud-3 {
+  width: 450px;
+  height: 220px;
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0.6;
+}
+
+/* Main Content Container - Compact */
+.proses-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0; /* No gap - compact layout */
+}
+
+/* Title Wrapper - contains both title and Oleh PPKPT - VERY COMPACT */
+.proses-title-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0; /* NO GAP - very compact */
+}
+
+/* Main Title - Slight tilt for style */
+.proses-main-title {
+  font-family: var(--font-heading);
+  /* Same size as Transparansi Data Penanganan */
+  font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  /* Slight tilt - stylish but subtle */
+  transform: rotate(-1.5deg);
+}
+
+/* Proses Highlight - Softer muted blue with White Text */
+.proses-highlight {
+  position: relative;
+  color: #ffffff;
+  background: transparent !important;
+  padding: 8px 24px;
+  display: inline-block;
+  border-radius: 8px;
+  font-size: inherit;
+  line-height: inherit;
+  z-index: 1;
+}
+
+.proses-highlight::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  /* Softer, more muted blue - not too vibrant */
+  background: linear-gradient(135deg, #6b9bd1 0%, #8fb3dc 100%);
+  border-radius: 8px;
+  z-index: -1;
+  box-shadow: 0 4px 15px rgba(107, 155, 209, 0.25);
+}
+
+.proses-highlight.in-view::before {
+  animation: stabilo-sweep 1s ease-out forwards;
+}
+
+/* Oleh PPKPT - Same size as Transparansi title - NO margin */
+.proses-oleh-text {
+  font-family: var(--font-heading);
+  /* SAME SIZE as Transparansi title */
+  font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+  font-weight: 700;
+  color: #1a1a2e;
+  letter-spacing: -0.02em;
+  margin-top: 0; /* NO spacing - very compact */
+}
+
+/* Animation for Oleh PPKPT - fade in from bottom (scroll-triggered) */
+.proses-oleh-animate {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.proses-oleh-animate.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Description paragraph - centered, black, small font, COMPACT margin */
+.proses-description {
+  font-family: var(--font-body);
+  /* Same size as Transparansi commitment text */
+  font-size: clamp(0.9rem, 1.5vw, 1.05rem);
+  font-weight: 400;
+  color: #1a1a2e;
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto; /* NO GAP - completely attached to Oleh PPKPT */
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+}
+
+/* Animation for description - scroll-triggered */
+.proses-description-animate {
+  opacity: 0;
+  transform: translateY(15px);
+  transition: opacity 0.6s ease-out 0.2s, transform 0.6s ease-out 0.2s;
+}
+
+.proses-description-animate.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================================
+   CREATIVE DECORATIONS - Geometric Shapes
+   (Not bubbles, but abstract geometric forms)
+   ============================================ */
+
+.proses-decorations {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+/* Soft gradient circles - like subtle aurora */
+.deco-shape {
+  position: absolute;
+  border-radius: 50%;
+  /* NO ANIMATION - static */
+}
+
+/* Large soft shape - top left - MORE VISIBLE */
+.deco-shape-1 {
+  width: 350px;
+  height: 350px;
+  top: 5%;
+  left: -8%;
+  background: radial-gradient(circle at 30% 30%, 
+    rgba(107, 155, 209, 0.25) 0%,
+    rgba(143, 179, 220, 0.12) 50%,
+    transparent 70%);
+}
+
+/* Soft shape - top right - MORE VISIBLE */
+.deco-shape-2 {
+  width: 280px;
+  height: 280px;
+  top: 8%;
+  right: 3%;
+  background: radial-gradient(circle at 70% 30%, 
+    rgba(180, 200, 230, 0.22) 0%,
+    rgba(200, 215, 240, 0.1) 50%,
+    transparent 70%);
+}
+
+/* Geometric line accent - MORE VISIBLE */
+.deco-line {
+  position: absolute;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(107, 155, 209, 0.35), 
+    transparent);
+  /* NO ANIMATION */
+}
+
+.deco-line-1 {
+  width: 150px;
+  top: 25%;
+  left: 10%;
+  transform: rotate(-12deg);
+}
+
+.deco-line-2 {
+  width: 120px;
+  bottom: 30%;
+  right: 12%;
+  transform: rotate(10deg);
+}
+
+/* Subtle diamond shapes - MORE VISIBLE */
+.deco-diamond {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  background: rgba(107, 155, 209, 0.18);
+  transform: rotate(45deg);
+  border-radius: 2px;
+  /* NO ANIMATION */
+}
+
+.deco-diamond-1 {
+  top: 18%;
+  right: 22%;
+}
+
+.deco-diamond-2 {
+  bottom: 25%;
+  left: 18%;
+  width: 18px;
+  height: 18px;
+}
+
+.deco-diamond-3 {
+  top: 55%;
+  right: 10%;
+  width: 14px;
+  height: 14px;
+}
+
+/* Additional diamond for symmetry */
+.deco-diamond-4 {
+  top: 40%;
+  left: 8%;
+  width: 16px;
+  height: 16px;
+}
+
+/* Soft ring shapes - MORE VISIBLE & REARRANGED */
+.deco-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid rgba(107, 155, 209, 0.18);
+  background: transparent;
+  /* NO ANIMATION */
+}
+
+.deco-ring-1 {
+  width: 100px;
+  height: 100px;
+  top: 12%;
+  left: 20%;
+}
+
+.deco-ring-2 {
+  width: 60px;
+  height: 60px;
+  bottom: 22%;
+  right: 22%;
+}
+
+
+
+/* Responsive */
+@media (max-width: 768px) {
+  .section-proses-penanganan {
+    min-height: 400px;
+    padding: 60px 0 80px;
+  }
+
+  .proses-grid-pattern {
+    width: 100%;
+    background-size: 40px 40px;
+  }
+
+  .proses-main-title {
+    font-size: clamp(2rem, 8vw, 3rem);
+    transform: rotate(-2deg) skewX(-1deg);
+  }
+
+  .proses-highlight {
+    padding: 6px 16px;
+  }
+
+  .proses-subtitle {
+    font-size: 1rem;
+  }
+
+  .proses-line-animation {
+    width: 150px;
+  }
+
+  .cloud {
+    filter: blur(20px);
+  }
+
+  .cloud-1, .cloud-2 {
+    width: 200px;
+    height: 100px;
+  }
+
+  .cloud-3, .cloud-4 {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .section-proses-penanganan {
+    min-height: 350px;
+    padding: 50px 0 60px;
+  }
+
+  .proses-main-title {
+    font-size: 1.8rem;
+  }
+
+  .proses-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .proses-oleh-text {
+    font-size: 1rem;
+  }
+
+  .proses-line-animation {
+    width: 120px;
+  }
+
+  .proses-cursor {
+    width: 20px;
+    height: 20px;
+  }
+}
+
 /* ============================================
    STABILO/HIGHLIGHTER ANIMATION
    Efek highlight dari kiri ke kanan saat scroll

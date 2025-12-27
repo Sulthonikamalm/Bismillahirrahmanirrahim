@@ -12,12 +12,13 @@
     // ============================================
     
     function initScrollAnimations() {
-      // Elements to animate: highlight texts + stat cards
+      // Elements to animate: highlight texts + stat cards + proses section elements
       const highlightElements = document.querySelectorAll('.highlight-animate');
       const statCards = document.querySelectorAll('.transparansi-stat-box');
+      const prosesElements = document.querySelectorAll('.proses-oleh-animate, .proses-description-animate');
       
       // Combine all elements
-      const allElements = [...highlightElements, ...statCards];
+      const allElements = [...highlightElements, ...statCards, ...prosesElements];
       
       if (allElements.length === 0) return;
       
