@@ -3028,6 +3028,7 @@ html, body {
   top: 0; 
   z-index: 5;
   box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+  visibility: visible;
 }
 .kabar-card.state-0 .kabar-card-overlay { opacity: 0; }
 
@@ -3038,6 +3039,7 @@ html, body {
   left: 540px; 
   top: 0; /* Sejajar atas dengan card utama */
   z-index: 4;
+  visibility: visible;
 }
 
 /* STATE 2: Next Next Card (Smaller, Top Aligned) */
@@ -3047,25 +3049,43 @@ html, body {
   left: 900px; /* Jarak disesuaikan */
   top: 0;
   z-index: 3;
+  visibility: visible;
 }
 
-/* STATE 3: Out of view right */
+/* STATE 3: Out of view right (almost hidden) */
 .kabar-card.state-3 {
   width: 320px;
   height: 430px;
   left: 1260px;
   top: 0;
-  z-index: 2;
-  opacity: 0.5;
+  z-index: 1;
+  opacity: 0.3;
+  pointer-events: none;
+  visibility: visible;
 }
 
-/* Hidden States */
+/* Hidden States - Cards that shouldn't be visible */
 .kabar-card.state-hidden {
   width: 320px;
   height: 430px;
-  left: 1620px;
+  left: -400px; /* Behind the main card area */
   opacity: 0;
   top: 0;
+  z-index: 0;
+  pointer-events: none;
+  visibility: hidden;
+  /* Transition ONLY for position, NOT opacity - opacity changes instantly */
+  transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+              width 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+              height 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+              top 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Card that's exiting (going from state-0 to state-hidden) - instant hide */
+.kabar-card.exiting {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  transition: none !important; /* Instant disappear - no animation */
 }
 
 /* Adjust Info Box - Compact at bottom */
@@ -3106,6 +3126,25 @@ html, body {
 .kabar-card.state-0 .kabar-info-box {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Hide info-box on non-active cards */
+.kabar-card:not(.state-0) .kabar-info-box {
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+}
+
+/* Show mini-info on non-active cards */
+.kabar-card-info-mini {
+  opacity: 1;
+  transition: opacity 0.4s ease;
+}
+
+/* Hide mini-info on active card (state-0 uses info-box instead) */
+.kabar-card.state-0 .kabar-card-info-mini {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .kabar-info-title {
@@ -3414,7 +3453,7 @@ html, body {
     height: 22px;
   }
 
-  /* Controls - Center below carousel */
+  /* Controls - Center below carousel (now outside wrapper) */
   .kabar-controls {
     position: relative;
     left: auto;
@@ -3424,6 +3463,8 @@ html, body {
     justify-content: center;
     width: 100%;
     gap: 24px;
+    display: flex;
+    flex-wrap: wrap;
   }
 
   .kabar-arrows {
