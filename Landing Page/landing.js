@@ -882,7 +882,8 @@
   }
   
   /**
-   * Update card states (CSS classes only - enables smooth transitions)
+   * Update card states - Only 3 cards visible at a time
+   * Cards entering/exiting are instant (no animation)
    */
   function updateDesktopCardStates() {
     const cards = track.querySelectorAll('.kabar-card');
@@ -891,30 +892,40 @@
       const cardIndex = parseInt(card.getAttribute('data-index'));
       const relativeIndex = (cardIndex - activeIndex + articlesData.length) % articlesData.length;
       
-      // Get current state before changing
-      const wasState0 = card.classList.contains('state-0');
-      const wasState1 = card.classList.contains('state-1');
-      const wasState2 = card.classList.contains('state-2');
-      const wasVisible = wasState0 || wasState1 || wasState2 || card.classList.contains('state-3');
-      const willBeHidden = relativeIndex > 3;
+      // Check if card is currently visible (has transition)
+      const isCurrentlyVisible = card.classList.contains('state-0') || 
+                                  card.classList.contains('state-1') || 
+                                  card.classList.contains('state-2');
       
-      // If card was visible and will become hidden, mark as exiting (instant hide)
-      if (wasVisible && willBeHidden) {
-        card.classList.add('exiting');
-        // Remove exiting class AFTER the full transition completes (600ms + buffer)
-        setTimeout(() => {
-          card.classList.remove('exiting');
-        }, 700);
+      // Check if card will be visible
+      const willBeVisible = relativeIndex <= 2;
+      
+      // If card is entering or exiting visibility, disable transition temporarily
+      if (isCurrentlyVisible !== willBeVisible) {
+        card.style.transition = 'none';
+        // Force reflow
+        card.offsetHeight;
       }
       
       // Remove all state classes
-      card.classList.remove('state-0', 'state-1', 'state-2', 'state-3', 'state-hidden');
+      card.classList.remove('state-0', 'state-1', 'state-2', 'state-3', 'state-4', 'state-hidden');
       
       // Add appropriate state class
-      if (relativeIndex <= 3) {
-        card.classList.add(`state-${relativeIndex}`);
+      if (relativeIndex === 0) {
+        card.classList.add('state-0');
+      } else if (relativeIndex === 1) {
+        card.classList.add('state-1');
+      } else if (relativeIndex === 2) {
+        card.classList.add('state-2');
       } else {
         card.classList.add('state-hidden');
+      }
+      
+      // Re-enable transition after a frame (only for visible cards)
+      if (willBeVisible) {
+        requestAnimationFrame(() => {
+          card.style.transition = '';
+        });
       }
       
       // Update cursor for non-active cards
@@ -1091,13 +1102,12 @@
       setTimeout(() => { isAnimating = false; }, 400);
     } else {
       updateDesktopCardStates();
-      setTimeout(() => { isAnimating = false; }, 600);
+      setTimeout(() => { isAnimating = false; }, 650);
     }
   }
 
   function nextSlide() {
     if (isMobile()) {
-      // Use mobileCurrentIndex directly (more reliable than finding active dot)
       const nextIdx = (mobileCurrentIndex + 1) % articlesData.length;
       scrollToCard(nextIdx);
     } else {
@@ -1105,13 +1115,12 @@
       isAnimating = true;
       activeIndex = (activeIndex + 1) % articlesData.length;
       updateDesktopCardStates();
-      setTimeout(() => { isAnimating = false; }, 600);
+      setTimeout(() => { isAnimating = false; }, 650);
     }
   }
 
   function prevSlide() {
     if (isMobile()) {
-      // Use mobileCurrentIndex directly
       const prevIdx = (mobileCurrentIndex - 1 + articlesData.length) % articlesData.length;
       scrollToCard(prevIdx);
     } else {
@@ -1119,7 +1128,7 @@
       isAnimating = true;
       activeIndex = (activeIndex - 1 + articlesData.length) % articlesData.length;
       updateDesktopCardStates();
-      setTimeout(() => { isAnimating = false; }, 600);
+      setTimeout(() => { isAnimating = false; }, 650);
     }
   }
 

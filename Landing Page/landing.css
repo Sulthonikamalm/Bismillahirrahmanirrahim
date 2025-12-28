@@ -958,34 +958,6 @@ html, body {
   filter: drop-shadow(0 2px 3px rgba(0,0,0,0.15));
 }
 
-/* Video Info Section */
-.video-info-section {
-  background: white;
-  border-radius: 0 0 24px 24px;
-  padding: 50px 40px 30px;
-  margin-top: -8px;
-  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.08);
-  text-align: center;
-}
-
-.video-info-title {
-  font-family: var(--font-heading);
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: #1a202c;
-  margin-bottom: 12px;
-  letter-spacing: -0.02em;
-}
-
-.video-info-desc {
-  font-family: var(--font-body);
-  font-size: 1rem;
-  color: #636e72;
-  line-height: 1.7;
-  max-width: 600px;
-  margin: 0 auto;
-}
-
 /* Video Card Responsive */
 @media (max-width: 768px) {
   .video-card-section {
@@ -1012,19 +984,6 @@ html, body {
   .pause-icon-bars span {
     width: 7px;
     height: 22px;
-  }
-  
-  .video-info-section {
-    padding: 40px 25px 25px;
-    border-radius: 0 0 18px 18px;
-  }
-  
-  .video-info-title {
-    font-size: 1.3rem;
-  }
-  
-  .video-info-desc {
-    font-size: 0.9rem;
   }
 }
 
@@ -1268,14 +1227,6 @@ html, body {
     padding: 6px 16px;
   }
 
-  .proses-subtitle {
-    font-size: 1rem;
-  }
-
-  .proses-line-animation {
-    width: 150px;
-  }
-
   .cloud {
     filter: blur(20px);
   }
@@ -1285,7 +1236,7 @@ html, body {
     height: 100px;
   }
 
-  .cloud-3, .cloud-4 {
+  .cloud-3 {
     display: none;
   }
 }
@@ -1300,21 +1251,8 @@ html, body {
     font-size: 1.8rem;
   }
 
-  .proses-subtitle {
-    font-size: 0.9rem;
-  }
-
   .proses-oleh-text {
     font-size: 1rem;
-  }
-
-  .proses-line-animation {
-    width: 120px;
-  }
-
-  .proses-cursor {
-    width: 20px;
-    height: 20px;
   }
 }
 
@@ -1627,26 +1565,7 @@ html, body {
   background: #b91c1c;
 }
 
-.btn-outline-hero {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: #ffffff;
-  color: #1a1a2e;
-  padding: 14px 28px;
-  border-radius: 50px;
-  font-size: 1rem;
-  font-weight: 600;
-  border: 2px solid #1a1a2e;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
 
-.btn-outline-hero:hover {
-  background: #1a1a2e;
-  color: #ffffff;
-  transform: translateY(-3px);
-}
 
 /* Right: Phone Image - Large & Overflows Section */
 .hero-image-new {
@@ -2723,14 +2642,7 @@ html, body {
 .kabar-card.state-2 { animation-delay: 0.2s; }
 .kabar-card.state-3 { animation-delay: 0.3s; }
 
-/* Decorative Ornaments - Using Website Colors */
-.kabar-decorations {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  overflow: hidden;
-}
+
 
 /* Decorative Blob - Primary Blue (#7ba8dc) */
 .kabar-decor-blob {
@@ -2858,32 +2770,6 @@ html, body {
   display: inline-block; 
 }
 
-/* Decoration Blobs */
-.kabar-decor-blob {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  z-index: 1;
-  opacity: 0.6;
-  pointer-events: none; /* Prevent interference with clicks */
-}
-
-.blob-1 {
-  width: 500px;
-  height: 500px;
-  background: rgba(59, 130, 246, 0.15); /* Blueish */
-  left: -150px;
-  top: -100px;
-}
-
-.blob-2 {
-  width: 400px;
-  height: 400px;
-  background: rgba(139, 92, 246, 0.15); /* Purplish */
-  right: -50px;
-  bottom: -50px;
-}
-
 .kabar-text-section .description {
   font-size: 18px;
   line-height: 1.7;
@@ -2923,6 +2809,8 @@ html, body {
   flex: 1;
   height: 700px; 
   position: relative;
+  /* Hide cards yang keluar area di desktop */
+  overflow: hidden;
 }
 
 .kabar-track {
@@ -2939,7 +2827,13 @@ html, body {
   background-color: #cbd5e1;
   background-size: cover;
   background-position: center;
-  transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  /* Default transition - smooth untuk semua perubahan */
+  transition: 
+    left 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    width 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.4s ease,
+    box-shadow 0.3s ease;
   /* Default size for stacked cards */
   width: 373px; 
   height: 507px;
@@ -2947,17 +2841,18 @@ html, body {
   box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
-/* Gradient Overlay for text readability */
+/* Gradient Overlay - LIGHTER, tidak terlalu menutupi gambar */
 .kabar-card-gradient {
   position: absolute;
   inset: 0;
   border-radius: 25px;
+  /* Gradient lebih ringan - hanya sedikit di bagian paling bawah */
   background: linear-gradient(
     180deg, 
     rgba(0,0,0,0) 0%, 
-    rgba(0,0,0,0) 40%,
-    rgba(0,0,0,0.3) 70%,
-    rgba(0,0,0,0.7) 100%
+    rgba(0,0,0,0) 60%,
+    rgba(0,0,0,0.08) 80%,
+    rgba(0,0,0,0.2) 100%
   );
   z-index: 1;
   pointer-events: none;
@@ -3002,20 +2897,15 @@ html, body {
 /* Category styling for active card */
 .kabar-card-category {
   display: inline-block;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
-  color: #7ba8dc;
+  color: #ffffff;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  background: rgba(123, 168, 220, 0.15);
+  letter-spacing: 0.8px;
+  background: #7ba8dc;
   padding: 5px 12px;
   border-radius: 20px;
-  margin-bottom: 10px;
-}
-
-/* Overlay for inactive cards - removed, using gradient instead */
-.kabar-card-overlay {
-  display: none;
+  margin-bottom: 8px;
 }
 
 /* --- States Logic --- */
@@ -3027,86 +2917,70 @@ html, body {
   left: 0; 
   top: 0; 
   z-index: 5;
+  opacity: 1;
   box-shadow: 0 25px 50px rgba(0,0,0,0.15);
-  visibility: visible;
 }
-.kabar-card.state-0 .kabar-card-overlay { opacity: 0; }
 
-/* STATE 1: Next Card (Smaller, Top Aligned) */
+
+/* STATE 1: Second Card */
 .kabar-card.state-1 {
-  width: 320px; /* Lebih kecil dari card utama */
+  width: 320px;
   height: 430px;
   left: 540px; 
-  top: 0; /* Sejajar atas dengan card utama */
+  top: 0;
   z-index: 4;
-  visibility: visible;
+  opacity: 1;
 }
 
-/* STATE 2: Next Next Card (Smaller, Top Aligned) */
+/* STATE 2: Third Card */
 .kabar-card.state-2 {
   width: 320px;
   height: 430px;
-  left: 900px; /* Jarak disesuaikan */
+  left: 900px;
   top: 0;
   z-index: 3;
-  visibility: visible;
+  opacity: 1;
 }
 
-/* STATE 3: Out of view right (almost hidden) */
-.kabar-card.state-3 {
-  width: 320px;
-  height: 430px;
-  left: 1260px;
-  top: 0;
-  z-index: 1;
-  opacity: 0.3;
-  pointer-events: none;
-  visibility: visible;
-}
-
-/* Hidden States - Cards that shouldn't be visible */
+/* STATE 3 & beyond: HIDDEN - tidak terlihat sama sekali */
+.kabar-card.state-3,
+.kabar-card.state-4,
 .kabar-card.state-hidden {
   width: 320px;
   height: 430px;
-  left: -400px; /* Behind the main card area */
-  opacity: 0;
+  left: 900px; /* Sama dengan state-2 agar tidak ada perpindahan terlihat */
   top: 0;
   z-index: 0;
+  opacity: 0;
   pointer-events: none;
+  /* INSTANT - tidak ada animasi */
+  transition: none !important;
   visibility: hidden;
-  /* Transition ONLY for position, NOT opacity - opacity changes instantly */
-  transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-              width 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-              height 0.6s cubic-bezier(0.4, 0, 0.2, 1),
-              top 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Card that's exiting (going from state-0 to state-hidden) - instant hide */
-.kabar-card.exiting {
-  opacity: 0 !important;
-  visibility: hidden !important;
-  transition: none !important; /* Instant disappear - no animation */
-}
-
-/* Adjust Info Box - Compact at bottom */
+/* Adjust Info Box - Clean bottom card style */
 .kabar-info-box {
   position: absolute;
-  bottom: 16px;
-  left: 16px;
-  right: 80px; /* Leave space for the round button */
+  bottom: 20px;
+  left: 20px;
+  right: 90px; /* Leave space for the round button */
   width: auto;
   max-width: 320px;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
+  /* Solid white background - clean & readable */
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border-radius: 16px;
-  padding: 16px 20px;
+  padding: 16px 18px;
   display: flex;
   flex-direction: column;
+  gap: 6px;
   opacity: 0;
   transform: translateY(10px);
   transition: all 0.4s 0.2s ease;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-  /* Simple left accent bar */
+  /* Shadow HANYA ke bawah, sangat subtle */
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+  /* Subtle left accent */
   border-left: 3px solid #7ba8dc;
 }
 
@@ -3148,21 +3022,28 @@ html, body {
 }
 
 .kabar-info-title {
-  font-size: 20px;
-  font-weight: 800;
+  font-size: 18px;
+  font-weight: 700;
   color: #0f172a;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
   line-height: 1.3;
-}
-.kabar-info-desc {
-  font-size: 14px;
-  color: #64748b;
-  margin-bottom: 0px;
+  /* Limit to 2 lines */
   display: -webkit-box;
   -webkit-line-clamp: 2;
   line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+.kabar-info-desc {
+  font-size: 13px;
+  color: #64748b;
+  margin-bottom: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.5;
 }
 
 /* Round Button inside Card */
@@ -3209,6 +3090,20 @@ html, body {
   align-items: center;
   gap: 40px;
   z-index: 20;
+}
+
+/* Desktop: Controls positioned inside container context */
+@media (min-width: 1025px) {
+  .kabar-sigap-container {
+    position: relative; /* Create positioning context */
+  }
+  
+  .kabar-controls {
+    position: absolute;
+    /* Sejajar dengan card samping (state-1 dimulai di 540px dari carousel) */
+    left: calc(450px + 60px + 540px + 50px);
+    bottom: 40px;
+  }
 }
 
 .kabar-pagination {
@@ -3293,6 +3188,7 @@ html, body {
     width: 100%;
     margin-bottom: 0;
     padding: 0 20px;
+    position: relative; /* Positioning context for controls */
   }
 
   /* Text Section */
@@ -3453,18 +3349,23 @@ html, body {
     height: 22px;
   }
 
-  /* Controls - Center below carousel (now outside wrapper) */
+  /* Controls - FIXED at bottom, always visible */
   .kabar-controls {
     position: relative;
-    left: auto;
-    top: auto;
-    bottom: auto;
+    left: auto !important;
+    top: auto !important;
+    bottom: auto !important;
     margin-top: 24px;
     justify-content: center;
     width: 100%;
     gap: 24px;
-    display: flex;
+    display: flex !important;
     flex-wrap: wrap;
+    padding: 0 20px;
+    box-sizing: border-box;
+    /* Ensure always visible */
+    visibility: visible !important;
+    opacity: 1 !important;
   }
 
   .kabar-arrows {
