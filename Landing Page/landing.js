@@ -1463,21 +1463,3 @@
 })();
 
 
-// ============================================
-// BACK TO TOP BUTTON
-// ============================================
-(function() {
-  'use strict';
-  
-  const backToTopBtn = document.getElementById('backToTop');
-  
-  if (!backToTopBtn) return;
-  
-  // Scroll to top when clicked
-  backToTopBtn.addEventListener('click', function() {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  });
-})();

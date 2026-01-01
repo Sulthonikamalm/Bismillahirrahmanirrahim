@@ -242,50 +242,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Navbar scroll effect
-window.addEventListener('scroll', function() {
-    const navbar = document.querySelector('.navbar');
-    if (window.scrollY > 50) {
-        navbar.classList.add('scrolled');
-    } else {
-        navbar.classList.remove('scrolled');
-    }
-});
-
-// Mobile menu toggle
-const hamburger = document.querySelector('.hamburger');
-const navLinks = document.querySelector('.nav-links');
-
-if (hamburger && navLinks) {
-    hamburger.addEventListener('click', function() {
-        const isExpanded = this.getAttribute('aria-expanded') === 'true';
-        this.setAttribute('aria-expanded', !isExpanded);
-        navLinks.classList.toggle('active');
-        document.body.classList.toggle('menu-open');
-    });
-
-    // Close menu when clicking outside
-    document.addEventListener('click', function(event) {
-        const isClickInside = navLinks.contains(event.target) || hamburger.contains(event.target);
-        
-        if (!isClickInside && navLinks.classList.contains('active')) {
-            navLinks.classList.remove('active');
-            hamburger.setAttribute('aria-expanded', 'false');
-            document.body.classList.remove('menu-open');
-        }
-    });
-
-    // Close menu when clicking on a link
-    const navItems = document.querySelectorAll('.nav-item');
-    navItems.forEach(item => {
-        item.addEventListener('click', function() {
-            navLinks.classList.remove('active');
-            hamburger.setAttribute('aria-expanded', 'false');
-            document.body.classList.remove('menu-open');
-        });
-    });
-}
-
 // Add loading animation
 window.addEventListener('load', function() {
     document.body.classList.add('loaded');
@@ -293,8 +249,3 @@ window.addEventListener('load', function() {
     // Refresh AOS
     AOS.refresh();
 });
-
-// Console log for debugging
-console.log('✅ Wawasan Page Loaded Successfully');
-console.log('📊 Swiper Initialized:', educationSwiper);
-console.log('🎨 AOS Animations Ready');

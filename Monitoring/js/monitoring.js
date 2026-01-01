@@ -9,6 +9,18 @@
   'use strict';
 
   // ============================================
+  // ENVIRONMENT & DEBUG CONFIGURATION
+  // ============================================
+  const IS_DEBUG = window.location.hostname === 'localhost' || 
+                   window.location.hostname === '127.0.0.1';
+  
+  const logger = {
+    log: (...args) => IS_DEBUG && console.log(...args),
+    warn: (...args) => IS_DEBUG && console.warn(...args),
+    error: (...args) => console.error(...args)
+  };
+
+  // ============================================
   // STATE MANAGEMENT
   // ============================================
   const State = {
@@ -51,14 +63,14 @@
   // INITIALIZATION
   // ============================================
   function init() {
-    console.log('🚀 Monitoring System v5.0 Initializing (Dual Search: Kode OR Email)...');
+    logger.log('🚀 Monitoring System v5.0 Initializing (Dual Search: Kode OR Email)...');
 
     generateParticles();
     checkURLParameter();
     setupEventListeners();
     setupInputHints();
 
-    console.log('✅ Monitoring System Ready');
+    logger.log('✅ Monitoring System Ready');
   }
 
   // ============================================
@@ -112,7 +124,7 @@
       particlesContainer.appendChild(bubble);
     }
 
-    console.log(`🎈 Generated ${particleCount} particles`);
+    logger.log(`🎈 Generated ${particleCount} particles`);
   }
 
   // ============================================
@@ -147,7 +159,7 @@
     const query = kode || email;
 
     if (query) {
-      console.log('🔍 Auto-search triggered:', query);
+      logger.log('🔍 Auto-search triggered:', query);
       DOM.reportIdInput.value = query;
 
       setTimeout(() => {
@@ -162,7 +174,7 @@
   async function handleSearch() {
     // Prevent double click with immediate check
     if (State.isSearching) {
-      console.log('Already processing...');
+      logger.log('Already processing...');
       return;
     }
 
@@ -178,7 +190,7 @@
     const searchType = isEmail ? 'email' : 'kode';
     const displayQuery = isEmail ? query : query.toUpperCase();
 
-    console.log(`Searching by ${searchType}:`, displayQuery);
+    logger.log(`Searching by ${searchType}:`, displayQuery);
 
     // Set state IMMEDIATELY to prevent double click
     State.isSearching = true;
@@ -193,7 +205,7 @@
       // CALL BACKEND API
       const url = `${CONFIG.apiEndpoint}?query=${encodeURIComponent(displayQuery)}`;
       
-      console.log('API Request:', url);
+      logger.log('API Request:', url);
 
       const response = await fetch(url, {
         method: 'GET',
@@ -202,17 +214,17 @@
         }
       });
 
-      console.log('Response Status:', response.status);
+      logger.log('Response Status:', response.status);
 
       const result = await response.json();
-      console.log('API Response:', result);
+      logger.log('API Response:', result);
 
       // Hide loader FIRST
       hideSearchLoader();
 
       if (result.success && result.data) {
         // SUCCESS!
-        console.log('Report found:', result.data);
+        logger.log('Report found:', result.data);
         
         State.currentReport = result.data;
 
@@ -235,7 +247,7 @@
 
       } else {
         // NOT FOUND
-        console.log('Report not found');
+        logger.log('Report not found');
         
         const errorMsg = searchType === 'email' 
           ? `Email "${query}" tidak ditemukan. Pastikan email yang digunakan sama dengan saat melapor.`
@@ -247,7 +259,7 @@
       }
 
     } catch (error) {
-      console.error('Error fetching report:', error);
+      logger.error('Error fetching report:', error);
       hideSearchLoader();
       showError('Terjadi kesalahan saat mengambil data. Silakan coba lagi.');
       enableInput();
@@ -343,13 +355,13 @@
   // ============================================
   function displayCurrentStep() {
     if (!State.currentReport || !State.currentReport.steps || State.currentReport.steps.length === 0) {
-      console.error('❌ No steps to display');
+      logger.error('❌ No steps to display');
       return;
     }
 
     // Get the LAST step (current progress)
     const currentStep = State.currentReport.steps[State.currentReport.steps.length - 1];
-    console.log(`🔍 Displaying current step:`, currentStep);
+    logger.log(`🔍 Displaying current step:`, currentStep);
 
     const stepElement = createStepElement(currentStep);
     DOM.timeline.innerHTML = '';
@@ -439,7 +451,7 @@
 
     if (allSuccess && State.currentReport.status === 'completed') {
       setTimeout(() => {
-        console.log('🎉 All steps completed! Starting confetti...');
+        logger.log('🎉 All steps completed! Starting confetti...');
         if (window.Confetti) {
           window.Confetti.start();
         }
