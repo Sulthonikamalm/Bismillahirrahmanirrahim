@@ -445,13 +445,13 @@ html, body {
   line-height: 1.5;
 }
 
-/* Scroll Animation - Smoother with cubic-bezier */
+/* Scroll Animation - Cards appear when line reaches bullet */
 .roadmap-animate {
   opacity: 0;
-  transform: translateY(40px);
+  transform: translateY(30px);
   transition: 
-    opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
-    transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .roadmap-animate.in-view {
@@ -459,20 +459,13 @@ html, body {
   transform: translateY(0);
 }
 
-/* Staggered Animation Delays - Longer for smooth effect */
-.process-step:nth-child(1).roadmap-animate { transition-delay: 0s; }
-.process-step:nth-child(2).roadmap-animate { transition-delay: 0.3s; }
-.process-step:nth-child(3).roadmap-animate { transition-delay: 0.6s; }
-.process-step:nth-child(4).roadmap-animate { transition-delay: 0.9s; }
-.process-step:nth-child(5).roadmap-animate { transition-delay: 1.2s; }
-
-/* Step Card also animates */
+/* Step Card animates with parent */
 .step-card {
   opacity: 0;
   transform: translateX(-20px);
   transition: 
-    opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.2s,
-    transform 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.2s;
+    opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.1s,
+    transform 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.1s;
 }
 
 .step-right-content .step-card {
@@ -484,13 +477,13 @@ html, body {
   transform: translateX(0);
 }
 
-/* Step Number also animates */
+/* Step Number animates with parent */
 .step-number {
   opacity: 0;
   transform: scale(0.5);
   transition: 
-    opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-    transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .roadmap-animate.in-view .step-number {
@@ -984,137 +977,6 @@ html, body {
   .pause-icon-bars span {
     width: 7px;
     height: 22px;
-  }
-}
-
-/* ============================================
-   KAPAN HARUS LAPOR SECTION - Aesthetic Cards
-   ============================================ */
-
-.kapan-lapor-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
-  margin-top: 50px;
-}
-
-.lapor-card {
-  background: #ffffff;
-  border-radius: 24px;
-  padding: 40px 30px;
-  text-align: center;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  border: 1px solid rgba(0,0,0,0.04);
-  box-shadow: 
-    0 10px 30px -10px rgba(0,0,0,0.05),
-    0 6px 10px -4px rgba(0,0,0,0.02);
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.lapor-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 
-    0 20px 40px -10px rgba(0,0,0,0.1),
-    0 10px 15px -5px rgba(0,0,0,0.04);
-}
-
-/* Icon Wrapper Styling */
-.lapor-icon-wrapper {
-  width: 90px;
-  height: 90px;
-  border-radius: 26px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2.5rem; /* Icon size */
-  margin-bottom: 25px;
-  transition: transform 0.4s ease;
-}
-
-.lapor-card:hover .lapor-icon-wrapper {
-  transform: scale(1.1) rotate(5deg);
-}
-
-/* Specific Colors for each card category */
-/* Verbal: Purple/Indigo tone */
-.verbal-color {
-  background: rgba(142, 68, 173, 0.1);
-  color: #8e44ad;
-}
-
-/* Fisik: Red/Rose tone */
-.fisik-color {
-  background: rgba(231, 76, 60, 0.1);
-  color: #e74c3c;
-}
-
-/* Digital: Blue/Cyan tone */
-.digital-color {
-  background: rgba(52, 152, 219, 0.1);
-  color: #3498db;
-}
-
-.lapor-content h3 {
-  font-family: var(--font-heading);
-  font-weight: 700;
-  font-size: 1.25rem;
-  color: #2c3e50;
-  margin-bottom: 12px;
-}
-
-.lapor-content p {
-  font-family: var(--font-body);
-  font-size: 0.95rem;
-  color: #636e72;
-  line-height: 1.6;
-}
-
-/* Mobile Responsive For Kapan Lapor */
-@media (max-width: 992px) {
-  .kapan-lapor-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 768px) {
-  .kapan-lapor-grid {
-    grid-template-columns: 1fr;
-    gap: 24px;
-    padding: 0 20px;
-    max-width: 400px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  
-  .lapor-card {
-    padding: 28px 24px;
-    flex-direction: column; /* Vertical layout - centered */
-    align-items: center;
-    text-align: center;
-    gap: 16px;
-  }
-  
-  .lapor-icon-wrapper {
-    width: 72px;
-    height: 72px;
-    font-size: 2rem;
-    margin-bottom: 0;
-    flex-shrink: 0;
-  }
-  
-  .lapor-content h3 {
-    font-size: 1.15rem;
-    margin-bottom: 8px;
-  }
-  
-  .lapor-content p {
-    font-size: 0.9rem;
-    margin-bottom: 0;
-    line-height: 1.5;
   }
 }
 
@@ -1642,6 +1504,45 @@ html, body {
   border-radius: 12px;
 }
 
+/* ============================================
+   FONT AWESOME ICON STYLING
+   Ensure icons render consistently
+   ============================================ */
+
+/* Floating card icons - consistent sizing */
+.floating-card-icon i {
+  font-size: 1.5rem;
+  line-height: 1;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+/* Hover effect for cards */
+.floating-card:hover .floating-card-icon i {
+  transform: scale(1.1);
+}
+
+/* Icon colors for each card type */
+.card-top .floating-card-icon i {
+  color: #16a34a; /* Green for privacy/shield */
+}
+
+.card-middle .floating-card-icon i {
+  color: #d97706; /* Amber for speed/bolt */
+}
+
+.card-bottom .floating-card-icon i {
+  color: #db2777; /* Pink for support/heart */
+}
+
+/* Monitoring section icon */
+.icon-large i {
+  font-size: 3rem;
+  line-height: 1;
+  display: block;
+  color: #7ba8dc;
+}
+
 .floating-card-content {
   flex: 1;
 }
@@ -2014,129 +1915,376 @@ html, body {
   }
 }
 
-
-
 #monitoring {
   position: relative;
   overflow: hidden;
+  background: #7ba8dc;
 }
 
-#monitoring .section-title {
-  margin-bottom: 3rem;
-  color: var(--color-text-light);
+/* Wave transitions */
+.monitoring-wave-top,
+.monitoring-wave-bottom {
+  background: #ffffff;
+  line-height: 0;
+}
+
+.monitoring-wave-top svg,
+.monitoring-wave-bottom svg {
+  width: 100%;
+  height: 80px;
+  display: block;
+}
+
+.monitoring-gradient-top,
+.monitoring-gradient-bottom {
+  display: none;
+}
+
+#monitoring::before,
+#monitoring::after {
+  display: none;
+}
+
+/* ===== TITLE WITH HIGHLIGHT EFFECT (Same as Data Penanganan) ===== */
+.monitoring-title {
+  font-family: var(--font-heading);
+  margin-bottom: 3.5rem;
   text-align: center;
+  position: relative;
+  z-index: 1;
 }
 
-/* Layout Container */
+.monitoring-title .title-highlight {
+  position: relative;
+  color: #7ba8dc;
+  background: transparent !important;
+  padding: 4px 16px;
+  display: inline-block;
+  border-radius: 6px;
+  font-size: inherit;
+  line-height: inherit;
+  font-weight: 700;
+}
+
+.monitoring-title .title-highlight::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  background: #ffffff;
+  border-radius: 6px;
+  z-index: -1;
+  box-shadow: 0 4px 15px rgba(255,255,255,0.2);
+}
+
+.monitoring-title .title-highlight.in-view::before {
+  animation: stabilo-sweep 0.8s ease-out forwards;
+}
+
+/* ===== DECORATIVE ELEMENTS ===== */
+.monitoring-deco {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.monitoring-deco-1 {
+  display: none;
+}
+
+.monitoring-deco-2 {
+  display: none;
+}
+
+.monitoring-deco-3 {
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, transparent 60%);
+  top: 50%;
+  left: 10%;
+}
+
+/* Ring decorations */
+.monitoring-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.monitoring-ring-1 {
+  width: 350px;
+  height: 350px;
+  top: -120px;
+  left: -120px;
+}
+
+.monitoring-ring-2 {
+  width: 280px;
+  height: 280px;
+  bottom: -80px;
+  right: -80px;
+}
+
+/* Floating particles */
+.monitoring-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.monitoring-particles span {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  animation: particle-float 15s linear infinite;
+}
+
+.monitoring-particles span:nth-child(1) { left: 10%; animation-delay: 0s; animation-duration: 12s; }
+.monitoring-particles span:nth-child(2) { left: 20%; animation-delay: 2s; animation-duration: 14s; }
+.monitoring-particles span:nth-child(3) { left: 35%; animation-delay: 4s; animation-duration: 10s; }
+.monitoring-particles span:nth-child(4) { left: 50%; animation-delay: 1s; animation-duration: 16s; }
+.monitoring-particles span:nth-child(5) { left: 65%; animation-delay: 3s; animation-duration: 11s; }
+.monitoring-particles span:nth-child(6) { left: 75%; animation-delay: 5s; animation-duration: 13s; }
+.monitoring-particles span:nth-child(7) { left: 85%; animation-delay: 2.5s; animation-duration: 15s; }
+.monitoring-particles span:nth-child(8) { left: 25%; animation-delay: 6s; animation-duration: 12s; }
+.monitoring-particles span:nth-child(9) { left: 55%; animation-delay: 7s; animation-duration: 14s; }
+.monitoring-particles span:nth-child(10) { left: 90%; animation-delay: 1.5s; animation-duration: 10s; }
+
+@keyframes particle-float {
+  0% { 
+    transform: translateY(100vh) scale(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% { 
+    transform: translateY(-100px) scale(1);
+    opacity: 0;
+  }
+}
+
+/* ===== SCROLL REVEAL ANIMATIONS ===== */
+.reveal-fade {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal-fade.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-slide-left {
+  opacity: 0;
+  transform: translateX(-50px);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal-slide-left.in-view {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-slide-right {
+  opacity: 0;
+  transform: translateX(50px);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transition-delay: 0.2s;
+}
+
+.reveal-slide-right.in-view {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ===== LAYOUT ===== */
 .monitoring-layout {
   display: flex;
   flex-direction: row; 
   align-items: center;
   justify-content: space-between;
-  gap: 4rem;
+  gap: 5rem;
+  position: relative;
+  z-index: 1;
 }
 
-/* Left Column (Form Card) */
 .monitoring-form-wrapper {
   flex: 1;
-  max-width: 500px;
+  max-width: 480px;
   width: 100%;
 }
 
-/* Right Column (Text Content) */
 .monitoring-text-content {
   flex: 1;
-  color: var(--color-text-light);
+  color: #ffffff;
 }
 
 .monitoring-text-content h3 {
   font-family: var(--font-heading);
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
+  font-size: 1.85rem;
+  margin-bottom: 1.25rem;
   font-weight: 700;
+  color: #ffffff;
 }
 
 .monitoring-text-content p {
-  font-size: 1.1rem;
+  font-family: var(--font-body);
+  font-size: 1.05rem;
   margin-bottom: 2rem;
-  opacity: 0.9;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.9);
+}
+
+.monitoring-text-content .clean-list {
+  margin-bottom: 2rem;
 }
 
 .monitoring-text-content .clean-list li {
-  font-size: 1.1rem;
-  margin-bottom: 1rem;
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  margin-bottom: 0.85rem;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 14px;
+  color: rgba(255,255,255,0.9);
 }
 
-.monitoring-text-content .clean-list .icon-green {
-  color: #4ade80; 
-  font-size: 1.2rem;
+.monitoring-text-content .clean-list li i {
+  color: #ffffff;
+  font-size: 1rem;
+  width: 20px;
+  text-align: center;
 }
 
-/* Monitoring Card Specifics */
+/* ===== CARD STYLING ===== */
 .card-monitoring {
   background: #ffffff;
-  border-radius: 20px;
-  padding: 2.5rem;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
   text-align: center;
 }
 
 .card-monitoring .icon-large {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-  display: inline-block;
-  background: #f3f4f6;
-  width: 80px;
-  height: 80px;
-  line-height: 80px;
+  font-size: 2rem;
+  margin-bottom: 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #7ba8dc !important;
+  color: #ffffff !important;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
+  box-shadow: 0 4px 15px rgba(123, 168, 220, 0.3);
+}
+
+.card-monitoring .icon-large i {
+  font-size: 1.8rem;
+  color: #ffffff !important;
 }
 
 .card-monitoring h5 {
-  color: var(--color-dark-blue);
-  font-size: 1.5rem;
+  font-family: var(--font-heading);
+  color: #132338;
+  font-size: 1.35rem;
   margin-bottom: 0.5rem;
+  font-weight: 700;
 }
 
-/* Input Group Styling */
-.input-group {
+.card-monitoring .text-muted {
+  font-family: var(--font-body);
+  color: #6b7280;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* ===== INPUT & BUTTON ===== */
+#monitoring .input-group {
   display: flex;
   gap: 10px;
-  margin-top: 1.5rem;
+  margin-top: 1.75rem;
 }
 
-.input-group input {
+#monitoring .input-group input {
   flex: 1;
-  padding: 12px 20px;
-  border: 2px solid #e5e7eb;
-  border-radius: 50px;
+  padding: 14px 18px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
   font-family: var(--font-body);
-  font-size: 1rem;
-  transition: all 0.3s ease;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  background: #f9fafb;
 }
 
-.input-group input:focus {
+#monitoring .input-group input:focus {
   outline: none;
-  border-color: var(--color-purple);
-  box-shadow: 0 0 0 4px rgba(106, 90, 205, 0.1);
+  border-color: #7ba8dc;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(123, 168, 220, 0.12);
 }
 
-.input-group .btn-primary {
-  padding: 12px 25px;
+#monitoring .input-group input::placeholder {
+  color: #9ca3af;
+}
+
+.btn-monitoring {
+  padding: 14px 22px;
   white-space: nowrap;
+  background: #7ba8dc;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
-/* Status Message */
+.btn-monitoring:hover {
+  background: #6a9ad0;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(123, 168, 220, 0.25);
+}
+
+.btn-monitoring:active {
+  transform: translateY(0);
+}
+
+.btn-monitoring i {
+  font-size: 0.85rem;
+}
+
 #progressStatus {
   min-height: 24px;
-  font-size: 0.95rem;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
   font-weight: 500;
+  margin-top: 1rem;
 }
 
-/* --- RESPONSIVE MOBILE FIXES --- */
+/* ===== RESPONSIVE ===== */
 @media (max-width: 900px) {
   .monitoring-layout {
     flex-direction: column; 
@@ -2147,31 +2295,52 @@ html, body {
   .monitoring-form-wrapper {
     max-width: 100%;
   }
-
-  /* User requested order: Title -> Card -> Text */
   
   .monitoring-form-wrapper {
     order: 1; 
   }
   
-  /* HIDE "Proses Terjamin Aman" section on mobile */
   .monitoring-text-content {
     display: none;
+  }
+  
+  .monitoring-deco-3,
+  .monitoring-ring-1,
+  .monitoring-ring-2 {
+    display: none;
+  }
+  
+  .monitoring-particles span {
+    width: 3px;
+    height: 3px;
   }
 }
 
 
 @media (max-width: 480px) {
-  .input-group {
+  #monitoring .input-group {
     flex-direction: column;
   }
   
-  .input-group .btn-primary {
+  .btn-monitoring {
     width: 100%;
+    justify-content: center;
+    padding: 14px 20px;
   }
 
   .card-monitoring {
-    padding: 1.5rem;
+    padding: 2rem 1.5rem;
+    border-radius: 14px;
+  }
+  
+  .card-monitoring .icon-large {
+    width: 56px;
+    height: 56px;
+    font-size: 1.5rem;
+  }
+  
+  .card-monitoring h5 {
+    font-size: 1.2rem;
   }
 }
 
@@ -2200,10 +2369,6 @@ html, body {
   /* Override max-width constraint */
   max-width: none !important;
 }
-
-
-
-
 
 /* SVG Background Shape */
 .transparansi-bg-svg {
@@ -2807,16 +2972,20 @@ html, body {
 /* --- Carousel SectionWrapper --- */
 .kabar-carousel-wrapper {
   flex: 1;
-  height: 700px; 
+  height: 620px; 
+  max-width: 920px; /* Limit width agar card ke-3 terpotong */
   position: relative;
-  /* Hide cards yang keluar area di desktop */
-  overflow: hidden;
+  overflow: hidden; /* Potong card yang keluar */
+  touch-action: pan-y pinch-zoom;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .kabar-track {
   position: relative;
   width: 100%;
   height: 100%;
+  touch-action: pan-y pinch-zoom;
 }
 
 /* --- Card Styling --- */
@@ -2827,18 +2996,23 @@ html, body {
   background-color: #cbd5e1;
   background-size: cover;
   background-position: center;
-  /* Default transition - smooth untuk semua perubahan */
   transition: 
     left 0.5s cubic-bezier(0.4, 0, 0.2, 1),
     width 0.5s cubic-bezier(0.4, 0, 0.2, 1),
     height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-    opacity 0.4s ease,
-    box-shadow 0.3s ease;
-  /* Default size for stacked cards */
+    opacity 0.4s ease;
   width: 373px; 
   height: 507px;
   opacity: 1;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  /* No shadow - clean look */
+  box-shadow: none;
+  cursor: grab;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.kabar-card:active {
+  cursor: grabbing;
 }
 
 /* Gradient Overlay - LIGHTER, tidak terlalu menutupi gambar */
@@ -2910,77 +3084,72 @@ html, body {
 
 /* --- States Logic --- */
 
-/* STATE 0: Active Card (Large, Left) */
+/* STATE 0: Active Card (Large, Left) - Full visible */
 .kabar-card.state-0 {
-  width: 485px; 
-  height: 600px; 
+  width: 420px; 
+  height: 560px; 
   left: 0; 
-  top: 0; 
+  top: 20px; 
   z-index: 5;
   opacity: 1;
-  box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+  box-shadow: none; /* Clean look - no shadow */
 }
 
-
-/* STATE 1: Second Card */
+/* STATE 1: Second Card - Full visible */
 .kabar-card.state-1 {
-  width: 320px;
-  height: 430px;
-  left: 540px; 
-  top: 0;
+  width: 300px;
+  height: 420px;
+  left: 450px; 
+  top: 70px;
   z-index: 4;
   opacity: 1;
 }
 
-/* STATE 2: Third Card */
+/* STATE 2: Third Card - Setengah terlihat (terpotong di edge kanan) */
 .kabar-card.state-2 {
-  width: 320px;
-  height: 430px;
-  left: 900px;
-  top: 0;
+  width: 300px;
+  height: 420px;
+  left: 780px; /* Posisi agar setengah card keluar dari wrapper */
+  top: 70px;
   z-index: 3;
-  opacity: 1;
+  opacity: 0.85;
 }
 
-/* STATE 3 & beyond: HIDDEN - tidak terlihat sama sekali */
-.kabar-card.state-3,
-.kabar-card.state-4,
+/* STATE HIDDEN: Cards beyond visible range */
 .kabar-card.state-hidden {
-  width: 320px;
-  height: 430px;
-  left: 900px; /* Sama dengan state-2 agar tidak ada perpindahan terlihat */
-  top: 0;
+  width: 300px;
+  height: 420px;
+  left: 780px;
+  top: 70px;
   z-index: 0;
   opacity: 0;
   pointer-events: none;
-  /* INSTANT - tidak ada animasi */
   transition: none !important;
   visibility: hidden;
+  box-shadow: none;
 }
 
 /* Adjust Info Box - Clean bottom card style */
 .kabar-info-box {
   position: absolute;
-  bottom: 20px;
-  left: 20px;
-  right: 90px; /* Leave space for the round button */
+  bottom: 16px;
+  left: 16px;
+  right: 80px; /* Leave space for the round button */
   width: auto;
-  max-width: 320px;
+  max-width: 280px;
   /* Solid white background - clean & readable */
   background: rgba(255, 255, 255, 0.97);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border-radius: 16px;
-  padding: 16px 18px;
+  border-radius: 14px;
+  padding: 14px 16px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
   opacity: 0;
   transform: translateY(10px);
   transition: all 0.4s 0.2s ease;
-  /* Shadow HANYA ke bawah, sangat subtle */
   box-shadow: 0 6px 16px rgba(0,0,0,0.08);
-  /* Subtle left accent */
   border-left: 3px solid #7ba8dc;
 }
 
@@ -2988,13 +3157,6 @@ html, body {
 .kabar-info-box::before,
 .kabar-info-box::after {
   display: none;
-}
-
-/* Adjust Controls Position (Below Side Cards) */
-.kabar-controls {
-  left: 540px; /* Sejajar dengan card state-1 */
-  top: 480px; /* Di bawah kartu samping (430px + 50px gap) */
-  bottom: auto;
 }
 
 .kabar-card.state-0 .kabar-info-box {
@@ -3049,11 +3211,10 @@ html, body {
 /* Round Button inside Card */
 .kabar-card-btn {
   position: absolute;
-  bottom: 20px;
-  right: 20px;
-  width: 70px;
-  height: 70px;
-  /* Menggunakan warna brand */
+  bottom: 16px;
+  right: 16px;
+  width: 60px;
+  height: 60px;
   background: linear-gradient(135deg, #7ba8dc 0%, #5a8fc9 100%);
   border-radius: 50%;
   display: flex;
@@ -3071,8 +3232,8 @@ html, body {
   transform: scale(1);
 }
 .kabar-card-btn svg {
-  width: 26px;
-  height: 26px;
+  width: 22px;
+  height: 22px;
   fill: white;
 }
 .kabar-card-btn:hover { 
@@ -3084,25 +3245,25 @@ html, body {
 /* --- Bottom Controls (Below 2nd Card) --- */
 .kabar-controls {
   position: absolute;
-  left: 540px; /* Aligned with State 1 */
-  bottom: 40px; /* Adjust based on container height */
+  left: 450px; /* Aligned with State 1 */
+  bottom: 20px;
   display: flex;
   align-items: center;
-  gap: 40px;
+  gap: 30px;
   z-index: 20;
 }
 
 /* Desktop: Controls positioned inside container context */
 @media (min-width: 1025px) {
   .kabar-sigap-container {
-    position: relative; /* Create positioning context */
+    position: relative;
   }
   
   .kabar-controls {
     position: absolute;
-    /* Sejajar dengan card samping (state-1 dimulai di 540px dari carousel) */
-    left: calc(450px + 60px + 540px + 50px);
-    bottom: 40px;
+    /* Sejajar dengan card samping */
+    left: calc(450px + 450px + 120px);
+    bottom: 30px;
   }
 }
 
@@ -3266,7 +3427,7 @@ html, body {
   .kabar-card.state-0 {
     width: 320px;
     height: 450px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+    box-shadow: none; /* Clean look - no shadow */
   }
 
   /* Mobile cards (rendered with mobile-card class) */
@@ -3487,3 +3648,130 @@ html, body {
   }
 }
 
+
+
+/* ============================================
+   ACCESSIBILITY: REDUCED MOTION SUPPORT
+   Disable animations for users with motion sensitivity
+   WCAG 2.1 Level AA Compliance
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  /* ========== DISABLE ALL ANIMATIONS ========== */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* ========== SPECIFIC ANIMATIONS TO DISABLE ========== */
+  
+  /* Hero entrance animations */
+  .hero-label,
+  .hero-title-new,
+  .hero-description-new,
+  .btn-primary-hero,
+  .hero-phone-image {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* Floating cards */
+  .floating-card {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* Stabilo/highlighter sweep animation */
+  .highlight-animate::before {
+    animation: none !important;
+    width: 100% !important; /* Show fully highlighted immediately */
+  }
+
+  /* Stat counter animation */
+  .transparansi-stat-box {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* Proses section animations */
+  .proses-oleh-animate,
+  .proses-description-animate {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* Roadmap animations */
+  .roadmap-animate,
+  .roadmap-animate .step-card,
+  .roadmap-animate .step-number {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* Timeline drawing line */
+  .timeline-drawing-line {
+    height: 100% !important; /* Show full line immediately */
+    transition: none !important;
+  }
+
+  /* Kabar Sigap carousel */
+  .kabar-card {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* Video decorations */
+  .video-deco,
+  .proses-clouds .cloud,
+  .hero-decorative-circles .deco-circle {
+    animation: none !important;
+  }
+
+  /* Reveal animations */
+  .reveal {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* Hover effects - allow but instant */
+  .btn:hover,
+  .kabar-card:hover {
+    transition-duration: 0s !important;
+  }
+
+  /* ========== KEEP ESSENTIAL UI FEEDBACK ========== */
+  
+  /* Allow instant visual feedback for clicks */
+  .btn:active {
+    transition: none !important;
+  }
+
+  /* Keep focus indicators visible immediately */
+  *:focus {
+    transition: none !important;
+  }
+
+  /* ========== ACCESSIBILITY NOTE ========== */
+  /* Users with vestibular disorders can experience:
+     - Nausea from parallax scrolling
+     - Dizziness from large movements
+     - Disorientation from complex animations
+     
+     This media query respects their OS-level preference
+     and provides a calm, static experience.
+     
+     Test:
+      - macOS: Settings > Accessibility > Display > Reduce Motion
+      - Windows: Settings > Ease of Access > Display > Show animations
+      - iOS: Settings > Accessibility > Motion > Reduce Motion
+  */
+}

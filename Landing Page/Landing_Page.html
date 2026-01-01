@@ -4,10 +4,35 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Satgas PPKPT</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <title>Satgas PPKPT - Telkom University Surabaya</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Satgas PPKPT Telkom University Surabaya - Ruang aman untuk melaporkan kekerasan seksual di lingkungan kampus. Kerahasiaan terjamin, pendampingan hukum dan psikologis." />
+  <meta name="keywords" content="PPKPT, Satgas, Telkom University, Surabaya, kekerasan seksual, laporan, kampus aman" />
+  <meta name="author" content="Satgas PPKPT Telkom University Surabaya" />
+  <meta name="robots" content="index, follow" />
+  
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Satgas PPKPT - Telkom University Surabaya" />
+  <meta property="og:description" content="Ruang aman untuk melaporkan kekerasan seksual di lingkungan kampus. Kerahasiaan terjamin." />
+  <meta property="og:url" content="https://sigap.telkomuniversity.ac.id" />
+  
+  <!-- Security Headers (via meta) -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+  
+  <!-- Preconnect for Performance -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="preconnect" href="https://img.youtube.com" crossorigin />
+  
+  <!-- DNS Prefetch -->
+  <link rel="dns-prefetch" href="https://www.youtube.com" />
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <!-- Bootstrap Icons for timeline -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" crossorigin="anonymous" />
   <link rel="stylesheet" href="../style.css" />
   <!-- Landing Page Specific Styles -->
   <link rel="stylesheet" href="landing.css" />
@@ -25,8 +50,16 @@
 </head>
 
 <body>
+  <!-- Noscript fallback for users without JavaScript -->
+  <noscript>
+    <div style="padding: 20px; background: #fef3c7; color: #92400e; text-align: center;">
+      <strong>JavaScript Diperlukan</strong><br>
+      Situs ini memerlukan JavaScript untuk berfungsi dengan baik. Silakan aktifkan JavaScript di browser Anda.
+    </div>
+  </noscript>
+
   <!-- Skip to main content link for accessibility -->
-  <a href="#main-content" class="skip-to-content">Skip to main content</a>
+  <a href="#main-content" class="skip-to-content">Skip to main content</a>""
 
   <!-- NAVBAR START -->
   <nav class="navbar header-bg fixed-top" role="navigation" aria-label="Navigasi Utama">
@@ -94,27 +127,33 @@
         <img src="assets/herotanganhp.png" alt="Aplikasi SIGAP di smartphone" class="hero-phone-image" />
 
         <!-- Floating Cards -->
-        <!-- Card 1: Top Left - Privacy -->
+        <!-- Card 1: Privacy -->
         <div class="floating-card card-top">
-          <div class="floating-card-icon">🔒</div>
+          <div class="floating-card-icon">
+            <i class="fas fa-shield-alt" aria-hidden="true"></i>
+          </div>
           <div class="floating-card-content">
             <h4 class="floating-card-title">Privasi Terjamin</h4>
             <p class="floating-card-text">Identitas pelapor dirahasiakan 100%</p>
           </div>
         </div>
 
-        <!-- Card 2: Middle - Fast Response -->
+        <!-- Card 2: Speed -->
         <div class="floating-card card-middle">
-          <div class="floating-card-icon">⚡</div>
+          <div class="floating-card-icon">
+            <i class="fas fa-bolt" aria-hidden="true"></i>
+          </div>
           <div class="floating-card-content">
             <h4 class="floating-card-title">Respon Cepat</h4>
             <p class="floating-card-text">Tindak lanjut laporan segera diproses</p>
           </div>
         </div>
 
-        <!-- Card 3: Bottom Right - Support -->
+        <!-- Card 3: Support -->
         <div class="floating-card card-bottom">
-          <div class="floating-card-icon">❤️</div>
+          <div class="floating-card-icon">
+            <i class="fas fa-heart" aria-hidden="true"></i>
+          </div>
           <div class="floating-card-content">
             <h4 class="floating-card-title">Pendampingan Penuh</h4>
             <p class="floating-card-text">Bantuan hukum & pemulihan psikologis</p>
@@ -390,14 +429,10 @@
                 d="M0 50C0 22.3858 22.3858 0 50 0H1090C1117.61 0 1140 22.3858 1140 50V553.14C1140 581.088 1117.17 603.633 1089.23 603.344C1017.04 602.597 881.812 601.891 776.5 605.378C688.489 608.292 644.742 640.312 552 641C459.258 640.07 416.252 608.932 329 604C242.716 599.123 120.323 600.925 51.7384 602.546C23.4448 603.215 0 580.517 0 552.215V50Z"
                 fill="#ffffff" />
 
-              <!-- Video Container -->
+              <!-- ✅ Container kosong - JS akan inject iframe saat user klik play -->
               <foreignObject x="0" y="0" width="1140" height="641" clip-path="url(#videoClipPath)">
                 <div class="video-inner-container" xmlns="http://www.w3.org/1999/xhtml">
-                  <iframe id="ppkptVideo"
-                    src="https://www.youtube.com/embed/HJX38VEPzrM?enablejsapi=1&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0&playsinline=1&autoplay=0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen>
-                  </iframe>
+                  <!-- Empty - iframe will be lazy loaded by JavaScript -->
                 </div>
               </foreignObject>
             </svg>
@@ -482,15 +517,37 @@
     </div>
   </section>
 
+  <!-- Wave Top Transition -->
+  <div class="monitoring-wave-top" aria-hidden="true">
+    <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+      <path d="M0,60 C360,120 1080,0 1440,60 L1440,120 L0,120 Z" fill="#7ba8dc"/>
+    </svg>
+  </div>
+  
   <!-- Monitoring Section -->
-  <section class="section-purple section-padding" id="monitoring">
+  <section class="section-padding" id="monitoring">
+    <!-- Decorative Elements -->
+    <div class="monitoring-deco monitoring-deco-1" aria-hidden="true"></div>
+    <div class="monitoring-deco monitoring-deco-2" aria-hidden="true"></div>
+    <div class="monitoring-deco monitoring-deco-3" aria-hidden="true"></div>
+    <div class="monitoring-ring monitoring-ring-1" aria-hidden="true"></div>
+    <div class="monitoring-ring monitoring-ring-2" aria-hidden="true"></div>
+    <div class="monitoring-particles" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+    
     <div class="main-container">
-      <h2 class="section-title text-center text-white">Monitoring Progress Laporan</h2>
+      <h2 class="section-title monitoring-title text-center">
+        <span class="title-highlight highlight-animate">Monitoring Progress Laporan</span>
+      </h2>
 
       <div class="monitoring-layout">
-        <div class="monitoring-form-wrapper reveal" data-reveal>
+        <div class="monitoring-form-wrapper reveal-slide-left" data-reveal>
           <div class="card card-monitoring">
-            <div class="icon-large">🔍</div>
+            <div class="icon-large">
+              <i class="fas fa-search" aria-hidden="true"></i>
+            </div>
             <h5 class="fw-bold">Lacak Laporan Anda</h5>
             <p class="text-muted">
               Masukkan kode pelaporan Anda untuk memonitor perkembangan kasus.
@@ -498,15 +555,15 @@
 
             <div class="input-group">
               <input type="text" placeholder="Kode Laporan" id="kodeLaporan" />
-              <button class="btn btn-primary" type="button" id="checkProgressBtn">
-                Cek Progress
+              <button class="btn btn-monitoring" type="button" id="checkProgressBtn">
+                <i class="fas fa-search"></i> Cek Progress
               </button>
             </div>
             <div id="progressStatus" class="mt-20" aria-live="polite"></div>
           </div>
         </div>
 
-        <div class="monitoring-text-content reveal" data-reveal>
+        <div class="monitoring-text-content reveal-slide-right" data-reveal>
           <h3>Proses Terjamin Aman</h3>
           <p>
             Kami menjamin kerahasiaan dan keamanan data pelapor. Sistem
@@ -516,10 +573,10 @@
 
           <ul class="clean-list">
             <li>
-              <i class="fas fa-check-circle icon-green"></i> Verifikasi Cepat
+              <i class="fas fa-check-circle"></i> Verifikasi Cepat
             </li>
-            <li><i class="fas fa-lock icon-green"></i> Kerahasiaan Data</li>
-            <li><i class="fas fa-clock icon-green"></i> Pembaruan Real-time</li>
+            <li><i class="fas fa-shield-alt"></i> Kerahasiaan Data</li>
+            <li><i class="fas fa-sync-alt"></i> Pembaruan Real-time</li>
           </ul>
 
           <button class="btn btn-outline-light mt-40">Hubungi Satgas</button>
@@ -527,15 +584,34 @@
       </div>
     </div>
   </section>
+  
+  <!-- Wave Bottom Transition -->
+  <div class="monitoring-wave-bottom" aria-hidden="true">
+    <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+      <path d="M0,60 C360,0 1080,120 1440,60 L1440,0 L0,0 Z" fill="#7ba8dc"/>
+    </svg>
+  </div>
 
   <!-- FAQ Section -->
-  <section class="section-grid section-padding">
+  <section class="section-grid section-padding section-faq">
+    <!-- Decorative Grid Pattern - Bottom Right Corner -->
+    <div class="faq-grid-pattern" aria-hidden="true"></div>
+    <!-- Decorative Circles - Right -->
+    <div class="faq-deco-circle faq-circle-1" aria-hidden="true"></div>
+    <div class="faq-deco-circle faq-circle-2" aria-hidden="true"></div>
+    <div class="faq-deco-dots" aria-hidden="true"></div>
+    <!-- Decorative Elements - Left -->
+    <div class="faq-deco-blob-left" aria-hidden="true"></div>
+    <div class="faq-deco-ring-left" aria-hidden="true"></div>
+    <div class="faq-deco-dots-left" aria-hidden="true"></div>
+    <div class="faq-circle-left" aria-hidden="true"></div>
+    
     <div class="main-container assistance-layout">
-      <h2 class="section-title text-center">Butuh Bantuan?</h2>
+      <h2 class="section-title text-center">Pertanyaan Umum</h2>
 
       <div class="assistance-content">
-        <div class="" data-reveal>
-          <img class="" src="../Gambar/Gambar3.png" alt="Ilustrasi Bantuan" />
+        <div class="faq-illustration-wrapper">
+          <img src="../Gambar/Gambar3.png" alt="Ilustrasi Bantuan" />
         </div>
         <div class="faq-list reveal" data-reveal>
           <div class="faq-item">
@@ -557,15 +633,7 @@
               menjadi penyintas, saksi, atau mengetahui adanya kasus.
             </div>
           </div>
-          <div class="faq-item">
-            <button class="faq-button" aria-expanded="false" aria-controls="faq-4">
-              Berapa lama proses penanganan kasus?
-            </button>
-            <div class="faq-answer" id="faq-4" role="region">
-              Waktu penanganan bervariasi tergantung kompleksitas kasus, biasanya 14-30 hari kerja dengan update
-              berkala.
-            </div>
-          </div>
+
           <div class="faq-item">
             <button class="faq-button" aria-expanded="false" aria-controls="faq-5">
               Apakah ada biaya untuk melapor?
@@ -585,13 +653,53 @@
           </div>
           <div class="faq-item">
             <button class="faq-button" aria-expanded="false" aria-controls="faq-7">
-              Bagaimana cara mendapatkan dukungan hukum?
+              Apakah identitas saya akan dijaga kerahasiaannya?
             </button>
             <div class="faq-answer" id="faq-7" role="region">
-              Satgas PPKPT dapat memfasilitasi akses ke layanan bantuan hukum melalui mitra yang terpercaya dan
-              berpengalaman.
+              Ya, mutlak. Semua informasi pelapor dilindungi sesuai UU TPKS dan kebijakan kampus. Hanya tim Satgas yang berwenang mengakses data, dan identitas Anda tidak akan dibocorkan kepada siapapun tanpa persetujuan tertulis dari Anda.
             </div>
           </div>
+          <div class="faq-item">
+            <button class="faq-button" aria-expanded="false" aria-controls="faq-8">
+              Apa yang langsung saya dapatkan setelah melapor?
+            </button>
+            <div class="faq-answer" id="faq-8" role="region">
+              Dalam 24 jam pertama, tim akan menghubungi Anda untuk memastikan keselamatan, menawarkan pendampingan psikologis darurat, menjelaskan pilihan langkah hukum, dan memberikan kode monitoring untuk tracking real-time. Tindakan perlindungan akan segera diambil jika diperlukan.
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-button" aria-expanded="false" aria-controls="faq-9">
+              Apakah bisa lapor anonim tanpa identitas?
+            </button>
+            <div class="faq-answer" id="faq-9" role="region">
+              Bisa, namun laporan anonim memiliki keterbatasan dalam proses penanganan dan perlindungan hukum. Kami menyarankan minimal memberikan kontak yang bisa dihubungi untuk klarifikasi, sambil tetap menjaga privasi penuh identitas Anda.
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-button" aria-expanded="false" aria-controls="faq-10">
+              Bagaimana jika pelaku adalah dosen atau pejabat kampus?
+            </button>
+            <div class="faq-answer" id="faq-10" role="region">
+              Satgas PPKPT independen dan tidak terpengaruh oleh jabatan atau posisi pelaku. Semua laporan ditangani dengan standar yang sama. Anda dilindungi dari tindakan retaliasi sesuai regulasi kampus dan UU TPKS.
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-button" aria-expanded="false" aria-controls="faq-11">
+              Apakah teman atau keluarga bisa menemani saat melapor?
+            </button>
+            <div class="faq-answer" id="faq-11" role="region">
+              Sangat bisa dan kami mendorong hal ini. Anda berhak didampingi oleh orang yang Anda percaya selama seluruh proses pelaporan dan investigasi untuk kenyamanan emosional Anda.
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-button" aria-expanded="false" aria-controls="faq-12">
+              Apa yang terjadi jika saya ingin menghentikan proses di tengah jalan?
+            </button>
+            <div class="faq-answer" id="faq-12" role="region">
+              Anda memiliki hak penuh untuk menghentikan atau menarik laporan kapan saja. Keputusan ada di tangan Anda sebagai penyintas. Tim kami akan menghormati pilihan Anda, dan pintu tetap terbuka jika suatu saat Anda ingin melanjutkan kembali.
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -601,41 +709,42 @@
 
   <footer class="main-footer">
     <div class="main-container footer-grid">
-      <div class="footer-col">
-        <h5>Sigap PPKPT</h5>
-        <ul class="clean-list">
-          <li><a href="#">Tentang Kami</a></li>
-          <li><a href="#">Program</a></li>
-          <li><a href="#">Publikasi</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h5>Layanan</h5>
-        <ul class="clean-list">
-          <li><a href="#">Lapor Daring</a></li>
-          <li><a href="#">Cek Status</a></li>
-          <li><a href="#">Konseling</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h5>Hubungi Kami</h5>
-        <p><i class="fas fa-envelope me-2"></i> email@ppks.ac.id</p>
-        <p><i class="fas fa-phone me-2"></i> +62-812-3456-7890</p>
-      </div>
-      <div class="footer-col social-footer">
-        <h5>Ikuti Kami</h5>
-        <div class="social-icons-footer">
-          <a href="#"><i class="fab fa-facebook-f"></i></a>
-          <a href="#"><i class="fab fa-twitter"></i></a>
-          <a href="#"><i class="fab fa-instagram"></i></a>
-          <a href="#"><i class="fab fa-youtube"></i></a>
+      <div class="footer-col footer-logo-col">
+        <div class="footer-logo-section">
+          <div class="footer-logo-wrapper">
+            <img src="assets/flip.png" alt="SIGAP Logo" class="footer-logo-img">
+          </div>
+          <p class="footer-satgas-text">Satuan Tugas PPKPT Telkom University Surabaya</p>
+          <a href="https://www.instagram.com/satgasppks.tus" target="_blank" rel="noopener noreferrer" class="footer-instagram-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+          </a>
         </div>
+      </div>
+      <div class="footer-col">
+        <h5>Halaman</h5>
+        <ul class="clean-list">
+          <li><a href="../About Page/about.html">Tentang</a></li>
+          <li><a href="../Wawasan/wawasan.html">Wawasan</a></li>
+          <li><a href="../Monitoring/monitoring.html">Monitoring</a></li>
+        </ul>
+      </div>
+      <div class="footer-col footer-back-top-col">
+        <button id="backToTop" class="back-to-top-btn" aria-label="Kembali ke atas" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 15l-6-6-6 6"/>
+          </svg>
+        </button>
       </div>
     </div>
     <div class="footer-bottom">
       <div class="main-container">
-        <small>Hak Cipta &copy; 2025. Satgas PPKPT. Dibuat dengan &hearts; oleh Tim
-          IT.</small>
+        <small style="display: block; margin-bottom: 8px;">
+          © 2026 Telkom University Surabaya. Design & Development by <strong>SIGAPTIM</strong>
+        </small>
       </div>
     </div>
   </footer>
@@ -659,7 +768,7 @@
 
   <!-- Accessibility Library -->
   <script src="https://cdn.jsdelivr.net/npm/sienna-accessibility@latest/dist/sienna-accessibility.umd.js"
-    defer></script>
+    defer crossorigin="anonymous"></script>
 
   <!-- UX Enhancement Scripts -->
   <script src="../assets/js/keyboard-navigation.js" defer></script>

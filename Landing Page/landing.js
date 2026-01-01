@@ -1,11 +1,25 @@
-/* ============================================
+﻿/* ============================================
    LANDING PAGE SPECIFIC LOGIC
    ============================================ */
 
 (function () {
     'use strict';
   
-    console.log('✅ Landing Page JS Loaded');
+    // ============================================
+    // ENVIRONMENT & DEBUG CONFIGURATION
+    // Set to false for production deployment
+    // ============================================
+    const IS_DEBUG = window.location.hostname === 'localhost' || 
+                     window.location.hostname === '127.0.0.1';
+    
+    // Safe logger - only logs in development
+    const logger = {
+      log: (...args) => IS_DEBUG && console.log(...args),
+      warn: (...args) => IS_DEBUG && console.warn(...args),
+      error: (...args) => console.error(...args) // Always log errors
+    };
+    
+    logger.log('âœ… Landing Page JS Loaded');
 
     // ============================================
     // CENTRALIZED CONFIGURATION
@@ -151,27 +165,63 @@
     }
 
     // ============================================
+    // INPUT SANITIZATION UTILITIES
+    // ============================================
+    
+    /**
+     * Sanitize user input - Remove dangerous characters
+     * Allow only: A-Z, 0-9, hyphen, underscore
+     * @param {string} input - Raw user input
+     * @returns {string} - Sanitized safe input
+     */
+    function sanitizeInput(input) {
+      if (typeof input !== 'string') return '';
+      
+      // Remove all characters except alphanumeric, hyphen, underscore
+      // Pattern: Keep only A-Z, a-z, 0-9, -, _
+      const sanitized = input.replace(/[^A-Za-z0-9\-_]/g, '');
+      
+      // Limit length to prevent DoS
+      const maxLength = 50;
+      return sanitized.substring(0, maxLength);
+    }
+    
+    /**
+     * Validate kode format
+     * @param {string} kode - Sanitized kode
+     * @returns {boolean} - Is valid format
+     */
+    function isValidKodeFormat(kode) {
+      // Kode must be 3-20 characters, alphanumeric only
+      const pattern = /^[A-Z0-9\-_]{3,20}$/;
+      return pattern.test(kode);
+    }
+
+    // ============================================
     // STABILO/HIGHLIGHTER ANIMATION ON SCROLL
     // ============================================
     
     function initScrollAnimations() {
-      // Elements to animate: highlight texts + stat cards + proses section elements + roadmap
+      // Elements to animate: highlight texts + stat cards + proses section elements
       const highlightElements = document.querySelectorAll('.highlight-animate');
       const statCards = document.querySelectorAll('.transparansi-stat-box');
       const prosesElements = document.querySelectorAll('.proses-oleh-animate, .proses-description-animate');
-      const roadmapElements = document.querySelectorAll('.roadmap-animate');
       
-      // Combine all elements
-      const allElements = [...highlightElements, ...statCards, ...prosesElements, ...roadmapElements];
+      // Monitoring section reveal elements
+      const revealFade = document.querySelectorAll('.reveal-fade');
+      const revealSlideLeft = document.querySelectorAll('.reveal-slide-left');
+      const revealSlideRight = document.querySelectorAll('.reveal-slide-right');
+      
+      // Combine elements (roadmap is now handled by initContinuousLineDrawing)
+      const allElements = [...highlightElements, ...statCards, ...prosesElements, ...revealFade, ...revealSlideLeft, ...revealSlideRight];
       
       if (allElements.length === 0) return;
       
+      // Observer for regular elements (individual trigger)
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            // Add in-view class to trigger animation
             entry.target.classList.add(CONFIG.CLASSES.IN_VIEW);
-            // Stop observing after animation triggered
             observer.unobserve(entry.target);
           }
         });
@@ -181,21 +231,27 @@
       });
       
       allElements.forEach(el => observer.observe(el));
-      console.log('✅ Scroll animations initialized:', allElements.length, 'elements');
+      
+      logger.log('✅ Scroll animations initialized:', allElements.length, 'elements');
     }
     
     // ============================================
     // CONTINUOUS LINE DRAWING ON SCROLL
     // Line follows scroll position precisely
+    // Cards appear when line reaches their bullet point
     // ============================================
     
     function initContinuousLineDrawing() {
       const drawingLine = document.querySelector('.timeline-drawing-line');
       const timeline = document.querySelector('.process-timeline');
+      const processSteps = document.querySelectorAll('.process-step');
       
       if (!drawingLine || !timeline) return;
       
-      function updateLineHeight() {
+      // Track which steps have been revealed
+      const revealedSteps = new Set();
+      
+      function updateLineAndCards() {
         const timelineRect = timeline.getBoundingClientRect();
         const windowHeight = window.innerHeight;
         const viewportCenter = windowHeight * CONFIG.TIMELINE.VIEWPORT_CENTER_RATIO;
@@ -214,7 +270,6 @@
         }
         
         // Calculate line height - directly proportional to scroll
-        // Line should reach max when viewport center is near bottom of timeline
         const maxLineHeight = timelineHeight - CONFIG.TIMELINE.MAX_HEIGHT_OFFSET;
         let lineHeight = distanceIntoTimeline;
         
@@ -223,6 +278,36 @@
         lineHeight = Math.max(0, lineHeight);
         
         drawingLine.style.height = `${lineHeight}px`;
+        
+        // ============================================
+        // CARD REVEAL: Show card when line reaches bullet
+        // ============================================
+        
+        processSteps.forEach((step, index) => {
+          // Skip if already revealed
+          if (revealedSteps.has(index)) return;
+          
+          // Get the step-number (bullet point) position
+          const stepNumber = step.querySelector('.step-number');
+          if (!stepNumber) return;
+          
+          const stepRect = stepNumber.getBoundingClientRect();
+          const timelineTopAbsolute = timeline.getBoundingClientRect().top;
+          
+          // Calculate bullet position relative to timeline top
+          const bulletCenterY = stepRect.top + (stepRect.height / 2);
+          const bulletPositionInTimeline = bulletCenterY - timelineTopAbsolute;
+          
+          // Check if line has reached this bullet point
+          // Add small offset (20px) so card appears slightly before line touches center
+          if (lineHeight >= bulletPositionInTimeline - 20) {
+            // Reveal this step
+            step.classList.add(CONFIG.CLASSES.IN_VIEW);
+            revealedSteps.add(index);
+            
+            logger.log(`✅ Step ${index + 1} revealed (line reached bullet)`);
+          }
+        });
       }
       
       // Update on scroll with requestAnimationFrame for smooth performance
@@ -230,7 +315,7 @@
       function onScroll() {
         if (!ticking) {
           requestAnimationFrame(() => {
-            updateLineHeight();
+            updateLineAndCards();
             ticking = false;
           });
           ticking = true;
@@ -241,9 +326,9 @@
       window.addEventListener('scroll', onScroll, { passive: true });
       
       // Initial update
-      updateLineHeight();
+      updateLineAndCards();
       
-      console.log('✅ Continuous line drawing initialized');
+      logger.log('✅ Continuous line drawing initialized with card sync');
     }
     
     // ============================================
@@ -260,7 +345,7 @@
       
       // Check for essential elements
       if (!playBtn || !videoContainer) {
-        console.warn('⚠️ Video player elements not found');
+        console.warn('âš ï¸ Video player elements not found');
         return;
       }
       
@@ -286,7 +371,7 @@
           // Remove the pre-existing iframe to enable lazy loading
           // This converts existing implementation to lazy loading
           existingIframe.remove();
-          console.log('✅ Removed pre-loaded iframe for lazy loading optimization');
+          logger.log('âœ… Removed pre-loaded iframe for lazy loading optimization');
         }
         
         // Create thumbnail background using CONFIG
@@ -366,7 +451,7 @@
         videoContainer.appendChild(iframe);
         iframeLoaded = true;
         
-        console.log('✅ YouTube iframe lazy loaded on user interaction');
+        logger.log('âœ… YouTube iframe lazy loaded on user interaction');
       }
       
       /**
@@ -379,7 +464,7 @@
             player = new YT.Player('ppkptVideo', {
               events: {
                 'onReady': () => {
-                  console.log('✅ YouTube player ready');
+                  logger.log('âœ… YouTube player ready');
                   resolve();
                 },
                 'onStateChange': onPlayerStateChange
@@ -439,7 +524,7 @@
             player.playVideo();
           }
         } catch (error) {
-          console.error('❌ Failed to play video:', error);
+          console.error('âŒ Failed to play video:', error);
           // Show error state
           if (coverOverlay) {
             const content = coverOverlay.querySelector('.video-cover-content span');
@@ -482,7 +567,7 @@
       if ('requestIdleCallback' in window) {
         requestIdleCallback(() => {
           loadYouTubeAPI().then(() => {
-            console.log('✅ YouTube API preloaded during idle time');
+            logger.log('âœ… YouTube API preloaded during idle time');
           }).catch(() => {
             // Silent fail - will retry when user clicks play
           });
@@ -505,7 +590,7 @@
           }
         }, { once: true });
       }
-      console.log('✅ Video player initialized with lazy loading (iframe deferred until play)');
+      logger.log('âœ… Video player initialized with lazy loading (iframe deferred until play)');
     }
     
     // Initialize on DOM ready
@@ -551,7 +636,7 @@
         if (result.status === 'success' && result.data) {
           // Store data, don't animate yet
           statisticsData = result.data;
-          console.log('✅ Statistics fetched (waiting for scroll):', result.data);
+          logger.log('âœ… Statistics fetched (waiting for scroll):', result.data);
           
           // Setup observer to animate when in view
           setupCounterObserver();
@@ -560,7 +645,7 @@
         }
 
       } catch (error) {
-        console.error('❌ Failed to fetch statistics:', error);
+        console.error('âŒ Failed to fetch statistics:', error);
         const totalCasesEl = document.getElementById('total-cases');
         const casesCompletedEl = document.getElementById('cases-completed');
         if (totalCasesEl) totalCasesEl.textContent = '-';
@@ -583,13 +668,13 @@
             const casesCompletedEl = document.getElementById('cases-completed');
             
             if (totalCasesEl) {
-              animateCounter(totalCasesEl, statisticsData.cases_received || 0);
+              animateCounter(totalCasesEl, statisticsData.total_cases || 0);
             }
             if (casesCompletedEl) {
               animateCounter(casesCompletedEl, statisticsData.cases_completed || 0);
             }
             
-            console.log('✅ Counter animation started (in view)');
+            logger.log('âœ… Counter animation started (in view)');
             observer.unobserve(entry.target);
           }
         });
@@ -645,18 +730,49 @@
   
     if (checkBtn && progressStatusDiv && kodeInput) {
       checkBtn.addEventListener('click', function () {
-        const kode = kodeInput.value.trim().toUpperCase();
+        // ========== STEP 1: GET RAW INPUT ==========
+        const rawInput = kodeInput.value.trim();
         clearElement(progressStatusDiv);
   
-        // Validation
-        if (kode === '') {
-          const errorMsg = createStatusMessage('Silakan masukkan kode laporan terlebih dahulu.', 'error');
+        // ========== STEP 2: BASIC VALIDATION ==========
+        if (rawInput === '') {
+          const errorMsg = createStatusMessage(
+            'Silakan masukkan kode laporan terlebih dahulu.', 
+            'error'
+          );
           progressStatusDiv.appendChild(errorMsg);
           return;
         }
   
-        if (kode.length < CONFIG.VALIDATION.MIN_KODE_LENGTH) {
-          const errorMsg = createStatusMessage(`Kode laporan minimal ${CONFIG.VALIDATION.MIN_KODE_LENGTH} karakter.`, 'error');
+        // ========== STEP 3: SANITIZE INPUT âœ… ==========
+        const sanitizedKode = sanitizeInput(rawInput.toUpperCase());
+        
+        // Check if sanitization removed characters (suspicious input)
+        if (sanitizedKode !== rawInput.toUpperCase().replace(/\s/g, '')) {
+          const errorMsg = createStatusMessage(
+            'Kode laporan hanya boleh berisi huruf, angka, dan tanda hubung.', 
+            'error'
+          );
+          progressStatusDiv.appendChild(errorMsg);
+          return;
+        }
+  
+        // ========== STEP 4: FORMAT VALIDATION âœ… ==========
+        if (!isValidKodeFormat(sanitizedKode)) {
+          const errorMsg = createStatusMessage(
+            'Format kode laporan tidak valid. Gunakan 3-20 karakter (huruf/angka).', 
+            'error'
+          );
+          progressStatusDiv.appendChild(errorMsg);
+          return;
+        }
+  
+        // ========== STEP 5: LENGTH VALIDATION ==========
+        if (sanitizedKode.length < CONFIG.VALIDATION.MIN_KODE_LENGTH) {
+          const errorMsg = createStatusMessage(
+            `Kode laporan minimal ${CONFIG.VALIDATION.MIN_KODE_LENGTH} karakter.`, 
+            'error'
+          );
           progressStatusDiv.appendChild(errorMsg);
           return;
         }
@@ -675,13 +791,15 @@
         // Use CONFIG for API URL
         const API_URL = CONFIG.API.getUrl('CHECK_PROGRESS');
         
+        // ========== STEP 6: SEND SANITIZED INPUT âœ… ==========
         fetch(API_URL, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
           },
-          body: JSON.stringify({ query: kode })
+          // âœ… NOW SENDING SANITIZED INPUT
+          body: JSON.stringify({ query: sanitizedKode })
         })
         .then(response => {
           if (!response.ok) {
@@ -695,19 +813,30 @@
           
           if (data.status === 'ditemukan') {
             // SUCCESS - Using safe DOM methods
-            const successMsg = createStatusMessage('Laporan ditemukan! Mengarahkan...', 'success', 'fas fa-check-circle');
+            const successMsg = createStatusMessage(
+              'Laporan ditemukan! Mengarahkan...', 
+              'success', 
+              'fas fa-check-circle'
+            );
             progressStatusDiv.appendChild(successMsg);
   
-            // Redirect to monitoring page with sanitized kode
-            // Encode the kode_laporan to prevent URL injection
-            const safeKode = encodeURIComponent(data.kode_laporan || '');
+            // ========== STEP 7: SANITIZE REDIRECT URL âœ… ==========
+            // Double-encode for extra safety
+            const safeKode = encodeURIComponent(
+              sanitizeInput(data.kode_laporan || '')
+            );
+            
             setTimeout(() => {
               window.location.href = `../Monitoring/monitoring.html?kode=${safeKode}`;
             }, CONFIG.ANIMATION.REDIRECT_DELAY);
   
           } else {
             // FAIL - Using safe DOM methods
-            const warningMsg = createStatusMessage('Kode atau email tidak ditemukan.', 'warning', 'fas fa-exclamation-circle');
+            const warningMsg = createStatusMessage(
+              'Kode atau email tidak ditemukan.', 
+              'warning', 
+              'fas fa-exclamation-circle'
+            );
             progressStatusDiv.appendChild(warningMsg);
             checkBtn.disabled = false;
   
@@ -721,21 +850,41 @@
           }
         })
         .catch(error => {
-          // ERROR - Using safe DOM methods
+          // ========== STEP 8: SAFE ERROR HANDLING âœ… ==========
           console.error('Error fetching:', error);
           clearElement(progressStatusDiv);
           
-          // Safely display error message (error.message could contain malicious content)
-          const safeErrorMessage = error.message || 'Gagal terhubung.';
-          const errorMsg = createStatusMessage(safeErrorMessage, 'error', 'fas fa-times-circle');
+          // âœ… DON'T show error.message directly (could be malicious)
+          // Use predefined safe message
+          const errorMsg = createStatusMessage(
+            'Gagal terhubung ke server. Silakan coba lagi.', 
+            'error', 
+            'fas fa-times-circle'
+          );
           progressStatusDiv.appendChild(errorMsg);
           checkBtn.disabled = false;
         });
       });
       
-      // Auto-uppercase input
+      // Auto-uppercase input + live sanitization
       kodeInput.addEventListener('input', function() {
-        kodeInput.value = kodeInput.value.toUpperCase();
+        // Get current value
+        let value = kodeInput.value.toUpperCase();
+        
+        // âœ… Live sanitization - remove invalid chars as user types
+        value = value.replace(/[^A-Z0-9\-_]/g, '');
+        
+        // Update input value
+        kodeInput.value = value;
+        
+        // Visual feedback for valid format
+        if (value.length >= 3 && isValidKodeFormat(value)) {
+          kodeInput.style.borderColor = '#4ade80'; // Green
+        } else if (value.length > 0) {
+          kodeInput.style.borderColor = '#ef4444'; // Red
+        } else {
+          kodeInput.style.borderColor = '#e5e7eb'; // Default
+        }
       });
       
       // Enter key support
@@ -867,8 +1016,16 @@
       });
       cardEl.appendChild(btn);
       
-      // Click on non-active cards to navigate
-      cardEl.addEventListener('click', () => {
+      // Click on non-active cards to navigate (only if not swiping)
+      let cardClickStart = 0;
+      cardEl.addEventListener('mousedown', () => {
+        cardClickStart = Date.now();
+      });
+      cardEl.addEventListener('click', (e) => {
+        // Ignore if it was a swipe (mouse held > 200ms or moved)
+        const clickDuration = Date.now() - cardClickStart;
+        if (clickDuration > 200) return;
+        
         const cardIndex = parseInt(cardEl.getAttribute('data-index'));
         if (cardIndex !== activeIndex && !isAnimating) {
           goToSlide(cardIndex);
@@ -908,7 +1065,7 @@
       }
       
       // Remove all state classes
-      card.classList.remove('state-0', 'state-1', 'state-2', 'state-3', 'state-4', 'state-hidden');
+      card.classList.remove('state-0', 'state-1', 'state-2', 'state-hidden');
       
       // Add appropriate state class
       if (relativeIndex === 0) {
@@ -1169,59 +1326,158 @@
   // Initial render
   renderCarousel();
 
-  // --- DRAG / SWIPE SUPPORT ---
-  let startX = 0;
-  let isDragging = false;
-  let startTime = 0;
-
-  function handleDragStart(e) {
+  // --- SWIPE GESTURE SUPPORT ---
+  // Geser jari/mouse di card area untuk pindah slide
+  // Swipe kiri → next, Swipe kanan → prev
+  
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let isSwiping = false;
+  let mouseDown = false;
+  
+  function handleSwipeStart(e) {
     if (isAnimating) return;
-    startX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
-    isDragging = true;
-    startTime = new Date().getTime();
-    track.style.cursor = 'grabbing';
-  }
-
-  function handleDragMove(e) {
-    if (!isDragging) return;
-    e.preventDefault(); // Prevent scrolling while swiping
-  }
-
-  function handleDragEnd(e) {
-    if (!isDragging) return;
-    const endX = e.type.includes('mouse') ? e.pageX : e.changedTouches[0].clientX;
-    const diffX = startX - endX;
-    const timeElapsed = new Date().getTime() - startTime;
+    isSwiping = true;
     
-    // Threshold for swipe: 50px distance or fast swipe
-    if (Math.abs(diffX) > 50 || (Math.abs(diffX) > 20 && timeElapsed < 300)) {
-      if (diffX > 0) {
-        nextSlide();
+    if (e.touches) {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+    } else {
+      touchStartX = e.clientX;
+      touchStartY = e.clientY;
+    }
+  }
+  
+  function handleSwipeMove(e) {
+    if (!isSwiping) return;
+    
+    let currentX, currentY;
+    if (e.touches) {
+      currentX = e.touches[0].clientX;
+      currentY = e.touches[0].clientY;
+    } else {
+      currentX = e.clientX;
+      currentY = e.clientY;
+    }
+    
+    const diffX = Math.abs(touchStartX - currentX);
+    const diffY = Math.abs(touchStartY - currentY);
+    
+    // Jika geser horizontal lebih dominan, prevent scroll vertikal
+    if (diffX > diffY && diffX > 15) {
+      if (e.cancelable) e.preventDefault();
+    }
+  }
+  
+  function handleSwipeEnd(e) {
+    if (!isSwiping) return;
+    isSwiping = false;
+    
+    let endX;
+    if (e.changedTouches) {
+      endX = e.changedTouches[0].clientX;
+    } else {
+      endX = e.clientX;
+    }
+    
+    const swipeDistance = touchStartX - endX;
+    const minSwipe = 50; // Minimum 50px untuk trigger
+    
+    if (Math.abs(swipeDistance) >= minSwipe) {
+      if (swipeDistance > 0) {
+        nextSlide(); // Geser KIRI → Next
       } else {
-        prevSlide();
+        prevSlide(); // Geser KANAN → Prev
       }
     }
-    
-    isDragging = false;
-    track.style.cursor = 'grab';
   }
-
-  // Mouse Events
-  track.addEventListener('mousedown', handleDragStart);
-  track.addEventListener('mousemove', handleDragMove);
-  track.addEventListener('mouseup', handleDragEnd);
-  track.addEventListener('mouseleave', () => {
-    if (isDragging) {
-      isDragging = false;
-      track.style.cursor = 'grab';
+  
+  function handleMouseDown(e) {
+    // Ignore jika klik pada button
+    if (e.target.closest('.kabar-card-btn')) return;
+    
+    mouseDown = true;
+    handleSwipeStart(e);
+    e.preventDefault(); // Prevent text selection
+  }
+  
+  function handleMouseMove(e) {
+    if (mouseDown) handleSwipeMove(e);
+  }
+  
+  function handleMouseUp(e) {
+    if (mouseDown) {
+      mouseDown = false;
+      handleSwipeEnd(e);
     }
-  });
+  }
+  
+  // Touch events (HP/Tablet) - pada wrapper
+  if (wrapper) {
+    wrapper.addEventListener('touchstart', handleSwipeStart, { passive: true });
+    wrapper.addEventListener('touchmove', handleSwipeMove, { passive: false });
+    wrapper.addEventListener('touchend', handleSwipeEnd);
+  }
+  
+  // Touch events pada track juga
+  track.addEventListener('touchstart', handleSwipeStart, { passive: true });
+  track.addEventListener('touchmove', handleSwipeMove, { passive: false });
+  track.addEventListener('touchend', handleSwipeEnd);
+  
+  // Mouse events (Desktop) - pada wrapper dan track
+  if (wrapper) {
+    wrapper.addEventListener('mousedown', handleMouseDown);
+  }
+  track.addEventListener('mousedown', handleMouseDown);
+  
+  // Mouse move dan up pada document untuk tracking yang lebih baik
+  document.addEventListener('mousemove', handleMouseMove);
+  document.addEventListener('mouseup', handleMouseUp);
+  
+  // Juga attach ke setiap card yang ada (untuk desktop)
+  function attachSwipeToCards() {
+    const cards = track.querySelectorAll('.kabar-card');
+    cards.forEach(card => {
+      // Remove existing listeners first (prevent duplicates)
+      card.removeEventListener('mousedown', handleMouseDown);
+      card.removeEventListener('touchstart', handleSwipeStart);
+      
+      // Add listeners
+      card.addEventListener('mousedown', handleMouseDown);
+      card.addEventListener('touchstart', handleSwipeStart, { passive: true });
+    });
+  }
+  
+  // Attach setelah render dan setiap kali re-render
+  attachSwipeToCards();
+  
+  // Override renderCarousel untuk attach swipe setelah render
+  const originalRenderCarousel = renderCarousel;
+  renderCarousel = function() {
+    originalRenderCarousel();
+    // Attach swipe ke cards baru setelah render
+    setTimeout(attachSwipeToCards, 100);
+  };
 
-  // Touch Events
-  track.addEventListener('touchstart', handleDragStart, { passive: true });
-  track.addEventListener('touchmove', handleDragMove, { passive: false });
-  track.addEventListener('touchend', handleDragEnd);
-
-  console.log('✅ Kabar Sigap Carousel Initialized with Swipe Support');
+  logger.log('✅ Kabar Sigap Carousel - Swipe Gesture Ready');
 })();
 
+
+// ============================================
+// BACK TO TOP BUTTON
+// ============================================
+(function() {
+  'use strict';
+  
+  const backToTopBtn = document.getElementById('backToTop');
+  
+  if (!backToTopBtn) return;
+  
+  // Scroll to top when clicked
+  backToTopBtn.addEventListener('click', function() {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  });
+})();
