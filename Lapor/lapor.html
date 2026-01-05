@@ -56,7 +56,7 @@
 
             <!-- Progress Indicator -->
             <div class="lapor-progress-wrapper reveal" data-reveal>
-                <div class="lapor-progress-text">Langkah <span id="currentStepNumber">1</span> dari 5</div>
+                <div class="lapor-progress-text">Langkah <span id="currentStepNumber">1</span> dari 7</div>
                 <div class="lapor-progress-bar">
                     <div class="lapor-progress-fill" id="progressBar" role="progressbar" aria-valuenow="20"
                         aria-valuemin="0" aria-valuemax="100"></div>
@@ -111,10 +111,10 @@
                     </div>
 
                     <!-- ==========================================
-                         STEP 2: SIAPA KORBANNYA & KEHAWATIRAN
+                         STEP 2: SIAPA PENYINTASNYA (HALAMAN TERPISAH)
                          ========================================== -->
                     <div class="form-step" id="step2">
-                        <h2 class="lapor-title">Siapa Korbannya?</h2>
+                        <h2 class="lapor-title">Siapa Penyintasnya?</h2>
                         <p class="lapor-subtitle">Pilih salah satu di bawah ini</p>
 
                         <div class="lapor-choices-grid">
@@ -127,7 +127,7 @@
                                     <div class="lapor-choice-content">
                                         <img src="assets/SAYA.png" alt="Saya Sendiri" class="lapor-choice-icon">
                                         <h3 class="lapor-choice-title">SAYA SENDIRI</h3>
-                                        <p class="lapor-choice-desc">Saya sendiri mengalami sebagai korban</p>
+                                        <p class="lapor-choice-desc">Saya sendiri mengalami sebagai penyintas</p>
                                     </div>
                                 </label>
                             </div>
@@ -148,10 +148,21 @@
                             </div>
                         </div>
 
-                        <!-- Divider -->
-                        <div class="lapor-divider"></div>
+                        <div class="lapor-nav">
+                            <button type="button" class="btn-lapor btn-back" id="btnKembali2">
+                                <i class="fas fa-arrow-left"></i> Kembali
+                            </button>
+                            <button type="button" class="btn-lapor btn-next" id="btnLanjutkan2" disabled>
+                                Lanjutkan <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
 
-                        <h2 class="lapor-title">Nilai tingkat kehawatiran Anda?</h2>
+                    <!-- ==========================================
+                         STEP 3: TINGKAT KEKHAWATIRAN (HALAMAN TERPISAH)
+                         ========================================== -->
+                    <div class="form-step" id="step3">
+                        <h2 class="lapor-title">Nilai tingkat kekhawatiran Anda?</h2>
                         <p class="lapor-subtitle">Pilih salah satu di bawah ini</p>
 
                         <div class="lapor-choices-grid three-col">
@@ -198,20 +209,20 @@
                         </div>
 
                         <div class="lapor-nav">
-                            <button type="button" class="btn-lapor btn-back" id="btnKembali2">
+                            <button type="button" class="btn-lapor btn-back" id="btnKembali3">
                                 <i class="fas fa-arrow-left"></i> Kembali
                             </button>
-                            <button type="button" class="btn-lapor btn-next" id="btnLanjutkan2" disabled>
+                            <button type="button" class="btn-lapor btn-next" id="btnLanjutkan3" disabled>
                                 Lanjutkan <i class="fas fa-arrow-right"></i>
                             </button>
                         </div>
                     </div>
 
                     <!-- ==========================================
-                         STEP 3: GENDER KORBAN
+                         STEP 4: GENDER KORBAN
                          ========================================== -->
-                    <div class="form-step" id="step3">
-                        <h2 class="lapor-title">Gender Korban</h2>
+                    <div class="form-step" id="step4">
+                        <h2 class="lapor-title">Gender Penyintas</h2>
                         <p class="lapor-subtitle">Pilih salah satu di bawah ini</p>
 
                         <div class="lapor-radio-list">
@@ -226,52 +237,133 @@
                         </div>
 
                         <div class="lapor-nav">
-                            <button type="button" class="btn-lapor btn-back" id="btnKembali3">
+                            <button type="button" class="btn-lapor btn-back" id="btnKembali4">
                                 <i class="fas fa-arrow-left"></i> Kembali
                             </button>
-                            <button type="button" class="btn-lapor btn-next" id="btnLanjutkan3" disabled>
+                            <button type="button" class="btn-lapor btn-next" id="btnLanjutkan4" disabled>
                                 Lanjutkan <i class="fas fa-arrow-right"></i>
                             </button>
                         </div>
                     </div>
 
                     <!-- ==========================================
-                         STEP 4: DATA KEJADIAN KEKERASAN
+                         STEP 5: SIAPA PELAKUNYA (AUTO-ADVANCE)
                          ========================================== -->
-                    <div class="form-step" id="step4">
-                        <h2 class="lapor-title">Data Kejadian Kekerasan</h2>
-                        <p class="lapor-subtitle">Isi formulir di bawah ini dengan lengkap</p>
+                    <div class="form-step" id="step5">
+                        <h2 class="lapor-title">Siapa Pelakunya?</h2>
+                        <p class="lapor-subtitle">Pilih salah satu (Otomatis lanjut setelah memilih)</p>
 
                         <!-- Siapa yang Melakukan Kekerasan -->
                         <div class="lapor-field">
-                            <label for="pelakuKekerasan" class="lapor-label">
-                                Siapa yang Melakukan Kekerasan? <span class="required">*</span>
-                            </label>
-                            <p class="lapor-hint">(Hubungan terduga pelaku dengan korban)</p>
-                            <select class="lapor-input" id="pelakuKekerasan" name="pelakuKekerasan" required>
-                                <option value="" selected disabled>Pilih hubungan dengan korban</option>
-                                <option value="orang_tidak_dikenal">Orang Tidak Dikenal</option>
-                                <option value="diri_sendiri">Diri Sendiri</option>
-                                <option value="kenalan_baru">Kenalan Baru</option>
-                                <option value="pengurus_rumah_tangga">Pengurus Rumah Tangga</option>
-                                <option value="guru">Guru</option>
-                                <option value="petugas_layanan">Petugas Layanan</option>
-                                <option value="petugas_sekolah">Petugas Sekolah</option>
-                                <option value="teman">Teman</option>
-                                <option value="suami_istri">Suami/Istri</option>
-                                <option value="tetangga_teman_keluarga">Tetangga/Teman Keluarga</option>
-                                <option value="kerabat">Kerabat</option>
-                                <option value="ayah_kandung">Ayah Kandung</option>
-                                <option value="ibu_kandung">Ibu Kandung</option>
-                                <option value="pengasuh_utama">Pengasuh Utama</option>
-                                <option value="anak">Anak</option>
-                                <option value="pacar">Pacar</option>
-                                <option value="rekan_kerja">Rekan Kerja</option>
-                                <option value="atasan_majikan">Atasan/Majikan</option>
-                                <option value="lainnya">Lainnya</option>
-                            </select>
-                            <span class="lapor-error" id="errorPelaku">Hubungan dengan korban wajib dipilih</span>
+                            <div class="quick-select-container">
+                                <!-- Group: Kampus Akademik -->
+                                <div class="quick-select-group-label">Lingkungan Akademik</div>
+                                <div class="lapor-quick-select-grid">
+                                    <div class="quick-select-item">
+                                        <input type="radio" name="pelakuKekerasan" id="p_dosen" value="dosen">
+                                        <label for="p_dosen"><i
+                                                class="fas fa-chalkboard-teacher"></i><span>Dosen</span></label>
+                                    </div>
+                                    <div class="quick-select-item">
+                                        <input type="radio" name="pelakuKekerasan" id="p_mahasiswa" value="mahasiswa">
+                                        <label for="p_mahasiswa"><i
+                                                class="fas fa-user-graduate"></i><span>Mahasiswa</span></label>
+                                    </div>
+                                    <div class="quick-select-item">
+                                        <input type="radio" name="pelakuKekerasan" id="p_tendik"
+                                            value="tenaga_kependidikan">
+                                        <label for="p_tendik"><i class="fas fa-id-card"></i><span>Tendik</span></label>
+                                    </div>
+                                    <div class="quick-select-item">
+                                        <input type="radio" name="pelakuKekerasan" id="p_alumni" value="alumni">
+                                        <label for="p_alumni"><i class="fas fa-user-tie"></i><span>Alumni</span></label>
+                                    </div>
+                                </div>
+
+                                <!-- Group: Layanan Kampus -->
+                                <div class="quick-select-group-label" style="margin-top: 25px;">Layanan Kampus</div>
+                                <div class="lapor-quick-select-grid">
+                                    <div class="quick-select-item">
+                                        <input type="radio" name="pelakuKekerasan" id="p_satpam"
+                                            value="petugas_keamanan">
+                                        <label for="p_satpam"><i
+                                                class="fas fa-shield-alt"></i><span>Satpam</span></label>
+                                    </div>
+                                    <div class="quick-select-item">
+                                        <input type="radio" name="pelakuKekerasan" id="p_bersih"
+                                            value="petugas_kebersihan">
+                                        <label for="p_bersih"><i
+                                                class="fas fa-broom"></i><span>Kebersihan</span></label>
+                                    </div>
+                                    <div class="quick-select-item">
+                                        <input type="radio" name="pelakuKekerasan" id="p_kantin" value="staf_kantin">
+                                        <label for="p_kantin"><i class="fas fa-utensils"></i><span>Kantin</span></label>
+                                    </div>
+                                    <div class="quick-select-item">
+                                        <input type="radio" name="pelakuKekerasan" id="p_tamu" value="tamu">
+                                        <label for="p_tamu"><i class="fas fa-walking"></i><span>Tamu</span></label>
+                                    </div>
+                                </div>
+
+                                <!-- Group: Relasi Personal -->
+                                <div class="quick-select-group-label" style="margin-top: 25px;">Relasi Personal</div>
+                                <div class="lapor-quick-select-grid">
+                                    <div class="quick-select-item">
+                                        <input type="radio" name="pelakuKekerasan" id="p_pacar" value="pacar">
+                                        <label for="p_pacar"><i class="fas fa-heart"></i><span>Pacar</span></label>
+                                    </div>
+                                    <div class="quick-select-item">
+                                        <input type="radio" name="pelakuKekerasan" id="p_mantan" value="mantan_pacar">
+                                        <label for="p_mantan"><i
+                                                class="fas fa-heart-broken"></i><span>Mantan</span></label>
+                                    </div>
+                                    <div class="quick-select-item">
+                                        <input type="radio" name="pelakuKekerasan" id="p_teman" value="teman">
+                                        <label for="p_teman"><i
+                                                class="fas fa-user-friends"></i><span>Teman</span></label>
+                                    </div>
+                                    <div class="quick-select-item emergency">
+                                        <input type="radio" name="pelakuKekerasan" id="p_unknown"
+                                            value="orang_tidak_dikenal">
+                                        <label for="p_unknown"><i class="fas fa-user-secret"></i><span>Tak
+                                                Dikenal</span></label>
+                                    </div>
+                                </div>
+
+                                <!-- Group: Lainnya -->
+                                <div class="lapor-quick-select-grid" style="margin-top: 12px;">
+                                    <div class="quick-select-item" style="grid-column: 1 / -1;">
+                                        <input type="radio" name="pelakuKekerasan" id="p_lainnya" value="lainnya">
+                                        <label for="p_lainnya"
+                                            style="flex-direction: row; gap: 10px; min-height: 60px;">
+                                            <i class="fas fa-ellipsis-h" style="margin:0; font-size: 1.5rem;"></i>
+                                            <span>Lainnya (Sebutkan di detail kejadian)</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Hidden validation target -->
+                            <input type="text" id="pelakuKekerasan" name="pelakuKekerasanValidation"
+                                style="opacity: 0; position: absolute; pointer-events: none;" required tabindex="-1">
                         </div>
+
+                        <div class="lapor-nav">
+                            <button type="button" class="btn-lapor btn-back" id="btnKembali5">
+                                <i class="fas fa-arrow-left"></i> Kembali
+                            </button>
+                            <!-- No Next Button needed because of auto-advance, but kept hidden just in case of JS failure or for accessibility -->
+                            <button type="button" class="btn-lapor btn-next" id="btnLanjutkan5" style="display: none;">
+                                Lanjutkan <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- ==========================================
+                         STEP 6: DETAIL KEJADIAN
+                         ========================================== -->
+                    <div class="form-step" id="step6">
+                        <h2 class="lapor-title">Detail Kejadian</h2>
+                        <p class="lapor-subtitle">Ceritakan apa yang terjadi</p>
 
                         <!-- Kapan Kejadiannya -->
                         <div class="lapor-field">
@@ -381,21 +473,21 @@
                         </div>
 
                         <div class="lapor-nav">
-                            <button type="button" class="btn-lapor btn-back" id="btnKembali4">
+                            <button type="button" class="btn-lapor btn-back" id="btnKembali6">
                                 <i class="fas fa-arrow-left"></i> Kembali
                             </button>
-                            <button type="button" class="btn-lapor btn-next" id="btnLanjutkan4" disabled>
+                            <button type="button" class="btn-lapor btn-next" id="btnLanjutkan6" disabled>
                                 Lanjutkan <i class="fas fa-arrow-right"></i>
                             </button>
                         </div>
                     </div>
 
                     <!-- ==========================================
-                         STEP 5: INPUT DATA KORBAN
+                         STEP 7: INPUT DATA KORBAN (FINAL)
                          ========================================== -->
-                    <div class="form-step" id="step5">
-                        <h2 class="lapor-title">Input Data Korban</h2>
-                        <p class="lapor-subtitle">Data korban diperlukan untuk proses pelaporan</p>
+                    <div class="form-step" id="step7">
+                        <h2 class="lapor-title">Input Data Penyintas</h2>
+                        <p class="lapor-subtitle">Data penyintas diperlukan untuk proses pelaporan</p>
 
                         <!-- Email -->
                         <div class="lapor-field">
@@ -408,13 +500,13 @@
                             <span class="lapor-error" id="errorEmail">Format email tidak valid</span>
                         </div>
 
-                        <!-- Usia Korban -->
+                        <!-- Usia Penyintas -->
                         <div class="lapor-field">
                             <label for="usiaKorban" class="lapor-label">
-                                Usia Korban <span class="required">*</span>
+                                Usia Penyintas <span class="required">*</span>
                             </label>
                             <select class="lapor-input" id="usiaKorban" name="usiaKorban" required>
-                                <option value="" selected disabled>Pilih usia korban</option>
+                                <option value="" selected disabled>Pilih usia penyintas</option>
                                 <option value="12-17">12-17 tahun</option>
                                 <option value="18-25">18-25 tahun</option>
                                 <option value="26-35">26-35 tahun</option>
@@ -422,12 +514,12 @@
                                 <option value="46-55">46-55 tahun</option>
                                 <option value="56+">56 tahun ke atas</option>
                             </select>
-                            <span class="lapor-error" id="errorUsia">Usia korban wajib dipilih</span>
+                            <span class="lapor-error" id="errorUsia">Usia penyintas wajib dipilih</span>
                         </div>
 
                         <!-- Disabilitas Status -->
                         <div class="lapor-field">
-                            <label class="lapor-label">Apakah Korban Memiliki Disabilitas?</label>
+                            <label class="lapor-label">Apakah Penyintas Memiliki Disabilitas?</label>
                             <div class="lapor-radio-list inline">
                                 <div class="lapor-radio-item">
                                     <input type="radio" name="disabilitasStatus" id="disabilitasYa" value="ya">
@@ -443,7 +535,7 @@
                         <!-- Jenis Disabilitas (Hidden by default) -->
                         <div class="lapor-field hidden" id="jenisDisabilitasContainer">
                             <label for="jenisDisabilitas" class="lapor-label">
-                                Jenis Disabilitas Korban <span class="required">*</span>
+                                Jenis Disabilitas Penyintas <span class="required">*</span>
                             </label>
                             <select class="lapor-input" id="jenisDisabilitas" name="jenisDisabilitas">
                                 <option value="" selected disabled>Pilih jenis disabilitas</option>
@@ -474,7 +566,7 @@
                         </div>
 
                         <div class="lapor-nav">
-                            <button type="button" class="btn-lapor btn-back" id="btnKembali5">
+                            <button type="button" class="btn-lapor btn-back" id="btnKembali7">
                                 <i class="fas fa-arrow-left"></i> Kembali
                             </button>
                             <button type="button" class="btn-lapor btn-submit" id="btnKirimPengaduan" disabled>
@@ -482,7 +574,6 @@
                             </button>
                         </div>
                     </div>
-
                 </form>
             </div>
         </div>

@@ -5,9 +5,8 @@
 
     // State
     let currentStep = 1;
-    const totalSteps = 5;
+    const totalSteps = 7;
     const formData = {};
-    const step2Status = { korban: false, kehawatiran: false };
 
     // File upload
     const uploadedFiles = [];
@@ -28,7 +27,9 @@
         initStep2();
         initStep3();
         initStep4();
-        initStep5();
+        initStep5Pelaku();
+        initStep6();
+        initStep7();
         initVoiceInput();
         injectModalStyles();
         injectAutofillStyles();
@@ -115,11 +116,11 @@
         console.log('Applying autofill data...');
         
         const fieldMappings = [
-            { key: 'pelakuKekerasan', id: 'pelakuKekerasan', step: 4, type: 'select' },
-            { key: 'waktuKejadian', id: 'waktuKejadian', step: 4, type: 'date', transform: formatDateForInput },
-            { key: 'lokasiKejadian', id: 'lokasiKejadian', step: 4, type: 'select' },
-            { key: 'detailKejadian', id: 'detailKejadian', step: 4, type: 'textarea' },
-            { key: 'usiaKorban', id: 'usiaKorban', step: 5, type: 'select' },
+            { key: 'pelakuKekerasan', id: 'pelakuKekerasan', step: 4, type: 'radio' },
+            { key: 'waktuKejadian', id: 'waktuKejadian', step: 5, type: 'date', transform: formatDateForInput },
+            { key: 'lokasiKejadian', id: 'lokasiKejadian', step: 5, type: 'select' },
+            { key: 'detailKejadian', id: 'detailKejadian', step: 5, type: 'textarea' },
+            { key: 'usiaKorban', id: 'usiaKorban', step: 6, type: 'select' },
             { key: 'genderKorban', id: 'genderKorban', step: 3, type: 'radio' },
             { key: 'tingkatKekhawatiran', id: 'kehawatiran', step: 2, type: 'choice-card' },
             { key: 'korbanSebagai', id: 'korban', step: 2, type: 'choice-card' }
@@ -744,7 +745,7 @@
     }
 
     // ============================================
-    // STEP 2: KORBAN & KEHAWATIRAN
+    // STEP 2: SIAPA PENYINTASNYA (HALAMAN TERPISAH)
     // ============================================
     function initStep2() {
         const btnKembali2 = document.getElementById('btnKembali2');
@@ -752,14 +753,13 @@
         
         if (btnKembali2) {
             btnKembali2.addEventListener('click', function() {
-                resetStep2();
                 goToStep(1);
             });
         }
         
         if (btnLanjutkan2) {
             btnLanjutkan2.addEventListener('click', function() {
-                if (step2Status.korban && step2Status.kehawatiran) {
+                if (formData.korban) {
                     goToStep(3);
                 }
             });
@@ -768,68 +768,30 @@
 
     function handleStep2Selection(groupName) {
         if (groupName === 'korban') {
-            step2Status.korban = true;
-            // Scroll to next section smoothly if worry level not picked yet
-            if (!step2Status.kehawatiran) {
-                const worrySection = document.querySelector('.lapor-choice[data-group="kehawatiran"]');
-                if (worrySection) {
-                    worrySection.closest('.form-group').scrollIntoView({ behavior: 'smooth', block: 'center' });
-                }
-            }
-        } else if (groupName === 'kehawatiran') {
-            step2Status.kehawatiran = true;
-        }
-        
-        const btnLanjutkan2 = document.getElementById('btnLanjutkan2');
-        
-        // AUTO-ADVANCE LOGIC
-        if (step2Status.korban && step2Status.kehawatiran) {
+            const btnLanjutkan2 = document.getElementById('btnLanjutkan2');
             if (btnLanjutkan2) btnLanjutkan2.disabled = false;
             
-            console.log('Step 2 Complete (Auto):', formData);
+            // AUTO-ADVANCE setelah pilih
             setTimeout(() => {
                 goToStep(3);
-            }, 400); // Slightly longer delay to register the second click
-        } else if (btnLanjutkan2 && (step2Status.korban || step2Status.kehawatiran)) {
-            // Keep disabled until both are selected
-             // but maybe highlight missing part?
-        }
-    }
-
-    function resetStep2() {
-        step2Status.korban = false;
-        step2Status.kehawatiran = false;
-        
-        const btnLanjutkan2 = document.getElementById('btnLanjutkan2');
-        if (btnLanjutkan2) {
-            btnLanjutkan2.disabled = true;
+            }, 400);
+        } else if (groupName === 'kehawatiran') {
+            const btnLanjutkan3 = document.getElementById('btnLanjutkan3');
+            if (btnLanjutkan3) btnLanjutkan3.disabled = false;
+            
+            // AUTO-ADVANCE setelah pilih
+            setTimeout(() => {
+                goToStep(4);
+            }, 400);
         }
     }
 
     // ============================================
-    // STEP 3: GENDER KORBAN
+    // STEP 3: TINGKAT KEKHAWATIRAN (HALAMAN TERPISAH)
     // ============================================
     function initStep3() {
-        const genderRadios = document.querySelectorAll('input[name="genderKorban"]');
         const btnKembali3 = document.getElementById('btnKembali3');
         const btnLanjutkan3 = document.getElementById('btnLanjutkan3');
-        
-        genderRadios.forEach(radio => {
-            radio.addEventListener('change', function() {
-                if (this.checked) {
-                    formData.genderKorban = this.value;
-                    if (btnLanjutkan3) {
-                        btnLanjutkan3.disabled = false;
-                    }
-
-                    // AUTO-ADVANCE LOGIC
-                    console.log('Step 3 Complete (Auto):', formData);
-                    setTimeout(() => {
-                        goToStep(4);
-                    }, 300);
-                }
-            });
-        });
         
         if (btnKembali3) {
             btnKembali3.addEventListener('click', function() {
@@ -839,7 +801,7 @@
         
         if (btnLanjutkan3) {
             btnLanjutkan3.addEventListener('click', function() {
-                if (formData.genderKorban) {
+                if (formData.kehawatiran) {
                     goToStep(4);
                 }
             });
@@ -847,149 +809,29 @@
     }
 
     // ============================================
-    // STEP 4: DATA KEJADIAN KEKERASAN - FIXED!
+    // STEP 4: GENDER PENYINTAS
     // ============================================
     function initStep4() {
-        const pelakuKekerasan = document.getElementById('pelakuKekerasan');
-        const waktuKejadian = document.getElementById('waktuKejadian');
-        const lokasiKejadian = document.getElementById('lokasiKejadian');
-        const detailKejadian = document.getElementById('detailKejadian');
+        const genderRadios = document.querySelectorAll('input[name="genderKorban"]');
         const btnKembali4 = document.getElementById('btnKembali4');
         const btnLanjutkan4 = document.getElementById('btnLanjutkan4');
         
-        // ========================================
-        // NEW: Set max date to today for date input
-        // ========================================
-        if (waktuKejadian && waktuKejadian.type === 'date') {
-            const today = new Date();
-            const maxDate = today.toISOString().split('T')[0];
-            waktuKejadian.setAttribute('max', maxDate);
-            console.log('Date input max set to:', maxDate);
-        }
-        // ========================================
-        
-        if (pelakuKekerasan) {
-            pelakuKekerasan.addEventListener('change', function() {
-                formData.pelakuKekerasan = this.value;
-                validateStep4();
-            });
-            
-            pelakuKekerasan.addEventListener('blur', function() {
-                if (!this.value) {
-                    showError('errorPelaku', this);
-                } else {
-                    hideError('errorPelaku', this);
+        genderRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.checked) {
+                    formData.genderKorban = this.value;
+                    if (btnLanjutkan4) {
+                        btnLanjutkan4.disabled = false;
+                    }
+
+                    // AUTO-ADVANCE LOGIC
+                    console.log('Step 4 Gender Complete (Auto):', formData);
+                    setTimeout(() => {
+                        goToStep(5);
+                    }, 300);
                 }
             });
-        }
-        
-        // ========================================
-        // FIXED: Handle date input properly
-        // ========================================
-        if (waktuKejadian) {
-            waktuKejadian.addEventListener('change', function() {
-                formData.waktuKejadian = this.value; // Already YYYY-MM-DD format
-                
-                // Validate: not future date
-                const selectedDate = new Date(this.value);
-                const today = new Date();
-                today.setHours(0, 0, 0, 0);
-                
-                if (selectedDate > today) {
-                    showError('errorWaktu', this);
-                    document.getElementById('errorWaktu').textContent = 'Tanggal tidak boleh di masa depan';
-                    formData.waktuKejadian = null;
-                } else {
-                    hideError('errorWaktu', this);
-                }
-                
-                validateStep4();
-            });
-            
-            waktuKejadian.addEventListener('blur', function() {
-                if (!this.value) {
-                    showError('errorWaktu', this);
-                    document.getElementById('errorWaktu').textContent = 'Tanggal kejadian wajib diisi';
-                }
-            });
-        }
-        // ========================================
-        
-        if (lokasiKejadian) {
-            lokasiKejadian.addEventListener('change', function() {
-                formData.lokasiKejadian = this.value;
-                validateStep4();
-            });
-            
-            lokasiKejadian.addEventListener('blur', function() {
-                if (!this.value) {
-                    showError('errorLokasi', this);
-                } else {
-                    hideError('errorLokasi', this);
-                }
-            });
-        }
-        
-        if (detailKejadian) {
-            detailKejadian.addEventListener('input', function() {
-                formData.detailKejadian = this.value;
-                validateStep4();
-            });
-            
-            detailKejadian.addEventListener('blur', function() {
-                if (!this.value || this.value.length < 20) {
-                    showError('errorDetail', this);
-                } else {
-                    hideError('errorDetail', this);
-                }
-            });
-        }
-        
-        // File upload
-        const fileInput = document.getElementById('fileInput');
-        if (fileInput) {
-            fileInput.addEventListener('change', handleFileUpload);
-        }
-        
-        // Drag and drop
-        const uploadArea = document.getElementById('uploadArea');
-        const btnSelectFiles = document.getElementById('btnSelectFiles');
-        
-        if (uploadArea && fileInput) {
-            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                uploadArea.addEventListener(eventName, preventDefaults, false);
-                document.body.addEventListener(eventName, preventDefaults, false);
-            });
-            
-            ['dragenter', 'dragover'].forEach(eventName => {
-                uploadArea.addEventListener(eventName, () => {
-                    uploadArea.classList.add('dragover');
-                }, false);
-            });
-            
-            ['dragleave', 'drop'].forEach(eventName => {
-                uploadArea.addEventListener(eventName, () => {
-                    uploadArea.classList.remove('dragover');
-                }, false);
-            });
-            
-            uploadArea.addEventListener('drop', (e) => {
-                const dt = e.dataTransfer;
-                const files = dt.files;
-                handleFileUpload({ target: { files: files } });
-            }, false);
-            
-            if (btnSelectFiles) {
-                btnSelectFiles.addEventListener('click', () => {
-                    fileInput.click();
-                });
-            }
-            
-            uploadArea.addEventListener('click', (e) => {
-                if (e.target.closest('.btn-upload')) return;
-                fileInput.click();
-            });
-        }
+        });
         
         if (btnKembali4) {
             btnKembali4.addEventListener('click', function() {
@@ -999,36 +841,186 @@
         
         if (btnLanjutkan4) {
             btnLanjutkan4.addEventListener('click', function() {
-                if (validateStep4()) {
-                    console.log('Step 4 Complete:', formData);
+                if (formData.genderKorban) {
                     goToStep(5);
                 }
             });
         }
     }
 
-    function preventDefaults(e) {
-        e.preventDefault();
-        e.stopPropagation();
+    // ============================================
+    // STEP 5: SIAPA PELAKUNYA
+    // ============================================
+    function initStep5Pelaku() {
+        const pelakuKekerasan = document.getElementById('pelakuKekerasan');
+        const btnKembali5 = document.getElementById('btnKembali5');
+        
+        // Quick Select Grid Logic (Auto-Advance)
+        const pelakuRadios = document.querySelectorAll('input[name="pelakuKekerasan"]');
+        pelakuRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.checked) {
+                    formData.pelakuKekerasan = this.value;
+                    
+                    // Update validation anchor
+                    if (pelakuKekerasan) pelakuKekerasan.value = this.value;
+                    
+                    hideError('errorPelaku', pelakuKekerasan);
+                    
+                    // AUTO-ADVANCE
+                    console.log('Step 5 Pelaku Complete (Auto):', formData);
+                    setTimeout(() => {
+                        goToStep(6);
+                    }, 300);
+                }
+            });
+        });
+        
+        if (btnKembali5) {
+            btnKembali5.addEventListener('click', function() {
+                goToStep(4);
+            });
+        }
     }
 
-    function validateStep4() {
+    function validateStep5Pelaku() {
+        // Validation happens on click for auto-advance, but keeping this for safety
         const pelaku = document.getElementById('pelakuKekerasan');
+        return pelaku && pelaku.value;
+    }
+
+    // ============================================
+    // STEP 6: DETAIL KEJADIAN
+    // ============================================
+    function initStep6() {
+        const waktuKejadian = document.getElementById('waktuKejadian');
+        const lokasiKejadian = document.getElementById('lokasiKejadian');
+        const detailKejadian = document.getElementById('detailKejadian');
+        const btnKembali6 = document.getElementById('btnKembali6');
+        const btnLanjutkan6 = document.getElementById('btnLanjutkan6');
+        
+        // Date Input
+        if (waktuKejadian) {
+             // Set max date to today
+             const today = new Date();
+             const year = today.getFullYear();
+             const month = String(today.getMonth() + 1).padStart(2, '0');
+             const day = String(today.getDate()).padStart(2, '0');
+             const maxDate = `${year}-${month}-${day}`;
+             waktuKejadian.setAttribute('max', maxDate);
+             
+             waktuKejadian.addEventListener('change', function() {
+                formData.waktuKejadian = this.value;
+                
+                // Parse selected date (format: YYYY-MM-DD)
+                const [selYear, selMonth, selDay] = this.value.split('-').map(Number);
+                const selectedDate = new Date(selYear, selMonth - 1, selDay);
+                
+                // Get today's date (local timezone, start of day)
+                const now = new Date();
+                const todayDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                
+                if (selectedDate > todayDate) {
+                    showError('errorWaktu', this);
+                    document.getElementById('errorWaktu').textContent = 'Tanggal tidak boleh di masa depan';
+                    formData.waktuKejadian = null;
+                } else {
+                    hideError('errorWaktu', this);
+                }
+                validateStep6();
+             });
+             waktuKejadian.addEventListener('blur', function() {
+                 if (!this.value) showError('errorWaktu', this);
+             });
+        }
+        
+        // Location
+        if (lokasiKejadian) {
+            lokasiKejadian.addEventListener('change', function() {
+                formData.lokasiKejadian = this.value;
+                validateStep6();
+            });
+            lokasiKejadian.addEventListener('blur', function() {
+                 if (!this.value) showError('errorLokasi', this);
+                 else hideError('errorLokasi', this);
+            });
+        }
+        
+        // Detail
+        if (detailKejadian) {
+            detailKejadian.addEventListener('input', function() {
+                formData.detailKejadian = this.value;
+                validateStep6();
+            });
+            detailKejadian.addEventListener('blur', function() {
+                 if (!this.value || this.value.length < 10) showError('errorDetail', this);
+                 else hideError('errorDetail', this);
+            });
+        }
+        
+        // File Upload Listeners
+        const fileInput = document.getElementById('fileInput');
+        const uploadArea = document.getElementById('uploadArea');
+        const btnSelectFiles = document.getElementById('btnSelectFiles');
+        
+        if (fileInput) fileInput.addEventListener('change', handleFileUpload);
+        
+        if (uploadArea && fileInput) {
+             ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, preventDefaults, false);
+                document.body.addEventListener(eventName, preventDefaults, false);
+            });
+            ['dragenter', 'dragover'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, () => uploadArea.classList.add('dragover'), false);
+            });
+            ['dragleave', 'drop'].forEach(eventName => {
+                uploadArea.addEventListener(eventName, () => uploadArea.classList.remove('dragover'), false);
+            });
+            uploadArea.addEventListener('drop', (e) => {
+                handleFileUpload({ target: { files: e.dataTransfer.files } });
+            }, false);
+            if (btnSelectFiles) btnSelectFiles.addEventListener('click', () => fileInput.click());
+            uploadArea.addEventListener('click', (e) => {
+                if (!e.target.closest('.btn-upload')) fileInput.click();
+            });
+        }
+
+        if (btnKembali6) {
+            btnKembali6.addEventListener('click', function() {
+                goToStep(5);
+            });
+        }
+        
+        if (btnLanjutkan6) {
+            btnLanjutkan6.addEventListener('click', function() {
+                if (validateStep6()) {
+                     console.log('Step 6 Complete:', formData);
+                     goToStep(7);
+                }
+            });
+        }
+    }
+
+    function validateStep6() {
         const waktu = document.getElementById('waktuKejadian');
         const lokasi = document.getElementById('lokasiKejadian');
         const detail = document.getElementById('detailKejadian');
-        const btnLanjutkan4 = document.getElementById('btnLanjutkan4');
+        const btnLanjutkan6 = document.getElementById('btnLanjutkan6');
         
-        const isValid = pelaku && pelaku.value &&
-                       waktu && waktu.value &&
+        const isValid = waktu && waktu.value &&
                        lokasi && lokasi.value &&
-                       detail && detail.value && detail.value.length >= 20;
+                       detail && detail.value && detail.value.length >= 10;
         
-        if (btnLanjutkan4) {
-            btnLanjutkan4.disabled = !isValid;
+        if (btnLanjutkan6) {
+            btnLanjutkan6.disabled = !isValid;
         }
         
         return isValid;
+    }
+    
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
     }
 
     function handleFileUpload(event) {
@@ -1156,36 +1148,36 @@
     }
 
     // ============================================
-    // STEP 5: DATA PRIBADI KORBAN
+    // STEP 7: DATA PRIBADI PENYINTAS (FINAL)
     // ============================================
-    function initStep5() {
+    function initStep7() {
         const emailKorban = document.getElementById('emailKorban');
         const usiaKorban = document.getElementById('usiaKorban');
         const whatsappKorban = document.getElementById('whatsappKorban');
         const disabilitasRadios = document.querySelectorAll('input[name="disabilitasStatus"]');
         const jenisDisabilitasContainer = document.getElementById('jenisDisabilitasContainer');
         const jenisDisabilitas = document.getElementById('jenisDisabilitas');
-        const btnKembali5 = document.getElementById('btnKembali5');
+        const btnKembali7 = document.getElementById('btnKembali7');
         const btnKirimPengaduan = document.getElementById('btnKirimPengaduan');
         
         if (emailKorban) {
             emailKorban.addEventListener('change', function() {
                 formData.emailKorban = this.value;
-                validateStep5();
+                validateStep7();
             });
         }
         
         if (usiaKorban) {
             usiaKorban.addEventListener('change', function() {
                 formData.usiaKorban = this.value;
-                validateStep5();
+                validateStep7();
             });
         }
         
         if (whatsappKorban) {
             whatsappKorban.addEventListener('change', function() {
                 formData.whatsappKorban = this.value;
-                validateStep5();
+                validateStep7();
             });
         }
         
@@ -1205,34 +1197,34 @@
                     }
                 }
                 
-                validateStep5();
+                validateStep7();
             });
         });
         
         if (jenisDisabilitas) {
             jenisDisabilitas.addEventListener('change', function() {
                 formData.jenisDisabilitas = this.value;
-                validateStep5();
+                validateStep7();
             });
         }
         
-        if (btnKembali5) {
-            btnKembali5.addEventListener('click', function() {
-                goToStep(4);
+        if (btnKembali7) {
+            btnKembali7.addEventListener('click', function() {
+                goToStep(6);
             });
         }
         
         if (btnKirimPengaduan) {
             btnKirimPengaduan.addEventListener('click', function(e) {
                 e.preventDefault();
-                if (validateStep5()) {
+                if (validateStep7()) {
                     submitForm();
                 }
             });
         }
     }
 
-    function validateStep5() {
+    function validateStep7() {
         const usia = document.getElementById('usiaKorban');
         const btnKirimPengaduan = document.getElementById('btnKirimPengaduan');
         

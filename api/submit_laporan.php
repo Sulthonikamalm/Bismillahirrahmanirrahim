@@ -441,7 +441,7 @@ function validateInput($input) {
         sanitizeString($input['usiaKorban']) : null;
 
     if (empty($data['usia_korban'])) {
-        $errors['usiaKorban'] = 'Usia korban wajib diisi';
+        $errors['usiaKorban'] = 'Usia penyintas wajib diisi';
     }
 
     $data['whatsapp_korban'] = isset($input['whatsappKorban']) ?
