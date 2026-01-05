@@ -1,22 +1,13 @@
-/**
- * @fileoverview Module for fetching and rendering dynamic blog content for Wawasan page.
- * Handles API communication, sanitization, skeletal loading, and error states.
- */
-
-// Configuration
+// Konfigurasi
 const CONFIG = {
     API_ENDPOINT: '../api/blog/get_blogs.php',
     ARTICLE_LIMIT: 6,
     READ_PAGE_URL: '../Blog/baca.html',
-    DEFAULT_IMAGE: 'https://via.placeholder.com/400x250/e07b8a/ffffff?text=Image+Not+Found', // Fallback image
-    RETRY_DELAY: 1000 // ms
+    DEFAULT_IMAGE: 'https://via.placeholder.com/400x250/e07b8a/ffffff?text=Image+Not+Found',
+    RETRY_DELAY: 1000
 };
 
-/**
- * Sanitizes a string to prevent XSS attacks.
- * @param {string} str - The raw string to sanitize.
- * @returns {string} - The sanitized string.
- */
+// Sanitasi string untuk XSS
 function sanitizeHTML(str) {
     if (!str) return '';
     const tempDiv = document.createElement('div');
@@ -24,11 +15,7 @@ function sanitizeHTML(str) {
     return tempDiv.innerHTML;
 }
 
-/**
- * Formats a date string to a readable format (e.g., "5 Desember 2024").
- * @param {string} dateStr - The date string from the database.
- * @returns {string} - Formatted date.
- */
+// Format tanggal ke bahasa Indonesia
 function formatDate(dateStr) {
     if (!dateStr) return '';
     const options = { day: 'numeric', month: 'long', year: 'numeric' };
@@ -39,11 +26,7 @@ function formatDate(dateStr) {
     }
 }
 
-/**
- * Generates the HTML for skeleton loading state.
- * @param {number} count - Number of skeleton cards to generate.
- * @returns {string} - HTML string for skeletons.
- */
+// Buat skeleton loading
 function createSkeleton(count = 3) {
     let html = '';
     for (let i = 0; i < count; i++) {
@@ -67,10 +50,7 @@ function createSkeleton(count = 3) {
     return html;
 }
 
-/**
- * Renders the error state with a retry button.
- * @param {string} message - Error message to display.
- */
+// Render error state
 function renderError(message) {
     const container = document.getElementById('blog-grid');
     if (!container) return;
@@ -91,9 +71,7 @@ function renderError(message) {
     });
 }
 
-/**
- * Renders the empty state if no articles are found.
- */
+// Render empty state
 function renderEmptyState() {
     const container = document.getElementById('blog-grid');
     if (!container) return;
@@ -107,10 +85,7 @@ function renderEmptyState() {
     `;
 }
 
-/**
- * Renders the articles into the DOM.
- * @param {Array} blogs - Array of blog objects.
- */
+// Render artikel ke DOM
 function renderArticles(blogs) {
     const container = document.getElementById('blog-grid');
     if (!container) return;
@@ -121,16 +96,10 @@ function renderArticles(blogs) {
     }
 
     container.innerHTML = blogs.map((blog, index) => {
-        // Safe access to properties and fallbacks
         const id = sanitizeHTML(blog.id);
         const title = sanitizeHTML(blog.judul);
         const category = sanitizeHTML(blog.kategori || 'Umum');
-        // Use placeholder if null or empty, will also handle onError in img tag
         let imageUrl = blog.gambar_header_url ? sanitizeHTML(blog.gambar_header_url) : CONFIG.DEFAULT_IMAGE;
-    
-        // Fix Path Logic for Wawasan Page
-        // Use logic similar to Blog/js/blog-list.js but Wawasan is in Wawasan/ folder
-        // so ../uploads/ works the same.
         if (imageUrl && !imageUrl.startsWith('http') && !imageUrl.startsWith('../')) {
              if (imageUrl.startsWith('/')) {
                 imageUrl = '..' + imageUrl;
@@ -138,12 +107,9 @@ function renderArticles(blogs) {
                 imageUrl = '../' + imageUrl;
             }
         }
-
-        const date = formatDate(blog.created_at); 
-        // Use the pre-calculated excerpt from API which is cleaner and handles HTML tags correctly
+        const date = formatDate(blog.created_at);
         const excerpt = blog.excerpt || '';
         
-        // Staggered animation delay: 100ms, 200ms, 300ms, etc.
         const delay = (index + 1) * 100;
 
         return `
@@ -158,7 +124,6 @@ function renderArticles(blogs) {
                 <div class="artikel-category">${category}</div>
                 <div class="artikel-meta">
                     <span><i class="far fa-calendar"></i> ${date}</span>
-                    <!-- <span><i class="far fa-clock"></i> 5 min baca</span> --> 
                 </div>
                 <h3 class="artikel-title">${title}</h3>
                 <p class="artikel-excerpt">
@@ -169,7 +134,6 @@ function renderArticles(blogs) {
         `;
     }).join('');
 
-    // Re-initialize animations after DOM injection
     if (window.AOS) {
         setTimeout(() => {
             window.AOS.refresh();
@@ -177,14 +141,11 @@ function renderArticles(blogs) {
     }
 }
 
-/**
- * Fetches articles from the API.
- */
+// Fetch artikel dari API
 async function fetchArticles() {
     const container = document.getElementById('blog-grid');
     if (!container) return;
 
-    // Show Skeleton
     container.innerHTML = createSkeleton(CONFIG.ARTICLE_LIMIT);
 
     try {
@@ -197,13 +158,11 @@ async function fetchArticles() {
 
         const result = await response.json();
 
-        // Simulate minimum loading time for smooth UX (avoid layout flickering)
         await new Promise(resolve => setTimeout(resolve, 500));
 
         if (result.status === 'success' && result.data && Array.isArray(result.data.blogs)) {
             renderArticles(result.data.blogs);
         } else {
-            // If API returns success but logic issue, or empty list
              if (result.status === 'success' && result.data && result.data.blogs.length === 0) {
                  renderEmptyState();
              } else {
@@ -217,7 +176,7 @@ async function fetchArticles() {
     }
 }
 
-// Initialize on DOM Ready
+// Inisialisasi saat DOM ready
 document.addEventListener('DOMContentLoaded', () => {
     fetchArticles();
 });

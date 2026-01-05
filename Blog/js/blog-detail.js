@@ -1,6 +1,4 @@
-/**
- * @fileoverview Logic for fetching and rendering single blog article in Deep Reading mode.
- */
+// Blog Detail Reader
 
 const CONFIG = {
     API_DETAIL: '../api/blog/get_blog_detail.php',
@@ -9,7 +7,7 @@ const CONFIG = {
     HOME_URL: '../Wawasan/wawasan.html#kabar-sigap'
 };
 
-// Utils: Image Path Fixer
+// Fix image path
 function fixImagePath(path) {
     if (!path) return CONFIG.DEFAULT_IMAGE;
     if (path.startsWith('http') || path.startsWith('../')) return path;
@@ -17,7 +15,7 @@ function fixImagePath(path) {
     return '../' + path;
 }
 
-// Utils: HTML Sanitizer (Basic)
+// Sanitize HTML
 function sanitizeHTML(str) {
     if (!str) return '';
     const temp = document.createElement('div');
@@ -25,14 +23,14 @@ function sanitizeHTML(str) {
     return temp.innerHTML;
 }
 
-// Utils: Date Formatter
+// Format tanggal
 function formatDate(dateStr) {
     try {
         return new Date(dateStr).toLocaleDateString('id-ID', {day: 'numeric', month: 'long', year: 'numeric'});
     } catch(e) { return dateStr; }
 }
 
-// Utils: Calculate Reading Time
+// Hitung waktu baca
 function calculateReadingTime(text) {
     const wpm = 200;
     const words = text.trim().split(/\s+/).length;
@@ -40,7 +38,7 @@ function calculateReadingTime(text) {
     return time < 1 ? 1 : time;
 }
 
-// Feature: Share Link
+// Share link functionality
 function initShareButton() {
     const btn = document.getElementById('btnShareLink');
     if(btn) {
@@ -54,10 +52,9 @@ function initShareButton() {
     }
 }
 
-// Feature: Related Articles
+// Fetch artikel terkait
 async function fetchRelated(currentId) {
     try {
-        // Fetch 4 items, we will filter out current one and show 3
         const res = await fetch(`${CONFIG.API_LIST}?limit=4`);
         const result = await res.json();
         
@@ -65,7 +62,6 @@ async function fetchRelated(currentId) {
             const container = document.getElementById('related-grid');
             const relatedSection = document.getElementById('related-section');
             
-            // Filter out current article
             const filtered = result.data.blogs.filter(b => b.id != currentId).slice(0, 3);
             
             if (filtered.length > 0) {
@@ -89,29 +85,20 @@ async function fetchRelated(currentId) {
     }
 }
 
-// Main: Render Article
+// Render artikel
 function renderArticle(blog) {
     const container = document.getElementById('article-area');
     
-    // Metadata
-    // Decode title if it's double escaped or contains entities like &lt;strong&gt;
     const tempTitle = document.createElement('div');
     tempTitle.innerHTML = blog.judul;
-    const title = tempTitle.textContent || tempTitle.innerText || ""; // Now we have "<strong>...</strong>"
-    // Since we want to display it as text in the H1 (and let the browser render the tags inside H1 if any?)
-    // Actually, if the title is "<strong>Title</strong>", putting it in innerHTML of H1 will render bold.
-    // If we want to strip tags from title:
+    const title = tempTitle.textContent || tempTitle.innerText || "";
     const cleanTitle = title.replace(/<[^>]*>?/gm, '');
 
     const author = blog.author ? blog.author.name : 'Admin';
     const date = formatDate(blog.created_at);
-    // Content is RAW HTML from WYSIWYG editor. 
-    // Do NOT extract textContent, as it strips all tags (<p>, <ul>, etc).
-    // Trust the Admin content (or implement proper sanitization library like DOMPurify if needed later).
     const content = blog.isi_postingan || ''; 
     const image = fixImagePath(blog.gambar_header_url);
     
-    // Reading Time
     const plainText = content.replace(/<[^>]*>/g, '');
     const readTime = calculateReadingTime(plainText);
     
@@ -119,7 +106,7 @@ function renderArticle(blog) {
 
     const html = `
         <header class="article-header-immersive" data-aos="fade-down">
-            <h1 class="article-title">${title}</h1> <!-- Render HTML title (e.g. bold tags) -->
+            <h1 class="article-title">${title}</h1>
             <div class="article-meta-modern">
                 <span class="meta-item"><i class="fas fa-user-circle"></i> ${author}</span>
                 <div class="meta-separator"></div>
@@ -140,20 +127,17 @@ function renderArticle(blog) {
     
     container.innerHTML = html;
     
-    // Show Share Section
     document.getElementById('share-section').style.display = 'flex';
     
-    // Refresh animations
     if(window.AOS) setTimeout(()=> window.AOS.refresh(), 500);
 }
 
-// Main: Fetch Detail
+// Fetch detail artikel
 async function fetchDetail() {
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id');
     const isPreview = params.get('preview') === 'true';
 
-    // PREVIEW MODE
     if (isPreview) {
         try {
             const localData = localStorage.getItem('blog_preview_data');
@@ -169,20 +153,14 @@ async function fetchDetail() {
 
                 renderArticle(blogData);
                 
-                // Hide share section in preview
                 const shareSection = document.getElementById('share-section');
                 if(shareSection) shareSection.style.display = 'none';
 
-                // --- FIX: Disable Navigation in Preview Mode ---
-                // 1. Disable all generic links and buttons that might navigate away
                 const allInteractables = document.querySelectorAll('a, button, .btn');
                 allInteractables.forEach(el => {
-                     // Skip the close button if we already created it (though it might not exist yet)
                      if (el.classList.contains('btn-back')) return; 
 
-                     // Add a capture listener to stop immediate propagation
                      el.addEventListener('click', (e) => {
-                         // Double check if it is our close button
                          if (el.classList.contains('btn-back') || el.innerText.includes('Close Preview')) return;
                          
                          e.preventDefault();
@@ -190,21 +168,17 @@ async function fetchDetail() {
                          alert('Fitur ini dinonaktifkan dalam Mode Preview.\n(This feature is disabled in Preview Mode)');
                      }, true);
                      
-                     // Visual feedback
                      el.style.cursor = 'not-allowed';
                      el.style.opacity = '0.6';
                      el.title = 'Disabled in Preview Mode';
                 });
 
-                // Specific fix for Navbar elements to ensure they look disabled
                 const navItems = document.querySelectorAll('.nav-item, .logo');
                 navItems.forEach(item => {
-                    item.style.pointerEvents = 'none'; // Hard disable
+                    item.style.pointerEvents = 'none';
                     item.style.opacity = '0.5';
                 });
 
-                // 2. INJECT FIXED CLOSE BUTTON
-                // This ensures the button is always available even if .btn-back is missing or hidden
                 const closeBtn = document.createElement('button');
                 closeBtn.innerHTML = '<i class="bi bi-x-lg"></i> Close Preview';
                 closeBtn.className = 'btn btn-danger shadow-lg';
@@ -220,7 +194,6 @@ async function fetchDetail() {
                 };
                 document.body.appendChild(closeBtn);
 
-                // Try to find existing back button and hide it to avoid confusion, or convert it
                 const existingBack = document.querySelector('.btn-back');
                 if (existingBack) existingBack.style.display = 'none';
 
@@ -236,7 +209,6 @@ async function fetchDetail() {
         }
     }
 
-    // NORMAL MODE
     if (!id) {
         window.location.href = CONFIG.HOME_URL;
         return;

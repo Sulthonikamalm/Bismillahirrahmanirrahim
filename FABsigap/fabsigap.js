@@ -1,7 +1,4 @@
-// ============================================
-// FAB SIGAP - MAIN CONTROLLER
-// TTS Widget muncul DI ATAS button TTS
-// ============================================
+// FAB SIGAP - Controller utama
 
 (function () {
   "use strict";
@@ -9,21 +6,16 @@
   let fabExpanded = false;
   let ttsWidgetOpen = false;
 
-  // ============================================
-  // CREATE FAB BUTTON STRUCTURE
-  // ============================================
+  // Membuat struktur tombol FAB
   function createFABButton() {
     const fabContainer = document.createElement("div");
     fabContainer.id = "fab-sigap-container";
     fabContainer.className = "fab-sigap-container";
     fabContainer.innerHTML = `
-      <!-- Main FAB Button -->
       <button class="fab-main" id="fab-main-btn" aria-label="Buka Menu Bantuan" aria-expanded="false">
         <i class="fas fa-plus fab-icon fab-icon-plus"></i>
         <i class="fas fa-times fab-icon fab-icon-close"></i>
       </button>
-
-      <!-- Menu Items -->
       <div class="fab-menu" id="fab-menu" aria-hidden="true">
         <button class="fab-item" data-feature="chatbot" aria-label="Chat dengan TemanKu">
           <i class="fas fa-comments"></i>
@@ -34,8 +26,6 @@
           <i class="fas fa-volume-up"></i>
           <span class="fab-label">Baca Otomatis</span>
         </button>
-
-        <!-- TTS Widget (muncul DI ATAS button TTS) -->
         <div class="fab-tts-widget" id="fab-tts-widget">
           <div class="fab-tts-content">
             <div class="fab-tts-toggle-row">
@@ -58,9 +48,7 @@
     document.body.appendChild(fabContainer);
   }
 
-  // ============================================
-  // TOGGLE FAB MENU
-  // ============================================
+  // Toggle menu FAB
   function toggleFAB() {
     fabExpanded = !fabExpanded;
     const mainBtn = document.getElementById("fab-main-btn");
@@ -77,16 +65,13 @@
       menu.classList.remove("fab-menu-open");
       menu.setAttribute("aria-hidden", "true");
 
-      // Close TTS widget if open (but TTS stays active)
       if (ttsWidgetOpen) {
-        closeTTSWidget(false); // false = don't turn off TTS
+        closeTTSWidget(false);
       }
     }
   }
 
-  // ============================================
-  // TOGGLE TTS WIDGET
-  // ============================================
+  // Toggle widget TTS
   function openTTSWidget(event) {
     event.stopPropagation();
 
@@ -109,7 +94,6 @@
     widget.classList.remove("show");
     menu.classList.remove("tts-widget-open");
 
-    // Only turn off TTS if explicitly requested
     if (turnOffTTS && ttsSwitch && ttsSwitch.checked) {
       ttsSwitch.checked = false;
       if (window.TTSModule) {
@@ -122,9 +106,7 @@
     );
   }
 
-  // ============================================
-  // HANDLE FEATURE CLICK
-  // ============================================
+  // Handle klik fitur
   function handleFeatureClick(feature, event) {
     console.log(`Feature clicked: ${feature}`);
 
@@ -138,11 +120,9 @@
             "Chatbot belum siap. Pastikan file ChatBot scripts sudah di-load."
           );
         }
-        toggleFAB(); // Close FAB when chatbot opens
+        toggleFAB();
         break;
-
       case "tts":
-        // Toggle TTS widget (don't close FAB)
         event.stopPropagation();
         if (ttsWidgetOpen) {
           closeTTSWidget();
@@ -156,9 +136,7 @@
     }
   }
 
-  // ============================================
-  // INIT TTS CONTROLS
-  // ============================================
+  // Inisialisasi kontrol TTS
   function initTTSControls() {
     const ttsSwitch = document.getElementById("fab-tts-switch");
     const speedSlider = document.getElementById("fab-tts-speed-slider");
@@ -169,7 +147,6 @@
       return;
     }
 
-    // Toggle TTS on/off
     ttsSwitch.addEventListener("change", function () {
       const isActive = this.checked;
 
@@ -181,21 +158,17 @@
           window.TTSModule.deactivate();
           console.log("🔇 TTS Hover Mode Deactivated");
 
-          // Auto-close widget when manually turned off
           setTimeout(() => {
-            closeTTSWidget(false); // Widget closes but TTS already off
+            closeTTSWidget(false);
           }, 300);
         }
       }
     });
 
-    // Speed control
     speedSlider.addEventListener("input", function () {
       const speed = parseFloat(this.value);
       speedValue.textContent = speed.toFixed(1) + "x";
 
-      // Update CSS variable for slider track gradient
-      // Range: 0.5 to 2.0 → Percentage: 0% to 100%
       const min = parseFloat(this.min);
       const max = parseFloat(this.max);
       const percentage = ((speed - min) / (max - min)) * 100;
@@ -206,7 +179,6 @@
       }
     });
 
-    // Initialize slider gradient on load
     const initialSpeed = parseFloat(speedSlider.value);
     const min = parseFloat(speedSlider.min);
     const max = parseFloat(speedSlider.max);
@@ -216,18 +188,14 @@
     console.log("✅ TTS Controls Initialized");
   }
 
-  // ============================================
-  // INIT EVENT LISTENERS
-  // ============================================
+  // Inisialisasi event listener
   function initEventListeners() {
     const mainBtn = document.getElementById("fab-main-btn");
     const fabItems = document.querySelectorAll(".fab-item");
     const ttsWidget = document.getElementById("fab-tts-widget");
 
-    // Main button toggle
     mainBtn.addEventListener("click", toggleFAB);
 
-    // Feature buttons
     fabItems.forEach((item) => {
       item.addEventListener("click", (event) => {
         const feature = item.getAttribute("data-feature");
@@ -235,14 +203,12 @@
       });
     });
 
-    // Prevent widget clicks from bubbling
     if (ttsWidget) {
       ttsWidget.addEventListener("click", (e) => {
         e.stopPropagation();
       });
     }
 
-    // Close on ESC key
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
         if (ttsWidgetOpen) {
@@ -253,7 +219,6 @@
       }
     });
 
-    // Close when clicking outside
     document.addEventListener("click", (e) => {
       const container = document.getElementById("fab-sigap-container");
       if (fabExpanded && !container.contains(e.target)) {
@@ -261,13 +226,10 @@
       }
     });
 
-    // Initialize TTS controls
     initTTSControls();
   }
 
-  // ============================================
-  // INITIALIZATION
-  // ============================================
+  // Inisialisasi
   function init() {
     if (document.readyState === "loading") {
       document.addEventListener("DOMContentLoaded", () => {
@@ -282,10 +244,7 @@
     }
   }
 
-  // Start
   init();
-
-  // Export for debugging
   window.FABSigap = {
     toggle: toggleFAB,
     openTTSWidget: openTTSWidget,

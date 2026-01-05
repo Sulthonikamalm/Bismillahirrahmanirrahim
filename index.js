@@ -3,43 +3,43 @@
 
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* SMOOTH SCROLL */
+  /* --- SMOOTH SCROLL & FOCUS --- */
   document.addEventListener('click', function (e) {
     const target = e.target.closest('a[href^="#"]');
     if (!target) return;
+    
     const id = target.getAttribute('href');
     if (id === '#' || id.length < 2) return;
+    
     const el = document.querySelector(id);
     if (!el) return;
+    
     e.preventDefault();
     el.scrollIntoView({ behavior: prefersReduced ? 'auto' : 'smooth', block: 'start' });
+    
+    // Aksesibilitas: Pindahkan fokus
     setTimeout(() => {
       el.setAttribute('tabindex', '-1');
       el.focus({ preventScroll: true });
     }, prefersReduced ? 0 : 300);
   });
 
-  /* NAVBAR TRANSPARENCY */
+  /* --- NAVBAR TRANSPARENCY --- */
   const navbar = document.querySelector('.navbar');
   const updateNav = () => {
     if (!navbar) return;
-    if (window.scrollY > 8) navbar.classList.add('scrolled');
-    else navbar.classList.remove('scrolled');
+    navbar.classList.toggle('scrolled', window.scrollY > 8);
   };
-  updateNav();
-  window.addEventListener('scroll', updateNav, { passive: true });
+  
+  if(navbar) {
+      updateNav();
+      window.addEventListener('scroll', updateNav, { passive: true });
+  }
 
-  /* REVEAL ON SCROLL */
-  const revealEls = Array.from(document.querySelectorAll('[data-reveal]'));
-  const statEls = Array.from(document.querySelectorAll('.stat-number, .transparansi-stat'));
-  const formatId = new Intl.NumberFormat('id-ID');
-
-  const getBaseApiUrl = () => {
-    return '/Bismillahirrahmanirrahim/api/';
-  };
-
+  /* --- STATISTIK LOADER --- */
   const loadStatistics = async () => {
-    const apiEndpoint = getBaseApiUrl() + 'get_public_statistics.php';
+    // Sesuaikan path API relatif dari root atau Landing Page
+    const apiEndpoint = '../api/get_public_statistics.php';
     try {
       const response = await fetch(apiEndpoint);
       if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);
@@ -47,6 +47,7 @@
       const result = await response.json();
       if (result.status !== 'success' || !result.data) throw new Error('Invalid data format');
 
+      // Update elemen statistik
       const updateElement = (id, value) => {
         const el = document.getElementById(id);
         if (el) {
@@ -58,32 +59,33 @@
 
       const { total_cases, cases_received, cases_completed } = result.data;
 
+      // Dashboard stats
       updateElement('total-cases', total_cases);
       updateElement('cases-received', cases_received);
       updateElement('cases-completed', cases_completed);
-      // About page: Laporan Diterima = total semua laporan
+      
+      // About page stats (jika ada)
       updateElement('about-cases-received', total_cases);
       updateElement('about-cases-completed', cases_completed);
 
     } catch (error) {
-      const ids = [
-        'total-cases', 'cases-received', 'cases-completed',
-        'about-cases-received', 'about-cases-completed'
-      ];
-      
-      ids.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) {
-          el.setAttribute('data-target', '0');
-          el.textContent = '0';
-          el.removeAttribute('data-loading');
-        }
+      console.warn('Gagal memuat statistik:', error);
+      // Fallback ke 0 jika gagal
+      ['total-cases', 'cases-received', 'cases-completed'].forEach(id => {
+          const el = document.getElementById(id);
+          if(el) {
+              el.textContent = '0';
+              el.removeAttribute('data-loading');
+          }
       });
     }
   };
 
   loadStatistics();
 
+  /* --- ANIMASI ANGKA STATISTIK --- */
+  const formatId = new Intl.NumberFormat('id-ID');
+  
   const animateCount = (el) => {
     if (el.dataset.counted === 'true') return;
     
@@ -128,6 +130,9 @@
     requestAnimationFrame(step);
   };
 
+  /* --- INTERSECTION OBSERVER (SCROLL REVEAL) --- */
+  const revealEls = document.querySelectorAll('[data-reveal]');
+  
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver(
       (entries) => {
@@ -149,25 +154,30 @@
       },
       { rootMargin: '0px 0px -10% 0px', threshold: 0.15 }
     );
-    revealEls.forEach((el) => io.observe(el));
-    statEls.forEach((el) => io.observe(el));
+    
+    revealEls.forEach(el => io.observe(el));
+    // Observe stat elements secara terpisah jika perlu animasi angka
+    document.querySelectorAll('.stat-number, .transparansi-stat').forEach(el => io.observe(el));
   } else {
-    revealEls.forEach((el) => el.classList.add('is-visible'));
-    statEls.forEach((el) => animateCount(el));
+    // Fallback untuk browser lama
+    revealEls.forEach(el => el.classList.add('is-visible'));
   }
 
-  /* MOBILE MENU */
+  /* --- MOBILE MENU --- */
   const hamburger = document.querySelector('.hamburger');
   const primaryNav = document.getElementById('primary-navigation');
+  
   if (hamburger && primaryNav) {
     const closeMenu = () => {
       hamburger.setAttribute('aria-expanded', 'false');
       primaryNav.classList.remove('open');
       document.body.classList.remove('menu-open');
     };
+    
     hamburger.addEventListener('click', () => {
       const expanded = hamburger.getAttribute('aria-expanded') === 'true';
       hamburger.setAttribute('aria-expanded', String(!expanded));
+      
       if (!expanded) {
         primaryNav.classList.add('open');
         document.body.classList.add('menu-open');
@@ -177,8 +187,14 @@
         closeMenu();
       }
     });
+
+    // Close on Escape or Click Outside
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
-    primaryNav.addEventListener('click', (e) => { if (e.target.closest('.nav-item')) closeMenu(); });
+    document.addEventListener('click', (e) => {
+        if (!primaryNav.contains(e.target) && !hamburger.contains(e.target) && primaryNav.classList.contains('open')) {
+            closeMenu();
+        }
+    });
   }
 
   /* TABS */
@@ -202,66 +218,55 @@
     });
   }
 
-  /* ACCORDION / FAQ */
+  /* --- FAQ ACCORDION --- */
   const faqButtons = Array.from(document.querySelectorAll('.faq-button'));
-  const getAnswer = (btn) => btn.nextElementSibling;
-  const collapse = (answer, btn) => {
-    if (!answer || !answer.classList.contains('show')) return;
-    btn && btn.setAttribute('aria-expanded', 'false');
-    const startHeight = answer.scrollHeight;
-    answer.style.height = startHeight + 'px';
-    answer.classList.add('animating');
-    requestAnimationFrame(() => { answer.style.height = '0px'; answer.classList.remove('show'); });
-    answer.addEventListener('transitionend', () => { answer.classList.remove('animating'); answer.style.height = ''; }, { once: true });
-  };
-  const expand = (answer, btn) => {
-    if (!answer || answer.classList.contains('show')) return;
-    btn && btn.setAttribute('aria-expanded', 'true');
-    answer.classList.add('show', 'animating');
-    answer.style.height = '0px';
-    const targetHeight = answer.scrollHeight;
-    requestAnimationFrame(() => { answer.style.height = targetHeight + 'px'; });
-    answer.addEventListener('transitionend', () => { answer.classList.remove('animating'); answer.style.height = ''; }, { once: true });
-  };
+  
   if (faqButtons.length) {
-    faqButtons.forEach((btn, i) => {
-      const answer = getAnswer(btn);
-      const open = answer && answer.classList.contains('show');
-      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-      if (answer && !answer.id) answer.id = `faq-${i + 1}`;
-      if (answer) btn.setAttribute('aria-controls', answer.id);
+    faqButtons.forEach((btn) => {
       btn.addEventListener('click', () => {
-        faqButtons.forEach((other) => { if (other !== btn) collapse(getAnswer(other), other); });
-        const ans = getAnswer(btn);
-        if (ans.classList.contains('show')) collapse(ans, btn); else expand(ans, btn);
-      });
-      btn.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); btn.click(); }
-        if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
-          e.preventDefault();
-          const dir = e.key === 'ArrowDown' ? 1 : -1;
-          const idx = faqButtons.indexOf(btn);
-          const next = (idx + dir + faqButtons.length) % faqButtons.length;
-          faqButtons[next].focus();
+        const answer = btn.nextElementSibling;
+        const isOpen = answer.classList.contains('show');
+        
+        // Tutup yang lain (accordion style)
+        faqButtons.forEach(otherBtn => {
+            if (otherBtn !== btn) {
+                const otherAns = otherBtn.nextElementSibling;
+                otherAns.classList.remove('show');
+                otherAns.style.height = '';
+                otherBtn.setAttribute('aria-expanded', 'false');
+            }
+        });
+
+        // Toggle current
+        if (isOpen) {
+            answer.classList.remove('show');
+            answer.style.height = '';
+            btn.setAttribute('aria-expanded', 'false');
+        } else {
+            answer.classList.add('show');
+            answer.style.height = answer.scrollHeight + 'px';
+            btn.setAttribute('aria-expanded', 'true');
         }
       });
     });
   }
 
-  /* SUBTLE PARALLAX */
+  /* --- PARALLAX EFFECT (DESKTOP ONLY) --- */
   const boxBlue = document.querySelector('.box-blue');
-  if (boxBlue && !prefersReduced) {
-    const onScroll = () => {
-      boxBlue.style.transform = `translateY(${window.scrollY * 0.06}px)`;
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
+  if (boxBlue && !prefersReduced && window.innerWidth > 768) {
+    window.addEventListener('scroll', () => {
+      requestAnimationFrame(() => {
+          boxBlue.style.transform = `translateY(${window.scrollY * 0.05}px)`;
+      });
+    }, { passive: true });
   }
 
-  /* BUTTON NAVIGATION */
+  /* --- BUTTON NAVIGATION --- */
   const laporButtons = document.querySelectorAll('.js-lapor-nav, .js-lapor-hero, .js-lapor-monitoring, .js-lapor-about');
   laporButtons.forEach(button => {
     button.addEventListener('click', function(e) {
       e.preventDefault();
+      // Pastikan path benar relatif dari lokasi file ini dipanggil (Landing Page)
       window.location.href = '../Lapor/lapor.html';
     });
   });
@@ -270,7 +275,7 @@
   if (laporBtnSamePage) {
     laporBtnSamePage.addEventListener('click', function(e) {
       e.preventDefault();
-      window.location.href = 'lapor.html';
+      window.location.href = '../Lapor/lapor.html';
     });
   }
 

@@ -1,4 +1,12 @@
 
+/* Global overflow fix for Wawasan Page */
+html,
+body {
+  overflow-x: hidden !important;
+  width: 100%;
+  max-width: 100vw;
+}
+
 .wawasan-hero {
     position: relative;
     width: 100%;

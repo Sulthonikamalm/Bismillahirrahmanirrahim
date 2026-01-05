@@ -47,7 +47,7 @@
         setupSwipeListeners();
         setupPullToRefresh();
         
-        console.log('Mobile Gestures initialized');
+        // console.log('Mobile Gestures initialized');
     }
 
     // ============================================

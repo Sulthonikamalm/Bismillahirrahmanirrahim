@@ -1,25 +1,18 @@
-// ============================================
-// TEXT-TO-SPEECH MODULE - HOVER TO SPEAK (OPTIMIZED)
-// High Performance & Low Latency
-// ============================================
+// Modul Text-to-Speech (Mode Hover, Performa Tinggi)
 
 (function() {
   'use strict';
 
-  // ============================================
-  // CONFIGURATION
-  // ============================================
+  // Konfigurasi
   const CONFIG = {
-    debounceTime: 300, // Wait 300ms before speaking (prevents accidental triggers)
+    debounceTime: 300,
     lang: 'id-ID',
     fallbackLang: 'id_ID',
     pitch: 1.0,
     volume: 1.0,
   };
 
-  // ============================================
-  // STATE MANAGEMENT
-  // ============================================
+  // State management
   let isActive = false;
   let currentSpeed = 1.0;
   let synthesis = null;
@@ -28,9 +21,7 @@
   let hoveredElements = new Set();
   let isVoiceLoaded = false;
 
-  // ============================================
-  // SELECTORS
-  // ============================================
+  // Selector elemen
   const TEXT_SELECTORS = [
     'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
     'p', 'li', 'a', 'button', 'span', 'div',
@@ -46,31 +37,22 @@
     '.sr-only', '#tts-active-indicator'
   ];
 
-  // ============================================
-  // 1. ADVANCED VOICE SELECTION (The Core Fix)
-  // ============================================
+  // Pemilihan voice
   function loadVoices() {
     if (!synthesis) return;
     
     let voices = synthesis.getVoices();
     
-    // Sort voices: Local Service first (Zero Latency), then Google/Online
-    // We prioritize "localService" because it generates audio on the device.
     voices = voices.sort((a, b) => {
       if (a.localService && !b.localService) return -1;
       if (!a.localService && b.localService) return 1;
       return 0;
     });
 
-    // Try to find an Indonesian voice
     selectedVoice = voices.find(v => v.lang.includes('id') || v.lang.includes('ID'));
-    
-    // Fallback: If no ID voice, try a generic English one but warn (or just use default)
     if (!selectedVoice) {
-      // Logic: Just let browser decide if no specific ID voice found, 
-      // but usually mdern browsers have one.
       console.warn('TTS: No Indonesian voice found. Using default.');
-      selectedVoice = null; // System default
+      selectedVoice = null;
     } else {
       console.log(`TTS Voice Loaded: ${selectedVoice.name} (Local: ${selectedVoice.localService})`);
     }
@@ -82,12 +64,11 @@
     if ('speechSynthesis' in window) {
       synthesis = window.speechSynthesis;
       
-      // Chrome loads voices asynchronously
       if (synthesis.onvoiceschanged !== undefined) {
         synthesis.onvoiceschanged = loadVoices;
       }
       
-      loadVoices(); // Try loading immediately just in case
+      loadVoices();
       return true;
     } else {
       console.error('Speech Synthesis NOT supported');
@@ -95,11 +76,8 @@
     }
   }
 
-  // ============================================
-  // 2. SMART TEXT PARSING & CACHING
-  // ============================================
+  // Parsing teks & caching
   function getCleanText(element) {
-    // Check cache first
     if (element.dataset.ttsCache) {
       return element.dataset.ttsCache;
     }
@@ -108,19 +86,16 @@
 
     let text = element.innerText || element.textContent;
     
-    // Priority: aria-label for interactive elements
     if ((element.tagName === 'BUTTON' || element.tagName === 'A') && element.getAttribute('aria-label')) {
       text = element.getAttribute('aria-label');
     }
 
-    // Advanced cleanup
     text = text
-            .replace(/[\n\r]+/g, ' ') // Remove newlines
-            .replace(/\s+/g, ' ')     // Collapse whitespace
+            .replace(/[\n\r]+/g, ' ')
+            .replace(/\s+/g, ' ')
             .trim();
 
-    // Cache it to avoid re-processing
-    if (text.length > 2) { // Only cache meaningful text
+    if (text.length > 2) {
       element.dataset.ttsCache = text;
     }
 
@@ -130,21 +105,17 @@
   function shouldSkipElement(element) {
     if(element.closest(SKIP_SELECTORS.join(','))) return true;
     
-    // Skip purely numeric or symbol-only text
     const text = element.textContent.trim();
     if (!text || text.length < 2) return true;
-    if (text.match(/^[\d\s\p{P}]+$/u)) return true; // Only numbers/punctuation
+    if (text.match(/^[\d\s\p{P}]+$/u)) return true;
     
     return false;
   }
 
-  // ============================================
-  // 3. LOW LATENCY SPEAK ENGINE
-  // ============================================
+  // Engine suara
   function speak(text) {
     if (!synthesis || !text) return;
     
-    // Cancel immediately to ensure "snappy" feel when switching
     synthesis.cancel();
 
     const utterance = new SpeechSynthesisUtterance(text);
@@ -158,10 +129,8 @@
     utterance.pitch = CONFIG.pitch;
     utterance.volume = CONFIG.volume;
 
-    // Error handling
     utterance.onerror = (e) => {
       console.error('TTS Playback Error:', e);
-      // If error is 'interrupted', it's normal (user moved mouse fast)
     };
 
     synthesis.speak(utterance);
@@ -170,32 +139,23 @@
   function stop() {
     if (synthesis) {
       synthesis.cancel();
-      // Clear any pending debounce
       if (hoverTimeout) clearTimeout(hoverTimeout);
     }
   }
 
-  // ============================================
-  // 4. DEBOUNCED HOVER HANDLERS
-  // ============================================
+  // Handler hover dengan debounce
   function handleMouseEnter(event) {
     if (!isActive) return;
 
     const element = event.currentTarget;
     
-    // Clear any existing pending speech
     if (hoverTimeout) clearTimeout(hoverTimeout);
-
-    // 1. Visual Feedback Immediate
+    
     element.style.backgroundColor = 'rgba(47, 128, 237, 0.1)';
     
-    // 2. Prepare text immediately (lazy cache)
     const text = getCleanText(element);
     if (!text) return;
 
-    // 3. Schedule Speak (Debounce)
-    // This is the Key to "No Lag" feeling. We ONLY speak if user STAYS.
-    // If they move quickly, we skip speaking, saving the engine from choking.
     hoverTimeout = setTimeout(() => {
         speak(text);
     }, CONFIG.debounceTime);
@@ -206,22 +166,17 @@
 
     const element = event.currentTarget;
     
-    // Remove visual
     element.style.backgroundColor = '';
 
-    // Cancel pending speech if they left before debounce time
     if (hoverTimeout) {
       clearTimeout(hoverTimeout);
       hoverTimeout = null;
     }
     
-    // Stop current speech immediately for snappy feel
     stop();
   }
 
-  // ============================================
-  // SETUP LISTENERS
-  // ============================================
+  // Setup listener
   function addHoverListeners() {
     const elements = document.querySelectorAll(TEXT_SELECTORS);
     
@@ -232,7 +187,7 @@
       hoveredElements.add(element);
       element.addEventListener('mouseenter', handleMouseEnter);
       element.addEventListener('mouseleave', handleMouseLeave);
-      element.style.transition = 'background-color 0.15s ease'; // Faster transition
+      element.style.transition = 'background-color 0.15s ease';
     });
   }
 
@@ -241,14 +196,12 @@
       element.removeEventListener('mouseenter', handleMouseEnter);
       element.removeEventListener('mouseleave', handleMouseLeave);
       element.style.backgroundColor = '';
-      delete element.dataset.ttsCache; // Clear cache
+      delete element.dataset.ttsCache;
     });
     hoveredElements.clear();
   }
 
-  // ============================================
-  // PUBLIC API / LIFECYCLE
-  // ============================================
+  // Public API / Lifecycle
   function activate() {
     if (!synthesis && !initSynthesis()) return;
     if (isActive) return;
@@ -299,7 +252,6 @@
     if (indicator) indicator.style.display = 'none';
   }
 
-  // Observer for dynamic content
   let observer = new MutationObserver(() => {
     if (isActive) addHoverListeners();
   });

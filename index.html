@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SIGAP PPKPT</title>
     <style>
+        /* Modern Reset & Base */
         * {
             margin: 0;
             padding: 0;
@@ -24,13 +26,21 @@
             position: relative;
         }
 
+        /* Animations */
         @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
-        /* Animated background circles */
         .bg-circle {
             position: absolute;
             border-radius: 50%;
@@ -63,14 +73,23 @@
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-30px) scale(1.1); }
+
+            0%,
+            100% {
+                transform: translateY(0) scale(1);
+            }
+
+            50% {
+                transform: translateY(-30px) scale(1.1);
+            }
         }
 
+        /* Container */
         .splash-container {
             text-align: center;
             z-index: 10;
             animation: fadeInUp 0.8s ease-out;
+            padding: 20px;
         }
 
         @keyframes fadeInUp {
@@ -78,57 +97,19 @@
                 opacity: 0;
                 transform: translateY(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
 
-        .logo-wrapper {
-            margin-bottom: 30px;
-            animation: scaleIn 0.6s ease-out 0.3s backwards;
-        }
-
-        @keyframes scaleIn {
-            from {
-                opacity: 0;
-                transform: scale(0.5);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        .logo-icon {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 20px;
-            background: linear-gradient(135deg, #0C969C, #6BA3BE);
-            border-radius: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 20px 60px rgba(12, 150, 156, 0.4);
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 20px 60px rgba(12, 150, 156, 0.4); }
-            50% { transform: scale(1.05); box-shadow: 0 25px 70px rgba(12, 150, 156, 0.6); }
-        }
-
-        .logo-icon svg {
-            width: 60px;
-            height: 60px;
-            fill: white;
-        }
-
+        /* Typography */
         h1 {
             font-size: 3.5rem;
             font-weight: 800;
             color: white;
-            margin-bottom: 15px;
+            margin-bottom: 30px;
             letter-spacing: 2px;
             text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
             animation: textReveal 1s ease-out 0.5s backwards;
@@ -140,6 +121,7 @@
                 letter-spacing: 10px;
                 filter: blur(10px);
             }
+
             to {
                 opacity: 1;
                 letter-spacing: 2px;
@@ -147,19 +129,7 @@
             }
         }
 
-        .subtitle {
-            font-size: 1.2rem;
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 40px;
-            font-weight: 300;
-            animation: fadeIn 1s ease-out 0.8s backwards;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
+        /* Loading Bar */
         .loading-container {
             animation: fadeIn 1s ease-out 1s backwards;
         }
@@ -186,20 +156,20 @@
             background: linear-gradient(90deg, #6BA3BE, #0C969C, #6BA3BE);
             background-size: 200% 100%;
             border-radius: 10px;
-            animation: progressFill 2.5s ease-out forwards, shimmer 1.5s linear infinite;
+            animation: progressFill 2.5s ease-out forwards;
         }
 
         @keyframes progressFill {
-            from { width: 0%; }
-            to { width: 100%; }
+            from {
+                width: 0%;
+            }
+
+            to {
+                width: 100%;
+            }
         }
 
-        @keyframes shimmer {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-
-        /* Fade out animation */
+        /* Transitions */
         body.fade-out {
             animation: fadeOut 0.5s ease-out forwards;
         }
@@ -216,43 +186,28 @@
                 font-size: 2.5rem;
             }
 
-            .subtitle {
-                font-size: 1rem;
-                padding: 0 20px;
-            }
-
-            .logo-icon {
-                width: 100px;
-                height: 100px;
-            }
-
-            .logo-icon svg {
-                width: 50px;
-                height: 50px;
+            .bg-circle:nth-child(1) {
+                width: 150px;
+                height: 150px;
             }
 
             .progress-bar {
                 width: 220px;
             }
         }
-
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 2rem;
-            }
-
-            .subtitle {
-                font-size: 0.9rem;
-            }
-        }
     </style>
 </head>
+
 <body>
-    <!-- Background animated circles -->
+    <!-- Background Animated Circles -->
     <div class="bg-circle"></div>
     <div class="bg-circle"></div>
     <div class="bg-circle"></div>
+
+    <!-- Main Content -->
+    <div class="splash-container">
         <h1>SIGAP PPKPT</h1>
+
         <div class="loading-container">
             <p class="loading-text">Memuat sistem...</p>
             <div class="progress-bar">
@@ -261,27 +216,35 @@
         </div>
     </div>
 
+    <!-- Redirect Logic -->
     <script>
-        // Redirect after 2.5 seconds (quick for emergency access)
-        setTimeout(function() {
-            document.body.classList.add('fade-out');
-            setTimeout(function() {
-                window.location.href = 'Landing Page/Landing_Page.html';
-            }, 500);
-        }, 2500);
+        (function () {
+            'use strict';
 
-        // Allow skip by clicking anywhere
-        document.body.addEventListener('click', function() {
-            document.body.classList.add('fade-out');
-            setTimeout(function() {
-                window.location.href = 'Landing Page/Landing_Page.html';
-            }, 300);
-        });
+            const TARGET_URL = 'Landing Page/Landing_Page.html';
+            const DELAY_MS = 2500;
+            let redirected = false;
 
-        // Prevent context menu for cleaner UX
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
-        });
+            function doRedirect() {
+                if (redirected) return;
+                redirected = true;
+
+                document.body.classList.add('fade-out');
+                setTimeout(() => {
+                    window.location.href = TARGET_URL;
+                }, 500);
+            }
+
+            // Auto redirect
+            setTimeout(doRedirect, DELAY_MS);
+
+            // Click to skip
+            document.body.addEventListener('click', doRedirect);
+
+            // Prevent context menu
+            document.addEventListener('contextmenu', e => e.preventDefault());
+        })();
     </script>
 </body>
+
 </html>

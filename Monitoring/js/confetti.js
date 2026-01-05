@@ -1,13 +1,9 @@
-// ============================================
-// CONFETTI.JS
-// Beautiful confetti celebration effect
-// Optimized canvas-based particle system
-// ============================================
+// Confetti System - Efek konfeti untuk celebrasi
 
 (function() {
   'use strict';
 
-  // Configuration
+  // Konfigurasi
   const CONFIG = {
     particleCount: 150,
     colors: [
@@ -31,9 +27,7 @@
   let animationId = null;
   let isActive = false;
 
-  /**
-   * Particle class
-   */
+  // Particle class
   class Particle {
     constructor(x, y) {
       this.x = x;
@@ -51,7 +45,6 @@
     }
 
     update() {
-      // Apply physics
       this.velocityY += this.gravity;
       this.velocityX *= this.drag;
       this.velocityY *= this.drag;
@@ -60,7 +53,6 @@
       this.y += this.velocityY;
       this.rotation += this.rotationSpeed;
       
-      // Fade out near bottom
       if (this.y > canvas.height * 0.8) {
         this.opacity -= 0.02;
       }
@@ -102,9 +94,7 @@
     }
   }
 
-  /**
-   * Initialize canvas
-   */
+  // Inisialisasi canvas
   function initCanvas() {
     canvas = document.getElementById('confettiCanvas');
     if (!canvas) {
@@ -115,15 +105,12 @@
     ctx = canvas.getContext('2d');
     resizeCanvas();
     
-    // Handle window resize
     window.addEventListener('resize', resizeCanvas);
     
     return true;
   }
 
-  /**
-   * Resize canvas to window size
-   */
+  // Resize canvas
   function resizeCanvas() {
     if (!canvas) return;
     
@@ -131,36 +118,28 @@
     canvas.height = window.innerHeight;
   }
 
-  /**
-   * Create particles at position
-   */
+  // Buat particles
   function createParticles(x, y, count = CONFIG.particleCount) {
     for (let i = 0; i < count; i++) {
       particles.push(new Particle(x, y));
     }
   }
 
-  /**
-   * Animation loop
-   */
+  // Animation loop
   function animate() {
     if (!ctx || !canvas) return;
     
-    // Clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-    // Update and draw particles
     particles.forEach((particle, index) => {
       particle.update();
       particle.draw();
       
-      // Remove dead particles
       if (particle.isDead()) {
         particles.splice(index, 1);
       }
     });
     
-    // Continue animation if particles exist
     if (particles.length > 0) {
       animationId = requestAnimationFrame(animate);
     } else {
@@ -168,21 +147,15 @@
     }
   }
 
-  /**
-   * Start confetti celebration
-   * @param {Object} options - Configuration options
-   */
+  // Mulai confetti
   function start(options = {}) {
-    // Prevent multiple instances
     if (isActive) {
       console.log('🎉 Confetti already active');
       return;
     }
 
-    // Merge options with defaults
     const config = { ...CONFIG, ...options };
     
-    // Initialize if needed
     if (!canvas && !initCanvas()) {
       console.error('❌ Failed to initialize confetti canvas');
       return;
@@ -193,7 +166,6 @@
     
     console.log('🎉 Starting confetti celebration!');
     
-    // Create particles from multiple points
     const positions = [
       { x: canvas.width * 0.25, y: canvas.height * 0.5 },
       { x: canvas.width * 0.5, y: canvas.height * 0.3 },
@@ -206,23 +178,18 @@
       }, index * 150);
     });
     
-    // Start animation
     animate();
     
-    // Auto-stop after duration
     setTimeout(() => {
-      if (isActive) {
-        // Fade out remaining particles
-        particles.forEach(p => {
-          p.gravity = CONFIG.gravity * 2; // Speed up falling
+        if (isActive) {
+          particles.forEach(p => {
+            p.gravity = CONFIG.gravity * 2;
         });
       }
     }, config.duration);
   }
 
-  /**
-   * Stop confetti
-   */
+  // Stop confetti
   function stop() {
     if (!isActive) return;
     
@@ -245,9 +212,7 @@
     console.log('🎊 Confetti stopped');
   }
 
-  /**
-   * Burst confetti at specific point
-   */
+  // Burst di titik tertentu
   function burst(x, y, count = 50) {
     if (!canvas && !initCanvas()) return;
     
@@ -263,9 +228,7 @@
     }
   }
 
-  /**
-   * Rain confetti from top
-   */
+  // Rain confetti dari atas
   function rain(duration = 3000) {
     if (!canvas && !initCanvas()) return;
     
@@ -287,7 +250,7 @@
     }, duration);
   }
 
-  // Export to global scope
+  // Export ke global scope
   window.Confetti = {
     start,
     stop,
@@ -296,7 +259,7 @@
     config: CONFIG
   };
 
-  // Initialize on load
+  // Inisialisasi saat load
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initCanvas);
   } else {

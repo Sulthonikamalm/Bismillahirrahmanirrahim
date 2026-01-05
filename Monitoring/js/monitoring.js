@@ -1,16 +1,9 @@
-// ============================================
-// MONITORING.JS - DUAL SEARCH VERSION
-// Version: 5.0.0 (Production Ready)
-// Connected to: api/get_laporan.php (v2.0)
-// Supports: Kode Pelaporan OR Email
-// ============================================
+// Monitoring System v5.0 - Dual Search (Kode/Email)
 
 (function() {
   'use strict';
 
-  // ============================================
-  // ENVIRONMENT & DEBUG CONFIGURATION
-  // ============================================
+  // Debug mode
   const IS_DEBUG = window.location.hostname === 'localhost' || 
                    window.location.hostname === '127.0.0.1';
   
@@ -20,18 +13,14 @@
     error: (...args) => console.error(...args)
   };
 
-  // ============================================
-  // STATE MANAGEMENT
-  // ============================================
+  // State management
   const State = {
     currentReport: null,
     isSearching: false,
-    searchType: null // 'kode' or 'email'
+    searchType: null
   };
 
-  // ============================================
-  // DOM ELEMENTS
-  // ============================================
+  // DOM elements
   const DOM = {
     reportIdInput: document.getElementById('reportIdInput'),
     searchBtn: document.getElementById('searchBtn'),
@@ -50,20 +39,16 @@
     centeredLoadingOverlay: document.getElementById('centeredLoadingOverlay')
   };
 
-  // ============================================
-  // CONFIGURATION
-  // ============================================
+  // Konfigurasi
   const CONFIG = {
     searchDelay: 1200,
     centeredCubeDelay: 1500,
-    apiEndpoint: '../api/get_laporan.php' // v2.0 with dual search
+    apiEndpoint: '../api/get_laporan.php'
   };
 
-  // ============================================
-  // INITIALIZATION
-  // ============================================
+  // Inisialisasi
   function init() {
-    logger.log('🚀 Monitoring System v5.0 Initializing (Dual Search: Kode OR Email)...');
+    logger.log('🚀 Monitoring System v5.0 Initializing...');
 
     generateParticles();
     checkURLParameter();
@@ -73,9 +58,7 @@
     logger.log('✅ Monitoring System Ready');
   }
 
-  // ============================================
-  // SETUP INPUT HINTS (Auto-detect type)
-  // ============================================
+  // Setup input hints
   function setupInputHints() {
     if (!DOM.reportIdInput) return;
 
@@ -87,17 +70,14 @@
         return;
       }
 
-      // Detect if email or kode
       const isEmail = value.includes('@');
       
       if (isEmail) {
-        // User typing email
         DOM.reportIdInput.placeholder = 'Contoh: user@student.itb.ac.id';
         State.searchType = 'email';
       } else {
-        // User typing kode
         DOM.reportIdInput.placeholder = 'Contoh: PPKPT228236148';
-        DOM.reportIdInput.value = value.toUpperCase(); // Auto uppercase for kode
+        DOM.reportIdInput.value = value.toUpperCase();
         State.searchType = 'kode';
       }
     });
@@ -109,9 +89,7 @@
     }
   }
 
-  // ============================================
-  // GENERATE PARTICLES
-  // ============================================
+  // Generate particles
   function generateParticles() {
     const particlesContainer = DOM.particlesBg?.querySelector('.bottom-particles');
     if (!particlesContainer) return;
@@ -127,9 +105,7 @@
     logger.log(`🎈 Generated ${particleCount} particles`);
   }
 
-  // ============================================
-  // SETUP EVENT LISTENERS
-  // ============================================
+  // Setup event listeners
   function setupEventListeners() {
     if (DOM.searchBtn) {
       DOM.searchBtn.addEventListener('click', handleSearch);
@@ -149,9 +125,7 @@
     }
   }
 
-  // ============================================
-  // CHECK URL PARAMETER
-  // ============================================
+  // Check URL parameter
   function checkURLParameter() {
     const urlParams = new URLSearchParams(window.location.search);
     const kode = urlParams.get('kode');
@@ -168,11 +142,8 @@
     }
   }
 
-  // ============================================
-  // HANDLE SEARCH - DUAL SEARCH (Kode OR Email)
-  // ============================================
+  // Handle search - Dual search (Kode/Email)
   async function handleSearch() {
-    // Prevent double click with immediate check
     if (State.isSearching) {
       logger.log('Already processing...');
       return;
@@ -185,24 +156,19 @@
       return;
     }
 
-    // Auto-detect search type
     const isEmail = validateEmail(query);
     const searchType = isEmail ? 'email' : 'kode';
     const displayQuery = isEmail ? query : query.toUpperCase();
 
     logger.log(`Searching by ${searchType}:`, displayQuery);
 
-    // Set state IMMEDIATELY to prevent double click
     State.isSearching = true;
     State.searchType = searchType;
-    
-    // UI updates
     disableInput();
     hideError();
     showSearchLoader();
 
     try {
-      // CALL BACKEND API
       const url = `${CONFIG.apiEndpoint}?query=${encodeURIComponent(displayQuery)}`;
       
       logger.log('API Request:', url);
@@ -223,22 +189,17 @@
       hideSearchLoader();
 
       if (result.success && result.data) {
-        // SUCCESS!
         logger.log('Report found:', result.data);
-        
         State.currentReport = result.data;
 
-        // Show timeline immediately
         updateTimelineHeader();
         clearTimeline();
         showCenteredLoading();
 
-        // Wait for animation then display
         setTimeout(() => {
           hideCenteredLoading();
           displayCurrentStep();
           
-          // Re-enable input AFTER animation completes
           enableInput();
           State.isSearching = false;
 
@@ -246,7 +207,6 @@
         }, CONFIG.centeredCubeDelay);
 
       } else {
-        // NOT FOUND
         logger.log('Report not found');
         
         const errorMsg = searchType === 'email' 
@@ -267,17 +227,13 @@
     }
   }
 
-  // ============================================
-  // VALIDATE EMAIL
-  // ============================================
+  // Validate email
   function validateEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   }
 
-  // ============================================
-  // UPDATE TIMELINE HEADER
-  // ============================================
+  // Update header timeline
   function updateTimelineHeader() {
     if (!State.currentReport) return;
 
@@ -312,9 +268,7 @@
     });
   }
 
-  // ============================================
-  // CLEAR TIMELINE
-  // ============================================
+  // Clear timeline
   function clearTimeline() {
     DOM.timeline.style.opacity = '0';
 
@@ -325,9 +279,7 @@
     }, 300);
   }
 
-  // ============================================
-  // SHOW/HIDE CENTERED LOADING
-  // ============================================
+  // Loading overlay
   function showCenteredLoading() {
     if (DOM.centeredLoadingOverlay) {
       DOM.centeredLoadingOverlay.style.display = 'flex';
@@ -350,16 +302,13 @@
     }
   }
 
-  // ============================================
-  // DISPLAY CURRENT STEP (LAST STEP IN TIMELINE)
-  // ============================================
+  // Display current step
   function displayCurrentStep() {
     if (!State.currentReport || !State.currentReport.steps || State.currentReport.steps.length === 0) {
       logger.error('❌ No steps to display');
       return;
     }
 
-    // Get the LAST step (current progress)
     const currentStep = State.currentReport.steps[State.currentReport.steps.length - 1];
     logger.log(`🔍 Displaying current step:`, currentStep);
 
@@ -373,9 +322,7 @@
     });
   }
 
-  // ============================================
-  // CREATE STEP ELEMENT
-  // ============================================
+  // Create step element
   function createStepElement(step) {
     const stepElement = document.createElement('div');
     stepElement.className = `timeline-item status-${step.status}`;
@@ -419,9 +366,7 @@
     return stepElement;
   }
 
-  // ============================================
-  // CREATE SMALL CUBE HTML
-  // ============================================
+  // Create cube HTML
   function createSmallCubeHTML() {
     return `
       <div class="cube-wrapper small">
@@ -440,9 +385,7 @@
     `;
   }
 
-  // ============================================
-  // CHECK COMPLETION & CONFETTI
-  // ============================================
+  // Check completion & confetti
   function checkCompletionConfetti() {
     if (!State.currentReport) return;
 
@@ -459,9 +402,7 @@
     }
   }
 
-  // ============================================
-  // UI HELPERS
-  // ============================================
+  // UI helpers
   function showSearchLoader() {
     DOM.searchLoader?.classList.add('show');
   }
@@ -491,18 +432,14 @@
     DOM.searchBtn.classList.remove('loading');
   }
 
-  // ============================================
-  // PUBLIC API
-  // ============================================
+  // Public API
   window.MonitoringSystem = {
     search: handleSearch,
     getState: () => ({ ...State }),
     version: '5.0.0'
   };
 
-  // ============================================
-  // INITIALIZE
-  // ============================================
+  // Inisialisasi
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {

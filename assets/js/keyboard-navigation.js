@@ -37,7 +37,7 @@
         setupAriaLive();
         createSkipLink();
         
-        console.log('Keyboard Navigation & A11y initialized');
+        // console.log('Keyboard Navigation & A11y initialized');
     }
 
     // ============================================

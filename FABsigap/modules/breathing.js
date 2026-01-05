@@ -1,22 +1,15 @@
-// ============================================
-// BREATHING EXERCISE MODULE
-// Box Breathing (4-4-4-4) Animation
-// ============================================
+// Modul latihan pernapasan (Box Breathing 4-4-4-4)
 
 (function() {
   'use strict';
 
-  // ============================================
-  // STATE
-  // ============================================
+  // State
   let isActive = false;
   let currentCycle = 0;
   let currentPhase = 0;
   let breathingInterval = null;
 
-  // ============================================
-  // BREATHING PHASES (Box Breathing)
-  // ============================================
+  // Fase pernapasan (Box Breathing)
   const phases = [
     { name: 'Tarik napas dalam...', duration: 4000, scale: 1.5 },
     { name: 'Tahan...', duration: 4000, scale: 1.5 },
@@ -24,11 +17,9 @@
     { name: 'Tahan...', duration: 4000, scale: 1 }
   ];
 
-  const totalCycles = 3; // 3 cycles = 12 breaths
+  const totalCycles = 3;
 
-  // ============================================
-  // CREATE BREATHING UI
-  // ============================================
+  // Membuat UI latihan pernapasan
   function createBreathingUI() {
     const existingUI = document.getElementById('breathing-exercise');
     if (existingUI) {
@@ -87,9 +78,7 @@
     initBreathingEvents();
   }
 
-  // ============================================
-  // ADD BREATHING STYLES
-  // ============================================
+  // Tambahkan styles
   function addBreathingStyles() {
     if (document.getElementById('breathing-styles')) return;
 
@@ -290,9 +279,7 @@
     document.head.appendChild(style);
   }
 
-  // ============================================
-  // INIT EVENT LISTENERS
-  // ============================================
+  // Inisialisasi event listener
   function initBreathingEvents() {
     const startBtn = document.getElementById('breathing-start');
     const closeBtn = document.getElementById('breathing-close');
@@ -311,9 +298,7 @@
     }
   }
 
-  // ============================================
-  // START EXERCISE
-  // ============================================
+  // Mulai latihan
   function startExercise() {
     isActive = true;
     currentCycle = 1;
@@ -327,9 +312,7 @@
     nextPhase();
   }
 
-  // ============================================
-  // NEXT PHASE
-  // ============================================
+  // Fase berikutnya
   function nextPhase() {
     if (!isActive) return;
 
@@ -372,9 +355,7 @@
     }, phase.duration);
   }
 
-  // ============================================
-  // FINISH EXERCISE
-  // ============================================
+  // Selesai latihan
   function finishExercise() {
     isActive = false;
 
@@ -393,9 +374,7 @@
     }, 2000);
   }
 
-  // ============================================
-  // SKIP EXERCISE
-  // ============================================
+  // Lewati latihan
   function skipExercise() {
     if (confirm('Yakin ingin melewati latihan pernapasan?')) {
       isActive = false;
@@ -404,17 +383,13 @@
     }
   }
 
-  // ============================================
-  // START (PUBLIC)
-  // ============================================
+  // Mulai (public)
   function start() {
     createBreathingUI();
     console.log('✅ Breathing Exercise Started');
   }
 
-  // ============================================
-  // CLOSE
-  // ============================================
+  // Tutup
   function close() {
     isActive = false;
     clearTimeout(breathingInterval);
@@ -427,9 +402,7 @@
     console.log('Breathing Exercise Closed');
   }
 
-  // ============================================
-  // EXPORT PUBLIC API
-  // ============================================
+  // Export public API
   window.BreathingExercise = {
     start: start,
     close: close

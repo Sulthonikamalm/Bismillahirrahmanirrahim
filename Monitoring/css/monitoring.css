@@ -12,6 +12,14 @@
    - Responsive design
    ============================================ */
 
+/* Global overflow fix for Monitoring Page */
+html,
+body {
+  overflow-x: hidden !important;
+  width: 100%;
+  max-width: 100vw;
+}
+
 /* ============================================
    CSS VARIABLES & THEME
    ============================================ */

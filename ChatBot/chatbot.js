@@ -1,11 +1,9 @@
-/**
- * TemanKu Chatbot - Clean Minimal Edition
- * Simple loading indicator, smooth scroll
- */
+// TemanKu Chatbot - Clean Minimal Edition
 
 (function () {
   "use strict";
 
+  // Konfigurasi
   const CONFIG = {
     apiEndpoint: "/Bismillahirrahmanirrahim/api/chat.php",
     emergencyPhone: "6282188467793",
@@ -17,6 +15,7 @@
     Object.assign(CONFIG, window.CHATBOT_CONFIG);
   }
 
+  // State variables
   let isOpen = false;
   let isTyping = false;
   let sessionActive = false;
@@ -30,6 +29,7 @@
   
   let conversationHistory = [];
 
+  // DOM elements
   let modalOverlay, chatMessages, chatMessagesContainer, chatInput, btnSendChat, typingIndicator;
   let chatInterfaceScreen;
   let btnVoiceInput, voiceRecordingMode, btnStopRecording, chatInputWrapper;
@@ -107,12 +107,14 @@
     </div>
   `;
 
+  // Inject chatbot UI
   function injectChatbotUI() {
     if (!document.getElementById("chatbotModalOverlay")) {
       document.body.insertAdjacentHTML("beforeend", CHATBOT_UI_TEMPLATE);
     }
   }
 
+  // Inisialisasi
   function init() {
     injectChatbotUI();
 
@@ -135,6 +137,7 @@
     initVoiceRecognition();
   }
 
+  // Setup event listeners
   function setupEventListeners() {
     const closeButtons = document.querySelectorAll(".btn-close-chatbot, .btn-minimize-chat");
     closeButtons.forEach((btn) => {
@@ -174,6 +177,7 @@
     });
   }
 
+  // Buka chatbot
   function open() {
     if (isOpen) return;
 
@@ -186,7 +190,6 @@
 
     if (!sessionActive) {
       sessionActive = true;
-      // Show loading, then message
       showTyping();
       setTimeout(() => {
         hideTyping();
@@ -199,12 +202,14 @@
     }
   }
 
+  // Tutup chatbot
   function close() {
     isOpen = false;
     modalOverlay.classList.remove("active");
     clearChat();
   }
 
+  // Clear chat history
   function clearChat() {
     if (chatMessages) {
       chatMessages.innerHTML = "";
@@ -217,13 +222,15 @@
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ action: "reset" }),
-    }).catch((e) => console.error("Reset error:", e));
+  }).catch((e) => console.error("Reset error:", e));
   }
   
+  // Voice recording variables
   let shouldKeepRecording = false;
   let finalTranscriptAccumulated = '';
   let interimTranscript = '';
   
+  // Inisialisasi voice recognition
   function initVoiceRecognition() {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     
@@ -330,6 +337,7 @@
     };
   }
   
+  // Mulai voice recording
   function startVoiceRecording() {
     if (!voiceSupported || !recognition) {
       alert("Voice recognition tidak didukung di browser ini. Gunakan Chrome atau Edge.");
@@ -353,6 +361,7 @@
     }
   }
   
+  // Stop voice recording
   function stopVoiceRecording() {
     shouldKeepRecording = false;
     isRecording = false;
@@ -370,6 +379,7 @@
     }
   }
   
+  // UI untuk voice recording
   function showVoiceRecordingUI() {
     if (voiceRecordingMode) voiceRecordingMode.classList.add("active");
     if (chatInputWrapper) chatInputWrapper.style.display = "none";
@@ -385,6 +395,7 @@
     startChatRecordingTimer();
   }
   
+  // Sembunyikan voice recording UI
   function hideVoiceRecordingUI() {
     if (voiceRecordingMode) voiceRecordingMode.classList.remove("active");
     if (chatInputWrapper) chatInputWrapper.style.display = "flex";
@@ -402,6 +413,7 @@
     }
   }
   
+  // Timer untuk recording
   function startChatRecordingTimer() {
     const timerDisplay = document.getElementById("chatRecordingTimer");
     if (!timerDisplay) return;
@@ -416,6 +428,7 @@
     }, 1000);
   }
 
+  // Kirim pesan
   async function sendMessage() {
     const message = chatInput.value.trim();
     if (!message || isTyping) return;
@@ -424,7 +437,6 @@
     chatInput.value = "";
     btnSendChat.disabled = true;
 
-    // Show loading dots
     showTyping();
 
     try {
@@ -443,7 +455,6 @@
 
       const data = await response.json();
       
-      // Hide loading and show response
       hideTyping();
 
       if (data.success) {
@@ -473,6 +484,7 @@
     }
   }
 
+  // Handle auto-fill redirect
   async function handleAutoFillRedirect(extractedData, botMessage) {
     addBotMessage(botMessage);
     
@@ -514,6 +526,7 @@
     }, 1200);
   }
 
+  // Handle kondisi emergency
   function handleEmergency(message) {
     addBotMessage(message);
     
@@ -547,6 +560,7 @@
     }, 600);
   }
 
+  // Tampilkan kode laporan
   function showReportCode(code) {
     const codeDiv = document.createElement("div");
     codeDiv.className = "chat-message bot-message report-code-message";
@@ -584,6 +598,7 @@
     }
   }
 
+  // Copy kode laporan
   function copyCode(code) {
     navigator.clipboard.writeText(code).then(() => {
       const btn = document.querySelector('.btn-copy-code');
@@ -601,6 +616,7 @@
     });
   }
 
+  // Tambah pesan user
   function addUserMessage(text) {
     conversationHistory.push({ 
       role: "user", 
@@ -624,6 +640,7 @@
     }
   }
 
+  // Tambah pesan bot
   function addBotMessage(text) {
     conversationHistory.push({ 
       role: "bot", 
@@ -653,6 +670,7 @@
     }
   }
 
+  // Tampilkan typing indicator
   function showTyping() {
     isTyping = true;
     if (typingIndicator) {
@@ -662,6 +680,7 @@
     scrollToBottom();
   }
 
+  // Sembunyikan typing indicator
   function hideTyping() {
     isTyping = false;
     if (typingIndicator) {
@@ -670,6 +689,7 @@
     }
   }
 
+  // Scroll ke bawah
   function scrollToBottom() {
     if (chatMessagesContainer) {
       requestAnimationFrame(() => {
@@ -681,6 +701,7 @@
     }
   }
 
+  // Animasi redirect
   function showRedirectAnimation() {
     const animDiv = document.createElement("div");
     animDiv.className = "redirect-animation";
@@ -697,12 +718,14 @@
     }
   }
 
+  // Generate random key
   function generateEphemeralKey() {
     return Array.from(crypto.getRandomValues(new Uint8Array(16)))
       .map((b) => b.toString(16).padStart(2, "0"))
       .join("");
   }
 
+  // Escape HTML
   function escapeHtml(text) {
     const map = {
       "&": "&amp;",
@@ -714,8 +737,10 @@
     return text.replace(/[&<>"']/g, (m) => map[m]);
   }
 
+  // Public API
   window.TemanKuChatbot = { close, open, init, copyCode };
 
+  // Auto init
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);
   } else {

@@ -1,6 +1,4 @@
-/**
- * @fileoverview Manages blog listing, search, and pagination.
- */
+// Blog List Manager
 
 const CONFIG = {
     API_LIST: '../api/blog/get_blogs.php',
@@ -12,6 +10,7 @@ const CONFIG = {
 let currentPage = 1;
 let currentSearch = '';
 
+// Buat skeleton loading
 function createSkeleton(count) {
     let html = '';
     for(let i=0; i<count; i++) {
@@ -27,12 +26,14 @@ function createSkeleton(count) {
     return html;
 }
 
+// Format tanggal
 function formatDate(dateStr) {
     try {
         return new Date(dateStr).toLocaleDateString('id-ID', {day: 'numeric', month: 'long', year: 'numeric'});
     } catch(e) { return dateStr; }
 }
 
+// Render pagination
 function renderPagination(meta) {
     const container = document.getElementById('pagination');
     if (!meta || meta.total_pages <= 1) {
@@ -41,12 +42,10 @@ function renderPagination(meta) {
     }
 
     let html = '';
-    // Prev
     if(meta.has_prev) {
         html += `<button class="page-btn" onclick="changePage(${meta.current_page - 1})"><i class="fas fa-chevron-left"></i></button>`;
     }
     
-    // Numbers (simplified: showing range around current)
     for(let i=1; i<=meta.total_pages; i++) {
         if (i === 1 || i === meta.total_pages || (i >= meta.current_page - 1 && i <= meta.current_page + 1)) {
              html += `<button class="page-btn ${i === meta.current_page ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`;
@@ -55,7 +54,6 @@ function renderPagination(meta) {
         }
     }
 
-    // Next
     if(meta.has_next) {
         html += `<button class="page-btn" onclick="changePage(${meta.current_page + 1})"><i class="fas fa-chevron-right"></i></button>`;
     }
@@ -63,12 +61,14 @@ function renderPagination(meta) {
     container.innerHTML = html;
 }
 
+// Ganti halaman
 window.changePage = (page) => {
     currentPage = page;
     fetchBlogs();
     window.scrollTo({top: 0, behavior: 'smooth'});
 };
 
+// Render blog cards
 function renderBlogs(blogs) {
     const container = document.getElementById('blog-grid');
     if (!blogs || blogs.length === 0) {
@@ -77,10 +77,9 @@ function renderBlogs(blogs) {
     }
 
     container.innerHTML = blogs.map((blog, idx) => {
-        const delay = (idx % 3) * 100; // Staggered
+        const delay = (idx % 3) * 100;
         let img = blog.gambar_header_url || CONFIG.DEFAULT_IMAGE;
         
-        // Fix Path
         if (img && !img.startsWith('http') && !img.startsWith('../')) {
              if (img.startsWith('/')) {
                 img = '..' + img;
@@ -107,7 +106,6 @@ function renderBlogs(blogs) {
         `;
     }).join('');
     
-    // Refresh AOS only if needed, using refreshHard to prevent glitching on dynamic content
     if(window.AOS) {
         setTimeout(() => {
             window.AOS.refresh();
@@ -115,9 +113,10 @@ function renderBlogs(blogs) {
     }
 }
 
+// Fetch blogs dari API
 async function fetchBlogs() {
     const container = document.getElementById('blog-grid');
-    container.innerHTML = createSkeleton(3); // Minimal skeleton
+    container.innerHTML = createSkeleton(3);
     
     try {
         const url = `${CONFIG.API_LIST}?page=${currentPage}&limit=${CONFIG.LIMIT}&search=${encodeURIComponent(currentSearch)}`;
@@ -128,7 +127,6 @@ async function fetchBlogs() {
             renderBlogs(data.data.blogs);
             renderPagination(data.pagination);
         } else {
-             // If unauthorized, maybe show generic error or empty
              container.innerHTML = `<div class="error-state text-center" style="grid-column:1/-1"><p>${data.message}</p></div>`;
         }
     } catch (e) {
@@ -137,23 +135,20 @@ async function fetchBlogs() {
     }
 }
 
-// Search Handler (Debounced)
+// Search handler (debounced)
 let debounceTimer;
 document.getElementById('searchInput').addEventListener('input', (e) => {
     const term = e.target.value;
     
-    // Clear previous timer
     clearTimeout(debounceTimer);
     
-    // Set new timer
     debounceTimer = setTimeout(() => {
-        // Only search if term changed
         if (term !== currentSearch) {
             currentSearch = term;
             currentPage = 1;
             fetchBlogs();
         }
-    }, 500); // 500ms delay helps prevent flickering requests
+    }, 500);
 });
 
 document.getElementById('searchBtn').addEventListener('click', () => {
@@ -165,5 +160,5 @@ document.getElementById('searchBtn').addEventListener('click', () => {
     }
 });
 
-// Init
+// Inisialisasi
 document.addEventListener('DOMContentLoaded', fetchBlogs);

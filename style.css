@@ -5,8 +5,8 @@
 /* FONT: F37 Caslon – ExtraBold */
 @font-face {
   font-family: "F37 Caslon";
-  src: url("../Font/Caslon/F37Caslon-ExtraBold.woff2") format("woff2"),
-    url("../Font/Caslon/F37Caslon-ExtraBold.woff") format("woff");
+  src: url("Font/Caslon/F37Caslon-ExtraBold.woff2") format("woff2"),
+    url("Font/Caslon/F37Caslon-ExtraBold.woff") format("woff");
   font-weight: 800;
   font-style: normal;
   font-display: swap;
@@ -15,8 +15,8 @@
 /* FONT: F37 Caslon – SemiBold */
 @font-face {
   font-family: "F37 Caslon";
-  src: url("../Font/Caslon/F37Caslon-SemiBold.woff2") format("woff2"),
-    url("../Font/Caslon/F37Caslon-SemiBold.woff") format("woff");
+  src: url("Font/Caslon/F37Caslon-SemiBold.woff2") format("woff2"),
+    url("Font/Caslon/F37Caslon-SemiBold.woff") format("woff");
   font-weight: 600;
   font-style: normal;
   font-display: swap;
@@ -25,8 +25,8 @@
 /* FONT: Campton – Medium */
 @font-face {
   font-family: "Campton";
-  src: url("../Font/campton full/Campton-Medium.woff2") format("woff2"),
-    url("../Font/campton full/Campton-Medium.woff") format("woff");
+  src: url("Font/campton full/Campton-Medium.woff2") format("woff2"),
+    url("Font/campton full/Campton-Medium.woff") format("woff");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -35,32 +35,40 @@
 /* FONT: Campton – Book / Regular */
 @font-face {
   font-family: "Campton";
-  src: url("../Font/campton full/Campton-Book.woff2") format("woff2"),
-    url("../Font/campton full/Campton-Book.woff") format("woff");
+  src: url("Font/campton full/Campton-Book.woff2") format("woff2"),
+    url("Font/campton full/Campton-Book.woff") format("woff");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 :root {
+  /* --- PALET WARNA UTAMA --- */
   --color-dark-blue: #132338;
   --color-mid-blue: #547e9b;
   --color-teal: #4b8a7b;
+  
+  /* --- WARNA AKSEN & PENDUKUNG --- */
   --color-light-yellow: #f3f5db;
   --color-purple: #6a5acd;
   --color-accent-blue: #3b5998;
   --color-green: #3a6845;
+  
+  /* --- WARNA NETRAL --- */
   --color-black: #000;
   --color-text-dark: #333;
   --color-text-light: #fff;
 
+  /* --- LAYOUT & SPACING --- */
   --max-width: 1200px;
   --padding-x: 5vw;
   
+  /* --- ANIMASI & TRANSISI --- */
   --ease-calm: cubic-bezier(0.22, 0.61, 0.36, 1);
   --dur-quick: 400ms;
   --dur-calm: 720ms;
 
+  /* --- TIPOGRAFI --- */
   --font-logo: "F37 Caslon", serif;
   --font-heading: "F37 Caslon", serif;
   --font-nav: "Campton", sans-serif;
@@ -71,6 +79,15 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+html,
+html,
+body {
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+  position: relative;
 }
 
 body {
@@ -140,6 +157,7 @@ li,
 .card-text {
   font-family: var(--font-body);
   font-weight: 400;
+  line-height: 1.6;
 }
 
 .description {
@@ -178,6 +196,13 @@ li,
   text-decoration: none;
   transition: background-color 0.3s, color 0.3s;
   border: 2px solid transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* Reset default button styles */
+  appearance: none; 
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }
 
 .btn-primary {

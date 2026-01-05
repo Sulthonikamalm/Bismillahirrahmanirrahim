@@ -1,10 +1,10 @@
-// Maintenance Page JavaScript
+// Maintenance Page
 
 (function() {
     'use strict';
     
-    // Optional: Countdown timer (jika mau tampilkan durasi maintenance)
-    // Uncomment function call di bawah untuk mengaktifkan
+    // Timer maintenance (opsional)
+    // Uncomment untuk mengaktifkan
     
     function initTimer() {
         const timerSection = document.getElementById('timerSection');
