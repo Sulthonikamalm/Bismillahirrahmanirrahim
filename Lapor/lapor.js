@@ -3,7 +3,179 @@
 (function() {
     'use strict';
 
-    // State
+    // ============================================
+    // SECURITY: INPUT SANITIZATION HELPERS
+    // ============================================
+    
+    /**
+     * Sanitize text input to prevent XSS
+     * @param {string} input - Raw text input
+     * @param {number} maxLength - Maximum allowed length
+     * @returns {string} - Sanitized text
+     */
+    function sanitizeText(input, maxLength = 5000) {
+        if (!input || typeof input !== 'string') return '';
+        
+        // Remove HTML tags
+        let clean = input.replace(/<[^>]*>/g, '');
+        
+        // Remove potentially dangerous characters
+        clean = clean.replace(/[<>"'`]/g, '');
+        
+        // Normalize whitespace
+        clean = clean.replace(/\s+/g, ' ');
+        
+        // Limit length
+        clean = clean.substring(0, maxLength);
+        
+        return clean.trim();
+    }
+
+    /**
+     * Sanitize email address (RFC 5322 compliant)
+     * @param {string} email - Email address
+     * @returns {string} - Valid email or empty string
+     */
+    function sanitizeEmail(email) {
+        if (!email || typeof email !== 'string') return '';
+        
+        const emailRegex = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+        
+        const trimmed = email.trim().toLowerCase();
+        
+        if (!emailRegex.test(trimmed) || trimmed.length > 254) {
+            return '';
+        }
+        
+        return trimmed;
+    }
+
+    /**
+     * Sanitize phone number (Indonesian format)
+     * @param {string} phone - Phone number
+     * @returns {string} - Sanitized phone number
+     */
+    function sanitizePhone(phone) {
+        if (!phone || typeof phone !== 'string') return '';
+        
+        // Remove all non-digits
+        let clean = phone.replace(/\D/g, '');
+        
+        // Convert 62 prefix to 0
+        if (clean.startsWith('62')) {
+            clean = '0' + clean.substring(2);
+        }
+        
+        // Must start with 0 and be 10-13 digits
+        if (!clean.startsWith('0') || clean.length < 10 || clean.length > 13) {
+            return '';
+        }
+        
+        return clean;
+    }
+
+    /**
+     * Sanitize date input (YYYY-MM-DD format, no future dates)
+     * @param {string} dateString - Date string
+     * @returns {string} - Valid date or empty string
+     */
+    function sanitizeDate(dateString) {
+        if (!dateString || typeof dateString !== 'string') return '';
+        
+        const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+        
+        if (!dateRegex.test(dateString)) {
+            return '';
+        }
+        
+        const date = new Date(dateString);
+        
+        // Check if valid date
+        if (isNaN(date.getTime())) {
+            return '';
+        }
+        
+        // Check if not in future
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        
+        if (date > today) {
+            return '';
+        }
+        
+        return dateString;
+    }
+
+    /**
+     * Sanitize select value (whitelist validation)
+     * @param {HTMLSelectElement} selectElement - The select element
+     * @param {string} value - Value to validate
+     * @returns {string} - Valid option value or empty string
+     */
+    function sanitizeSelectValue(selectElement, value) {
+        if (!selectElement || !value) return '';
+        
+        const options = Array.from(selectElement.options).map(opt => opt.value);
+        
+        return options.includes(value) ? value : '';
+    }
+
+    /**
+     * Escape HTML to prevent XSS
+     * @param {string} str - String to escape
+     * @returns {string} - Escaped string
+     */
+    function escapeHTML(str) {
+        if (!str || typeof str !== 'string') return '';
+        
+        const map = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#x27;',
+            '/': '&#x2F;'
+        };
+        
+        return str.replace(/[&<>"'/]/g, char => map[char]);
+    }
+
+    /**
+     * Sanitize object (deep sanitization for autofill)
+     * @param {Object} obj - Object to sanitize
+     * @returns {Object} - Sanitized object
+     */
+    function sanitizeObject(obj) {
+        if (!obj || typeof obj !== 'object') return {};
+        
+        const sanitized = {};
+        
+        for (const [key, value] of Object.entries(obj)) {
+            const safeKey = sanitizeText(key, 100);
+            
+            if (!safeKey) continue;
+            
+            if (typeof value === 'string') {
+                sanitized[safeKey] = sanitizeText(value);
+            } else if (typeof value === 'number') {
+                sanitized[safeKey] = value;
+            } else if (typeof value === 'boolean') {
+                sanitized[safeKey] = value;
+            } else if (Array.isArray(value)) {
+                sanitized[safeKey] = value.map(item => 
+                    typeof item === 'string' ? sanitizeText(item) : item
+                );
+            } else if (typeof value === 'object') {
+                sanitized[safeKey] = sanitizeObject(value);
+            }
+        }
+        
+        return sanitized;
+    }
+
+    // ============================================
+    // STATE MANAGEMENT
+    // ============================================
     let currentStep = 1;
     const totalSteps = 7;
     const formData = {};
@@ -82,13 +254,17 @@
                 extractedData = JSON.parse(decodeURIComponent(escape(atob(encryptedData))));
             }
             
-            console.log('Autofill data loaded:', extractedData);
+            // SECURITY: Sanitize all extracted data before use
+            const sanitizedData = sanitizeObject(extractedData);
+            console.log('Autofill data loaded and sanitized');
             
-            // Apply data to form
-            applyAutoFillData(extractedData);
+            // Apply sanitized data to form
+            applyAutoFillData(sanitizedData);
             
-            // Show notification
-            showAutoFillNotification(extractedData.confidence || {});
+            // Show notification (if notification function exists)
+            if (typeof showAutoFillNotification === 'function') {
+                showAutoFillNotification(sanitizedData.confidence || {});
+            }
             
             // Self-destruct: Remove data immediately after use
             clearAutofillData();
