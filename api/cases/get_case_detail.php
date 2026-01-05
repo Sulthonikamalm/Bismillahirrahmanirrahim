@@ -75,24 +75,30 @@ try {
         'message' => 'Database connection failed'
     ]));
 }
-
 // ========================================================
-// GET CASE DATA
+// GET CASE DATA WITH DECRYPTION
 // ========================================================
 
 try {
-    // Build query based on ID or kode
-    if ($caseId) {
-        $query = "SELECT * FROM Laporan WHERE id = :identifier LIMIT 1";
-        $identifier = $caseId;
-    } else {
-        $query = "SELECT * FROM Laporan WHERE kode_pelaporan = :identifier LIMIT 1";
-        $identifier = $kodePerlaporan;
-    }
+    // Initialize Encryption Service
+    require_once __DIR__ . '/../../api/services/EncryptionService.php';
+    $encryptionService = new EncryptionService($pdo, $_SESSION['admin_id'] ?? null);
 
-    $stmt = $pdo->prepare($query);
-    $stmt->execute([':identifier' => $identifier]);
-    $case = $stmt->fetch(PDO::FETCH_ASSOC);
+    // Use Authentication-aware decryption
+    if ($caseId) {
+        $case = $encryptionService->getDecryptedReport($caseId);
+    } else {
+        // Resolve Kode to ID first
+        $stmt = $pdo->prepare("SELECT id FROM Laporan WHERE kode_pelaporan = :kode LIMIT 1");
+        $stmt->execute([':kode' => $kodePerlaporan]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if ($row) {
+            $case = $encryptionService->getDecryptedReport($row['id']);
+        } else {
+            $case = false;
+        }
+    }
 
     if (!$case) {
         http_response_code(404);

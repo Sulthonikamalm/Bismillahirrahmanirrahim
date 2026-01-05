@@ -6,3 +6,7 @@
 [05-Jan-2026 00:57:43 Europe/Berlin] LOGIN SUCCESS - User: admin@ppks.com (ID: 5) from IP: ::1
 [05-Jan-2026 01:00:54 Europe/Berlin] LOGOUT - User: admin@ppks.com, IP: ::1
 [05-Jan-2026 01:01:34 Europe/Berlin] LOGIN SUCCESS - User: admin@ppks.com (ID: 5) from IP: ::1
+[05-Jan-2026 01:32:11 Europe/Berlin] Search Request - Type: KODE, Query: GNNJ34
+[05-Jan-2026 01:32:11 Europe/Berlin] Not found - kode: GNNJ34
+[05-Jan-2026 01:32:15 Europe/Berlin] Search Request - Type: KODE, Query: GNJ34
+[05-Jan-2026 01:32:15 Europe/Berlin] Found - kode: GNJ34, Kode: GNJ34
