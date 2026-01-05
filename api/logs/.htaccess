@@ -1,0 +1,2 @@
+# Blokir akses langsung ke folder logs
+Deny from all

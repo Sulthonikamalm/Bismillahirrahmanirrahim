@@ -14,8 +14,9 @@
  * ============================================================
  */
 
-// Secret key (GANTI DENGAN KEY RAHASIA ANDA)
-$secretKey = 'sigap_admin_2025';
+// Secret key dari environment variable
+require_once __DIR__ . '/../config/env_loader.php';
+$secretKey = env('MAINTENANCE_SECRET_KEY', 'sigap_admin_' . date('Y'));
 
 // File marker untuk maintenance mode
 $maintenanceFile = __DIR__ . '/../.maintenance';

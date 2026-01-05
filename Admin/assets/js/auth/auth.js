@@ -75,10 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
             formData.append('password', passwordInput.value);
 
             try {
-                const DEBUG_MODE = true;
-                const apiEndpoint = DEBUG_MODE ?
-                    '/Bismillahirrahmanirrahim/api/auth_login_debug.php' :
-                    '/Bismillahirrahmanirrahim/api/auth_login.php';
+                const apiEndpoint = '/Bismillahirrahmanirrahim/api/auth_login.php';
 
                 console.log('Using endpoint:', apiEndpoint);
 

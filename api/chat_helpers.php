@@ -1,13 +1,13 @@
 <?php
 /**
- * Chat Helpers v4.2
- * Utility functions for chat processing, normalization, and phase detection
+ * SIGAP PPKS - Chat Helpers
+ * Fungsi utilitas untuk pemrosesan chat dan ekstraksi data
  */
 
 class ChatHelpers {
     
     /**
-     * Normalize AI data for form autofill
+     * Normalisasi data AI untuk form autofill
      */
     public static function normalizeExtractedData($rawData) {
         $extracted = isset($rawData['extracted_data']) ? $rawData['extracted_data'] : $rawData;
@@ -28,29 +28,23 @@ class ChatHelpers {
         ];
     }
 
-    /**
-     * Sanitize output strings for XSS prevention
-     */
     private static function sanitize($input) {
         if ($input === null || $input === 'null') return null;
-        $clean = strip_tags($input);
-        return htmlspecialchars(trim($clean), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        return htmlspecialchars(trim(strip_tags($input)), ENT_QUOTES | ENT_HTML5, 'UTF-8');
     }
     
     /**
-     * Smart date parser with slang support
+     * Parser tanggal dengan dukungan bahasa Indonesia
      */
     public static function normalizeDate($dateString) {
         if (empty($dateString) || $dateString === 'null') return null;
         
-        if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $dateString)) {
-            return $dateString;
-        }
+        if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $dateString)) return $dateString;
         
         $text = strtolower(trim($dateString));
         $today = date('Y-m-d');
         
-        $directMappings = [
+        $mappings = [
             'hari ini' => $today, 'hr ini' => $today, 'sekarang' => $today,
             'barusan' => $today, 'tadi' => $today, 'tadi pagi' => $today,
             'tadi malam' => date('Y-m-d', strtotime('-1 day')),
@@ -60,25 +54,22 @@ class ChatHelpers {
             'semalam' => date('Y-m-d', strtotime('-1 day')),
             'lusa' => date('Y-m-d', strtotime('-2 days')),
             'minggu lalu' => date('Y-m-d', strtotime('-7 days')),
-            'mg lalu' => date('Y-m-d', strtotime('-7 days')),
-            'bulan lalu' => date('Y-m-d', strtotime('-30 days')),
-            'bln lalu' => date('Y-m-d', strtotime('-30 days'))
+            'bulan lalu' => date('Y-m-d', strtotime('-30 days'))
         ];
 
-        foreach ($directMappings as $keyword => $date) {
+        foreach ($mappings as $keyword => $date) {
             if (strpos($text, $keyword) !== false) return $date;
         }
         
         $relativePatterns = [
-            '/(\d+)\s*(hari|hr|hri)\s*(lalu|yang\s*lalu)/i' => 'days',
-            '/(\d+)\s*(minggu|mg|pekan)\s*(lalu|yang\s*lalu)/i' => 'weeks',
-            '/(\d+)\s*(bulan|bln)\s*(lalu|yang\s*lalu)/i' => 'months'
+            '/(\d+)\s*(hari|hr)\s*(lalu)/i' => 'days',
+            '/(\d+)\s*(minggu|mg)\s*(lalu)/i' => 'weeks',
+            '/(\d+)\s*(bulan|bln)\s*(lalu)/i' => 'months'
         ];
 
         foreach ($relativePatterns as $pattern => $unit) {
             if (preg_match($pattern, $text, $matches)) {
-                $num = (int)$matches[1];
-                return date('Y-m-d', strtotime("-$num $unit"));
+                return date('Y-m-d', strtotime("-{$matches[1]} $unit"));
             }
         }
         
@@ -92,31 +83,23 @@ class ChatHelpers {
     }
 
     /**
-     * Emergency detection with word boundaries
+     * Deteksi kondisi darurat
      */
     public static function isEmergency($message) {
         $cleanMsg = strtolower(preg_replace('/[^\w\s]/u', ' ', $message));
         $cleanMsg = preg_replace('/\s+/', ' ', trim($cleanMsg));
         
-        $emergencyPatterns = [
+        $patterns = [
             'bunuh\s+diri', 'ingin\s+mati', 'mau\s+mati', 'pengen\s+mati',
-            'akhiri\s+hidup', 'gantung\s+diri', 'lompat\s+dari', 'minum\s+racun',
-            'gores\s+tangan', 'iris\s+tangan', 'potong\s+urat',
-            'gak\s+kuat\s+hidup', 'ga\s+kuat\s+hidup', 'lebih\s+baik\s+mati',
-            'mending\s+mati', 'capek\s+hidup', 'males\s+hidup'
+            'akhiri\s+hidup', 'gantung\s+diri', 'minum\s+racun',
+            'gak\s+kuat\s+hidup', 'lebih\s+baik\s+mati', 'capek\s+hidup'
         ];
         
-        $negationPatterns = [
-            '/tidak\s+(mau|ingin|pengen)\s+mati/i',
-            '/ga(k)?\s+(mau|ingin|pengen)\s+mati/i',
-            '/bukan\s+bunuh\s+diri/i'
-        ];
+        // Cek negasi dulu
+        if (preg_match('/tidak\s+(mau|ingin)\s+mati/i', $cleanMsg)) return false;
+        if (preg_match('/ga(k)?\s+(mau|ingin)\s+mati/i', $cleanMsg)) return false;
         
-        foreach ($negationPatterns as $negPattern) {
-            if (preg_match($negPattern, $cleanMsg)) return false;
-        }
-        
-        foreach ($emergencyPatterns as $pattern) {
+        foreach ($patterns as $pattern) {
             if (preg_match('/\b' . $pattern . '\b/iu', $cleanMsg)) {
                 error_log("[EMERGENCY] Pattern: $pattern");
                 return true;
@@ -126,20 +109,17 @@ class ChatHelpers {
         return false;
     }
 
-    /**
-     * Location normalizer
-     */
     private static function normalizeLocation($location) {
         if (empty($location) || $location === 'null') return null;
         
         $loc = strtolower(trim($location));
         
         $mappings = [
-            'sekolah_kampus' => ['kelas', 'kampus', 'kuliah', 'lab', 'perpus', 'fakultas', 'gedung'],
-            'rumah_tangga' => ['rumah', 'kos', 'kost', 'asrama', 'kontrakan', 'apartemen', 'kamar'],
-            'tempat_kerja' => ['kantor', 'tempat kerja', 'office', 'gudang', 'pabrik', 'toko'],
-            'sarana_umum' => ['jalan', 'angkot', 'bus', 'kereta', 'mall', 'cafe', 'taman', 'parkir'],
-            'daring_elektronik' => ['online', 'chat', 'wa', 'whatsapp', 'dm', 'ig', 'medsos', 'telepon']
+            'sekolah_kampus' => ['kelas', 'kampus', 'kuliah', 'lab', 'perpus', 'fakultas'],
+            'rumah_tangga' => ['rumah', 'kos', 'kost', 'asrama', 'kontrakan', 'apartemen'],
+            'tempat_kerja' => ['kantor', 'tempat kerja', 'office', 'gudang'],
+            'sarana_umum' => ['jalan', 'angkot', 'bus', 'kereta', 'mall', 'cafe', 'taman'],
+            'daring_elektronik' => ['online', 'chat', 'wa', 'whatsapp', 'dm', 'medsos']
         ];
         
         foreach ($mappings as $formValue => $keywords) {
@@ -148,31 +128,22 @@ class ChatHelpers {
             }
         }
         
-        $validValues = ['rumah_tangga', 'tempat_kerja', 'sekolah_kampus', 'sarana_umum', 'situasi_darurat', 'daring_elektronik'];
-        if (in_array($location, $validValues)) return $location;
-        
         return null;
     }
 
-    /**
-     * Perpetrator normalizer
-     */
     private static function normalizePerpetrator($pelaku) {
         if (empty($pelaku) || $pelaku === 'null') return null;
         
         $p = strtolower(trim($pelaku));
         
         $mappings = [
-            'orang_tidak_dikenal' => ['tidak kenal', 'asing', 'orang asing', 'gak kenal'],
-            'dosen' => ['dosen', 'guru', 'pengajar', 'lecturer', 'profesor'],
+            'orang_tidak_dikenal' => ['tidak kenal', 'asing', 'gak kenal'],
+            'dosen' => ['dosen', 'guru', 'pengajar', 'profesor'],
             'teman' => ['teman', 'kawan', 'sahabat'],
             'senior' => ['senior', 'kakak tingkat', 'kating'],
-            'atasan_majikan' => ['atasan', 'bos', 'majikan', 'manager'],
-            'rekan_kerja' => ['rekan kerja', 'kolega', 'teman kantor'],
+            'atasan_majikan' => ['atasan', 'bos', 'majikan'],
             'pacar' => ['pacar', 'mantan', 'gebetan', 'pasangan'],
-            'kerabat' => ['kerabat', 'saudara', 'paman', 'om', 'tante', 'sepupu'],
-            'ayah_kandung' => ['ayah', 'bapak', 'papa'],
-            'ibu_kandung' => ['ibu', 'mama', 'emak']
+            'kerabat' => ['kerabat', 'saudara', 'paman', 'om', 'tante']
         ];
         
         foreach ($mappings as $formValue => $keywords) {
@@ -181,43 +152,31 @@ class ChatHelpers {
             }
         }
         
-        $validValues = ['orang_tidak_dikenal', 'kenalan_baru', 'teman', 'kerabat', 'ayah_kandung', 'ibu_kandung', 'pacar', 'rekan_kerja', 'atasan_majikan', 'lainnya'];
-        if (in_array($pelaku, $validValues)) return $pelaku;
-        
         return 'lainnya';
     }
 
-    /**
-     * Concern level normalizer
-     */
     private static function normalizeKekhawatiran($value) {
         if (empty($value) || $value === 'null') return 'khawatir';
         
         $v = strtolower(trim($value));
         
-        if (preg_match('/(sangat|banget|parah|tinggi|berat|trauma)/i', $v)) return 'sangat';
+        if (preg_match('/(sangat|banget|parah|tinggi|trauma)/i', $v)) return 'sangat';
         if (preg_match('/(sedikit|biasa|ringan|kecil)/i', $v)) return 'sedikit';
         
         return 'khawatir';
     }
 
-    /**
-     * Gender normalizer
-     */
     private static function normalizeGender($value) {
         if (empty($value) || $value === 'null') return null;
         
         $v = strtolower(trim($value));
         
-        if (preg_match('/(perempuan|wanita|cewek|female)/i', $v)) return 'perempuan';
-        if (preg_match('/(laki|pria|cowok|male)/i', $v)) return 'lakilaki';
+        if (preg_match('/(perempuan|wanita|cewek)/i', $v)) return 'perempuan';
+        if (preg_match('/(laki|pria|cowok)/i', $v)) return 'lakilaki';
         
         return null;
     }
 
-    /**
-     * Age normalizer
-     */
     private static function normalizeUsia($value) {
         if (empty($value) || $value === 'null') return null;
         
@@ -238,7 +197,7 @@ class ChatHelpers {
     }
 
     /**
-     * Phase determination
+     * Tentukan fase percakapan
      */
     public static function determinePhase($labels, $messageCount, $consentAsked, $lastUserMessage) {
         if (self::isAskingAboutReporting($lastUserMessage)) return 'consent';
@@ -253,18 +212,15 @@ class ChatHelpers {
         return 'curhat';
     }
 
-    /**
-     * Consent detection
-     */
     public static function detectConsent($message) {
         $msg = strtolower(trim($message));
         
-        $noPatterns = ['tidak', 'enggak', 'gak', 'ga ', 'nggak', 'jangan', 'belum', 'nanti aja', 'takut', 'ragu'];
+        $noPatterns = ['tidak', 'enggak', 'gak', 'nggak', 'jangan', 'belum', 'nanti', 'takut', 'ragu'];
         foreach ($noPatterns as $pattern) {
             if (strpos($msg, $pattern) !== false) return 'no';
         }
         
-        $yesPatterns = ['ya', 'iya', 'boleh', 'mau', 'setuju', 'bersedia', 'ok', 'oke', 'siap', 'yuk', 'ayo', 'lanjut', 'baik', 'tolong', 'bantu'];
+        $yesPatterns = ['ya', 'iya', 'boleh', 'mau', 'setuju', 'ok', 'oke', 'siap', 'yuk', 'ayo', 'lanjut', 'tolong', 'bantu'];
         foreach ($yesPatterns as $pattern) {
             if (strpos($msg, $pattern) !== false) return 'yes';
         }
@@ -272,11 +228,8 @@ class ChatHelpers {
         return 'unclear';
     }
 
-    /**
-     * Report intent detection
-     */
     public static function detectReportIntent($message) {
-        $keywords = ['mau lapor', 'ingin melapor', 'bantu lapor', 'catat laporan', 'buat laporan', 'laporkan'];
+        $keywords = ['mau lapor', 'ingin melapor', 'bantu lapor', 'buat laporan'];
         $msg = strtolower($message);
         
         foreach ($keywords as $keyword) {
@@ -285,11 +238,8 @@ class ChatHelpers {
         return false;
     }
 
-    /**
-     * Reporting questions detection
-     */
     public static function isAskingAboutReporting($message) {
-        $keywords = ['aman?', 'aman gak', 'rahasia?', 'ketahuan?', 'gimana caranya', 'prosesnya', 'takut dendam', 'identitas'];
+        $keywords = ['aman?', 'rahasia?', 'ketahuan?', 'gimana caranya', 'prosesnya'];
         $msg = strtolower($message);
         
         foreach ($keywords as $keyword) {
@@ -298,11 +248,8 @@ class ChatHelpers {
         return false;
     }
 
-    /**
-     * Off-topic detection
-     */
     public static function isOffTopic($message) {
-        $keywords = ['buatkan kode', 'buat kode', 'coding', 'python', 'javascript', 'java', 'php', 'tugas kuliah', 'tugas sekolah', 'resep masak', 'cara masak'];
+        $keywords = ['buatkan kode', 'coding', 'python', 'javascript', 'tugas kuliah', 'resep masak'];
         $msg = strtolower($message);
         
         foreach ($keywords as $keyword) {
@@ -311,14 +258,11 @@ class ChatHelpers {
         return false;
     }
 
-    /**
-     * Count filled labels
-     */
     public static function countFilledLabels($labels) {
-        $criticalFields = ['pelaku_kekerasan', 'waktu_kejadian', 'lokasi_kejadian', 'detail_kejadian', 'tingkat_kekhawatiran'];
+        $fields = ['pelaku_kekerasan', 'waktu_kejadian', 'lokasi_kejadian', 'detail_kejadian', 'tingkat_kekhawatiran'];
         $count = 0;
         
-        foreach ($criticalFields as $field) {
+        foreach ($fields as $field) {
             if (!empty($labels[$field]) && $labels[$field] !== null && $labels[$field] !== 'null') {
                 $count++;
             }
@@ -326,9 +270,6 @@ class ChatHelpers {
         return $count;
     }
 
-    /**
-     * Merge labels
-     */
     public static function mergeLabels($existingLabels, $newLabels) {
         if (isset($newLabels['extracted_data'])) {
             $newLabels = $newLabels['extracted_data'];
@@ -344,9 +285,6 @@ class ChatHelpers {
         return $existingLabels;
     }
 
-    /**
-     * Get conversation text for AI extraction
-     */
     public static function getConversationText($history) {
         $text = "";
         foreach ($history as $msg) {
@@ -358,8 +296,7 @@ class ChatHelpers {
     }
     
     /**
-     * Check labels completeness - "No Contact, No Ticket" Policy
-     * Requires at least one contact method (email OR whatsapp)
+     * Cek kelengkapan label - wajib ada kontak
      */
     public static function isLabelsComplete($labels) {
         $required = ['pelaku_kekerasan', 'detail_kejadian'];
@@ -370,56 +307,42 @@ class ChatHelpers {
             }
         }
         
-        // NO CONTACT, NO TICKET: Must have at least email OR whatsapp
-        $hasEmail = !empty($labels['email_korban']) && $labels['email_korban'] !== null && $labels['email_korban'] !== 'null';
-        $hasWhatsapp = !empty($labels['whatsapp_korban']) && $labels['whatsapp_korban'] !== null && $labels['whatsapp_korban'] !== 'null';
+        // Wajib ada minimal 1 kontak
+        $hasEmail = !empty($labels['email_korban']) && $labels['email_korban'] !== 'null';
+        $hasWhatsapp = !empty($labels['whatsapp_korban']) && $labels['whatsapp_korban'] !== 'null';
         
-        if (!$hasEmail && !$hasWhatsapp) {
-            return false;
-        }
-        
-        return true;
+        return $hasEmail || $hasWhatsapp;
     }
     
-    /**
-     * Get missing fields for report completion
-     * Used by bot to ask specific questions
-     */
     public static function getMissingFields($labels) {
         $missing = [];
         
-        // Core required fields
         $requiredFields = [
-            'pelaku_kekerasan' => 'Siapa pelaku kekerasan',
-            'detail_kejadian' => 'Kronologi/detail kejadian',
-            'waktu_kejadian' => 'Kapan kejadian terjadi',
-            'lokasi_kejadian' => 'Di mana kejadian terjadi'
+            'pelaku_kekerasan' => 'Siapa pelaku',
+            'detail_kejadian' => 'Detail kejadian',
+            'waktu_kejadian' => 'Kapan terjadi',
+            'lokasi_kejadian' => 'Di mana terjadi'
         ];
         
         foreach ($requiredFields as $field => $label) {
-            if (empty($labels[$field]) || $labels[$field] === null || $labels[$field] === 'null') {
+            if (empty($labels[$field]) || $labels[$field] === 'null') {
                 $missing[] = $label;
             }
         }
         
-        // NO CONTACT, NO TICKET: Check for at least one contact
-        $hasEmail = !empty($labels['email_korban']) && $labels['email_korban'] !== null && $labels['email_korban'] !== 'null';
-        $hasWhatsapp = !empty($labels['whatsapp_korban']) && $labels['whatsapp_korban'] !== null && $labels['whatsapp_korban'] !== 'null';
+        $hasEmail = !empty($labels['email_korban']) && $labels['email_korban'] !== 'null';
+        $hasWhatsapp = !empty($labels['whatsapp_korban']) && $labels['whatsapp_korban'] !== 'null';
         
         if (!$hasEmail && !$hasWhatsapp) {
-            $missing[] = 'Kontak (WA atau Email) untuk tindak lanjut';
+            $missing[] = 'Kontak (WA/Email) untuk tindak lanjut';
         }
         
         return $missing;
     }
     
-    /**
-     * Check if contact info is available
-     */
     public static function hasContactInfo($labels) {
-        $hasEmail = !empty($labels['email_korban']) && $labels['email_korban'] !== null && $labels['email_korban'] !== 'null';
-        $hasWhatsapp = !empty($labels['whatsapp_korban']) && $labels['whatsapp_korban'] !== null && $labels['whatsapp_korban'] !== 'null';
+        $hasEmail = !empty($labels['email_korban']) && $labels['email_korban'] !== 'null';
+        $hasWhatsapp = !empty($labels['whatsapp_korban']) && $labels['whatsapp_korban'] !== 'null';
         return $hasEmail || $hasWhatsapp;
     }
 }
-?>

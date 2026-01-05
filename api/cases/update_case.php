@@ -1,21 +1,7 @@
 <?php
 /**
- * ========================================================
- * SIGAP PPKPT - Update Case API
- * File: api/cases/update_case.php
- * ========================================================
- *
- * Usage: POST /api/cases/update_case.php
- * Body: { id, status_laporan, [other fields...], csrf_token }
- *
- * Security Features:
- * - Session authentication
- * - CSRF token validation
- * - SQL Injection prevention (prepared statements)
- * - Input validation & sanitization
- * - Audit logging
+ * SIGAP PPKS - API Update Kasus
  */
-
 // Security headers
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');

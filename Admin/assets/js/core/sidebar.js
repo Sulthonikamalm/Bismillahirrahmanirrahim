@@ -147,11 +147,7 @@ async function handleLogout() {
             btnLogout.innerHTML = '<i class="bi bi-hourglass-split me-2"></i><span>Logging out...</span>';
         }
 
-        // DEBUG MODE: Use debug version for detailed logging
-        const DEBUG_MODE = true;
-        const logoutEndpoint = DEBUG_MODE ?
-            '../../../api/auth_logout_debug.php' :
-            '../../../api/auth_logout.php';
+        const logoutEndpoint = '../../../api/auth_logout.php';
 
         console.log('Using logout endpoint:', logoutEndpoint);
 

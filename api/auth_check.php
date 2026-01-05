@@ -1,52 +1,29 @@
 <?php
 /**
- * ========================================================
- * SIGAP PPKPT - SECURE Session Check & Authentication
- * File: auth_check_secure.php
- * ========================================================
- * 
- * Security Features:
- * ✅ Session validation
- * ✅ Session timeout (30 minutes idle)
- * ✅ Session hijacking prevention
- * ✅ IP address verification
- * ✅ User agent verification
- * ✅ CSRF token validation
+ * SIGAP PPKS - API Cek Sesi
+ * Validasi sesi admin yang sudah login
  */
 
-// Security headers
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
 header('X-Frame-Options: DENY');
 header('X-XSS-Protection: 1; mode=block');
 
-// Disable error display
 error_reporting(0);
 ini_set('display_errors', 0);
 
-// Start secure session
-// Auto-detect HTTPS for cookie_secure setting
+// Start session
 $isHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443;
-
 session_start([
     'cookie_httponly' => true,
-    'cookie_secure' => $isHttps, // Enable only if using HTTPS
+    'cookie_secure' => $isHttps,
     'cookie_samesite' => 'Strict',
     'use_strict_mode' => true,
     'use_only_cookies' => true,
-    'gc_maxlifetime' => 1800 // 30 minutes
+    'gc_maxlifetime' => 1800
 ]);
 
-// ========================================================
-// HELPER FUNCTIONS
-// ========================================================
-
-/**
- * Get client IP address
- */
 function getClientIP() {
-    $ip = '';
-    
     if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
         $ip = $_SERVER['HTTP_CLIENT_IP'];
     } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
@@ -54,250 +31,98 @@ function getClientIP() {
     } else {
         $ip = $_SERVER['REMOTE_ADDR'] ?? '0.0.0.0';
     }
-    
     return filter_var($ip, FILTER_VALIDATE_IP) ? $ip : '0.0.0.0';
 }
 
-/**
- * Get user agent
- */
-function getUserAgent() {
-    return $_SERVER['HTTP_USER_AGENT'] ?? '';
-}
-
-/**
- * Destroy session securely
- */
 function destroySession() {
     $_SESSION = [];
-    
     if (ini_get("session.use_cookies")) {
         $params = session_get_cookie_params();
-        setcookie(
-            session_name(), 
-            '', 
-            time() - 42000,
-            $params["path"], 
-            $params["domain"],
-            $params["secure"], 
-            $params["httponly"]
-        );
+        setcookie(session_name(), '', time() - 42000, $params["path"], $params["domain"], $params["secure"], $params["httponly"]);
     }
-    
     session_destroy();
 }
 
-// ========================================================
-// SESSION VALIDATION
-// ========================================================
-
-// Check if session exists
+// Cek login
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
     http_response_code(401);
-    echo json_encode([
-        'status' => 'unauthorized',
-        'message' => 'Not authenticated'
-    ]);
+    echo json_encode(['status' => 'unauthorized', 'message' => 'Belum login']);
     exit;
 }
 
-// ========================================================
-// SECURITY CHECKS
-// ========================================================
-
 $currentIP = getClientIP();
-$currentUserAgent = getUserAgent();
+$currentUserAgent = $_SERVER['HTTP_USER_AGENT'] ?? '';
 $currentTime = time();
 
-// ========================================================
-// DEVICE FINGERPRINT VALIDATION - Prevent session hijacking across browsers
-// ========================================================
-
-// Generate current device fingerprint
+// Device fingerprint validation
 $acceptLanguage = $_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? 'unknown';
 $acceptEncoding = $_SERVER['HTTP_ACCEPT_ENCODING'] ?? 'unknown';
+$currentFingerprint = hash('sha256', $currentUserAgent . '|' . $acceptLanguage . '|' . $acceptEncoding . '|' . $currentIP);
 
-$currentFingerprint = hash('sha256',
-    $currentUserAgent . '|' .
-    $acceptLanguage . '|' .
-    $acceptEncoding . '|' .
-    $currentIP
-);
-
-// CRITICAL: Check if device fingerprint matches session
 if (isset($_SESSION['device_fingerprint'])) {
     if ($_SESSION['device_fingerprint'] !== $currentFingerprint) {
-        error_log("SECURITY ALERT: Device fingerprint mismatch!");
-        error_log("User: " . ($_SESSION['admin_email'] ?? 'unknown'));
-        error_log("Expected fingerprint: " . $_SESSION['device_fingerprint']);
-        error_log("Current fingerprint: " . $currentFingerprint);
-        error_log("User Agent: " . $currentUserAgent);
-        error_log("IP: " . $currentIP);
-
-        // CRITICAL: Session hijacking detected - Destroy session immediately
+        error_log("SECURITY ALERT: Device fingerprint mismatch! User: " . ($_SESSION['admin_email'] ?? 'unknown'));
         destroySession();
-
         http_response_code(401);
         echo json_encode([
             'status' => 'unauthorized',
-            'message' => 'Sesi tidak valid. Anda mungkin menggunakan browser atau perangkat yang berbeda.',
+            'message' => 'Sesi tidak valid. Perangkat berbeda terdeteksi.',
             'reason' => 'device_mismatch'
         ]);
         exit;
     }
 } else {
-    // No fingerprint in session - Old session or security issue
-    error_log("SECURITY WARNING: No device fingerprint in session for user: " . ($_SESSION['admin_email'] ?? 'unknown'));
-
-    // Destroy session for security
+    error_log("SECURITY WARNING: No device fingerprint for user: " . ($_SESSION['admin_email'] ?? 'unknown'));
     destroySession();
-
     http_response_code(401);
-    echo json_encode([
-        'status' => 'unauthorized',
-        'message' => 'Sesi tidak valid. Silakan login kembali.',
-        'reason' => 'no_fingerprint'
-    ]);
+    echo json_encode(['status' => 'unauthorized', 'message' => 'Sesi tidak valid. Silakan login ulang.', 'reason' => 'no_fingerprint']);
     exit;
 }
 
-// 1. Check session timeout (30 minutes of inactivity)
+// Session timeout (30 menit)
 if (isset($_SESSION['last_activity'])) {
-    $inactiveTime = $currentTime - $_SESSION['last_activity'];
-    
-    if ($inactiveTime > 1800) { // 30 minutes
+    if (($currentTime - $_SESSION['last_activity']) > 1800) {
         error_log("Session timeout - User: " . ($_SESSION['admin_email'] ?? 'unknown'));
         destroySession();
-        
         http_response_code(401);
-        echo json_encode([
-            'status' => 'unauthorized',
-            'message' => 'Session expired due to inactivity',
-            'reason' => 'timeout'
-        ]);
+        echo json_encode(['status' => 'unauthorized', 'message' => 'Sesi kadaluarsa karena tidak aktif', 'reason' => 'timeout']);
         exit;
     }
 }
-
-// Update last activity time
 $_SESSION['last_activity'] = $currentTime;
 
-// 2. Check IP address (prevent session hijacking)
-if (isset($_SESSION['login_ip'])) {
-    if ($_SESSION['login_ip'] !== $currentIP) {
-        error_log("SECURITY WARNING: IP mismatch - Session IP: " . $_SESSION['login_ip'] . ", Current IP: $currentIP");
-        
-        // For high-security applications, destroy session
-        // destroySession();
-        
-        // For now, log warning but allow (some users have dynamic IPs)
-        // Uncomment below to enforce strict IP checking:
-        /*
-        http_response_code(401);
-        echo json_encode([
-            'status' => 'unauthorized',
-            'message' => 'Session security violation detected',
-            'reason' => 'ip_mismatch'
-        ]);
-        exit;
-        */
-    }
-}
-
-// 3. Check absolute session lifetime (4 hours max)
+// Max session lifetime (4 jam)
 if (isset($_SESSION['login_time'])) {
-    $sessionLifetime = $currentTime - $_SESSION['login_time'];
-    
-    if ($sessionLifetime > 14400) { // 4 hours
-        error_log("Session expired - Max lifetime reached - User: " . ($_SESSION['admin_email'] ?? 'unknown'));
+    if (($currentTime - $_SESSION['login_time']) > 14400) {
+        error_log("Session expired - Max lifetime - User: " . ($_SESSION['admin_email'] ?? 'unknown'));
         destroySession();
-        
         http_response_code(401);
-        echo json_encode([
-            'status' => 'unauthorized',
-            'message' => 'Session expired. Please login again.',
-            'reason' => 'max_lifetime'
-        ]);
+        echo json_encode(['status' => 'unauthorized', 'message' => 'Sesi kadaluarsa. Silakan login ulang.', 'reason' => 'max_lifetime']);
         exit;
     }
 }
 
-// 4. Validate required session variables
-$requiredSessionVars = ['admin_id', 'admin_email', 'admin_name'];
-foreach ($requiredSessionVars as $var) {
+// Validate required session vars
+$requiredVars = ['admin_id', 'admin_email', 'admin_name'];
+foreach ($requiredVars as $var) {
     if (!isset($_SESSION[$var]) || empty($_SESSION[$var])) {
-        error_log("Invalid session - Missing variable: $var");
+        error_log("Invalid session - Missing: $var");
         destroySession();
-        
         http_response_code(401);
-        echo json_encode([
-            'status' => 'unauthorized',
-            'message' => 'Invalid session data'
-        ]);
+        echo json_encode(['status' => 'unauthorized', 'message' => 'Data sesi tidak valid']);
         exit;
     }
 }
 
-// 5. Optional: Verify user still exists and is active in database
-// (Uncomment if you want real-time verification on every request)
-/*
-try {
-    require_once __DIR__ . '/../config/database_secure.php';
-    
-    $stmt = $pdo->prepare("
-        SELECT id, is_active 
-        FROM Admin 
-        WHERE id = :id AND email = :email
-        LIMIT 1
-    ");
-    
-    $stmt->execute([
-        ':id' => $_SESSION['admin_id'],
-        ':email' => $_SESSION['admin_email']
-    ]);
-    
-    $user = $stmt->fetch();
-    
-    if (!$user || !$user['is_active']) {
-        error_log("User no longer active or deleted - ID: " . $_SESSION['admin_id']);
-        destroySession();
-        
-        http_response_code(401);
-        echo json_encode([
-            'status' => 'unauthorized',
-            'message' => 'Account is no longer active'
-        ]);
-        exit;
-    }
-    
-} catch (Exception $e) {
-    error_log("Database check failed during auth: " . $e->getMessage());
-    // Don't fail if database check fails - allow session to continue
-}
-*/
-
-// ========================================================
-// SESSION REGENERATION (Periodic)
-// ========================================================
-
-// Regenerate session ID every 10 minutes (prevents session fixation)
+// Regenerate session ID setiap 10 menit
 if (!isset($_SESSION['last_regeneration'])) {
     $_SESSION['last_regeneration'] = $currentTime;
-} else {
-    $timeSinceRegeneration = $currentTime - $_SESSION['last_regeneration'];
-    
-    if ($timeSinceRegeneration > 600) { // 10 minutes
-        session_regenerate_id(true);
-        $_SESSION['last_regeneration'] = $currentTime;
-        error_log("Session ID regenerated for user: " . $_SESSION['admin_email']);
-    }
+} elseif (($currentTime - $_SESSION['last_regeneration']) > 600) {
+    session_regenerate_id(true);
+    $_SESSION['last_regeneration'] = $currentTime;
 }
 
-// ========================================================
-// AUTHENTICATED RESPONSE
-// ========================================================
-
-// Generate CSRF token if not exists
+// Generate CSRF token jika belum ada
 if (!isset($_SESSION['csrf_token']) || empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
@@ -318,5 +143,4 @@ echo json_encode([
     ],
     'csrf_token' => $_SESSION['csrf_token']
 ]);
-
 exit;

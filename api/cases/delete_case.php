@@ -1,22 +1,7 @@
 <?php
 /**
- * ========================================================
- * SIGAP PPKPT - Delete Case API
- * File: api/cases/delete_case.php
- * ========================================================
- *
- * Usage: POST /api/cases/delete_case.php
- * Body: { id: number } or { ids: [array of numbers] }, csrf_token
- *
- * Security Features:
- * - Session authentication
- * - CSRF token validation
- * - SQL Injection prevention (prepared statements)
- * - Transaction support for bulk delete
- * - Audit logging
- * - Bulk delete limit (max 50 at once)
+ * SIGAP PPKS - API Hapus Kasus
  */
-
 // Security headers
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');

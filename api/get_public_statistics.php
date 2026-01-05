@@ -1,23 +1,7 @@
 <?php
 /**
- * ========================================================
- * SIGAP PPKPT - Public Statistics API (No Auth Required)
- * File: api/get_public_statistics.php
- * ========================================================
- *
- * Usage: GET /api/get_public_statistics.php
- * 
- * Returns public-facing statistics for landing page:
- * - Total cases reported
- * - Cases received (process + in_progress)
- * - Cases completed
- *
- * Security Features:
- * - No authentication required (public data)
- * - SQL Injection prevention (prepared statements)
- * - Rate limiting (optional)
+ * SIGAP PPKS - API Statistik Publik
  */
-
 // Security headers
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');

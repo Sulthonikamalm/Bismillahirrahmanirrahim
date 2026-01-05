@@ -1,19 +1,7 @@
 <?php
 /**
- * ========================================================
- * SIGAP PPKPT - Create Blog API
- * File: api/blog/create_blog.php
- * ========================================================
- *
- * Security Features:
- * ✅ CSRF Token validation
- * ✅ Session authentication
- * ✅ Input validation & sanitization
- * ✅ SQL Injection prevention
- * ✅ XSS prevention
- * ✅ Audit logging
+ * SIGAP PPKS - API Buat Blog
  */
-
 // Security headers
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');

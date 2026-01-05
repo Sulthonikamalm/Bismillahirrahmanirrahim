@@ -1,40 +1,22 @@
 <?php
 /**
- * ==========================================================
- * API GET LAPORAN - DUAL SEARCH VERSION
- * ==========================================================
- * Endpoint untuk mendapatkan detail laporan berdasarkan:
- * - Kode Pelaporan (PPKPT123456789) ATAU
- * - Email Korban (user@example.com)
- * 
- * Method: GET
- * Parameter: query (bisa kode atau email)
- * Example: 
- * - /api/get_laporan.php?query=PPKPT228236148
- * - /api/get_laporan.php?query=test@student.itb.ac.id
- * 
- * @version 2.0 (Dual Search)
- * @date 2025-11-16
+ * SIGAP PPKS - API Cari Laporan
  */
-
 // Start output buffering
 ob_start();
+
+// Load CORS helper
+require_once __DIR__ . '/../config/cors.php';
 
 // Error reporting
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Headers
+// Headers & CORS
 header('Content-Type: application/json; charset=utf-8');
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type, Accept');
-
-// Handle preflight CORS
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit;
+if (handlePublicCors()) {
+    exit; // Preflight request handled
 }
 
 // Only accept GET

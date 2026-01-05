@@ -1,27 +1,7 @@
 <?php
 /**
- * ========================================================
- * SIGAP PPKPT - Get Cases API
- * File: api/cases/get_cases.php
- * ========================================================
- *
- * Usage: GET /api/cases/get_cases.php
- * Parameters:
- *   - page: Page number (default: 1)
- *   - limit: Items per page (default: 10, max: 100)
- *   - search: Search by kode_pelaporan or email_korban
- *   - status: Filter by status_laporan
- *   - gender: Filter by gender_korban
- *   - date_from: Filter from date (YYYY-MM-DD)
- *   - date_to: Filter to date (YYYY-MM-DD)
- *   - sort: Sort field (created_at, updated_at, kode_pelaporan)
- *   - order: Sort order (ASC, DESC)
- *
- * Security Features:
- * - Session authentication
- * - SQL Injection prevention (prepared statements)
- * - XSS prevention (output sanitization)
- * - Input validation
+ * SIGAP PPKS - API Daftar Kasus
+ * Mengambil daftar laporan dengan pagination dan filter
  */
 
 // Security headers

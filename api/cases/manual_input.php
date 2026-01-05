@@ -1,17 +1,7 @@
 <?php
 /**
- * ==========================================================
- * API MANUAL INPUT KASUS
- * ==========================================================
- * Endpoint untuk input manual kasus dari admin
- * (Kasus yang masuk via WhatsApp atau jalur lain)
- *
- * Method: POST
- * Content-Type: multipart/form-data (for file uploads)
- *
- * @version 2.0
+ * SIGAP PPKS - API Input Manual
  */
-
 // Start session
 session_start();
 

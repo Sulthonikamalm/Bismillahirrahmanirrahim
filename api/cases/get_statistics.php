@@ -1,29 +1,7 @@
 <?php
 /**
- * ========================================================
- * SIGAP PPKPT - Get Statistics API
- * File: api/cases/get_statistics.php
- * ========================================================
- *
- * Usage: GET /api/cases/get_statistics.php
- * Parameters:
- *   - period: Filter period (today, week, month, year, all)
- *   - date_from: Custom start date (YYYY-MM-DD)
- *   - date_to: Custom end date (YYYY-MM-DD)
- *
- * Returns:
- * - Total cases count
- * - Cases by status
- * - Cases by gender
- * - Cases by kekhawatiran type
- * - Cases trend (last 7 days / 30 days)
- * - Recent cases
- *
- * Security Features:
- * - Session authentication
- * - SQL Injection prevention (prepared statements)
+ * SIGAP PPKS - API Statistik Kasus
  */
-
 // Security headers
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');

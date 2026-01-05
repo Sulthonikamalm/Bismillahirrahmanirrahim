@@ -1,15 +1,7 @@
 <?php
 /**
- * ========================================================
- * SIGAP PPKPT - Delete Blog API (Supports Bulk Delete)
- * File: api/blog/delete_blog.php
- * ========================================================
- *
- * Usage:
- * Single: POST { id: 1, csrf_token: "..." }
- * Bulk: POST { ids: [1,2,3], csrf_token: "..." }
+ * SIGAP PPKS - API Hapus Blog
  */
-
 // Security headers
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');

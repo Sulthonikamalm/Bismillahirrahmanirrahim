@@ -1,7 +1,7 @@
 <?php
 /**
- * Groq API Client v4.1 - Robust Edition
- * Features: Smart retry, JSON repair, latency monitoring, dynamic model selection
+ * SIGAP PPKS - Groq API Client
+ * Client untuk berkomunikasi dengan Groq AI
  */
 
 class GroqClient {
@@ -13,7 +13,6 @@ class GroqClient {
     private $lastLatency = 0;
     private $maxRetries = 2;
     private $retryDelayMs = 500;
-    private $slowQueryThreshold = 5.0;
     
     public function __construct($apiKey) {
         $this->apiKey = $apiKey;
@@ -28,33 +27,26 @@ class GroqClient {
     }
     
     /**
-     * Generate empathetic response for chat
+     * Generate respons empatik untuk chat
      */
     public function generateEmpathyResponse($conversationHistory, $currentPhase = 'curhat') {
         $systemPrompt = $this->getSystemPrompt($currentPhase);
         
-        $messages = [
-            ['role' => 'system', 'content' => $systemPrompt]
-        ];
+        $messages = [['role' => 'system', 'content' => $systemPrompt]];
         
         foreach ($conversationHistory as $msg) {
-            $messages[] = [
-                'role' => $msg['role'],
-                'content' => $msg['content']
-            ];
+            $messages[] = ['role' => $msg['role'], 'content' => $msg['content']];
         }
         
         return $this->callGroqAPI($messages, null, 'llama-3.3-70b-versatile');
     }
     
     /**
-     * Extract labels from conversation
+     * Ekstrak label dari percakapan
      */
     public function extractLabels($conversationText) {
-        $extractionPrompt = $this->getExtractionPrompt();
-        
         $messages = [
-            ['role' => 'system', 'content' => $extractionPrompt],
+            ['role' => 'system', 'content' => $this->getExtractionPrompt()],
             ['role' => 'user', 'content' => "Ekstrak informasi dari percakapan berikut:\n\n" . $conversationText]
         ];
         
@@ -77,14 +69,12 @@ class GroqClient {
     }
     
     /**
-     * Extract labels for autofill with confidence scores
+     * Ekstrak label untuk autofill dengan confidence score
      */
     public function extractLabelsForAutofill($conversationText) {
-        $autofillPrompt = $this->getAutofillExtractionPrompt();
-        
         $messages = [
-            ['role' => 'system', 'content' => $autofillPrompt],
-            ['role' => 'user', 'content' => "Extract data from this conversation for form autofill:\n\n" . $conversationText]
+            ['role' => 'system', 'content' => $this->getAutofillExtractionPrompt()],
+            ['role' => 'user', 'content' => "Ekstrak data dari percakapan untuk autofill:\n\n" . $conversationText]
         ];
         
         $response = $this->callGroqAPI($messages, 1500, 'llama-3.3-70b-versatile');
@@ -99,13 +89,10 @@ class GroqClient {
             }
             
             if (!isset($data['extracted_data']) || !isset($data['confidence_scores'])) {
-                error_log("[STRUCTURE ERROR] Invalid autofill response");
                 return $this->getEmptyAutofillData();
             }
             
-            error_log("[AUTOFILL] Fields: " . ($data['extraction_metadata']['total_fields_found'] ?? 'N/A'));
             return $data;
-            
         } catch (Exception $e) {
             error_log("[AUTOFILL ERROR] " . $e->getMessage());
             return $this->getEmptyAutofillData();
@@ -113,7 +100,7 @@ class GroqClient {
     }
     
     /**
-     * Core API call with smart retry
+     * Panggil Groq API dengan retry
      */
     private function callGroqAPI($messages, $maxTokens = null, $model = null) {
         if ($maxTokens === null) $maxTokens = $this->maxTokens;
@@ -156,36 +143,25 @@ class GroqClient {
                 
                 $this->lastLatency = microtime(true) - $startTime;
                 
-                error_log(sprintf("[GROQ] Model: %s | Time: %.2fs | Attempt: %d/%d",
-                    $model, $this->lastLatency, $attempt, $this->maxRetries + 1));
-                
-                if ($this->lastLatency > $this->slowQueryThreshold) {
-                    error_log(sprintf("[SLOW QUERY] API took %.2fs (threshold: %.1fs)",
-                        $this->lastLatency, $this->slowQueryThreshold));
-                }
-                
                 if ($curlError) {
                     $lastError = "cURL Error [$curlError]: $curlErrorMsg";
-                    error_log("[GROQ RETRY] Attempt $attempt: $lastError");
                     if ($attempt <= $this->maxRetries) {
                         usleep($this->retryDelayMs * 1000);
                         continue;
                     }
-                    throw new Exception("Groq API Error after {$attempt} attempts: $lastError");
+                    throw new Exception("Groq API Error: $lastError");
                 }
                 
-                if ($httpCode >= 500 && $httpCode < 600) {
+                if ($httpCode >= 500) {
                     $lastError = "HTTP $httpCode Server Error";
-                    error_log("[GROQ RETRY] Attempt $attempt: $lastError");
                     if ($attempt <= $this->maxRetries) {
                         usleep($this->retryDelayMs * 1000);
                         continue;
                     }
-                    throw new Exception("Groq API Error after {$attempt} attempts: $lastError");
+                    throw new Exception("Groq API Error: $lastError");
                 }
                 
                 if ($httpCode >= 400 && $httpCode < 500) {
-                    error_log("[GROQ ERROR] HTTP $httpCode: " . substr($response, 0, 300));
                     throw new Exception("Groq API Client Error: HTTP $httpCode");
                 }
                 
@@ -193,24 +169,21 @@ class GroqClient {
                     $result = json_decode($response, true);
                     
                     if (!isset($result['choices'][0]['message']['content'])) {
-                        error_log("[GROQ ERROR] Invalid response structure");
-                        throw new Exception("Invalid response structure from Groq API");
+                        throw new Exception("Invalid response structure");
                     }
                     
                     if (isset($result['usage']['total_tokens'])) {
                         $this->lastTokenCount = $result['usage']['total_tokens'];
-                        error_log(sprintf("[GROQ] Tokens: %d", $this->lastTokenCount));
                     }
                     
                     return $result['choices'][0]['message']['content'];
                 }
                 
-                throw new Exception("Unexpected HTTP response: $httpCode");
+                throw new Exception("Unexpected HTTP: $httpCode");
                 
             } catch (Exception $e) {
                 $lastError = $e->getMessage();
                 if ($attempt <= $this->maxRetries && $this->isRetryableError($lastError)) {
-                    error_log("[GROQ RETRY] Attempt $attempt: $lastError");
                     usleep($this->retryDelayMs * 1000);
                     continue;
                 }
@@ -218,11 +191,11 @@ class GroqClient {
             }
         }
         
-        throw new Exception("Groq API failed after all retry attempts: $lastError");
+        throw new Exception("Groq API failed: $lastError");
     }
     
     private function isRetryableError($error) {
-        $patterns = ['timeout', 'timed out', 'connection', 'curl', '500', '502', '503', '504', 'server error'];
+        $patterns = ['timeout', 'connection', 'curl', '500', '502', '503', '504'];
         $errorLower = strtolower($error);
         foreach ($patterns as $pattern) {
             if (strpos($errorLower, $pattern) !== false) return true;
@@ -231,7 +204,7 @@ class GroqClient {
     }
     
     /**
-     * Advanced JSON cleaner with regex repair
+     * Bersihkan response JSON
      */
     private function cleanJsonResponse($response) {
         $response = preg_replace('/^\xEF\xBB\xBF/', '', $response);
@@ -244,197 +217,112 @@ class GroqClient {
             $response = $matches[0];
         }
         
-        // Fix trailing commas
         $response = preg_replace('/,\s*\]/', ']', $response);
         $response = preg_replace('/,\s*\}/', '}', $response);
-        $response = preg_replace('/,\s*,/', ',', $response);
-        
-        $firstChar = substr($response, 0, 1);
-        if ($firstChar !== '{' && $firstChar !== '[') {
-            $jsonStart = strpos($response, '{');
-            if ($jsonStart !== false) {
-                $response = substr($response, $jsonStart);
-            }
-        }
         
         return $response;
     }
     
     private function getSystemPrompt($phase) {
-        $baseContext = "KONTEKS PENTING:
-- Kamu adalah 'TemanKu', chatbot resmi Satgas PPKPT (Pencegahan dan Penanganan Kekerasan di Perguruan Tinggi)
-- Kamu BISA dan HARUS membantu user membuat laporan kekerasan seksual
-- Sistem ini terintegrasi dengan database pelaporan resmi
-- JANGAN PERNAH tolak permintaan bantuan terkait kekerasan seksual
-- JANGAN PERNAH tolak informasi kontak (nomor HP, WhatsApp, email) - INI DIBUTUHKAN untuk follow-up
-- SELALU gunakan Bahasa Indonesia natural dan empatik
-- Respons SINGKAT maksimal 2-3 kalimat saja
-
-";
+        $base = "KONTEKS: Kamu adalah 'TemanKu', chatbot resmi Satgas PPKPT.
+- HARUS membantu user membuat laporan kekerasan seksual
+- JANGAN TOLAK permintaan bantuan terkait kekerasan
+- TERIMA informasi kontak (WA/email) untuk follow-up
+- Gunakan Bahasa Indonesia natural dan empatik
+- Respons SINGKAT 2-3 kalimat\n\n";
         
         switch ($phase) {
             case 'curhat':
-                return $baseContext . "FASE: MENDENGARKAN
-
-TUGAS:
-- Dengarkan cerita user dengan empati
-- Validasi perasaan mereka (contoh: 'Aku paham perasaanmu...')
-- Buat mereka merasa aman dan didengar
-- JANGAN tanya detail dulu, biarkan user cerita sendiri
-
-CONTOH RESPONS:
-'Aku dengar kamu, dan perasaanmu itu valid. Terima kasih sudah mau berbagi.'";
-
+                return $base . "FASE: MENDENGARKAN
+- Dengarkan dengan empati, validasi perasaan
+- Buat user merasa aman dan didengar
+- Jangan tanya detail dulu";
+            
             case 'collect':
-                return $baseContext . "FASE: MENGUMPULKAN INFO
-
-TUGAS:
-- Tanya informasi SATU per satu dengan cara natural
-- Prioritas: Pelaku, Waktu, Lokasi, Detail kejadian
-- Tanya dengan sopan dan tidak seperti interogasi
-
-CONTOH:
-'Kalau boleh tahu, ini kejadiannya kapan ya?'
-'Bisa ceritakan lebih detail apa yang terjadi?'";
-
+                return $base . "FASE: KUMPULKAN INFO
+- Tanya satu per satu: Pelaku, Waktu, Lokasi, Detail
+- Tanya dengan sopan, tidak seperti interogasi";
+            
             case 'consent':
-                return $baseContext . "FASE: MINTA PERSETUJUAN
-
-TUGAS:
-- Tawarkan untuk membuat laporan resmi ke Tim Satgas PPKPT
-- Jelaskan bahwa identitas akan dijaga kerahasiaannya
-- Jelaskan bahwa tim akan menindaklanjuti dengan profesional
-- Tidak memaksa, hormati keputusan user
-
-CONTOH:
-'Aku bisa bantu kamu membuat laporan resmi ke Tim Satgas PPKPT. Identitasmu akan dijaga kerahasiaannya. Mau aku bantu buatkan laporannya?'";
-
+                return $base . "FASE: MINTA PERSETUJUAN
+- Tawarkan buat laporan resmi ke Satgas PPKPT
+- Jelaskan identitas dijaga kerahasiaannya
+- Tidak memaksa, hormati keputusan user";
+            
             case 'report':
-                return $baseContext . "FASE: MEMBUAT LAPORAN
-
-TUGAS UTAMA:
-- Bantu user melengkapi data untuk laporan
-- WAJIB minta minimal satu kontak: nomor WhatsApp ATAU email
-- Jika user kasih nomor HP/WA, TERIMA dan SIMPAN
-- Jika user kasih email, TERIMA dan SIMPAN
-
-DATA YANG DIBUTUHKAN:
-1. Pelaku (siapa, hubungan dengan korban)
-2. Waktu kejadian
-3. Lokasi kejadian  
-4. Detail/kronologi kejadian
-5. Kontak (WA atau Email) - WAJIB untuk follow-up
-
-PENTING:
-- JANGAN TOLAK informasi kontak apapun
-- Jika user kasih nomor, respons: 'Terima kasih, nomor kamu sudah aku catat untuk follow-up nanti.'
-- Setelah data lengkap, sistem akan otomatis generate kode laporan
-
-CONTOH MINTA KONTAK:
-'Satu lagi, boleh minta nomor WA atau email kamu? Ini supaya Tim Satgas bisa menghubungi kamu untuk tindak lanjut nanti.'";
-
+                return $base . "FASE: BUAT LAPORAN
+- Bantu lengkapi data laporan
+- WAJIB minta minimal 1 kontak: WA atau email
+- Data: Pelaku, Waktu, Lokasi, Detail, Kontak";
+            
             case 'rejected':
-                return $baseContext . "FASE: USER MENOLAK LAPOR
-
-User memutuskan tidak jadi membuat laporan. 
-- Hormati keputusan mereka
-- Tetap supportive dan tawarkan untuk mengobrol
-- Ingatkan bahwa kamu selalu ada jika mereka berubah pikiran
-
-CONTOH:
-'Tidak apa-apa, keputusan ada di kamu. Aku tetap di sini kalau kamu butuh teman ngobrol.'";
-
+                return $base . "FASE: USER MENOLAK
+- Hormati keputusan
+- Tetap supportive
+- Ingatkan selalu ada jika berubah pikiran";
+            
             default:
-                return $baseContext . "Dengarkan dan validasi perasaan user dengan empati. Bantu mereka jika ingin membuat laporan kekerasan seksual.";
+                return $base . "Dengarkan dan validasi perasaan user dengan empati.";
         }
     }
     
     private function getExtractionPrompt() {
         return "Ekstrak informasi dari percakapan untuk laporan PPKPT.
-
-PENTING: Ekstrak SEMUA nomor telepon/HP/WA dan email yang disebutkan user!
+Ekstrak SEMUA nomor HP/WA dan email yang disebutkan!
 
 FORMAT JSON (tanpa penjelasan):
 {
-  \"pelaku_kekerasan\": \"siapa pelaku (dosen, teman, dll)\",
-  \"waktu_kejadian\": \"YYYY-MM-DD atau deskripsi waktu\",
-  \"lokasi_kejadian\": \"tempat kejadian\",
+  \"pelaku_kekerasan\": \"siapa pelaku\",
+  \"waktu_kejadian\": \"YYYY-MM-DD atau deskripsi\",
+  \"lokasi_kejadian\": \"tempat\",
   \"tingkat_kekhawatiran\": \"sedikit|khawatir|sangat\",
-  \"detail_kejadian\": \"ringkasan kronologi 1-2 kalimat\",
+  \"detail_kejadian\": \"ringkasan 1-2 kalimat\",
   \"gender_korban\": \"laki-laki|perempuan|null\",
-  \"usia_korban\": \"rentang usia atau angka\",
+  \"usia_korban\": \"rentang atau angka\",
   \"korban_sebagai\": \"korban|saksi|keluarga\",
-  \"email_korban\": \"alamat email jika disebutkan\",
-  \"whatsapp_korban\": \"nomor HP/WA jika disebutkan (format: 08xxxx atau 62xxxx)\"
+  \"email_korban\": \"email jika ada\",
+  \"whatsapp_korban\": \"nomor HP/WA jika ada\"
 }
 
-RULES:
-- Jika user sebut nomor HP seperti '081272064805', masukkan ke whatsapp_korban
-- Jika user sebut email, masukkan ke email_korban
-- HANYA kembalikan JSON valid, tanpa penjelasan";
+HANYA kembalikan JSON valid.";
     }
     
     private function getAutofillExtractionPrompt() {
         $today = date('Y-m-d');
         $yesterday = date('Y-m-d', strtotime('-1 day'));
         
-        return "Extract structured data for form autofill with confidence scores.
+        return "Ekstrak data untuk autofill form dengan confidence score.
 
-TODAY: $today | YESTERDAY: $yesterday
+HARI INI: $today | KEMARIN: $yesterday
 
-CRITICAL: Extract ALL phone numbers and emails mentioned by user!
-- If user says '081272064805' or similar -> whatsapp_korban
-- If user says 'email@domain.com' -> email_korban
-
-RULES:
-1. Extract ONLY explicitly mentioned information
-2. Provide confidence scores (0.0-1.0)
-3. Normalize dates to YYYY-MM-DD
-4. For phone numbers: keep as-is (08xxx or 62xxx format)
-5. Return ONLY valid JSON - NO trailing commas
-
-FIELD VALUES:
-- pelaku_kekerasan: dosen|teman|senior|orang_tidak_dikenal|pacar|kerabat|lainnya
-- lokasi_kejadian: rumah_tangga|tempat_kerja|sekolah_kampus|sarana_umum|daring_elektronik
-- tingkat_kekhawatiran: sedikit|khawatir|sangat
-- usia_korban: 12-17|18-25|26-35|36-45|46-55|56+
-- gender_korban: lakilaki|perempuan
-- whatsapp_korban: nomor HP/WA user (format: 08xxx atau 62xxx)
-- email_korban: alamat email user
+PENTING: Ekstrak SEMUA nomor HP dan email!
 
 OUTPUT FORMAT:
 {
   \"extracted_data\": {
-    \"pelaku_kekerasan\": \"value or null\",
-    \"waktu_kejadian\": \"YYYY-MM-DD or null\",
-    \"lokasi_kejadian\": \"value or null\",
-    \"detail_kejadian\": \"value or null\",
-    \"tingkat_kekhawatiran\": \"value or null\",
-    \"usia_korban\": \"range or null\",
-    \"gender_korban\": \"value or null\",
-    \"email_korban\": \"email or null\",
-    \"whatsapp_korban\": \"phone number or null\"
+    \"pelaku_kekerasan\": \"value atau null\",
+    \"waktu_kejadian\": \"YYYY-MM-DD atau null\",
+    \"lokasi_kejadian\": \"value atau null\",
+    \"detail_kejadian\": \"value atau null\",
+    \"tingkat_kekhawatiran\": \"sedikit|khawatir|sangat atau null\",
+    \"usia_korban\": \"range atau null\",
+    \"gender_korban\": \"lakilaki|perempuan atau null\",
+    \"email_korban\": \"email atau null\",
+    \"whatsapp_korban\": \"nomor HP atau null\"
   },
   \"confidence_scores\": {
-    \"pelaku\": 0.0,
-    \"waktu\": 0.0,
-    \"lokasi\": 0.0,
-    \"detail\": 0.0,
-    \"tingkat\": 0.0,
-    \"usia\": 0.0,
-    \"gender\": 0.0,
-    \"email\": 0.0,
-    \"whatsapp\": 0.0
+    \"pelaku\": 0.0, \"waktu\": 0.0, \"lokasi\": 0.0,
+    \"detail\": 0.0, \"tingkat\": 0.0, \"usia\": 0.0,
+    \"gender\": 0.0, \"email\": 0.0, \"whatsapp\": 0.0
   },
   \"extraction_metadata\": {
     \"total_fields_found\": 0,
     \"average_confidence\": 0.0,
-    \"high_confidence_count\": 0,
-    \"notes\": \"Brief observation\"
+    \"notes\": \"catatan\"
   }
 }
 
-Return ONLY JSON. No explanations.";
+HANYA JSON. Tanpa penjelasan.";
     }
     
     private function getEmptyLabels() {
@@ -456,23 +344,15 @@ Return ONLY JSON. No explanations.";
         return [
             'extracted_data' => $this->getEmptyLabels(),
             'confidence_scores' => [
-                'pelaku' => 0.0,
-                'waktu' => 0.0,
-                'lokasi' => 0.0,
-                'detail' => 0.0,
-                'tingkat' => 0.0,
-                'usia' => 0.0,
-                'gender' => 0.0,
-                'email' => 0.0,
-                'whatsapp' => 0.0
+                'pelaku' => 0.0, 'waktu' => 0.0, 'lokasi' => 0.0,
+                'detail' => 0.0, 'tingkat' => 0.0, 'usia' => 0.0,
+                'gender' => 0.0, 'email' => 0.0, 'whatsapp' => 0.0
             ],
             'extraction_metadata' => [
                 'total_fields_found' => 0,
                 'average_confidence' => 0.0,
-                'high_confidence_count' => 0,
-                'notes' => 'Extraction failed or no data found'
+                'notes' => 'Tidak ada data ditemukan'
             ]
         ];
     }
 }
-?>

@@ -1,11 +1,7 @@
 <?php
 /**
- * ==========================================================
- * CHECK PROGRESS API - PRODUCTION READY
- * ==========================================================
- * Security: Input sanitization, Rate limiting, Prepared statements
+ * SIGAP PPKS - API Cek Progress Laporan
  */
-
 // Start output buffering
 ob_start();
 

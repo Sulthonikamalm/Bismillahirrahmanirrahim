@@ -1,17 +1,7 @@
 <?php
 /**
- * ========================================================
- * SIGAP PPKPT - Get All Blogs API
- * File: api/blog/get_blogs.php
- * ========================================================
- *
- * Security Features:
- * ✅ Session validation
- * ✅ SQL Injection prevention (prepared statements)
- * ✅ XSS prevention (output sanitization)
- * ✅ Error handling
- * ✅ Pagination support
- * ✅ Search functionality
+ * SIGAP PPKS - API Daftar Blog
+ * Mengambil daftar artikel dengan pagination dan pencarian
  */
 
 // Security headers

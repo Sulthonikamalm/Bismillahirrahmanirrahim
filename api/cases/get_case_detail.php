@@ -1,20 +1,7 @@
 <?php
 /**
- * ========================================================
- * SIGAP PPKPT - Get Case Detail API
- * File: api/cases/get_case_detail.php
- * ========================================================
- *
- * Usage: GET /api/cases/get_case_detail.php?id={case_id}
- *    or: GET /api/cases/get_case_detail.php?kode={kode_pelaporan}
- *
- * Security Features:
- * - Session authentication
- * - SQL Injection prevention (prepared statements)
- * - XSS prevention (output sanitization)
- * - Input validation
+ * SIGAP PPKS - API Detail Kasus
  */
-
 // Security headers
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');

@@ -1,13 +1,7 @@
 <?php
 /**
- * ========================================================
- * SIGAP PPKPT - Get Blog Detail API
- * File: api/blog/get_blog_detail.php
- * ========================================================
- *
- * Usage: GET /api/blog/get_blog_detail.php?id=1
+ * SIGAP PPKS - API Detail Blog
  */
-
 // Security headers
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');

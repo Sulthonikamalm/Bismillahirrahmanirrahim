@@ -1,17 +1,21 @@
-# Uploaded files (keep directory structure with .gitkeep)
+# Upload files
 /uploads/bukti/*
 !/uploads/bukti/.gitkeep
 
-# Logs
-/logs/*.log
-*.log
+# Logs (semua log file dan archive, kecuali script dan htaccess)
+/api/logs/*.log
+/api/logs/archive/*
+!/api/logs/.htaccess
+!/api/logs/rotate.php
+!/api/logs/.gitkeep
+*.log.gz
 
-# Environment files
+# Environment (WAJIB DIAKTIFKAN - jangan commit credentials!)
 .env
 .env.local
-.env.*.local
+.env.production
 
-# SECURITY: API Keys Config
+# Config (WAJIB DIAKTIFKAN - berisi API key dan credentials)
 /config/config.php
 
 # IDE
@@ -21,7 +25,7 @@
 *.swo
 *~
 
-# OS files
+# OS
 .DS_Store
 Thumbs.db
 
@@ -29,11 +33,11 @@ Thumbs.db
 vendor/
 composer.lock
 
-# SECURITY: Rate Limit Storage (keep structure, ignore data)
+# Rate limit storage
 /storage/rate_limit/*.json
 !/storage/rate_limit/.htaccess
 !/storage/rate_limit/.gitkeep
 !/storage/rate_limit/index.php
 
-# MAINTENANCE MODE: Ignore toggle file
+# Maintenance
 .maintenance

@@ -19,8 +19,9 @@
 $maintenanceFile = __DIR__ . '/../.maintenance';
 $maintenancePage = __DIR__ . '/index.html';
 
-// Secret key untuk bypass (ganti dengan key rahasia Anda)
-$bypassSecretKey = 'sigap_admin_2025';
+// Secret key untuk bypass dari environment variable
+require_once __DIR__ . '/../config/env_loader.php';
+$bypassSecretKey = env('MAINTENANCE_SECRET_KEY', 'sigap_admin_' . date('Y'));
 
 // IP yang boleh bypass maintenance (tambahkan IP Anda)
 $bypassIPs = [

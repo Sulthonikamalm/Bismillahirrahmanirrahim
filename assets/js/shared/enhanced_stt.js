@@ -62,8 +62,8 @@ const EnhancedSTT = (function() {
             energyFluctuationThreshold: 0.01
         },
         
-        // Debug mode - SET TO TRUE for testing
-        debugMode: true,
+        // Debug mode - Matikan untuk production
+        debugMode: false,
         
         // Indonesian emotion keywords (EXPANDED)
         emotionKeywords: {

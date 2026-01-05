@@ -2,7 +2,7 @@
     'use strict';
 
     const API_BASE = '../../../api/blog/';
-    const DEBUG_MODE = true; // ✅ ENABLED for debugging
+    const DEBUG_MODE = false; // Matikan untuk production
 
     let isEditMode = false;
     let blogId = null;

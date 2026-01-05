@@ -1,14 +1,7 @@
 <?php
 /**
- * ========================================================
- * SIGAP PPKPT - Update Blog API
- * File: api/blog/update_blog.php
- * ========================================================
- *
- * Usage: POST /api/blog/update_blog.php
- * Body: { id, judul, isi_postingan, kategori, gambar_header_url, csrf_token }
+ * SIGAP PPKS - API Update Blog
  */
-
 // Security headers
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
