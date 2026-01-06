@@ -36,8 +36,7 @@
 - [🎯 Tentang Proyek](#-tentang-proyek)
 - [✨ Fitur Unggulan](#-fitur-unggulan)
 - [🛠️ Tech Stack](#️-tech-stack)
-- [📸 Screenshots](#-screenshots)
-- [🚀 Instalasi](#-instalasi)
+- [ Instalasi](#-instalasi)
 - [👨‍🏫 Dosen Pembimbing](#-dosen-pembimbing)
 - [👥 Tim Pengembang](#-tim-pengembang)
 - [📄 Lisensi](#-lisensi)
@@ -136,39 +135,7 @@ Platform ini menyediakan ruang aman bagi korban dan saksi kekerasan seksual untu
 
 ---
 
-## 📸 Screenshots
-
-<div align="center">
-
-<details>
-<summary><b>🏠 Landing Page</b></summary>
-<br/>
-<img src="Landing Page/assets/screenshots/landing.png" alt="Landing Page" width="80%"/>
-</details>
-
-<details>
-<summary><b>📝 Form Pelaporan</b></summary>
-<br/>
-<img src="Landing Page/assets/screenshots/lapor.png" alt="Form Lapor" width="80%"/>
-</details>
-
-<details>
-<summary><b>🤖 TemanKu Chatbot</b></summary>
-<br/>
-<img src="Landing Page/assets/screenshots/chatbot.png" alt="Chatbot" width="80%"/>
-</details>
-
-<details>
-<summary><b>📍 Monitoring Progress</b></summary>
-<br/>
-<img src="Landing Page/assets/screenshots/monitoring.png" alt="Monitoring" width="80%"/>
-</details>
-
-</div>
-
----
-
-## 🚀 Instalasi
+##  Instalasi
 
 <details>
 <summary><b>📋 Prasyarat</b></summary>
@@ -342,11 +309,7 @@ cp .env.example .env
 
 <div align="center">
 
-<img src="https://upload.wikimedia.org/wikipedia/commons/6/6c/Logo_Telkom_University.png" width="200"/>
-
 ### Telkom University Surabaya
-
-*Fakultas Teknik Elektro dan Teknologi Informasi*
 
 *Program Studi S1 Teknologi Informasi*
 
