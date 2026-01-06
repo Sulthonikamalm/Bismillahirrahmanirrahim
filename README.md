@@ -236,7 +236,7 @@ cp .env.example .env
 
 **👑 Sulthonika Mahfudz Al Mujahidin**
 
-`1202230054`
+`1202230023`
 
 [![Role](https://img.shields.io/badge/KETUA_TIM-FFD700?style=flat-square&logoColor=black)](/)
 
