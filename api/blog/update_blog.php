@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * SIGAP PPKS - API Update Blog
  */
@@ -128,7 +128,7 @@ if (empty($isi_postingan)) {
 
 // Validate image URL if provided
 if (!empty($gambar_header_url)) {
-    if (!filter_var($gambar_header_url, FILTER_VALIDATE_URL) && !preg_match('/^\/uploads\//', $gambar_header_url)) {
+    if (!filter_var($gambar_header_url, FILTER_VALIDATE_URL) && !preg_match('/^\/?uploads\//', $gambar_header_url)) {
         $errors[] = 'Invalid image URL format';
     }
 }
@@ -246,3 +246,4 @@ try {
 }
 
 exit;
+
