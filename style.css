@@ -302,38 +302,164 @@ li,
   color: var(--color-text-light);
 }
 
+/* ============================================
+   MODERN GLASSMORPHISM NAVBAR
+   Floating Capsule Design with Dark Blue Theme
+   ============================================ */
 .navbar {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   z-index: 1000;
-  padding: 10px 0;
-  transition: background var(--dur-calm) var(--ease-calm),
-    backdrop-filter var(--dur-calm) var(--ease-calm);
+  
+  /* FIXED: Use Dark Blue Gradient Background by default so text is visible */
+  background: linear-gradient(135deg, #132338 0%, #0d1b2a 100%);
+  padding: 20px 0;
+  border-radius: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  
+  /* Smooth transitions with cubic-bezier for all properties */
+  transition: 
+    top 0.5s cubic-bezier(0.22, 0.61, 0.36, 1),
+    left 0.5s cubic-bezier(0.22, 0.61, 0.36, 1),
+    width 0.5s cubic-bezier(0.22, 0.61, 0.36, 1),
+    padding 0.5s cubic-bezier(0.22, 0.61, 0.36, 1),
+    background 0.5s cubic-bezier(0.22, 0.61, 0.36, 1),
+    backdrop-filter 0.5s cubic-bezier(0.22, 0.61, 0.36, 1),
+    box-shadow 0.5s cubic-bezier(0.22, 0.61, 0.36, 1),
+    border-radius 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+  
+  /* No border when not scrolled */
+  border-bottom: none;
 }
 
+/* Scrolled/Collapsed State - DARK BLUE Floating Capsule */
 .navbar.scrolled {
-  background: rgba(19, 35, 56, 0.85);
-  backdrop-filter: saturate(1.2) blur(6px);
+  /* Floating rounded rectangle positioning - Centered */
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 1200px;
+  
+  /* Smaller padding for collapsed state */
+  padding: 12px 24px;
+  
+  /* Dark blue frosted glass effect (keeping original color identity) */
+  background: rgba(19, 35, 56, 0.94);
+  backdrop-filter: saturate(1.8) blur(12px);
+  -webkit-backdrop-filter: saturate(1.8) blur(12px);
+  
+  /* Rounded Rectangle (not pill) - per user request */
+  border-radius: 16px; 
+  
+  /* Elevated shadow for floating effect */
+  box-shadow: 
+    0 10px 40px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.1); /* Subtle white border */
+  border: none;
+}
+
+/* Ensure container width behaves correctly in capsule */
+.navbar.scrolled .nav-content {
+  width: 100%;
+}
+
+/* Logo styling - keeps white color (identity) */
+.navbar.scrolled .logo {
+  font-size: 1.8rem !important;
+  /* White text stays for dark blue background */
+  color: #ffffff !important;
+}
+
+.navbar.scrolled .logo:hover {
+  color: #4b8a7b !important;
+}
+
+/* Nav items - keep white on dark blue */
+.navbar.scrolled .nav-links .nav-item {
+  color: rgba(255, 255, 255, 0.9);
+  padding: 6px 14px;
+  font-size: 0.88rem;
+}
+
+.navbar.scrolled .nav-links .nav-item:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+
+/* Active nav item in scrolled state */
+.navbar.scrolled .nav-item.active {
+  background: #ffffff !important;
+  color: #132338 !important;
+}
+
+.navbar.scrolled .nav-item.active:hover {
+  background: #f0f8ff !important;
+}
+
+/* Nav action button - keep light style on dark bg */
+.navbar.scrolled .nav-actions .btn-outline-light {
+  border-color: rgba(255, 255, 255, 0.8);
+  color: #ffffff;
+  padding: 6px 16px;
+  font-size: 0.85rem;
+}
+
+.navbar.scrolled .nav-actions .btn-outline-light:hover {
+  background-color: #ffffff;
+  color: #132338;
+}
+
+/* Hamburger stays white for dark bg */
+.navbar.scrolled .hamburger {
+  color: #ffffff;
+}
+
+/* RESPONSIVE NAVBAR */
+@media (max-width: 991px) {
+  .navbar {
+    padding: 15px 0;
+  }
+  
+  .navbar.scrolled {
+    width: 95%; /* Wider on mobile */
+    top: 10px; /* Less top margin */
+    padding: 10px 15px;
+    border-radius: 12px; /* Slightly smaller radius */
+  }
 }
 
 .nav-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  transition: padding 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* When scrolled, nav-content takes full width inside capsule */
+.navbar.scrolled .nav-content {
+  max-width: 100%;
+  padding: 0;
 }
 
 .logo {
   font-family: "F37 Caslon", serif !important;
   font-weight: 800 !important;
-  font-size: 2.2rem !important;
+  font-size: 2.4rem !important;
   letter-spacing: -1px;
   color: #ffffff !important;
   text-decoration: none !important;
   display: inline-block;
   position: relative;
-  transition: all 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
+  /* Smooth transition for shrink effect */
+  transition: 
+    font-size 0.4s cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1),
+    color 0.35s cubic-bezier(0.22, 0.61, 0.36, 1),
+    text-shadow 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
   transform: translateY(0);
 }
 
@@ -366,15 +492,22 @@ li,
   font-size: 0.95rem;
   color: rgba(255, 255, 255, 0.95);
   text-decoration: none;
-  padding: 8px 18px;
+  padding: 10px 20px;
   border: 1.5px solid transparent;
   border-radius: 50px;
   position: relative;
-  transition: all 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
+  /* Smooth transitions for all properties */
+  transition: 
+    padding 0.4s cubic-bezier(0.22, 0.61, 0.36, 1),
+    font-size 0.4s cubic-bezier(0.22, 0.61, 0.36, 1),
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
   letter-spacing: 0.02em;
 }
 
-/* Original nav-item hover effect */
+/* Nav-item hover effect */
 .nav-links .nav-item:hover {
   background-color: rgba(255, 255, 255, 0.15);
   border-color: rgba(255, 255, 255, 0.3);
@@ -492,6 +625,17 @@ li,
   display: flex;
   align-items: center;
   gap: 20px;
+}
+
+/* Nav action button transitions for shrink effect */
+.nav-actions .btn {
+  transition: 
+    padding 0.4s cubic-bezier(0.22, 0.61, 0.36, 1),
+    font-size 0.4s cubic-bezier(0.22, 0.61, 0.36, 1),
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease,
+    transform 0.3s ease;
 }
 
 .hamburger {

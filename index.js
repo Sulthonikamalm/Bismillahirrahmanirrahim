@@ -24,16 +24,43 @@
     }, prefersReduced ? 0 : 300);
   });
 
-  /* --- NAVBAR TRANSPARENCY --- */
+  /* --- SMOOTH NAVBAR SHRINK ON SCROLL --- */
   const navbar = document.querySelector('.navbar');
+  
+  // Scroll thresholds with hysteresis to prevent flickering
+  const SCROLL_THRESHOLD_DOWN = 50;   // Add .scrolled when scrolling past this
+  const SCROLL_THRESHOLD_UP = 20;     // Remove .scrolled when scrolling above this
+  let isScrolled = false;
+  let ticking = false;
+  
   const updateNav = () => {
     if (!navbar) return;
-    navbar.classList.toggle('scrolled', window.scrollY > 8);
+    
+    const scrollY = window.scrollY;
+    
+    // Hysteresis: different thresholds for adding vs removing
+    if (!isScrolled && scrollY > SCROLL_THRESHOLD_DOWN) {
+      navbar.classList.add('scrolled');
+      isScrolled = true;
+    } else if (isScrolled && scrollY < SCROLL_THRESHOLD_UP) {
+      navbar.classList.remove('scrolled');
+      isScrolled = false;
+    }
+    
+    ticking = false;
   };
   
-  if(navbar) {
-      updateNav();
-      window.addEventListener('scroll', updateNav, { passive: true });
+  const onScroll = () => {
+    if (!ticking) {
+      // Use requestAnimationFrame for smooth 60fps updates
+      requestAnimationFrame(updateNav);
+      ticking = true;
+    }
+  };
+  
+  if (navbar) {
+    updateNav();
+    window.addEventListener('scroll', onScroll, { passive: true });
   }
 
   /* --- STATISTIK LOADER --- */
