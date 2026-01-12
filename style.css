@@ -1228,9 +1228,11 @@ li,
   text-decoration: underline;
 }
 
-/* Kolom Halaman */
-.footer-col:nth-child(2) {
-  margin-left: -20%;
+/* Kolom Halaman - only apply negative margin on larger screens */
+@media (min-width: 769px) {
+  .footer-col:nth-child(2) {
+    margin-left: -20%;
+  }
 }
 
 .footer-bottom {
@@ -1480,9 +1482,44 @@ li,
     transform: none;
   }
 
+  /* Footer Mobile Layout - Side by Side */
   .footer-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+    gap: 20px 30px;
+    align-items: start;
+  }
+
+  /* Logo column takes first row, first column */
+  .footer-logo-col {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  /* Halaman column takes first row, second column */
+  .footer-col:nth-child(2) {
+    grid-column: 2;
+    grid-row: 1;
+    margin-left: 0;
+  }
+
+  /* Back to top spans full width, centered */
+  .footer-back-top-col {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    justify-content: center;
+  }
+
+  .footer-logo-wrapper {
+    padding: 12px 16px;
+  }
+
+  .footer-logo-img {
+    width: 140px;
+  }
+
+  .footer-satgas-text {
+    font-size: 0.8rem;
   }
 }
 
@@ -1655,9 +1692,35 @@ li,
     font-size: 0.9rem;
   }
 
+  /* Keep side by side even on small screens */
   .footer-grid {
-    grid-template-columns: 1fr;
-    gap: 25px;
+    grid-template-columns: 1fr auto;
+    gap: 15px 20px;
+  }
+
+  .footer-logo-wrapper {
+    padding: 10px 12px;
+  }
+
+  .footer-logo-img {
+    width: 120px;
+  }
+
+  .footer-satgas-text {
+    font-size: 0.75rem;
+  }
+
+  .footer-col h5 {
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
+
+  .footer-col a {
+    font-size: 0.85rem;
+  }
+
+  .footer-logo-section {
+    gap: 10px;
   }
 
   .footer-col h5 {
@@ -1688,6 +1751,53 @@ li,
 
   .box-blue {
     height: 180px;
+  }
+
+  /* Extra small footer - keep side by side but smaller */
+  .footer-grid {
+    grid-template-columns: 1fr auto;
+    gap: 12px 15px;
+    padding-bottom: 20px;
+  }
+
+  .footer-logo-wrapper {
+    padding: 8px 10px;
+  }
+
+  .footer-logo-img {
+    width: 100px;
+  }
+
+  .footer-satgas-text {
+    font-size: 0.7rem;
+    max-width: 140px;
+  }
+
+  .footer-col h5 {
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+  }
+
+  .footer-col a {
+    font-size: 0.8rem;
+  }
+
+  .footer-col .clean-list li {
+    margin-bottom: 6px;
+  }
+
+  .footer-logo-section {
+    gap: 8px;
+  }
+
+  .footer-instagram-link svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .back-to-top-btn {
+    width: 40px;
+    height: 40px;
   }
 }
 

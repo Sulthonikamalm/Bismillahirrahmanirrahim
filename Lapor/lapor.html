@@ -374,20 +374,86 @@
                             <span class="lapor-error" id="errorWaktu">Waktu kejadian wajib dipilih</span>
                         </div>
 
-                        <!-- Di mana kejadiannya -->
-                        <div class="lapor-field">
-                            <label for="lokasiKejadian" class="lapor-label">
+                        <!-- Di mana kejadiannya - CATEGORY SELECTION -->
+                        <div class="lapor-field lokasi-section">
+                            <label class="lapor-label">
                                 Di mana kejadiannya? <span class="required">*</span>
                             </label>
-                            <select class="lapor-input" id="lokasiKejadian" name="lokasiKejadian" required>
-                                <option value="" selected disabled>Pilih lokasi kejadian</option>
-                                <option value="rumah_tangga">Rumah Tangga</option>
-                                <option value="tempat_kerja">Tempat Kerja</option>
-                                <option value="sekolah_kampus">Sekolah/Kampus</option>
-                                <option value="sarana_umum">Sarana Umum</option>
-                                <option value="situasi_darurat">Situasi Darurat/Tempat Bencana</option>
-                                <option value="daring_elektronik">Daring/Elektronik</option>
-                            </select>
+                            <p class="lapor-hint">Pilih lokasi umum, detail bisa ditambahkan nanti</p>
+
+                            <!-- Location Category Grid -->
+                            <div class="lokasi-category-grid" id="lokasiCategoryGrid">
+                                <!-- Row 1 -->
+                                <div class="lokasi-category-item" data-lokasi="Gedung Utama">
+                                    <div class="lokasi-icon">🏢</div>
+                                    <span class="lokasi-name">Gedung Utama</span>
+                                </div>
+                                <div class="lokasi-category-item" data-lokasi="Gedung SBS">
+                                    <div class="lokasi-icon">🏫</div>
+                                    <span class="lokasi-name">Gedung SBS</span>
+                                </div>
+                                <div class="lokasi-category-item" data-lokasi="Area Parkir">
+                                    <div class="lokasi-icon">🅿️</div>
+                                    <span class="lokasi-name">Parkir</span>
+                                </div>
+                                <div class="lokasi-category-item" data-lokasi="Masjid">
+                                    <div class="lokasi-icon">🕌</div>
+                                    <span class="lokasi-name">Masjid</span>
+                                </div>
+                                <!-- Row 2 -->
+                                <div class="lokasi-category-item" data-lokasi="Kantin/Koperasi">
+                                    <div class="lokasi-icon">🍽️</div>
+                                    <span class="lokasi-name">Kantin</span>
+                                </div>
+                                <div class="lokasi-category-item" data-lokasi="Area Outdoor">
+                                    <div class="lokasi-icon">🌳</div>
+                                    <span class="lokasi-name">Outdoor</span>
+                                </div>
+                                <div class="lokasi-category-item" data-lokasi="Luar Kampus">
+                                    <div class="lokasi-icon">🏠</div>
+                                    <span class="lokasi-name">Luar Kampus</span>
+                                </div>
+                                <div class="lokasi-category-item lokasi-unknown" data-lokasi="Tidak Ingat">
+                                    <div class="lokasi-icon">❓</div>
+                                    <span class="lokasi-name">Tidak Ingat</span>
+                                </div>
+                            </div>
+
+                            <!-- Selected Location Indicator -->
+                            <div class="lokasi-selected-indicator" id="lokasiSelectedIndicator" style="display: none;">
+                                <div class="lokasi-selected-badge">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span id="lokasiSelectedText">-</span>
+                                    <button type="button" class="lokasi-change-btn" id="lokasiChangeBtn">
+                                        <i class="fas fa-edit"></i> Ubah
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Optional Detail Field (appears after selection) -->
+                            <div class="lokasi-detail-section" id="lokasiDetailSection" style="display: none;">
+                                <label for="lokasiDetail" class="lapor-label lokasi-detail-label">
+                                    Mau tambah detail? <span class="optional-badge">Opsional</span>
+                                </label>
+                                <p class="lapor-hint">
+                                    <i class="fas fa-info-circle"></i>
+                                    Contoh: "Lantai 2 depan perpustakaan" atau "Lab komputer SBS Lt.4"
+                                </p>
+                                <div class="lokasi-detail-input-wrapper">
+                                    <input type="text" class="lapor-input" id="lokasiDetail" name="lokasiDetail"
+                                        placeholder="Ketik detail lokasi atau ucapkan..." maxlength="200">
+                                    <button type="button" class="btn-voice-lokasi" id="btnVoiceLokasi"
+                                        title="Ucapkan detail lokasi">
+                                        <i class="fas fa-microphone"></i>
+                                    </button>
+                                </div>
+                                <p class="lapor-hint lokasi-skip-hint">
+                                    💬 Jika tidak diisi, petugas akan menanyakan saat menghubungi Anda
+                                </p>
+                            </div>
+
+                            <!-- Hidden input for form submission -->
+                            <input type="hidden" id="lokasiKejadian" name="lokasiKejadian" required>
                             <span class="lapor-error" id="errorLokasi">Lokasi kejadian wajib dipilih</span>
                         </div>
 

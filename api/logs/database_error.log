@@ -27,3 +27,61 @@
 [05-Jan-2026 14:36:01 Asia/Jakarta] === CHAT REQUEST START ===
 [05-Jan-2026 14:38:54 Asia/Jakarta] === CHAT REQUEST START ===
 [05-Jan-2026 14:38:54 Asia/Jakarta] === CHAT REQUEST START ===
+[05-Jan-2026 11:51:34 Europe/Berlin] LOGIN SUCCESS - User: admin@ppks.com (ID: 5) from IP: ::1
+[05-Jan-2026 11:52:19 Europe/Berlin] LOGIN SUCCESS - User: admin@ppks.com (ID: 5) from IP: ::1
+[06-Jan-2026 07:56:46 Europe/Berlin] LOGIN SUCCESS - User: admin@ppks.com (ID: 5) from IP: ::1
+[06-Jan-2026 07:58:23 Europe/Berlin] CASE ACCESSED - ID: 23, Kode: PPKPT589448140, Admin: admin@ppks.com
+[06-Jan-2026 08:02:03 Europe/Berlin] BLOG CREATED - ID: 8, Admin: admin@ppks.com, Judul: asdadasdasdasd
+[06-Jan-2026 14:05:17 Asia/Jakarta] === CHAT REQUEST START ===
+[06-Jan-2026 14:05:17 Asia/Jakarta] === CHAT REQUEST START ===
+[06-Jan-2026 08:06:42 Europe/Berlin] LOGIN SUCCESS - User: admin@ppks.com (ID: 5) from IP: ::1
+[06-Jan-2026 08:19:45 Europe/Berlin] CASE ACCESSED - ID: 23, Kode: PPKPT589448140, Admin: admin@ppks.com
+[06-Jan-2026 14:26:49 Asia/Jakarta] === CHAT REQUEST START ===
+[06-Jan-2026 14:26:49 Asia/Jakarta] === CHAT REQUEST START ===
+[06-Jan-2026 14:40:32 Asia/Jakarta] === CHAT REQUEST START ===
+[06-Jan-2026 14:40:32 Asia/Jakarta] === CHAT REQUEST START ===
+[06-Jan-2026 14:40:47 Asia/Jakarta] === CHAT REQUEST START ===
+[06-Jan-2026 14:40:47 Asia/Jakarta] User message: HALLO
+[06-Jan-2026 14:40:47 Asia/Jakarta] Created DB session: 19
+[06-Jan-2026 14:40:47 Asia/Jakarta] Current phase: curhat
+[06-Jan-2026 14:40:47 Asia/Jakarta] Generating bot response for phase: curhat
+[06-Jan-2026 14:40:48 Asia/Jakarta] Bot response OK: 136 chars
+[06-Jan-2026 14:40:48 Asia/Jakarta] === CHAT REQUEST SUCCESS (1.26s) ===
+[06-Jan-2026 14:41:08 Asia/Jakarta] === CHAT REQUEST START ===
+[06-Jan-2026 14:41:08 Asia/Jakarta] User message: saya mau bercerita tapi saya malu
+[06-Jan-2026 14:41:08 Asia/Jakarta] Current phase: curhat
+[06-Jan-2026 14:41:08 Asia/Jakarta] Generating bot response for phase: curhat
+[06-Jan-2026 14:41:09 Asia/Jakarta] Bot response OK: 196 chars
+[06-Jan-2026 14:41:09 Asia/Jakarta] === CHAT REQUEST SUCCESS (1.44s) ===
+[06-Jan-2026 14:41:28 Asia/Jakarta] === CHAT REQUEST START ===
+[06-Jan-2026 14:41:28 Asia/Jakarta] User message: kemarin saya di lecehkan di kelas oleh mahasiswa tidak dikenal. saya bingung mau kemana
+[06-Jan-2026 14:41:28 Asia/Jakarta] Current phase: curhat
+[06-Jan-2026 14:41:28 Asia/Jakarta] Generating bot response for phase: curhat
+[06-Jan-2026 14:41:30 Asia/Jakarta] Bot response OK: 265 chars
+[06-Jan-2026 14:41:30 Asia/Jakarta] === CHAT REQUEST SUCCESS (1.69s) ===
+[06-Jan-2026 14:41:39 Asia/Jakarta] === CHAT REQUEST START ===
+[06-Jan-2026 14:41:39 Asia/Jakarta] User message: saya mau lapor
+[06-Jan-2026 14:41:39 Asia/Jakarta] Current phase: consent
+[06-Jan-2026 14:41:39 Asia/Jakarta] Asking for consent
+[06-Jan-2026 14:41:39 Asia/Jakarta] Consent detection: yes
+[06-Jan-2026 14:41:39 Asia/Jakarta] Consent given - entering report phase
+[06-Jan-2026 14:41:42 Asia/Jakarta] Updated labels: {"pelaku_kekerasan":"mahasiswa tidak dikenal","waktu_kejadian":"2026-01-05","lokasi_kejadian":"kelas","tingkat_kekhawatiran":"khawatir","detail_kejadian":"dilecehkan","gender_korban":null,"usia_korban":null,"korban_sebagai":null,"email_korban":null,"whatsapp_korban":null}
+[06-Jan-2026 14:41:42 Asia/Jakarta] Generating bot response for phase: report
+[06-Jan-2026 14:41:43 Asia/Jakarta] Bot response OK: 226 chars
+[06-Jan-2026 14:41:43 Asia/Jakarta] === CHAT REQUEST SUCCESS (3.66s) ===
+[06-Jan-2026 14:42:04 Asia/Jakarta] === CHAT REQUEST START ===
+[06-Jan-2026 14:42:04 Asia/Jakarta] User message: dikampus dan ini nomor wa say 9123219831232
+[06-Jan-2026 14:42:04 Asia/Jakarta] Current phase: curhat
+[06-Jan-2026 14:42:05 Asia/Jakarta] Updated labels: {"pelaku_kekerasan":"mahasiswa tidak dikenal","waktu_kejadian":"2026-01-05","lokasi_kejadian":"kampus","tingkat_kekhawatiran":"khawatir","detail_kejadian":"dilecehkan di kelas","gender_korban":null,"usia_korban":null,"korban_sebagai":null,"email_korban":null,"whatsapp_korban":"9123219831232"}
+[06-Jan-2026 14:42:05 Asia/Jakarta] Creating report...
+[06-Jan-2026 14:42:05 Asia/Jakarta] Report created: PPKPT260106157
+[06-Jan-2026 14:42:44 Asia/Jakarta] === CHAT REQUEST START ===
+[06-Jan-2026 14:42:44 Asia/Jakarta] === CHAT REQUEST START ===
+[06-Jan-2026 08:48:18 Europe/Berlin] File uploaded successfully: bukti_695cbe4283caa_1767685698.png
+[06-Jan-2026 08:50:19 Europe/Berlin] Search Request - Type: KODE, Query: PPKPT260106157
+[06-Jan-2026 08:50:19 Europe/Berlin] Found - kode: PPKPT260106157, Kode: PPKPT260106157
+[06-Jan-2026 08:50:59 Europe/Berlin] LOGIN SUCCESS - User: admin@ppks.com (ID: 5) from IP: ::1
+[06-Jan-2026 08:51:09 Europe/Berlin] CASE ACCESSED - ID: 25, Kode: PPKPT685698067, Admin: admin@ppks.com
+[06-Jan-2026 08:51:50 Europe/Berlin] CASE ACCESSED - ID: 25, Kode: PPKPT685698067, Admin: admin@ppks.com
+[06-Jan-2026 08:52:10 Europe/Berlin] CASE UPDATED - ID: 25, Kode: PPKPT685698067, Old Status: Process, New Status: Completed, Admin: admin@ppks.com
+[06-Jan-2026 08:54:16 Europe/Berlin] BLOG CREATED - ID: 9, Admin: admin@ppks.com, Judul: Mengapa Penting dan Bagaimana Menjaganya?

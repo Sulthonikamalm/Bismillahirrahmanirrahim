@@ -892,16 +892,148 @@
              });
         }
         
-        // Location
-        if (lokasiKejadian) {
-            lokasiKejadian.addEventListener('change', function() {
-                formData.lokasiKejadian = this.value;
-                validateStep6();
+        // Location Category Selection (NEW)
+        const lokasiCategoryGrid = document.getElementById('lokasiCategoryGrid');
+        const lokasiSelectedIndicator = document.getElementById('lokasiSelectedIndicator');
+        const lokasiSelectedText = document.getElementById('lokasiSelectedText');
+        const lokasiChangeBtn = document.getElementById('lokasiChangeBtn');
+        const lokasiDetailSection = document.getElementById('lokasiDetailSection');
+        const lokasiDetail = document.getElementById('lokasiDetail');
+        const btnVoiceLokasi = document.getElementById('btnVoiceLokasi');
+        
+        if (lokasiCategoryGrid) {
+            const lokasiItems = lokasiCategoryGrid.querySelectorAll('.lokasi-category-item');
+            
+            lokasiItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // Deselect all
+                    lokasiItems.forEach(i => i.classList.remove('selected'));
+                    
+                    // Select clicked
+                    this.classList.add('selected');
+                    
+                    // Get selected value
+                    const selectedLokasi = this.getAttribute('data-lokasi');
+                    formData.lokasiKategori = selectedLokasi;
+                    
+                    // Update hidden input with category
+                    updateLokasiValue();
+                    
+                    // Show selected indicator
+                    if (lokasiSelectedIndicator && lokasiSelectedText) {
+                        lokasiSelectedIndicator.style.display = 'block';
+                        lokasiSelectedText.textContent = selectedLokasi;
+                    }
+                    
+                    // Hide grid, show detail section
+                    lokasiCategoryGrid.style.display = 'none';
+                    if (lokasiDetailSection) {
+                        lokasiDetailSection.style.display = 'block';
+                    }
+                    
+                    // Hide error
+                    hideError('errorLokasi', lokasiKejadian);
+                    
+                    // Validate
+                    validateStep6();
+                    
+                    console.log('Location selected:', selectedLokasi);
+                });
             });
-            lokasiKejadian.addEventListener('blur', function() {
-                 if (!this.value) showError('errorLokasi', this);
-                 else hideError('errorLokasi', this);
+        }
+        
+        // Change location button
+        if (lokasiChangeBtn) {
+            lokasiChangeBtn.addEventListener('click', function() {
+                // Show grid again
+                if (lokasiCategoryGrid) {
+                    lokasiCategoryGrid.style.display = 'grid';
+                }
+                // Hide detail section
+                if (lokasiDetailSection) {
+                    lokasiDetailSection.style.display = 'none';
+                }
+                // Hide indicator
+                if (lokasiSelectedIndicator) {
+                    lokasiSelectedIndicator.style.display = 'none';
+                }
             });
+        }
+        
+        // Location detail input
+        if (lokasiDetail) {
+            lokasiDetail.addEventListener('input', function() {
+                formData.lokasiDetail = this.value;
+                updateLokasiValue();
+            });
+        }
+        
+        // Voice input for location detail
+        if (btnVoiceLokasi) {
+            let lokasiRecognition = null;
+            
+            btnVoiceLokasi.addEventListener('click', function() {
+                if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                    alert('Browser Anda tidak mendukung input suara. Silakan ketik manual.');
+                    return;
+                }
+                
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                
+                if (lokasiRecognition && btnVoiceLokasi.classList.contains('recording')) {
+                    // Stop recording
+                    lokasiRecognition.stop();
+                    btnVoiceLokasi.classList.remove('recording');
+                    return;
+                }
+                
+                lokasiRecognition = new SpeechRecognition();
+                lokasiRecognition.lang = 'id-ID';
+                lokasiRecognition.continuous = false;
+                lokasiRecognition.interimResults = false;
+                
+                lokasiRecognition.onstart = function() {
+                    btnVoiceLokasi.classList.add('recording');
+                };
+                
+                lokasiRecognition.onresult = function(event) {
+                    const transcript = event.results[0][0].transcript;
+                    lokasiDetail.value = transcript;
+                    formData.lokasiDetail = transcript;
+                    updateLokasiValue();
+                    validateStep6();
+                };
+                
+                lokasiRecognition.onend = function() {
+                    btnVoiceLokasi.classList.remove('recording');
+                    lokasiRecognition = null;
+                };
+                
+                lokasiRecognition.onerror = function(event) {
+                    console.error('Speech recognition error:', event.error);
+                    btnVoiceLokasi.classList.remove('recording');
+                    lokasiRecognition = null;
+                };
+                
+                lokasiRecognition.start();
+            });
+        }
+        
+        // Helper function to update hidden lokasi value
+        function updateLokasiValue() {
+            const kategori = formData.lokasiKategori || '';
+            const detail = formData.lokasiDetail || '';
+            
+            // Format: "Kategori - Detail" or just "Kategori"
+            let finalValue = kategori;
+            if (detail && detail.trim()) {
+                finalValue = `${kategori} - ${detail.trim()}`;
+            }
+            
+            if (lokasiKejadian) {
+                lokasiKejadian.value = finalValue;
+                formData.lokasiKejadian = finalValue;
+            }
         }
         
         // Detail
@@ -961,12 +1093,14 @@
 
     function validateStep6() {
         const waktu = document.getElementById('waktuKejadian');
-        const lokasi = document.getElementById('lokasiKejadian');
         const detail = document.getElementById('detailKejadian');
         const btnLanjutkan6 = document.getElementById('btnLanjutkan6');
         
+        // Check if location category is selected (from formData, not select)
+        const hasLokasi = formData.lokasiKategori && formData.lokasiKategori.length > 0;
+        
         const isValid = waktu && waktu.value &&
-                       lokasi && lokasi.value &&
+                       hasLokasi &&
                        detail && detail.value && detail.value.length >= 10;
         
         if (btnLanjutkan6) {
@@ -1082,7 +1216,7 @@
             }, 300);
         }
         
-        validateStep4();
+        validateStep6();
     };
 
     function updateFileCountIndicator() {

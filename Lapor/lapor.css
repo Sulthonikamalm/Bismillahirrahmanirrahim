@@ -1800,3 +1800,263 @@ select.lapor-input {
         display: inline-flex;
     }
 }
+
+/* ============================================
+   LOCATION CATEGORY SELECTION
+   Tel-U Surabaya Campus Locations
+   ============================================ */
+
+.lokasi-section {
+    margin-bottom: 32px;
+}
+
+/* Location Category Grid */
+.lokasi-category-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.lokasi-category-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 12px;
+    background: #ffffff;
+    border: 2px solid #e2e8f0;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
+    min-height: 100px;
+    text-align: center;
+}
+
+.lokasi-category-item:hover {
+    border-color: var(--color-mid-blue);
+    background: #f8fbff;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(91, 141, 190, 0.15);
+}
+
+.lokasi-category-item.selected {
+    border-color: var(--color-mid-blue);
+    background: linear-gradient(135deg, #eef4fb 0%, #dbeafe 100%);
+    box-shadow: 0 8px 24px rgba(91, 141, 190, 0.25);
+    transform: translateY(-4px);
+}
+
+.lokasi-category-item.selected .lokasi-icon {
+    transform: scale(1.1);
+}
+
+.lokasi-category-item.lokasi-unknown {
+    border-style: dashed;
+    background: #fafafa;
+}
+
+.lokasi-category-item.lokasi-unknown:hover {
+    background: #fff5f5;
+    border-color: #94a3b8;
+}
+
+.lokasi-category-item.lokasi-unknown.selected {
+    background: linear-gradient(135deg, #fef3f2 0%, #fee2e2 100%);
+    border-color: #94a3b8;
+    border-style: solid;
+}
+
+.lokasi-icon {
+    font-size: 2rem;
+    margin-bottom: 8px;
+    transition: transform 0.3s ease;
+    line-height: 1;
+}
+
+.lokasi-name {
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-text-dark);
+    line-height: 1.2;
+}
+
+/* Selected Location Indicator */
+.lokasi-selected-indicator {
+    margin-bottom: 20px;
+    animation: fadeSlideUp 0.3s ease;
+}
+
+.lokasi-selected-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, var(--color-mid-blue) 0%, var(--color-teal) 100%);
+    color: #ffffff;
+    border-radius: 50px;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-weight: 600;
+    box-shadow: 0 4px 16px rgba(91, 141, 190, 0.25);
+}
+
+.lokasi-selected-badge i {
+    font-size: 1rem;
+}
+
+.lokasi-change-btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-left: 8px;
+}
+
+.lokasi-change-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Location Detail Section */
+.lokasi-detail-section {
+    animation: fadeSlideUp 0.3s ease;
+    padding: 20px;
+    background: #f8fafc;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    margin-top: 16px;
+}
+
+.lokasi-detail-label {
+    font-size: 0.95rem;
+    margin-bottom: 4px;
+}
+
+.lokasi-detail-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.lokasi-detail-input-wrapper .lapor-input {
+    flex: 1;
+    padding-right: 50px;
+}
+
+.btn-voice-lokasi {
+    position: absolute;
+    right: 8px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-mid-blue) 0%, var(--color-teal) 100%);
+    border: none;
+    color: white;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(91, 141, 190, 0.25);
+}
+
+.btn-voice-lokasi:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(91, 141, 190, 0.35);
+}
+
+.btn-voice-lokasi.recording {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    animation: recordPulse 1.5s infinite;
+}
+
+.lokasi-skip-hint {
+    margin-top: 12px;
+    margin-bottom: 0;
+    padding: 10px 14px;
+    background: #fffbeb;
+    border-radius: 8px;
+    border: 1px solid #fde68a;
+    color: #92400e;
+    font-size: 0.85rem;
+}
+
+.optional-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    background: #e2e8f0;
+    color: #64748b;
+    border-radius: 10px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-left: 6px;
+    vertical-align: middle;
+}
+
+/* Responsive Location Grid */
+@media (max-width: 768px) {
+    .lokasi-category-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+    }
+    
+    .lokasi-category-item {
+        padding: 16px 8px;
+        min-height: 90px;
+    }
+    
+    .lokasi-icon {
+        font-size: 1.6rem;
+    }
+    
+    .lokasi-name {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .lokasi-category-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+    
+    .lokasi-category-item {
+        padding: 18px 12px;
+        min-height: 85px;
+    }
+    
+    .lokasi-icon {
+        font-size: 1.8rem;
+        margin-bottom: 6px;
+    }
+    
+    .lokasi-name {
+        font-size: 0.8rem;
+    }
+    
+    .lokasi-selected-badge {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        text-align: center;
+    }
+    
+    .lokasi-change-btn {
+        margin-left: 0;
+        margin-top: 8px;
+    }
+    
+    .lokasi-detail-section {
+        padding: 16px;
+    }
+}
