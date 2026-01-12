@@ -1,12 +1,13 @@
 
 
-// Inisialisasi AOS (Animate On Scroll)
+// Inisialisasi AOS (Animate On Scroll) - Optimized for Professional Feel
 AOS.init({
-    duration: 800,
-    easing: 'ease-in-out',
-    once: true,
-    offset: 100,
-    delay: 50
+    duration: 400,           // Faster - feels snappy
+    easing: 'ease-out',      // Smooth deceleration
+    once: true,              // Only animate once
+    offset: 50,              // Trigger earlier
+    delay: 0,                // No global delay
+    disable: 'mobile'        // Disable on mobile for performance
 });
 
 let activeCard = null;
@@ -203,6 +204,29 @@ document.addEventListener('DOMContentLoaded', function() {
             window.location.href = '../Lapor/lapor.html';
         });
     });
+
+    // ============================================
+    // PROFESSIONAL REVEAL ANIMATIONS
+    // Using IntersectionObserver for smooth scroll reveals
+    // ============================================
+    const revealElements = document.querySelectorAll(
+        '.section-header, .bento-grid, .steps-grid, .artikel-grid, .tab-content, .tab-nav, .text-center'
+    );
+
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('revealed');
+                // Stop observing once revealed
+                revealObserver.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.15,      // Trigger when 15% visible
+        rootMargin: '0px 0px -50px 0px'  // Slight offset from bottom
+    });
+
+    revealElements.forEach(el => revealObserver.observe(el));
 });
 
 window.addEventListener('load', function() {
