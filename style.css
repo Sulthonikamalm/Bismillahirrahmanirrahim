@@ -314,21 +314,18 @@ li,
   z-index: 1000;
   
   /* FIXED: Use Dark Blue Gradient Background by default so text is visible */
-  background: linear-gradient(135deg, #132338 0%, #0d1b2a 100%);
+  /* OPTIMIZATION: Use solid color instead of gradient for SMOOTH transition */
+  background: #0f1c2e; /* Deep Dark Blue Solid */
   padding: 20px 0;
   border-radius: 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   
-  /* Smooth transitions with cubic-bezier for all properties */
-  transition: 
-    top 0.5s cubic-bezier(0.22, 0.61, 0.36, 1),
-    left 0.5s cubic-bezier(0.22, 0.61, 0.36, 1),
-    width 0.5s cubic-bezier(0.22, 0.61, 0.36, 1),
-    padding 0.5s cubic-bezier(0.22, 0.61, 0.36, 1),
-    background 0.5s cubic-bezier(0.22, 0.61, 0.36, 1),
-    backdrop-filter 0.5s cubic-bezier(0.22, 0.61, 0.36, 1),
-    box-shadow 0.5s cubic-bezier(0.22, 0.61, 0.36, 1),
-    border-radius 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+  /* HARDWARE ACCELERATION */
+  will-change: width, top, border-radius, background, padding, box-shadow;
+  transform: translate3d(0, 0, 0); /* Force GPU */
+
+  /* PREMIUM SMOOTH EASING (Exponential Out) - Professional Feel */
+  transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1);
   
   /* No border when not scrolled */
   border-bottom: none;
@@ -339,17 +336,17 @@ li,
   /* Floating rounded rectangle positioning - Centered */
   top: 20px;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) translate3d(0, 0, 0); /* Center + GPU */
   width: 90%;
   max-width: 1200px;
   
   /* Smaller padding for collapsed state */
   padding: 12px 24px;
   
-  /* Dark blue frosted glass effect (keeping original color identity) */
-  background: rgba(19, 35, 56, 0.94);
-  backdrop-filter: saturate(1.8) blur(12px);
-  -webkit-backdrop-filter: saturate(1.8) blur(12px);
+  /* Dark blue frosted glass effect (matches solid background nicely) */
+  background: rgba(15, 28, 46, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   
   /* Rounded Rectangle (not pill) - per user request */
   border-radius: 16px; 
@@ -357,7 +354,7 @@ li,
   /* Elevated shadow for floating effect */
   box-shadow: 
     0 10px 40px rgba(0, 0, 0, 0.3),
-    0 0 0 1px rgba(255, 255, 255, 0.1); /* Subtle white border */
+    0 0 0 1px rgba(255, 255, 255, 0.08); /* Subtle border */
   border: none;
 }
 
