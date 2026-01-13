@@ -14,6 +14,10 @@
     <!-- Shared Styles -->
     <link rel="stylesheet" href="../style.css" />
 
+    <!-- UX Enhancement Styles -->
+    <link rel="stylesheet" href="../assets/css/skeleton.css" />
+    <link rel="stylesheet" href="../assets/css/micro-animations.css" />
+
     <!-- FAB Sigap Styles -->
     <link rel="stylesheet" href="../FABsigap/fabsigap.css" />
 
@@ -23,8 +27,17 @@
     <link rel="stylesheet" href="css/loading-cube.css" />
     <link rel="stylesheet" href="css/search-animation.css" />
 
+
     <!-- ChatBot Styles -->
     <link rel="stylesheet" href="../ChatBot/chatbot.css" />
+
+    <!-- Critical CSS for Reveal Animations (Prevent FOUC) -->
+    <style>
+        [data-reveal] {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+    </style>
 </head>
 
 <body>
@@ -63,7 +76,7 @@
             </div>
 
             <button class="hamburger" aria-label="Buka menu" aria-controls="primary-navigation" aria-expanded="false">
-                &#9776;
+                <i class="fas fa-bars"></i>
             </button>
         </div>
     </nav>
@@ -231,8 +244,10 @@
                         <img src="../Landing Page/assets/flip.png" alt="SIGAP Logo" class="footer-logo-img">
                     </div>
                     <p class="footer-satgas-text">Satuan Tugas PPKPT Telkom University Surabaya</p>
-                    <a href="https://www.instagram.com/satgasppks.tus" target="_blank" rel="noopener noreferrer" class="footer-instagram-link">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <a href="https://www.instagram.com/satgasppks.tus" target="_blank" rel="noopener noreferrer"
+                        class="footer-instagram-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
+                            stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                             <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
                             <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
@@ -249,9 +264,11 @@
                 </ul>
             </div>
             <div class="footer-col footer-back-top-col">
-                <button class="back-to-top-btn" aria-label="Kembali ke atas" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M18 15l-6-6-6 6"/>
+                <button class="back-to-top-btn" aria-label="Kembali ke atas"
+                    onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 15l-6-6-6 6" />
                     </svg>
                 </button>
             </div>
@@ -274,7 +291,7 @@
          SCRIPTS
          ============================================ -->
     <!-- Shared JS -->
-    <script src="../index.js"></script>
+    <script src="../index.js" defer></script>
 
     <!-- ChatBot Script (harus di-load sebelum FAB Sigap) -->
     <script src="../ChatBot/chatbot.js"></script>
