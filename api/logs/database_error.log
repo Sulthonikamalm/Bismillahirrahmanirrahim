@@ -87,3 +87,37 @@
 [06-Jan-2026 08:54:16 Europe/Berlin] BLOG CREATED - ID: 9, Admin: admin@ppks.com, Judul: Mengapa Penting dan Bagaimana Menjaganya?
 [13-Jan-2026 03:32:01 Europe/Berlin] Search Request - Type: KODE, Query: GNJ34
 [13-Jan-2026 03:32:01 Europe/Berlin] Found - kode: GNJ34, Kode: GNJ34
+[13-Jan-2026 09:53:24 Asia/Jakarta] === CHAT REQUEST START ===
+[13-Jan-2026 09:53:24 Asia/Jakarta] === CHAT REQUEST START ===
+[13-Jan-2026 09:54:59 Asia/Jakarta] === CHAT REQUEST START ===
+[13-Jan-2026 09:54:59 Asia/Jakarta] User message: hallo
+[13-Jan-2026 09:54:59 Asia/Jakarta] Created DB session: 20
+[13-Jan-2026 09:54:59 Asia/Jakarta] Current phase: curhat
+[13-Jan-2026 09:54:59 Asia/Jakarta] Generating bot response for phase: curhat
+[13-Jan-2026 09:55:00 Asia/Jakarta] Bot response OK: 135 chars
+[13-Jan-2026 09:55:00 Asia/Jakarta] === CHAT REQUEST SUCCESS (1.41s) ===
+[13-Jan-2026 09:55:27 Asia/Jakarta] === CHAT REQUEST START ===
+[13-Jan-2026 09:55:27 Asia/Jakarta] User message: saya mau lapor saya dilecehkan oleh dosen
+[13-Jan-2026 09:55:27 Asia/Jakarta] Current phase: consent
+[13-Jan-2026 09:55:27 Asia/Jakarta] Asking for consent
+[13-Jan-2026 09:55:27 Asia/Jakarta] Consent detection: yes
+[13-Jan-2026 09:55:27 Asia/Jakarta] Consent given - entering report phase
+[13-Jan-2026 09:55:28 Asia/Jakarta] Updated labels: {"pelaku_kekerasan":"dosen","waktu_kejadian":null,"lokasi_kejadian":null,"tingkat_kekhawatiran":null,"detail_kejadian":"dilecehkan","gender_korban":null,"usia_korban":null,"korban_sebagai":null,"email_korban":null,"whatsapp_korban":null}
+[13-Jan-2026 09:55:28 Asia/Jakarta] Generating bot response for phase: report
+[13-Jan-2026 09:55:30 Asia/Jakarta] Bot response OK: 307 chars
+[13-Jan-2026 09:55:30 Asia/Jakarta] === CHAT REQUEST SUCCESS (3.04s) ===
+[13-Jan-2026 09:55:41 Asia/Jakarta] === CHAT REQUEST START ===
+[13-Jan-2026 09:55:41 Asia/Jakarta] User message: 081272064805
+[13-Jan-2026 09:55:41 Asia/Jakarta] Current phase: curhat
+[13-Jan-2026 09:55:42 Asia/Jakarta] Updated labels: {"pelaku_kekerasan":"dosen","waktu_kejadian":null,"lokasi_kejadian":null,"tingkat_kekhawatiran":null,"detail_kejadian":"dilecehkan","gender_korban":null,"usia_korban":null,"korban_sebagai":null,"email_korban":null,"whatsapp_korban":"081272064805"}
+[13-Jan-2026 09:55:42 Asia/Jakarta] Creating report...
+[13-Jan-2026 09:55:42 Asia/Jakarta] Report created: PPKPT260113732
+[13-Jan-2026 09:56:09 Asia/Jakarta] === CHAT REQUEST START ===
+[13-Jan-2026 09:56:09 Asia/Jakarta] === CHAT REQUEST START ===
+[13-Jan-2026 03:56:14 Europe/Berlin] Search Request - Type: KODE, Query: PPKPT260113732
+[13-Jan-2026 03:56:14 Europe/Berlin] Found - kode: PPKPT260113732, Kode: PPKPT260113732
+[13-Jan-2026 03:58:19 Europe/Berlin] LOGIN SUCCESS - User: admin@ppks.com (ID: 5) from IP: ::1
+[13-Jan-2026 03:58:33 Europe/Berlin] CASE ACCESSED - ID: 16, Kode: PPKPT251219888, Admin: admin@ppks.com
+[13-Jan-2026 03:58:41 Europe/Berlin] CASE UPDATED - ID: 16, Kode: PPKPT251219888, Old Status: Process, New Status: Completed, Admin: admin@ppks.com
+[13-Jan-2026 04:09:48 Europe/Berlin] Search Request - Type: KODE, Query: PPKPT273773124
+[13-Jan-2026 04:09:48 Europe/Berlin] Found - kode: PPKPT273773124, Kode: PPKPT273773124

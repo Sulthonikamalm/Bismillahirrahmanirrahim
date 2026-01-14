@@ -1,11 +1,13 @@
-// Monitoring System v5.0 - Dual Search (Kode/Email)
+/**
+ * Sistem Monitoring Laporan v5.0
+ * Mendukung pencarian dual: Kode Laporan & Email
+ */
 
 (function() {
   'use strict';
 
-  // Debug mode
-  const IS_DEBUG = window.location.hostname === 'localhost' || 
-                   window.location.hostname === '127.0.0.1';
+  // Mode debug
+  const IS_DEBUG = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
   
   const logger = {
     log: (...args) => IS_DEBUG && console.log(...args),
@@ -13,14 +15,14 @@
     error: (...args) => console.error(...args)
   };
 
-  // State management
+  // State
   const State = {
     currentReport: null,
     isSearching: false,
     searchType: null
   };
 
-  // DOM elements
+  // Elemen DOM
   const DOM = {
     reportIdInput: document.getElementById('reportIdInput'),
     searchBtn: document.getElementById('searchBtn'),
@@ -35,7 +37,6 @@
     statusBadge: document.getElementById('statusBadge'),
     statusText: document.getElementById('statusText'),
     timeline: document.getElementById('timeline'),
-    particlesBg: document.getElementById('particlesBg'),
     centeredLoadingOverlay: document.getElementById('centeredLoadingOverlay')
   };
 
@@ -48,17 +49,14 @@
 
   // Inisialisasi
   function init() {
-    logger.log('🚀 Monitoring System v5.0 Initializing...');
-
-    generateParticles();
+    logger.log('🚀 Monitoring System v5.0 dimulai');
     checkURLParameter();
     setupEventListeners();
     setupInputHints();
-
-    logger.log('✅ Monitoring System Ready');
+    logger.log('✅ Monitoring System siap');
   }
 
-  // Setup input hints
+  // Setup hint input
   function setupInputHints() {
     if (!DOM.reportIdInput) return;
 
@@ -66,13 +64,11 @@
       const value = e.target.value.trim();
       
       if (!value) {
-        resetPlaceholder();
+        DOM.reportIdInput.placeholder = 'Masukkan Kode Laporan atau Email';
         return;
       }
 
-      const isEmail = value.includes('@');
-      
-      if (isEmail) {
+      if (value.includes('@')) {
         DOM.reportIdInput.placeholder = 'Contoh: user@student.itb.ac.id';
         State.searchType = 'email';
       } else {
@@ -81,28 +77,6 @@
         State.searchType = 'kode';
       }
     });
-  }
-
-  function resetPlaceholder() {
-    if (DOM.reportIdInput) {
-      DOM.reportIdInput.placeholder = 'Masukkan Kode Laporan atau Email';
-    }
-  }
-
-  // Generate particles
-  function generateParticles() {
-    const particlesContainer = DOM.particlesBg?.querySelector('.bottom-particles');
-    if (!particlesContainer) return;
-
-    const particleCount = window.innerWidth > 768 ? 50 : 30;
-
-    for (let i = 0; i < particleCount; i++) {
-      const bubble = document.createElement('div');
-      bubble.className = 'bubble';
-      particlesContainer.appendChild(bubble);
-    }
-
-    logger.log(`🎈 Generated ${particleCount} particles`);
   }
 
   // Setup event listeners
@@ -119,48 +93,37 @@
         }
       });
 
-      DOM.reportIdInput.addEventListener('focus', () => {
-        hideError();
-      });
+      DOM.reportIdInput.addEventListener('focus', hideError);
     }
   }
 
-  // Check URL parameter
+  // Cek parameter URL
   function checkURLParameter() {
     const urlParams = new URLSearchParams(window.location.search);
-    const kode = urlParams.get('kode');
-    const email = urlParams.get('email');
-    const query = kode || email;
+    const query = urlParams.get('kode') || urlParams.get('email');
 
     if (query) {
-      logger.log('🔍 Auto-search triggered:', query);
+      logger.log('🔍 Auto-search:', query);
       DOM.reportIdInput.value = query;
-
-      setTimeout(() => {
-        handleSearch();
-      }, 1000);
+      setTimeout(handleSearch, 1000);
     }
   }
 
-  // Handle search - Dual search (Kode/Email)
+  // Handle pencarian
   async function handleSearch() {
-    if (State.isSearching) {
-      logger.log('Already processing...');
-      return;
-    }
+    if (State.isSearching) return;
 
     const query = DOM.reportIdInput?.value?.trim();
-
     if (!query) {
       showError('Silakan masukkan Kode Laporan atau Email.');
       return;
     }
 
-    const isEmail = validateEmail(query);
+    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(query);
     const searchType = isEmail ? 'email' : 'kode';
     const displayQuery = isEmail ? query : query.toUpperCase();
 
-    logger.log(`Searching by ${searchType}:`, displayQuery);
+    logger.log(`Mencari dengan ${searchType}:`, displayQuery);
 
     State.isSearching = true;
     State.searchType = searchType;
@@ -170,28 +133,13 @@
 
     try {
       const url = `${CONFIG.apiEndpoint}?query=${encodeURIComponent(displayQuery)}`;
-      
-      logger.log('API Request:', url);
-
-      const response = await fetch(url, {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json'
-        }
-      });
-
-      logger.log('Response Status:', response.status);
-
+      const response = await fetch(url, { method: 'GET', headers: { 'Accept': 'application/json' } });
       const result = await response.json();
-      logger.log('API Response:', result);
 
-      // Hide loader FIRST
       hideSearchLoader();
 
       if (result.success && result.data) {
-        logger.log('Report found:', result.data);
         State.currentReport = result.data;
-
         updateTimelineHeader();
         clearTimeline();
         showCenteredLoading();
@@ -199,16 +147,11 @@
         setTimeout(() => {
           hideCenteredLoading();
           displayCurrentStep();
-          
           enableInput();
           State.isSearching = false;
-
           checkCompletionConfetti();
         }, CONFIG.centeredCubeDelay);
-
       } else {
-        logger.log('Report not found');
-        
         const errorMsg = searchType === 'email' 
           ? `Email "${query}" tidak ditemukan. Pastikan email yang digunakan sama dengan saat melapor.`
           : `Kode Laporan "${displayQuery}" tidak ditemukan. Silakan periksa kembali.`;
@@ -217,20 +160,13 @@
         enableInput();
         State.isSearching = false;
       }
-
     } catch (error) {
-      logger.error('Error fetching report:', error);
+      logger.error('Error mengambil laporan:', error);
       hideSearchLoader();
       showError('Terjadi kesalahan saat mengambil data. Silakan coba lagi.');
       enableInput();
       State.isSearching = false;
     }
-  }
-
-  // Validate email
-  function validateEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
   }
 
   // Update header timeline
@@ -241,24 +177,19 @@
     DOM.timelineHeader.style.opacity = '0';
     DOM.timelineHeader.style.transform = 'translateY(-12px)';
 
-    DOM.timelineTitle.textContent = `Progress Laporan`;
+    DOM.timelineTitle.textContent = 'Progress Laporan';
     DOM.timelineId.textContent = State.currentReport.id;
 
     const date = new Date(State.currentReport.createdAt);
-    const formattedDate = date.toLocaleDateString('id-ID', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
+    DOM.timelineDate.textContent = date.toLocaleDateString('id-ID', {
+      day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit'
     });
-    DOM.timelineDate.textContent = formattedDate;
 
     const isCompleted = State.currentReport.status === 'completed';
     DOM.statusBadge.className = `timeline-status-badge ${isCompleted ? 'status-completed' : ''}`;
     DOM.statusBadge.innerHTML = `
       <i class="fas ${isCompleted ? 'fa-check-circle' : 'fa-clock'}"></i>
-      <span id="statusText">${isCompleted ? 'Selesai' : 'Dalam Proses'}</span>
+      <span>${isCompleted ? 'Selesai' : 'Dalam Proses'}</span>
     `;
 
     requestAnimationFrame(() => {
@@ -268,10 +199,9 @@
     });
   }
 
-  // Clear timeline
+  // Bersihkan timeline
   function clearTimeline() {
     DOM.timeline.style.opacity = '0';
-
     setTimeout(() => {
       DOM.timeline.innerHTML = '';
       DOM.timeline.style.transition = 'opacity 0.4s ease';
@@ -284,7 +214,6 @@
     if (DOM.centeredLoadingOverlay) {
       DOM.centeredLoadingOverlay.style.display = 'flex';
       DOM.centeredLoadingOverlay.style.opacity = '0';
-
       requestAnimationFrame(() => {
         DOM.centeredLoadingOverlay.style.transition = 'opacity 0.4s ease';
         DOM.centeredLoadingOverlay.style.opacity = '1';
@@ -295,24 +224,20 @@
   function hideCenteredLoading() {
     if (DOM.centeredLoadingOverlay) {
       DOM.centeredLoadingOverlay.style.opacity = '0';
-
-      setTimeout(() => {
-        DOM.centeredLoadingOverlay.style.display = 'none';
-      }, 400);
+      setTimeout(() => { DOM.centeredLoadingOverlay.style.display = 'none'; }, 400);
     }
   }
 
-  // Display current step
+  // Tampilkan step saat ini
   function displayCurrentStep() {
-    if (!State.currentReport || !State.currentReport.steps || State.currentReport.steps.length === 0) {
-      logger.error('❌ No steps to display');
+    if (!State.currentReport?.steps?.length) {
+      logger.error('Tidak ada step untuk ditampilkan');
       return;
     }
 
     const currentStep = State.currentReport.steps[State.currentReport.steps.length - 1];
-    logger.log(`🔍 Displaying current step:`, currentStep);
-
     const stepElement = createStepElement(currentStep);
+    
     DOM.timeline.innerHTML = '';
     DOM.timeline.appendChild(stepElement);
 
@@ -322,51 +247,38 @@
     });
   }
 
-  // Create step element
+  // Buat elemen step
   function createStepElement(step) {
     const stepElement = document.createElement('div');
     stepElement.className = `timeline-item status-${step.status}`;
-    stepElement.style.opacity = '0';
-    stepElement.style.transform = 'translateY(24px) scale(0.95)';
-    stepElement.style.transition = 'all 0.6s cubic-bezier(0.22, 0.61, 0.36, 1)';
+    stepElement.style.cssText = 'opacity: 0; transform: translateY(24px) scale(0.95); transition: all 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);';
 
     const marker = document.createElement('div');
+    
+    const markerConfig = {
+      loading: { class: 'marker-loading', content: createSmallCubeHTML() },
+      success: { class: 'marker-success', content: step.icon || '✓' },
+      failed: { class: 'marker-failed', content: step.icon || '✗' },
+      pending: { class: 'marker-pending', content: step.icon || '⏸' }
+    };
 
-    if (step.status === 'loading') {
-      marker.className = 'timeline-marker marker-loading';
-      marker.innerHTML = createSmallCubeHTML();
-    } else if (step.status === 'success') {
-      marker.className = 'timeline-marker marker-success';
-      marker.innerHTML = step.icon || '✓';
-    } else if (step.status === 'failed') {
-      marker.className = 'timeline-marker marker-failed';
-      marker.innerHTML = step.icon || '✗';
-    } else {
-      marker.className = 'timeline-marker marker-pending';
-      marker.innerHTML = step.icon || '⏸';
-    }
+    const config = markerConfig[step.status] || markerConfig.pending;
+    marker.className = `timeline-marker ${config.class}`;
+    marker.innerHTML = config.content;
 
     const content = document.createElement('div');
     content.className = 'timeline-content';
-
-    const title = document.createElement('div');
-    title.className = 'timeline-content-title';
-    title.textContent = step.title;
-
-    const desc = document.createElement('p');
-    desc.className = 'timeline-content-desc';
-    desc.textContent = step.description;
-
-    content.appendChild(title);
-    content.appendChild(desc);
+    content.innerHTML = `
+      <div class="timeline-content-title">${step.title}</div>
+      <p class="timeline-content-desc">${step.description}</p>
+    `;
 
     stepElement.appendChild(marker);
     stepElement.appendChild(content);
-
     return stepElement;
   }
 
-  // Create cube HTML
+  // Buat HTML cube kecil
   function createSmallCubeHTML() {
     return `
       <div class="cube-wrapper small">
@@ -385,54 +297,28 @@
     `;
   }
 
-  // Check completion & confetti
+  // Cek konfeti jika selesai
   function checkCompletionConfetti() {
     if (!State.currentReport) return;
 
-    const allSteps = State.currentReport.steps;
-    const allSuccess = allSteps.every(s => s.status === 'success');
-
+    const allSuccess = State.currentReport.steps.every(s => s.status === 'success');
     if (allSuccess && State.currentReport.status === 'completed') {
       setTimeout(() => {
-        logger.log('🎉 All steps completed! Starting confetti...');
-        if (window.Confetti) {
-          window.Confetti.start();
-        }
+        logger.log('🎉 Semua step selesai! Memulai konfeti...');
+        window.Confetti?.start();
       }, 800);
     }
   }
 
-  // UI helpers
-  function showSearchLoader() {
-    DOM.searchLoader?.classList.add('show');
-  }
+  // Helper UI
+  function showSearchLoader() { DOM.searchLoader?.classList.add('show'); }
+  function hideSearchLoader() { DOM.searchLoader?.classList.remove('show'); }
+  function showError(message) { DOM.errorText.textContent = message; DOM.errorMessage.classList.add('show'); }
+  function hideError() { DOM.errorMessage.classList.remove('show'); }
+  function disableInput() { DOM.reportIdInput.disabled = true; DOM.searchBtn.disabled = true; DOM.searchBtn.classList.add('loading'); }
+  function enableInput() { DOM.reportIdInput.disabled = false; DOM.searchBtn.disabled = false; DOM.searchBtn.classList.remove('loading'); }
 
-  function hideSearchLoader() {
-    DOM.searchLoader?.classList.remove('show');
-  }
-
-  function showError(message) {
-    DOM.errorText.textContent = message;
-    DOM.errorMessage.classList.add('show');
-  }
-
-  function hideError() {
-    DOM.errorMessage.classList.remove('show');
-  }
-
-  function disableInput() {
-    DOM.reportIdInput.disabled = true;
-    DOM.searchBtn.disabled = true;
-    DOM.searchBtn.classList.add('loading');
-  }
-
-  function enableInput() {
-    DOM.reportIdInput.disabled = false;
-    DOM.searchBtn.disabled = false;
-    DOM.searchBtn.classList.remove('loading');
-  }
-
-  // Public API
+  // API Publik
   window.MonitoringSystem = {
     search: handleSearch,
     getState: () => ({ ...State }),
@@ -445,5 +331,4 @@
   } else {
     init();
   }
-
 })();
