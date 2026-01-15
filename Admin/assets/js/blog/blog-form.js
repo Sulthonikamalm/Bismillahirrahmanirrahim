@@ -484,7 +484,7 @@
      */
     async function getCsrfToken() {
         try {
-            const response = await fetch('../../../api/auth_check.php', {
+            const response = await fetch('../../../api/auth/check.php', {
                 method: 'GET',
                 credentials: 'same-origin',
                 cache: 'no-store'

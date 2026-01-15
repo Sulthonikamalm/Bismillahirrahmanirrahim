@@ -81,7 +81,7 @@ try {
 
 try {
     // Initialize Encryption Service
-    require_once __DIR__ . '/../../api/services/EncryptionService.php';
+    require_once __DIR__ . '/../services/EncryptionService.php';
     $encryptionService = new EncryptionService($pdo, $_SESSION['admin_id'] ?? null);
 
     // Use Authentication-aware decryption

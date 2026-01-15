@@ -1373,7 +1373,7 @@
 
             console.log('Sending FormData to Backend...');
 
-            const response = await fetch('../api/submit_laporan.php', {
+            const response = await fetch('../api/lapor/submit.php', {
                 method: 'POST',
                 // Don't set Content-Type header - browser will set it with boundary for multipart/form-data
                 body: submitData

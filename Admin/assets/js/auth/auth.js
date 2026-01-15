@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
             formData.append('password', passwordInput.value);
 
             try {
-                const apiEndpoint = '/Bismillahirrahmanirrahim/api/auth_login.php';
+                const apiEndpoint = '/Bismillahirrahmanirrahim/api/auth/login.php';
 
                 console.log('Using endpoint:', apiEndpoint);
 

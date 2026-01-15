@@ -1,39 +1,71 @@
-// TemanKu Chatbot - Clean Minimal Edition
+/**
+ * SIGAP PPKS - TemanKu Chatbot v4.0
+ * 
+ * Chatbot dengan fitur-fitur baru:
+ * - Integrasi dengan ChatStorage untuk persistence terenkripsi
+ * - Session continuity (lanjutkan chat sebelumnya)
+ * - Context restoration dari localStorage
+ * - Improved UX dengan session info
+ * 
+ * @package SIGAP_PPKS
+ * @subpackage ChatBot
+ */
 
 (function () {
   "use strict";
 
-  // Konfigurasi
+  // ============================================
+  // KONFIGURASI
+  // ============================================
   const CONFIG = {
-    apiEndpoint: "/Bismillahirrahmanirrahim/api/chat.php",
+    apiEndpoint: "/Bismillahirrahmanirrahim/api/chatbot/chat.php",
     emergencyPhone: "6282188467793",
     loadingDelay: 600,
     welcomeMessage: "Halo, saya TemanKu 👋\n\nSaya di sini untuk mendengarkan Anda. Ruang ini aman dan rahasia. Ceritakan apa yang Anda rasakan...",
+    continueMessage: "Selamat datang kembali! 👋\n\nAku masih ingat percakapan kita sebelumnya. Mau lanjutkan atau mulai yang baru?",
+    enablePersistence: true,  // Aktifkan penyimpanan lokal
+    autoRestoreSession: true  // Otomatis restore session sebelumnya
   };
 
+  // Merge dengan config global jika ada
   if (window.CHATBOT_CONFIG) {
     Object.assign(CONFIG, window.CHATBOT_CONFIG);
   }
 
-  // State variables
+  // ============================================
+  // STATE VARIABLES
+  // ============================================
   let isOpen = false;
   let isTyping = false;
   let sessionActive = false;
   let sessionId = null;
+  let hasRestoredSession = false;
   
+  // Voice recording states
   let isRecording = false;
   let recognition = null;
   let voiceSupported = false;
   let chatRecordingStartTime = null;
   let chatTimerInterval = null;
+  let shouldKeepRecording = false;
+  let finalTranscriptAccumulated = '';
+  let interimTranscript = '';
   
+  // Conversation states
   let conversationHistory = [];
+  let currentPhase = 'curhat';
+  let currentTier = 0;
 
-  // DOM elements
+  // ============================================
+  // DOM ELEMENTS
+  // ============================================
   let modalOverlay, chatMessages, chatMessagesContainer, chatInput, btnSendChat, typingIndicator;
   let chatInterfaceScreen;
   let btnVoiceInput, voiceRecordingMode, btnStopRecording, chatInputWrapper;
 
+  // ============================================
+  // UI TEMPLATE
+  // ============================================
   const CHATBOT_UI_TEMPLATE = `
     <div class="chatbot-modal-overlay" id="chatbotModalOverlay">
         <div class="chatbot-modal">
@@ -44,6 +76,9 @@
                         <p class="chat-mode-desc" id="chatModeDesc">Ruang aman untuk berbagi cerita</p>
                     </div>
                     <div class="chat-header-actions">
+                        <button class="btn-clear-chat" id="btnClearChat" title="Hapus Riwayat">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
                         <button class="btn-minimize-chat" id="btnMinimizeChat" title="Minimize">
                             <i class="fas fa-minus"></i>
                         </button>
@@ -107,17 +142,26 @@
     </div>
   `;
 
-  // Inject chatbot UI
+  // ============================================
+  // INITIALIZATION
+  // ============================================
+  
+  /**
+   * Inject UI template ke DOM
+   */
   function injectChatbotUI() {
     if (!document.getElementById("chatbotModalOverlay")) {
       document.body.insertAdjacentHTML("beforeend", CHATBOT_UI_TEMPLATE);
     }
   }
 
-  // Inisialisasi
-  function init() {
+  /**
+   * Inisialisasi chatbot
+   */
+  async function init() {
     injectChatbotUI();
 
+    // Ambil referensi DOM elements
     modalOverlay = document.getElementById("chatbotModalOverlay");
     chatInterfaceScreen = document.getElementById("chatInterfaceScreen");
     chatMessagesContainer = document.getElementById("chatMessagesContainer");
@@ -135,19 +179,35 @@
 
     setupEventListeners();
     initVoiceRecognition();
+    
+    // Inisialisasi ChatStorage
+    if (CONFIG.enablePersistence && typeof ChatStorage !== 'undefined') {
+      await ChatStorage.init();
+    }
   }
 
-  // Setup event listeners
+  /**
+   * Setup event listeners
+   */
   function setupEventListeners() {
+    // Close/minimize buttons
     const closeButtons = document.querySelectorAll(".btn-close-chatbot, .btn-minimize-chat");
     closeButtons.forEach((btn) => {
-      btn.addEventListener("click", close);
+      btn.addEventListener("click", minimize);
     });
+    
+    // Clear chat button
+    const btnClearChat = document.getElementById("btnClearChat");
+    if (btnClearChat) {
+      btnClearChat.addEventListener("click", confirmClearChat);
+    }
 
+    // Send button
     if (btnSendChat) {
       btnSendChat.addEventListener("click", sendMessage);
     }
 
+    // Input field
     if (chatInput) {
       chatInput.addEventListener("keypress", (e) => {
         if (e.key === "Enter" && !e.shiftKey) {
@@ -161,6 +221,7 @@
       });
     }
     
+    // Voice recording
     if (btnVoiceInput) {
       btnVoiceInput.addEventListener("click", startVoiceRecording);
     }
@@ -169,6 +230,7 @@
       btnStopRecording.addEventListener("click", stopVoiceRecording);
     }
 
+    // Trigger untuk buka chatbot
     document.addEventListener("click", (e) => {
       if (e.target.closest('[data-action="chat-temanku"]')) {
         e.preventDefault();
@@ -177,8 +239,14 @@
     });
   }
 
-  // Buka chatbot
-  function open() {
+  // ============================================
+  // OPEN / CLOSE / MINIMIZE
+  // ============================================
+
+  /**
+   * Buka chatbot
+   */
+  async function open() {
     if (isOpen) return;
 
     isOpen = true;
@@ -190,11 +258,18 @@
 
     if (!sessionActive) {
       sessionActive = true;
-      showTyping();
-      setTimeout(() => {
-        hideTyping();
-        addBotMessage(CONFIG.welcomeMessage);
-      }, CONFIG.loadingDelay);
+      
+      // Cek apakah ada session sebelumnya yang bisa di-restore
+      if (CONFIG.autoRestoreSession && !hasRestoredSession) {
+        await tryRestoreSession();
+      } else {
+        // Tampilkan welcome message
+        showTyping();
+        setTimeout(() => {
+          hideTyping();
+          addBotMessage(CONFIG.welcomeMessage);
+        }, CONFIG.loadingDelay);
+      }
     }
 
     if (chatInput) {
@@ -202,15 +277,225 @@
     }
   }
 
-  // Tutup chatbot
+  /**
+   * Coba restore session dari localStorage
+   */
+  async function tryRestoreSession() {
+    if (!CONFIG.enablePersistence || typeof ChatStorage === 'undefined') {
+      showWelcome();
+      return;
+    }
+    
+    try {
+      const hasHistory = await ChatStorage.hasHistory();
+      
+      if (hasHistory) {
+        const storedHistory = await ChatStorage.loadHistory();
+        
+        if (storedHistory && storedHistory.length > 0) {
+          // Tampilkan continue message
+          showContinuePrompt(storedHistory.length);
+          hasRestoredSession = true;
+          return;
+        }
+      }
+    } catch (error) {
+      console.error('[Chatbot] Restore error:', error);
+    }
+    
+    showWelcome();
+  }
+
+  /**
+   * Tampilkan prompt untuk melanjutkan atau mulai baru
+   */
+  function showContinuePrompt(messageCount) {
+    addBotMessage(CONFIG.continueMessage);
+    
+    // Tambahkan tombol pilihan
+    const optionsDiv = document.createElement("div");
+    optionsDiv.className = "chat-message bot-message session-options-message";
+    optionsDiv.innerHTML = `
+      <div class="message-avatar">
+        <i class="fas fa-history"></i>
+      </div>
+      <div class="message-bubble session-options">
+        <p>📝 ${messageCount} pesan sebelumnya tersimpan</p>
+        <div class="session-buttons">
+          <button class="btn-session btn-continue" id="btnContinueSession">
+            <i class="fas fa-play"></i> Lanjutkan
+          </button>
+          <button class="btn-session btn-new" id="btnNewSession">
+            <i class="fas fa-plus"></i> Mulai Baru
+          </button>
+        </div>
+      </div>
+    `;
+    
+    if (chatMessages) {
+      chatMessages.appendChild(optionsDiv);
+      scrollToBottom();
+      
+      // Event listeners untuk tombol
+      document.getElementById("btnContinueSession")?.addEventListener("click", () => {
+        restorePreviousSession();
+        optionsDiv.remove();
+      });
+      
+      document.getElementById("btnNewSession")?.addEventListener("click", () => {
+        startNewSession();
+        optionsDiv.remove();
+      });
+    }
+  }
+
+  /**
+   * Restore session sebelumnya
+   */
+  async function restorePreviousSession() {
+    try {
+      const storedHistory = await ChatStorage.loadHistory();
+      
+      if (storedHistory && storedHistory.length > 0) {
+        // Render semua pesan
+        storedHistory.forEach(msg => {
+          if (msg.role === 'user') {
+            addUserMessage(msg.content, false);
+          } else {
+            addBotMessage(msg.content, false);
+          }
+        });
+        
+        conversationHistory = storedHistory;
+        
+        // Sync ke server
+        await restoreServerSession(storedHistory);
+        
+        addBotMessage("Aku sudah membaca percakapan kita sebelumnya. Apa yang ingin kamu ceritakan hari ini?");
+      }
+    } catch (error) {
+      console.error('[Chatbot] Restore session error:', error);
+      addBotMessage("Maaf, ada kendala memuat riwayat. Mari kita mulai dari awal.");
+    }
+  }
+
+  /**
+   * Restore server session dengan history
+   */
+  async function restoreServerSession(history) {
+    try {
+      const response = await fetch(CONFIG.apiEndpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ 
+          action: "restore",
+          history: history.slice(-20) // Kirim 20 pesan terakhir
+        }),
+      });
+      
+      const data = await response.json();
+      if (data.session_id) {
+        sessionId = data.session_id;
+      }
+    } catch (error) {
+      console.error('[Chatbot] Server restore error:', error);
+    }
+  }
+
+  /**
+   * Mulai session baru
+   */
+  async function startNewSession() {
+    // Clear local storage
+    if (typeof ChatStorage !== 'undefined') {
+      await ChatStorage.clearHistory();
+    }
+    
+    conversationHistory = [];
+    
+    // Reset server session
+    await fetch(CONFIG.apiEndpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "reset" }),
+    }).catch(console.error);
+    
+    addBotMessage("Baik, mari kita mulai dari awal. Aku di sini untuk mendengarkanmu. 💙");
+  }
+
+  /**
+   * Tampilkan welcome message
+   */
+  function showWelcome() {
+    showTyping();
+    setTimeout(() => {
+      hideTyping();
+      addBotMessage(CONFIG.welcomeMessage);
+    }, CONFIG.loadingDelay);
+  }
+
+  /**
+   * Minimize chatbot (tutup tapi simpan state)
+   */
+  function minimize() {
+    isOpen = false;
+    modalOverlay.classList.remove("active");
+    // Tidak clear session, biarkan user bisa lanjutkan
+  }
+
+  /**
+   * Tutup chatbot sepenuhnya (clear session)
+   */
   function close() {
     isOpen = false;
     modalOverlay.classList.remove("active");
     clearChat();
   }
 
-  // Clear chat history
+  /**
+   * Konfirmasi hapus riwayat
+   */
+  function confirmClearChat() {
+    if (confirm("Hapus semua riwayat chat? Tindakan ini tidak dapat dibatalkan.")) {
+      fullClear();
+    }
+  }
+
+  /**
+   * Clear chat secara penuh (termasuk localStorage)
+   */
+  async function fullClear() {
+    if (chatMessages) {
+      chatMessages.innerHTML = "";
+    }
+    
+    sessionActive = false;
+    sessionId = null;
+    conversationHistory = [];
+    hasRestoredSession = false;
+
+    // Clear localStorage
+    if (typeof ChatStorage !== 'undefined') {
+      await ChatStorage.clearHistory();
+    }
+
+    // Reset server session
+    fetch(CONFIG.apiEndpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "reset" }),
+    }).catch((e) => console.error("Reset error:", e));
+    
+    addBotMessage("Riwayat sudah dihapus. Ada yang bisa aku bantu? 💙");
+  }
+
+  /**
+   * Clear chat (untuk minimize, tidak hapus localStorage)
+   */
   function clearChat() {
+    // Simpan ke localStorage sebelum clear UI
+    saveToStorage();
+    
     if (chatMessages) {
       chatMessages.innerHTML = "";
     }
@@ -222,15 +507,312 @@
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ action: "reset" }),
-  }).catch((e) => console.error("Reset error:", e));
+    }).catch((e) => console.error("Reset error:", e));
   }
-  
-  // Voice recording variables
-  let shouldKeepRecording = false;
-  let finalTranscriptAccumulated = '';
-  let interimTranscript = '';
-  
-  // Inisialisasi voice recognition
+
+  // ============================================
+  // MESSAGING
+  // ============================================
+
+  /**
+   * Kirim pesan ke server
+   */
+  async function sendMessage() {
+    const message = chatInput.value.trim();
+    if (!message || isTyping) return;
+
+    addUserMessage(message);
+    chatInput.value = "";
+    btnSendChat.disabled = true;
+
+    showTyping();
+
+    try {
+      const requestBody = { message, action: "chat" };
+      if (sessionId) requestBody.session_id = sessionId;
+
+      const response = await fetch(CONFIG.apiEndpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(requestBody),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+
+      const data = await response.json();
+      
+      hideTyping();
+
+      if (data.success) {
+        if (data.session_id) sessionId = data.session_id;
+        
+        // Update phase dan tier
+        currentPhase = data.phase || currentPhase;
+        currentTier = data.tier || currentTier;
+
+        // Handle redirect ke form
+        if (data.action === 'redirect_to_form' && data.payload) {
+          handleAutoFillRedirect(data.payload, data.response);
+          return;
+        }
+
+        // Handle emergency
+        if (data.phase === "emergency") {
+          handleEmergency(data.response);
+        } else {
+          addBotMessage(data.response);
+        }
+
+        // Tampilkan kode laporan jika ada
+        if (data.kode_laporan) {
+          setTimeout(() => showReportCode(data.kode_laporan), 800);
+        }
+        
+        // Simpan ke localStorage
+        saveToStorage();
+        
+      } else {
+        throw new Error(data.error || "Unknown error");
+      }
+    } catch (error) {
+      console.error(error);
+      hideTyping();
+      addBotMessage("Maaf, terjadi kesalahan. Silakan coba lagi.");
+    }
+  }
+
+  /**
+   * Simpan ke localStorage
+   */
+  async function saveToStorage() {
+    if (!CONFIG.enablePersistence || typeof ChatStorage === 'undefined') return;
+    
+    try {
+      await ChatStorage.saveHistory(conversationHistory);
+    } catch (error) {
+      console.error('[Chatbot] Save error:', error);
+    }
+  }
+
+  /**
+   * Tambah pesan user ke UI
+   */
+  function addUserMessage(text, addToHistory = true) {
+    const time = new Date().toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'});
+    
+    if (addToHistory) {
+      conversationHistory.push({ 
+        role: "user", 
+        content: text, 
+        timestamp: Date.now(), 
+        time: time 
+      });
+    }
+    
+    const msgDiv = document.createElement("div");
+    msgDiv.className = "chat-message user-message";
+    msgDiv.innerHTML = `
+      <div class="message-bubble">
+        <div class="message-text">${escapeHtml(text)}</div>
+        <span class="message-time">${time}</span>
+      </div>
+    `;
+    
+    if (chatMessages) {
+      chatMessages.appendChild(msgDiv);
+      scrollToBottom();
+    }
+  }
+
+  /**
+   * Tambah pesan bot ke UI
+   */
+  function addBotMessage(text, addToHistory = true) {
+    const time = new Date().toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'});
+    
+    if (addToHistory) {
+      conversationHistory.push({ 
+        role: "assistant", 
+        content: text, 
+        timestamp: Date.now(), 
+        time: time 
+      });
+    }
+
+    const msgDiv = document.createElement("div");
+    msgDiv.className = "chat-message bot-message";
+    
+    const formattedText = text.replace(/\n/g, "<br>");
+    
+    msgDiv.innerHTML = `
+      <div class="message-avatar">
+        <i class="fas fa-robot"></i>
+      </div>
+      <div class="message-bubble">
+        <div class="message-text">${formattedText}</div>
+        <span class="message-time">${time}</span>
+      </div>
+    `;
+    
+    if (chatMessages) {
+      chatMessages.appendChild(msgDiv);
+      scrollToBottom();
+    }
+  }
+
+  // ============================================
+  // SPECIAL HANDLERS
+  // ============================================
+
+  /**
+   * Handle auto-fill redirect ke form
+   */
+  async function handleAutoFillRedirect(extractedData, botMessage) {
+    addBotMessage(botMessage);
+    
+    setTimeout(async () => {
+      addBotMessage(
+        "Data kamu sudah aku siapkan ✨\n\nSekarang aku akan arahkan kamu ke formulir. Beberapa field sudah terisi otomatis."
+      );
+      
+      try {
+        const dataToStore = JSON.stringify(extractedData);
+        let encryptedData; 
+        
+        if (window.sharedEncryption) {
+          const sessionKey = generateEphemeralKey();
+          encryptedData = await window.sharedEncryption.encrypt(dataToStore, sessionKey);
+          sessionStorage.setItem('_autofill_key', sessionKey);
+        } else {
+          encryptedData = btoa(unescape(encodeURIComponent(dataToStore)));
+        }
+        
+        sessionStorage.setItem('_chatbot_autofill', encryptedData);
+        sessionStorage.setItem('_autofill_timestamp', Date.now().toString());
+        
+        showRedirectAnimation();
+        
+        setTimeout(() => {
+          window.location.href = '../Lapor/lapor.html?source=chatbot';
+        }, 2000);
+        
+      } catch (error) {
+        sessionStorage.setItem('_chatbot_autofill', btoa(JSON.stringify(extractedData)));
+        sessionStorage.setItem('_autofill_timestamp', Date.now().toString());
+        
+        setTimeout(() => {
+          window.location.href = '../Lapor/lapor.html?source=chatbot';
+        }, 2000);
+      }
+      
+    }, 1200);
+  }
+
+  /**
+   * Handle emergency
+   */
+  function handleEmergency(message) {
+    addBotMessage(message);
+    
+    setTimeout(() => {
+      const emergencyDiv = document.createElement("div");
+      emergencyDiv.className = "chat-message bot-message emergency-options-message";
+      emergencyDiv.innerHTML = `
+        <div class="message-avatar">
+          <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <div class="message-bubble emergency-actions">
+          <p><strong>🚨 Bantuan Darurat</strong></p>
+          <div class="emergency-buttons">
+              <a href="https://wa.me/${CONFIG.emergencyPhone}" target="_blank" class="btn-emergency btn-whatsapp">
+                  <i class="fab fa-whatsapp"></i> WhatsApp Satgas
+              </a>
+              <a href="tel:${CONFIG.emergencyPhone}" class="btn-emergency btn-call">
+                  <i class="fas fa-phone-alt"></i> Telepon Darurat
+              </a>
+              <a href="../Lapor/lapor.html" class="btn-emergency btn-form">
+                  <i class="fas fa-file-alt"></i> Isi Formulir
+              </a>
+          </div>
+        </div>
+      `;
+      
+      if (chatMessages) {
+        chatMessages.appendChild(emergencyDiv);
+        scrollToBottom();
+      }
+    }, 600);
+  }
+
+  /**
+   * Tampilkan kode laporan
+   */
+  function showReportCode(code) {
+    const codeDiv = document.createElement("div");
+    codeDiv.className = "chat-message bot-message report-code-message";
+    codeDiv.innerHTML = `
+      <div class="message-avatar">
+        <i class="fas fa-check-circle"></i>
+      </div>
+      <div class="message-bubble report-code-bubble">
+        <div class="report-icon">
+          <i class="fas fa-clipboard-check"></i>
+        </div>
+        <div class="report-content">
+          <h4>Laporan Tercatat ✅</h4>
+          <p>Kode unik laporan:</p>
+          <div class="code-display">
+            <span id="reportCode">${code}</span>
+            <button class="btn-copy-code" onclick="TemanKuChatbot.copyCode('${code}')" title="Salin">
+              <i class="fas fa-copy"></i>
+            </button>
+          </div>
+          <small>Simpan kode ini untuk cek status laporan</small>
+        </div>
+        <div class="report-actions">
+          <a href="../Monitoring/monitoring.html" class="btn-check-status">
+            <i class="fas fa-search"></i>
+            Cek Status
+          </a>
+        </div>
+      </div>
+    `;
+    
+    if (chatMessages) {
+      chatMessages.appendChild(codeDiv);
+      scrollToBottom();
+    }
+  }
+
+  /**
+   * Copy kode laporan
+   */
+  function copyCode(code) {
+    navigator.clipboard.writeText(code).then(() => {
+      const btn = document.querySelector('.btn-copy-code');
+      if (btn) {
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i>';
+        btn.style.background = '#10b981';
+        setTimeout(() => {
+          btn.innerHTML = originalHTML;
+          btn.style.background = '';
+        }, 1500);
+      }
+    }).catch(err => {
+      console.error('Failed to copy:', err);
+    });
+  }
+
+  // ============================================
+  // VOICE RECORDING
+  // ============================================
+
+  /**
+   * Inisialisasi voice recognition
+   */
   function initVoiceRecognition() {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     
@@ -336,8 +918,10 @@
       }
     };
   }
-  
-  // Mulai voice recording
+
+  /**
+   * Mulai voice recording
+   */
   function startVoiceRecording() {
     if (!voiceSupported || !recognition) {
       alert("Voice recognition tidak didukung di browser ini. Gunakan Chrome atau Edge.");
@@ -360,8 +944,10 @@
       shouldKeepRecording = false;
     }
   }
-  
-  // Stop voice recording
+
+  /**
+   * Stop voice recording
+   */
   function stopVoiceRecording() {
     shouldKeepRecording = false;
     isRecording = false;
@@ -378,8 +964,10 @@
       btnSendChat.disabled = false;
     }
   }
-  
-  // UI untuk voice recording
+
+  /**
+   * Tampilkan UI voice recording
+   */
   function showVoiceRecordingUI() {
     if (voiceRecordingMode) voiceRecordingMode.classList.add("active");
     if (chatInputWrapper) chatInputWrapper.style.display = "none";
@@ -394,8 +982,10 @@
     chatRecordingStartTime = Date.now();
     startChatRecordingTimer();
   }
-  
-  // Sembunyikan voice recording UI
+
+  /**
+   * Sembunyikan UI voice recording
+   */
   function hideVoiceRecordingUI() {
     if (voiceRecordingMode) voiceRecordingMode.classList.remove("active");
     if (chatInputWrapper) chatInputWrapper.style.display = "flex";
@@ -412,8 +1002,10 @@
       timerDisplay.textContent = "00:00";
     }
   }
-  
-  // Timer untuk recording
+
+  /**
+   * Timer untuk recording
+   */
   function startChatRecordingTimer() {
     const timerDisplay = document.getElementById("chatRecordingTimer");
     if (!timerDisplay) return;
@@ -428,249 +1020,13 @@
     }, 1000);
   }
 
-  // Kirim pesan
-  async function sendMessage() {
-    const message = chatInput.value.trim();
-    if (!message || isTyping) return;
+  // ============================================
+  // UTILITY FUNCTIONS
+  // ============================================
 
-    addUserMessage(message);
-    chatInput.value = "";
-    btnSendChat.disabled = true;
-
-    showTyping();
-
-    try {
-      const requestBody = { message, action: "chat" };
-      if (sessionId) requestBody.session_id = sessionId;
-
-      const response = await fetch(CONFIG.apiEndpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(requestBody),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}`);
-      }
-
-      const data = await response.json();
-      
-      hideTyping();
-
-      if (data.success) {
-        if (data.session_id) sessionId = data.session_id;
-
-        if (data.action === 'redirect_to_form' && data.payload) {
-          handleAutoFillRedirect(data.payload, data.response);
-          return;
-        }
-
-        if (data.phase === "emergency") {
-          handleEmergency(data.response);
-        } else {
-          addBotMessage(data.response);
-        }
-
-        if (data.kode_laporan) {
-          setTimeout(() => showReportCode(data.kode_laporan), 800);
-        }
-      } else {
-        throw new Error(data.error || "Unknown error");
-      }
-    } catch (error) {
-      console.error(error);
-      hideTyping();
-      addBotMessage("Maaf, terjadi kesalahan. Silakan coba lagi.");
-    }
-  }
-
-  // Handle auto-fill redirect
-  async function handleAutoFillRedirect(extractedData, botMessage) {
-    addBotMessage(botMessage);
-    
-    setTimeout(async () => {
-      addBotMessage(
-        "Data kamu sudah aku siapkan ✨\n\nSekarang aku akan arahkan kamu ke formulir. Beberapa field sudah terisi otomatis."
-      );
-      
-      try {
-        const dataToStore = JSON.stringify(extractedData);
-        let encryptedData; 
-        
-        if (window.sharedEncryption) {
-          const sessionKey = generateEphemeralKey();
-          encryptedData = await window.sharedEncryption.encrypt(dataToStore, sessionKey);
-          sessionStorage.setItem('_autofill_key', sessionKey);
-        } else {
-          encryptedData = btoa(unescape(encodeURIComponent(dataToStore)));
-        }
-        
-        sessionStorage.setItem('_chatbot_autofill', encryptedData);
-        sessionStorage.setItem('_autofill_timestamp', Date.now().toString());
-        
-        showRedirectAnimation();
-        
-        setTimeout(() => {
-          window.location.href = '../Lapor/lapor.html?source=chatbot';
-        }, 2000);
-        
-      } catch (error) {
-        sessionStorage.setItem('_chatbot_autofill', btoa(JSON.stringify(extractedData)));
-        sessionStorage.setItem('_autofill_timestamp', Date.now().toString());
-        
-        setTimeout(() => {
-          window.location.href = '../Lapor/lapor.html?source=chatbot';
-        }, 2000);
-      }
-      
-    }, 1200);
-  }
-
-  // Handle kondisi emergency
-  function handleEmergency(message) {
-    addBotMessage(message);
-    
-    setTimeout(() => {
-      const emergencyDiv = document.createElement("div");
-      emergencyDiv.className = "chat-message bot-message emergency-options-message";
-      emergencyDiv.innerHTML = `
-        <div class="message-avatar">
-          <i class="fas fa-exclamation-triangle"></i>
-        </div>
-        <div class="message-bubble emergency-actions">
-          <p><strong>🚨 Bantuan Darurat</strong></p>
-          <div class="emergency-buttons">
-              <a href="https://wa.me/${CONFIG.emergencyPhone}" target="_blank" class="btn-emergency btn-whatsapp">
-                  <i class="fab fa-whatsapp"></i> WhatsApp Satgas
-              </a>
-              <a href="tel:${CONFIG.emergencyPhone}" class="btn-emergency btn-call">
-                  <i class="fas fa-phone-alt"></i> Telepon Darurat
-              </a>
-              <a href="../Lapor/lapor.html" class="btn-emergency btn-form">
-                  <i class="fas fa-file-alt"></i> Isi Formulir
-              </a>
-          </div>
-        </div>
-      `;
-      
-      if (chatMessages) {
-        chatMessages.appendChild(emergencyDiv);
-        scrollToBottom();
-      }
-    }, 600);
-  }
-
-  // Tampilkan kode laporan
-  function showReportCode(code) {
-    const codeDiv = document.createElement("div");
-    codeDiv.className = "chat-message bot-message report-code-message";
-    codeDiv.innerHTML = `
-      <div class="message-avatar">
-        <i class="fas fa-check-circle"></i>
-      </div>
-      <div class="message-bubble report-code-bubble">
-        <div class="report-icon">
-          <i class="fas fa-clipboard-check"></i>
-        </div>
-        <div class="report-content">
-          <h4>Laporan Tercatat ✅</h4>
-          <p>Kode unik laporan:</p>
-          <div class="code-display">
-            <span id="reportCode">${code}</span>
-            <button class="btn-copy-code" onclick="TemanKuChatbot.copyCode('${code}')" title="Salin">
-              <i class="fas fa-copy"></i>
-            </button>
-          </div>
-          <small>Simpan kode ini untuk cek status laporan</small>
-        </div>
-        <div class="report-actions">
-          <a href="../Monitoring/monitoring.html" class="btn-check-status">
-            <i class="fas fa-search"></i>
-            Cek Status
-          </a>
-        </div>
-      </div>
-    `;
-    
-    if (chatMessages) {
-      chatMessages.appendChild(codeDiv);
-      scrollToBottom();
-    }
-  }
-
-  // Copy kode laporan
-  function copyCode(code) {
-    navigator.clipboard.writeText(code).then(() => {
-      const btn = document.querySelector('.btn-copy-code');
-      if (btn) {
-        const originalHTML = btn.innerHTML;
-        btn.innerHTML = '<i class="fas fa-check"></i>';
-        btn.style.background = '#10b981';
-        setTimeout(() => {
-          btn.innerHTML = originalHTML;
-          btn.style.background = '';
-        }, 1500);
-      }
-    }).catch(err => {
-      console.error('Failed to copy:', err);
-    });
-  }
-
-  // Tambah pesan user
-  function addUserMessage(text) {
-    conversationHistory.push({ 
-      role: "user", 
-      content: text, 
-      timestamp: Date.now(), 
-      time: new Date().toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'}) 
-    });
-    
-    const msgDiv = document.createElement("div");
-    msgDiv.className = "chat-message user-message";
-    msgDiv.innerHTML = `
-      <div class="message-bubble">
-        <div class="message-text">${escapeHtml(text)}</div>
-        <span class="message-time">${new Date().toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'})}</span>
-      </div>
-    `;
-    
-    if (chatMessages) {
-      chatMessages.appendChild(msgDiv);
-      scrollToBottom();
-    }
-  }
-
-  // Tambah pesan bot
-  function addBotMessage(text) {
-    conversationHistory.push({ 
-      role: "bot", 
-      content: text, 
-      timestamp: Date.now(), 
-      time: new Date().toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'}) 
-    });
-
-    const msgDiv = document.createElement("div");
-    msgDiv.className = "chat-message bot-message";
-    
-    const formattedText = text.replace(/\n/g, "<br>");
-    
-    msgDiv.innerHTML = `
-      <div class="message-avatar">
-        <i class="fas fa-robot"></i>
-      </div>
-      <div class="message-bubble">
-        <div class="message-text">${formattedText}</div>
-        <span class="message-time">${new Date().toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'})}</span>
-      </div>
-    `;
-    
-    if (chatMessages) {
-      chatMessages.appendChild(msgDiv);
-      scrollToBottom();
-    }
-  }
-
-  // Tampilkan typing indicator
+  /**
+   * Tampilkan typing indicator
+   */
   function showTyping() {
     isTyping = true;
     if (typingIndicator) {
@@ -680,7 +1036,9 @@
     scrollToBottom();
   }
 
-  // Sembunyikan typing indicator
+  /**
+   * Sembunyikan typing indicator
+   */
   function hideTyping() {
     isTyping = false;
     if (typingIndicator) {
@@ -689,7 +1047,9 @@
     }
   }
 
-  // Scroll ke bawah
+  /**
+   * Scroll ke bawah
+   */
   function scrollToBottom() {
     if (chatMessagesContainer) {
       requestAnimationFrame(() => {
@@ -701,7 +1061,9 @@
     }
   }
 
-  // Animasi redirect
+  /**
+   * Animasi redirect
+   */
   function showRedirectAnimation() {
     const animDiv = document.createElement("div");
     animDiv.className = "redirect-animation";
@@ -718,14 +1080,18 @@
     }
   }
 
-  // Generate random key
+  /**
+   * Generate random key
+   */
   function generateEphemeralKey() {
     return Array.from(crypto.getRandomValues(new Uint8Array(16)))
       .map((b) => b.toString(16).padStart(2, "0"))
       .join("");
   }
 
-  // Escape HTML
+  /**
+   * Escape HTML untuk keamanan
+   */
   function escapeHtml(text) {
     const map = {
       "&": "&amp;",
@@ -737,8 +1103,17 @@
     return text.replace(/[&<>"']/g, (m) => map[m]);
   }
 
-  // Public API
-  window.TemanKuChatbot = { close, open, init, copyCode };
+  // ============================================
+  // PUBLIC API
+  // ============================================
+  window.TemanKuChatbot = { 
+    close, 
+    open, 
+    init, 
+    copyCode,
+    minimize,
+    clearHistory: fullClear
+  };
 
   // Auto init
   if (document.readyState === "loading") {

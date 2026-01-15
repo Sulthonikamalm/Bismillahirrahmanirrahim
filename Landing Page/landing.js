@@ -31,8 +31,8 @@
       API: {
         BASE_PATH: '../api',
         ENDPOINTS: {
-          STATISTICS: '/get_public_statistics.php',
-          CHECK_PROGRESS: '/check_progress.php'
+          STATISTICS: '/public/get_statistics.php',
+          CHECK_PROGRESS: '/monitoring/check_progress.php'
         },
         getUrl: function(endpoint) {
           return this.BASE_PATH + this.ENDPOINTS[endpoint];

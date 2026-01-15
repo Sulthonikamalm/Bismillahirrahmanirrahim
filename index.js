@@ -66,7 +66,7 @@
   /* --- STATISTIK LOADER --- */
   const loadStatistics = async () => {
     // Sesuaikan path API relatif dari root atau Landing Page
-    const apiEndpoint = '../api/get_public_statistics.php';
+    const apiEndpoint = '../api/public/get_statistics.php';
     try {
       const response = await fetch(apiEndpoint);
       if (!response.ok) throw new Error(`HTTP Error: ${response.status}`);

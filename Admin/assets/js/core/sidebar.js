@@ -84,7 +84,7 @@ async function checkAuthSession() {
         console.log('[Auth Guard] Checking authentication...');
 
         // Naik 3 level folder untuk mencapai api/ (dashboard → pages → Admin → root → api)
-        const response = await fetch('../../../api/auth_check.php', {
+        const response = await fetch('../../../api/auth/check.php', {
             method: 'GET',
             credentials: 'same-origin', // Include cookies
             cache: 'no-store' // Don't cache auth checks
@@ -147,7 +147,7 @@ async function handleLogout() {
             btnLogout.innerHTML = '<i class="bi bi-hourglass-split me-2"></i><span>Logging out...</span>';
         }
 
-        const logoutEndpoint = '../../../api/auth_logout.php';
+        const logoutEndpoint = '../../../api/auth/logout.php';
 
         console.log('Using logout endpoint:', logoutEndpoint);
 

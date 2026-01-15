@@ -44,7 +44,7 @@
   const CONFIG = {
     searchDelay: 1200,
     centeredCubeDelay: 1500,
-    apiEndpoint: '../api/get_laporan.php'
+    apiEndpoint: '../api/monitoring/get_laporan.php'
   };
 
   // Inisialisasi
