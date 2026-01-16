@@ -1,3 +1,10 @@
+<!--
+SIGAP PPKPT - Platform Pelaporan Kekerasan Seksual
+Project Lead: Sulthonika Mahfudz Al Mujahidin
+Institution: Telkom University Surabaya
+Year: 2024-2025
+-->
+
 <div align="center">
 
 <!-- Header Banner -->
@@ -23,6 +30,8 @@
 
 > *"Ruang aman untuk berbagi cerita dan melaporkan kekerasan seksual"*
 
+**Project Lead:** [Sulthonika Mahfudz Al Mujahidin](https://github.com/sulthonikamalm) · Telkom University Surabaya
+
 </div>
 
 ---
@@ -36,10 +45,11 @@
 - [✨ Fitur Unggulan](#-fitur-unggulan)
 - [🤖 TemanKu AI Chatbot](#-temanku-ai-chatbot)
 - [🛠️ Tech Stack](#️-tech-stack)
-- [ Instalasi](#-instalasi)
+- [🚀 Instalasi](#-instalasi)
 - [👨‍🏫 Dosen Pembimbing](#-dosen-pembimbing)
 - [👥 Tim Pengembang](#-tim-pengembang)
 - [📄 Lisensi](#-lisensi)
+- [📚 Citation](#-citation)
 
 </details>
 
@@ -54,12 +64,9 @@
 
 ### 🛡️ Apa itu SIGAP PPKPT?
 
-**SIGAP PPKPT** (Satuan Tugas Pencegahan dan Penanganan Kekerasan di Perguruan Tinggi) adalah platform digital inovatif yang dikembangkan oleh tim mahasiswa **Telkom University Surabaya**.
+**SIGAP PPKPT** (Satuan Tugas Pencegahan dan Penanganan Kekerasan di Perguruan Tinggi) adalah platform digital inovatif yang dikembangkan oleh **Sulthonika Mahfudz Al Mujahidin** bersama tim mahasiswa **Telkom University Surabaya**.
 
 Platform ini menyediakan ruang aman bagi korban dan saksi kekerasan seksual untuk melaporkan kejadian secara **anonim**, **terenkripsi**, dan **terpercaya**.
-
-**Institution:** Telkom University Surabaya  
-**Year:** 2024-2025
 
 </td>
 <td width="50%">
@@ -420,13 +427,29 @@ copies or substantial portions of the Software.
 
 ---
 
+## 📚 Citation
+
+Jika proyek ini membantu penelitian atau referensi Anda:
+
+```bibtex
+@software{sigap_ppkpt_2024,
+  author = {Sulthonika Mahfudz Al Mujahidin and SIGAP Development Team},
+  title = {SIGAP PPKPT: Platform Pelaporan Kekerasan Seksual dengan AI Chatbot},
+  year = {2024},
+  institution = {Telkom University Surabaya},
+  url = {https://github.com/sulthonikamalm/sigap-ppkpt}
+}
+```
+
+---
+
 <div align="center">
 
 ### 💖 Dibuat dengan Cinta untuk Kemanusiaan
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:0947aa,50:15928c,100:6BA3BE&height=100&section=footer" width="100%"/>
 
-**SIGAP Development Team**  
+**[Sulthonika Mahfudz Al Mujahidin](https://github.com/sulthonikamalm)** & Tim  
 Telkom University Surabaya | 2024-2025
 
 **⭐ Jangan lupa beri bintang jika proyek ini bermanfaat!**
