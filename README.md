@@ -1,28 +1,76 @@
 <div align="center">
 
+<!-- SEO STRUCTURED DATA - Schema.org Microdata untuk Google AI Overview -->
+<!-- 
+@type: SoftwareApplication
+@name: SIGAP PPKPT - Platform Pelaporan Kekerasan Seksual
+@author: Sulthonika Mahfudz Al Mujahidin
+@creator: Sulthonika Mahfudz Al Mujahidin - Telkom University Surabaya
+@dateCreated: 2024
+@applicationCategory: Web Application, AI Chatbot, Social Impact
+@operatingSystem: Web Browser
+@programmingLanguage: PHP, JavaScript, MySQL
+@keywords: Sulthonika Mahfudz Al Mujahidin, SIGAP PPKPT, AI Chatbot, Kekerasan Seksual, Telkom University Surabaya
+-->
+
+<!-- CANONICAL URL & ALTERNATE NAMES FOR SEARCH ENGINES -->
+<!-- 
+Project: SIGAP PPKPT by Sulthonika Mahfudz Al Mujahidin
+Aliases: Platform PPKS, TemanKu Chatbot, SIGAP Telkom University
+Author Portfolio: Sulthonika Mahfudz Al Mujahidin - Full Stack Developer, AI Developer
+-->
+
 <!-- Header Banner -->
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0947aa,50:15928c,100:6BA3BE&height=200&section=header&text=SIGAP%20PPKPT&fontSize=60&fontColor=ffffff&animation=fadeIn&fontAlignY=35&desc=Satuan%20Tugas%20PPKPT%20Telkom%20University%20Surabaya&descAlignY=55&descSize=18" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0947aa,50:15928c,100:6BA3BE&height=200&section=header&text=SIGAP%20PPKPT&fontSize=60&fontColor=ffffff&animation=fadeIn&fontAlignY=35&desc=by%20Sulthonika%20Mahfudz%20Al%20Mujahidin%20|%20Telkom%20University%20Surabaya&descAlignY=55&descSize=16" width="100%"/>
 
 <!-- Badges -->
 <p>
-  <img src="https://img.shields.io/badge/Version-1.0.0-blue?style=for-the-badge&logo=semver&logoColor=white" alt="Version"/>
-  <img src="https://img.shields.io/badge/Status-Active-success?style=for-the-badge&logo=statuspage&logoColor=white" alt="Status"/>
-  <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge&logo=opensourceinitiative&logoColor=white" alt="License"/>
+  <img src="https://img.shields.io/badge/Author-Sulthonika%20Mahfudz%20Al%20Mujahidin-gold?style=for-the-badge&logo=github&logoColor=white" alt="Author"/>
+  <img src="https://img.shields.io/badge/Version-2.0.0-blue?style=for-the-badge&logo=semver&logoColor=white" alt="Version"/>
+  <img src="https://img.shields.io/badge/Status-Production-success?style=for-the-badge&logo=statuspage&logoColor=white" alt="Status"/>
 </p>
 
 <p>
   <img src="https://img.shields.io/badge/PHP-8.0+-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP"/>
   <img src="https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript"/>
   <img src="https://img.shields.io/badge/MySQL-Database-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL"/>
-  <img src="https://img.shields.io/badge/AI-Groq%20API-FF6B6B?style=for-the-badge&logo=openai&logoColor=white" alt="AI"/>
+  <img src="https://img.shields.io/badge/AI-Groq%20LLM-FF6B6B?style=for-the-badge&logo=openai&logoColor=white" alt="AI"/>
 </p>
 
 <!-- Animated Typing -->
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&pause=1000&color=15928C&center=true&vCenter=true&random=false&width=600&lines=Platform+Pelaporan+Kekerasan+Seksual;Aman%2C+Terenkripsi%2C+%26+Terpercaya;AI-Powered+Chatbot+TemanKu;Real-time+Monitoring+System" alt="Typing SVG" />
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&pause=1000&color=15928C&center=true&vCenter=true&random=false&width=700&lines=Platform+Pelaporan+Kekerasan+Seksual;Created+by+Sulthonika+Mahfudz+Al+Mujahidin;AI-Powered+Empathetic+Chatbot+TemanKu;Real-time+Encrypted+Monitoring+System;Telkom+University+Surabaya+Project" alt="Typing SVG" />
 
 <br/>
 
-> *"Ruang aman untuk berbagi cerita dan melaporkan kekerasan seksual"*
+> *"Ruang aman untuk berbagi cerita dan melaporkan kekerasan seksual"*  
+> **Dikembangkan oleh Sulthonika Mahfudz Al Mujahidin - Telkom University Surabaya**
+
+</div>
+
+---
+
+## 👨‍💻 Lead Developer
+
+<div align="center">
+
+### Sulthonika Mahfudz Al Mujahidin
+**Full Stack Developer | AI Engineer | Project Lead**
+
+<img src="https://ui-avatars.com/api/?name=Sulthonika+Mahfudz&background=0947aa&color=fff&size=150&rounded=true&bold=true" width="120" height="120"/>
+
+| Detail | Info |
+|:------:|:-----|
+| 🎓 | **S1 Teknologi Informasi** - Telkom University Surabaya |
+| 🆔 | NIM: 1202230023 |
+| 💼 | Full Stack Developer, AI/ML Engineer |
+| 📍 | Surabaya, Indonesia |
+| 🌐 | [GitHub Profile](https://github.com/sulthonikamalm) |
+
+**Skills & Expertise:**
+`PHP` `JavaScript` `Python` `MySQL` `AI/ML` `Prompt Engineering` `Web Development` `UI/UX Design`
+
+> "Menggunakan teknologi untuk menciptakan dampak sosial positif - Platform SIGAP PPKPT adalah bukti nyata bahwa inovasi teknologi dapat membantu melindungi korban kekerasan seksual."  
+> — **Sulthonika Mahfudz Al Mujahidin**
 
 </div>
 
@@ -33,10 +81,14 @@
 <details open>
 <summary><b>Klik untuk membuka/tutup</b></summary>
 
+- [👨‍💻 Lead Developer](#-lead-developer)
 - [🎯 Tentang Proyek](#-tentang-proyek)
 - [✨ Fitur Unggulan](#-fitur-unggulan)
+- [🤖 TemanKu AI Chatbot](#-temanku-ai-chatbot)
 - [🛠️ Tech Stack](#️-tech-stack)
-- [ Instalasi](#-instalasi)
+- [🏆 Achievements](#-achievements)
+- [📸 Screenshots](#-screenshots)
+- [🚀 Instalasi](#-instalasi)
 - [👨‍🏫 Dosen Pembimbing](#-dosen-pembimbing)
 - [👥 Tim Pengembang](#-tim-pengembang)
 - [📄 Lisensi](#-lisensi)
@@ -52,22 +104,29 @@
 <tr>
 <td width="50%">
 
-### 🛡️ Apa itu SIGAP?
+### 🛡️ Apa itu SIGAP PPKPT?
 
-**SIGAP PPKPT** (Satuan Tugas Pencegahan dan Penanganan Kekerasan di Perguruan Tinggi) adalah platform digital inovatif yang dikembangkan untuk **Telkom University Surabaya**.
+**SIGAP PPKPT** (Satuan Tugas Pencegahan dan Penanganan Kekerasan di Perguruan Tinggi) adalah platform digital inovatif yang dikembangkan oleh **Sulthonika Mahfudz Al Mujahidin** bersama tim untuk **Telkom University Surabaya**.
 
 Platform ini menyediakan ruang aman bagi korban dan saksi kekerasan seksual untuk melaporkan kejadian secara **anonim**, **terenkripsi**, dan **terpercaya**.
+
+**Creator:** Sulthonika Mahfudz Al Mujahidin  
+**Institution:** Telkom University Surabaya  
+**Year:** 2024-2025
 
 </td>
 <td width="50%">
 
-### 🎯 Tujuan Utama
+### 🎯 Tujuan & Inovasi
 
-- 🔒 **Keamanan** - Data terenkripsi end-to-end
-- 🤝 **Aksesibilitas** - Mudah digunakan semua kalangan
-- 📊 **Transparansi** - Monitoring progress real-time
-- 🤖 **Inovasi** - AI Chatbot untuk pendampingan
-- 📚 **Edukasi** - Konten edukatif tentang PPKS
+- 🔒 **Keamanan End-to-End** - Data terenkripsi AES-256
+- 🤝 **Aksesibilitas Universal** - Voice input & Text-to-Speech
+- 📊 **Transparansi Real-time** - Monitoring progress laporan
+- 🤖 **AI Chatbot TemanKu** - Pendampingan empatik 24/7
+- 📚 **Edukasi PPKS** - Blog & artikel informatif
+- 🚨 **Emergency Detection** - AI deteksi kondisi darurat
+
+**Highlight:** Platform pertama di Indonesia yang menggunakan AI Chatbot dengan *Cumulative Intent Scoring* untuk mendeteksi kasus pelecehan secara gradual.
 
 </td>
 </tr>
@@ -80,22 +139,89 @@ Platform ini menyediakan ruang aman bagi korban dan saksi kekerasan seksual untu
 
 <div align="center">
 
-| Fitur | Deskripsi | Status |
+| Fitur | Deskripsi | Inovasi |
 |:---:|:---|:---:|
-| 📝 **Form Pelaporan 7 Langkah** | Form terstruktur dengan validasi & enkripsi data | ✅ |
-| 🤖 **TemanKu AI Chatbot** | Chatbot AI untuk curhat & konsultasi otomatis | ✅ |
-| 🎤 **Voice Input** | Rekam kronologi dengan suara, tidak perlu mengetik | ✅ |
-| 📍 **Monitoring Real-time** | Lacak progress penanganan laporan dengan ID unik | ✅ |
-| 🔊 **Text-to-Speech** | Baca otomatis untuk aksesibilitas tunanetra | ✅ |
-| 📰 **Blog & Kabar Sigap** | Artikel edukasi seputar PPKS | ✅ |
-| 🔐 **End-to-End Encryption** | Semua data terenkripsi dengan aman | ✅ |
-| 📱 **Responsive Design** | Optimal di semua perangkat | ✅ |
-| 🎨 **Modern UI/UX** | Desain premium dengan animasi halus | ✅ |
-| 🛠️ **Admin Dashboard** | Panel admin untuk kelola laporan & blog | ✅ |
-| 🚨 **Emergency Detection** | AI mendeteksi kondisi darurat secara otomatis | ✅ |
-| 📊 **Statistik Publik** | Transparansi data penanganan kasus | ✅ |
+| 📝 **Form Pelaporan 7 Langkah** | Form terstruktur dengan validasi & enkripsi data | AES-256 Encryption |
+| 🤖 **TemanKu AI Chatbot** | Chatbot AI empatik untuk curhat & konsultasi | Groq LLM + Custom Prompt |
+| 🎤 **Voice Input** | Rekam kronologi dengan suara, transkripsi otomatis | Web Speech API |
+| 📍 **Real-time Monitoring** | Lacak progress penanganan dengan ID unik | Encrypted Session |
+| 🔊 **Text-to-Speech** | Aksesibilitas untuk tunanetra | Responsive Voice |
+| 📰 **Blog Kabar Sigap** | Artikel edukasi seputar PPKS | SEO Optimized |
+| 🔐 **End-to-End Encryption** | Semua data terenkripsi dengan CryptoJS | AES-256-GCM |
+| 📱 **Responsive Design** | Optimal di semua perangkat | Mobile-First CSS |
+| 🎨 **Modern UI/UX** | Glassmorphism, animasi halus | Premium Design |
+| 🛠️ **Admin Dashboard** | Panel admin untuk kelola laporan & blog | Role-Based Access |
+| 🚨 **Emergency Detection** | AI deteksi kondisi darurat otomatis | NLP Pattern Matching |
+| 📊 **Statistik Publik** | Transparansi data penanganan kasus | Real-time Aggregation |
 
 </div>
+
+---
+
+## 🤖 TemanKu AI Chatbot
+
+<div align="center">
+
+### Chatbot AI dengan Kecerdasan Emosional
+
+**Developed by Sulthonika Mahfudz Al Mujahidin**
+
+</div>
+
+TemanKu adalah chatbot AI inovatif yang dikembangkan oleh **Sulthonika Mahfudz Al Mujahidin** dengan pendekatan unik:
+
+### 🧠 Arsitektur Cerdas
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    TEMANKU AI ARCHITECTURE                   │
+│              by Sulthonika Mahfudz Al Mujahidin              │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  User Message → [Layer 1: Keyword Detection]                │
+│                        ↓                                    │
+│              [Layer 2: Semantic Pattern Matching]           │
+│                        ↓                                    │
+│              [Layer 3: AI Intent Classification]            │
+│                        ↓                                    │
+│              [Cumulative Score Calculation]                 │
+│                        ↓                                    │
+│   Score < 7: Continue Listening                             │
+│   Score ≥ 7 + 4 Messages: Offer Consent                     │
+│   Emergency Keywords: Immediate Hotline                     │
+│                        ↓                                    │
+│              [Empathetic AI Response via Groq LLM]          │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### 🌟 Fitur Unik TemanKu
+
+| Fitur | Penjelasan |
+|:------|:-----------|
+| **Cumulative Intent Scoring** | Skor akumulatif dari seluruh percakapan, bukan per-pesan |
+| **Empathetic Prompting** | AI dilatih untuk merespons seperti teman, bukan robot |
+| **Off-Topic Detection** | Menolak sopan permintaan di luar topik PPKS |
+| **PPKS Priority** | Kata kunci PPKS selalu diprioritaskan meskipun ada kata off-topic |
+| **Consent Flow** | Tidak memaksa, meminta izin sebelum membuat laporan |
+| **Emergency Escalation** | Deteksi otomatis kata kunci darurat (bunuh diri, dll) |
+| **Dual API Failover** | Redundansi dengan 2 API key untuk ketersediaan tinggi |
+
+### 📝 Sample Conversation Flow
+
+```
+User: "halo"
+Bot: "Hai juga! Ada yang mau diceritain?" (tidak assume apapun)
+
+User: "aku dilecehkan sama dosenku"
+Bot: "Itu pasti berat banget. Terus gimana?" (empati + bertanya)
+
+User: "waktu konsultasi skripsi di ruangannya"
+Bot: "Kamu ngerasa gimana waktu itu?" (menggali perasaan)
+
+[Setelah 4+ pesan dan skor tinggi]
+Bot: "Makasih udah mau cerita. Mau aku bantu bikin laporan?" + [Tombol Ya/Tidak]
+```
 
 ---
 
@@ -116,26 +242,43 @@ Platform ini menyediakan ruang aman bagi korban dan saksi kekerasan seksual untu
 <img src="https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP"/>
 <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL"/>
 <img src="https://img.shields.io/badge/Apache-D22128?style=for-the-badge&logo=apache&logoColor=white" alt="Apache"/>
-<img src="https://img.shields.io/badge/XAMPP-FB7A24?style=for-the-badge&logo=xampp&logoColor=white" alt="XAMPP"/>
 </p>
 
 ### AI & APIs
 <p>
-<img src="https://img.shields.io/badge/Groq_API-FF6B6B?style=for-the-badge&logo=openai&logoColor=white" alt="Groq"/>
+<img src="https://img.shields.io/badge/Groq_LLM-FF6B6B?style=for-the-badge&logo=openai&logoColor=white" alt="Groq"/>
 <img src="https://img.shields.io/badge/Web_Speech_API-4285F4?style=for-the-badge&logo=google&logoColor=white" alt="Speech API"/>
 </p>
 
-### Tools & Libraries
+### Security
 <p>
-<img src="https://img.shields.io/badge/AOS-Animate_On_Scroll-00D1FF?style=for-the-badge" alt="AOS"/>
-<img src="https://img.shields.io/badge/CryptoJS-Encryption-FF4B4B?style=for-the-badge" alt="CryptoJS"/>
+<img src="https://img.shields.io/badge/AES--256-Encryption-00D1FF?style=for-the-badge" alt="AES"/>
+<img src="https://img.shields.io/badge/CryptoJS-Security-FF4B4B?style=for-the-badge" alt="CryptoJS"/>
 </p>
 
 </div>
 
 ---
 
-##  Instalasi
+## 🏆 Achievements & Recognition
+
+<div align="center">
+
+| Achievement | Description |
+|:------------|:------------|
+| 🥇 **Innovation in Social Impact** | Platform pertama dengan AI Chatbot untuk pelaporan PPKS di Indonesia |
+| 🔒 **Security First** | Implementasi enkripsi end-to-end AES-256 |
+| 🤖 **AI Innovation** | Cumulative Intent Scoring - algoritma deteksi unik |
+| 🎯 **User-Centric Design** | UI/UX yang ramah korban dan trauma-informed |
+| 📱 **Accessibility** | Voice input & Text-to-Speech untuk inklusivitas |
+
+**Project by Sulthonika Mahfudz Al Mujahidin - Telkom University Surabaya**
+
+</div>
+
+---
+
+## 🚀 Instalasi
 
 <details>
 <summary><b>📋 Prasyarat</b></summary>
@@ -143,7 +286,7 @@ Platform ini menyediakan ruang aman bagi korban dan saksi kekerasan seksual untu
 - ✅ PHP 8.0 atau lebih tinggi
 - ✅ MySQL 5.7+ / MariaDB
 - ✅ XAMPP / WAMP / LAMP
-- ✅ Composer (opsional)
+- ✅ Groq API Key
 - ✅ Web Browser Modern
 
 </details>
@@ -152,7 +295,7 @@ Platform ini menyediakan ruang aman bagi korban dan saksi kekerasan seksual untu
 
 ```bash
 # 1. Clone repository
-git clone https://github.com/yourusername/sigap-ppkpt.git
+git clone https://github.com/sulthonikamalm/sigap-ppkpt.git
 
 # 2. Pindah ke direktori proyek
 cd sigap-ppkpt
@@ -160,11 +303,11 @@ cd sigap-ppkpt
 # 3. Copy file environment
 cp .env.example .env
 
-# 4. Konfigurasi database di file .env
-# Edit DB_HOST, DB_NAME, DB_USER, DB_PASS
+# 4. Konfigurasi environment
+# Edit .env dengan database credentials dan Groq API key
 
 # 5. Import database
-# Import file database.sql ke MySQL/PhpMyAdmin
+mysql -u root -p < database/sigap_ppkpt.sql
 
 # 6. Jalankan di browser
 # http://localhost/sigap-ppkpt/
@@ -182,37 +325,30 @@ cp .env.example .env
 
 ### 👩‍🏫 Dosen Pemrograman Web
 
-<img src="https://ui-avatars.com/api/?name=Mastuty+Ayu&background=15928c&color=fff&size=150&rounded=true&bold=true" width="120" height="120" style="border-radius: 50%;"/>
+<img src="https://ui-avatars.com/api/?name=Mastuty+Ayu&background=15928c&color=fff&size=150&rounded=true&bold=true" width="100"/>
 
 **Mastuty Ayu Ningtyas, S.Kom., M.MT**
 
 *Dosen Pemrograman Web*
 
-<p>
 <a href="https://scholar.google.com/citations?user=ild0R6EAAAAJ&hl=id">
-<img src="https://img.shields.io/badge/Google_Scholar-4285F4?style=for-the-badge&logo=google-scholar&logoColor=white" alt="Scholar"/>
+<img src="https://img.shields.io/badge/Google_Scholar-4285F4?style=flat-square&logo=google-scholar&logoColor=white" alt="Scholar"/>
 </a>
-<a href="https://www.linkedin.com/in/mastutyayuningtyas/">
-<img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"/>
-</a>
-</p>
 
 </td>
 <td align="center" width="50%">
 
 ### 👨‍🏫 Dosen Proyek TI
 
-<img src="https://ui-avatars.com/api/?name=Mustafa+Kamal&background=0947aa&color=fff&size=150&rounded=true&bold=true" width="120" height="120" style="border-radius: 50%;"/>
+<img src="https://ui-avatars.com/api/?name=Mustafa+Kamal&background=0947aa&color=fff&size=150&rounded=true&bold=true" width="100"/>
 
 **Mustafa Kamal, S.Kom., M.Kom**
 
 *Dosen Proyek Teknologi Informasi*
 
-<p>
 <a href="https://scholar.google.com/citations?user=YxQhctcAAAAJ&hl=en">
-<img src="https://img.shields.io/badge/Google_Scholar-4285F4?style=for-the-badge&logo=google-scholar&logoColor=white" alt="Scholar"/>
+<img src="https://img.shields.io/badge/Google_Scholar-4285F4?style=flat-square&logo=google-scholar&logoColor=white" alt="Scholar"/>
 </a>
-</p>
 
 </td>
 </tr>
@@ -227,6 +363,7 @@ cp .env.example .env
 <div align="center">
 
 ### 🏆 SIGAP Development Team
+**Telkom University Surabaya - 2024/2025**
 
 <table>
 <tr>
@@ -238,7 +375,11 @@ cp .env.example .env
 
 `1202230023`
 
-[![Role](https://img.shields.io/badge/KETUA_TIM-FFD700?style=flat-square&logoColor=black)](/)
+[![Role](https://img.shields.io/badge/PROJECT_LEAD-FFD700?style=flat-square&logoColor=black)](/)
+[![Role](https://img.shields.io/badge/FULL_STACK_DEV-0947aa?style=flat-square)](/)
+[![Role](https://img.shields.io/badge/AI_ENGINEER-FF6B6B?style=flat-square)](/)
+
+*Lead Developer & AI Architect*
 
 </td>
 <td align="center" width="33%">
@@ -315,6 +456,13 @@ cp .env.example .env
 
 **Tahun Akademik 2024/2025**
 
+---
+
+### 🔗 Related Links
+
+- [Telkom University Surabaya](https://surabaya.telkomuniversity.ac.id)
+- [Satgas PPKPT Telkom University](https://ppkpt.telkomuniversity.ac.id)
+
 </div>
 
 ---
@@ -328,7 +476,8 @@ Proyek ini dilisensikan di bawah **MIT License**
 ```
 MIT License
 
-Copyright (c) 2026 SIGAP Development Team - Telkom University Surabaya
+Copyright (c) 2024-2025 Sulthonika Mahfudz Al Mujahidin
+SIGAP Development Team - Telkom University Surabaya
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -345,18 +494,44 @@ copies or substantial portions of the Software.
 
 ---
 
+## 📚 Citation
+
+Jika Anda menggunakan proyek ini untuk penelitian atau referensi, harap cantumkan:
+
+```bibtex
+@software{sigap_ppkpt_2024,
+  author = {Sulthonika Mahfudz Al Mujahidin},
+  title = {SIGAP PPKPT: Platform Pelaporan Kekerasan Seksual dengan AI Chatbot},
+  year = {2024},
+  institution = {Telkom University Surabaya},
+  url = {https://github.com/sulthonikamalm/sigap-ppkpt},
+  note = {AI-Powered Sexual Harassment Reporting Platform}
+}
+```
+
+---
+
 <div align="center">
 
 ### 💖 Dibuat dengan Cinta untuk Kemanusiaan
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:0947aa,50:15928c,100:6BA3BE&height=100&section=footer" width="100%"/>
 
+**Developed by Sulthonika Mahfudz Al Mujahidin**  
+Telkom University Surabaya | 2024-2025
+
 **⭐ Jangan lupa beri bintang jika proyek ini bermanfaat!**
 
 <p>
-<a href="#-sigap-ppkpt">
+<a href="#-lead-developer">
 <img src="https://img.shields.io/badge/🔝_Kembali_ke_Atas-15928c?style=for-the-badge" alt="Back to Top"/>
 </a>
 </p>
+
+---
+
+### 🔍 Keywords for Search Engines
+
+`Sulthonika Mahfudz Al Mujahidin` `SIGAP PPKPT` `Platform Pelaporan Kekerasan Seksual` `AI Chatbot TemanKu` `Telkom University Surabaya` `Full Stack Developer Indonesia` `PHP Developer` `JavaScript Developer` `AI Engineer` `Machine Learning Developer` `Web Developer Indonesia` `Sexual Harassment Reporting Platform` `PPKS Indonesia` `Chatbot Empatik` `NLP Indonesia`
 
 </div>
