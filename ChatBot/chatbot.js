@@ -21,8 +21,8 @@
     apiEndpoint: "/Bismillahirrahmanirrahim/api/chatbot/chat.php",
     emergencyPhone: "6282188467793",
     loadingDelay: 600,
-    welcomeMessage: "Halo, saya TemanKu 👋\n\nSaya di sini untuk mendengarkan Anda. Ruang ini aman dan rahasia. Ceritakan apa yang Anda rasakan...",
-    continueMessage: "Selamat datang kembali! 👋\n\nAku masih ingat percakapan kita sebelumnya. Mau lanjutkan atau mulai yang baru?",
+    welcomeMessage: "Hai! 👋 Aku TemanKu.\n\nMau cerita apa hari ini? Tenang aja, semua yang kamu ceritain aman sama aku kok.",
+    continueMessage: "Hai lagi! 👋\n\nAku masih inget obrolan kita kemarin. Mau lanjutin atau mulai dari awal?",
     enablePersistence: true,  // Aktifkan penyimpanan lokal
     autoRestoreSession: true  // Otomatis restore session sebelumnya
   };
@@ -561,7 +561,13 @@
         // Handle emergency
         if (data.phase === "emergency") {
           handleEmergency(data.response);
-        } else {
+        } 
+        // Handle consent phase - tampilkan tombol Ya/Tidak
+        else if (data.phase === "consent") {
+          addBotMessage(data.response);
+          setTimeout(() => showConsentButtons(), 600);
+        }
+        else {
           addBotMessage(data.response);
         }
 
@@ -744,6 +750,95 @@
         scrollToBottom();
       }
     }, 600);
+  }
+
+  /**
+   * Tampilkan tombol consent untuk membuat laporan
+   */
+  function showConsentButtons() {
+    const consentDiv = document.createElement("div");
+    consentDiv.className = "chat-message bot-message consent-options-message";
+    consentDiv.innerHTML = `
+      <div class="message-avatar">
+        <i class="fas fa-question-circle"></i>
+      </div>
+      <div class="message-bubble consent-actions">
+        <p><strong>📋 Buat Laporan Resmi?</strong></p>
+        <p style="font-size: 0.85rem; color: #666; margin-bottom: 12px;">
+          Identitasmu akan dijaga kerahasiaannya oleh Satgas PPKPT.
+        </p>
+        <div class="consent-buttons">
+          <button class="btn-consent btn-yes" id="btnConsentYes">
+            <i class="fas fa-check"></i> Ya, Bantu Saya Lapor
+          </button>
+          <button class="btn-consent btn-no" id="btnConsentNo">
+            <i class="fas fa-times"></i> Tidak, Terima Kasih
+          </button>
+        </div>
+      </div>
+    `;
+    
+    if (chatMessages) {
+      chatMessages.appendChild(consentDiv);
+      scrollToBottom();
+      
+      // Event listeners untuk tombol consent
+      document.getElementById("btnConsentYes")?.addEventListener("click", () => {
+        consentDiv.remove();
+        handleConsentResponse("ya, saya mau dibantu membuat laporan");
+      });
+      
+      document.getElementById("btnConsentNo")?.addEventListener("click", () => {
+        consentDiv.remove();
+        handleConsentResponse("tidak, terima kasih");
+      });
+    }
+  }
+
+  /**
+   * Handle respons consent dari user
+   */
+  async function handleConsentResponse(response) {
+    addUserMessage(response);
+    showTyping();
+    
+    try {
+      const requestBody = { message: response, action: "chat" };
+      if (sessionId) requestBody.session_id = sessionId;
+
+      const res = await fetch(CONFIG.apiEndpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(requestBody),
+      });
+
+      const data = await res.json();
+      hideTyping();
+
+      if (data.success) {
+        if (data.session_id) sessionId = data.session_id;
+        currentPhase = data.phase || currentPhase;
+        
+        addBotMessage(data.response);
+        
+        // Jika user setuju, mungkin ada redirect atau kode laporan
+        if (data.action === 'redirect_to_form' && data.payload) {
+          setTimeout(() => handleAutoFillRedirect(data.payload, ""), 1000);
+        }
+        
+        if (data.kode_laporan) {
+          setTimeout(() => showReportCode(data.kode_laporan), 800);
+        }
+        
+        saveToStorage();
+      } else {
+        addBotMessage(data.response || "Terima kasih atas jawabanmu.");
+      }
+    } catch (error) {
+      console.error(error);
+      hideTyping();
+      addBotMessage("Terima kasih. Aku tetap di sini jika kamu butuh bantuan.");
+    }
   }
 
   /**

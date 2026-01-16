@@ -289,6 +289,15 @@ class IntentClassifier {
     }
     
     /**
+     * Public wrapper untuk determineTier - untuk akses dari chat.php
+     * @param int $score Skor kumulatif
+     * @return int Tier level
+     */
+    public static function getTierFromScore($score) {
+        return self::determineTier($score);
+    }
+    
+    /**
      * Normalisasi pesan untuk deteksi yang lebih akurat
      */
     private static function normalizeMessage($message) {

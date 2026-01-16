@@ -1026,3 +1026,73 @@
 .persist-indicator i {
     font-size: 8px;
 }
+
+/* ============================================
+   CONSENT BUTTONS (untuk laporan)
+   ============================================ */
+.consent-options-message .message-bubble {
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
+.consent-options-message .message-avatar {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.consent-actions {
+    background: #fff !important;
+    border: 1px solid #d1fae5;
+    border-radius: 16px !important;
+    padding: 16px !important;
+    box-shadow: 0 4px 16px rgba(16, 185, 129, 0.1) !important;
+    text-align: center;
+}
+
+.consent-actions strong {
+    color: #065f46 !important;
+    display: block;
+    margin-bottom: 4px;
+    font-size: 14px;
+}
+
+.consent-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.btn-consent {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 13px;
+    border: none;
+    cursor: pointer;
+    transition: var(--chat-transition);
+}
+
+.btn-consent.btn-yes {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+}
+
+.btn-consent.btn-yes:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(16, 185, 129, 0.3);
+}
+
+.btn-consent.btn-no {
+    background: #f5f7fa;
+    color: var(--chat-text);
+    border: 1px solid #e8e8e8;
+}
+
+.btn-consent.btn-no:hover {
+    background: #e8eef5;
+    transform: translateY(-2px);
+}

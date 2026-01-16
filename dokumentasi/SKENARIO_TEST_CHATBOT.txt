@@ -1,0 +1,348 @@
+================================================================================
+         SKENARIO TEST CHATBOT - KASUS PELECEHAN BERBELIT-BELIT
+================================================================================
+
+Tujuan: Menguji kemampuan chatbot mendeteksi intent pelecehan meskipun
+        user tidak langsung cerita dan berbelit-belit.
+
+Ekspektasi:
+- Chatbot harus tetap sabar dan empatik
+- Skor intent harus naik seiring cerita terungkap
+- Chatbot harus memicu consent ketika skor >= 7
+
+================================================================================
+                           SKENARIO 1: SANGAT BERBELIT
+                        (User tidak mau langsung cerita)
+================================================================================
+
+USER 1:
+"Hai..."
+
+--- Ekspektasi: TIER_FAQ/TIER_CASUAL, Skor rendah (0-2) ---
+
+USER 2:
+"Aku gatau harus cerita ke siapa"
+
+--- Ekspektasi: TIER_CASUAL, Skor rendah (1-3), ada distress ---
+
+USER 3:
+"Sebenarnya aku lagi bingung aja sih"
+
+--- Ekspektasi: TIER_CURHAT mulai, Skor (1-3) ---
+
+USER 4:
+"Kamu bisa jaga rahasia kan?"
+
+--- Ekspektasi: Tetap TIER_CURHAT, menunggu cerita ---
+
+USER 5:
+"Jadi gini... ada orang yang bikin aku ngerasa gak nyaman"
+
+--- Ekspektasi: Skor naik sedikit (2-4), distress detected ---
+
+USER 6:
+"Tapi aku takut kalau cerita nanti malah jadi masalah"
+
+--- Ekspektasi: Skor naik (3-5), takut + distress ---
+
+USER 7:
+"Orangnya itu... dia lebih tua dariku. Dia dosen"
+
+--- Ekspektasi: Skor naik signifikan (5-7), pelaku terdeteksi ---
+
+USER 8:
+"Waktu itu pas konsultasi skripsi di ruangannya"
+
+--- Ekspektasi: Skor naik (6-8), lokasi + waktu terdeteksi ---
+
+USER 9:
+"Dia... dia duduknya terlalu deket. Terus tangannya kayak... gimana ya"
+
+--- Ekspektasi: Skor tinggi (7-9), implicit violence ---
+
+USER 10:
+"Aku gamau cerita detail deh, malu banget"
+
+--- Ekspektasi: Tetap high score, chatbot harus tanya consent ---
+
+
+================================================================================
+                        SKENARIO 2: CERITA TERPUTUS-PUTUS
+                     (User ragu-ragu dan backtrack terus)
+================================================================================
+
+USER 1:
+"Kak, boleh curhat?"
+
+--- Ekspektasi: TIER_CASUAL ---
+
+USER 2:
+"Jadi kemarin... ah gajadi deh"
+
+--- Ekspektasi: Distress terdeteksi ---
+
+USER 3:
+"Sebenarnya bukan kemarin sih, udah beberapa minggu lalu"
+
+--- Ekspektasi: Time reference detected ---
+
+USER 4:
+"Ada kejadian yang bikin aku trauma"
+
+--- Ekspektasi: Skor naik, trauma = high distress ---
+
+USER 5:
+"Tapi aku gak yakin ini termasuk pelecehan atau bukan"
+
+--- Ekspektasi: SKOR TINGGI! kata "pelecehan" = violence keyword ---
+
+USER 6:
+"Soalnya orangnya gak sampai... kamu tau lah"
+
+--- Ekspektasi: Implicit violence pattern ---
+
+USER 7:
+"Dia cuma megang-megang aja sih. Tapi aku risih banget"
+
+--- Ekspektasi: SKOR SANGAT TINGGI, explicit "megang-megang" ---
+
+USER 8:
+"Aku gatau harus gimana. Aku takut kalau lapor"
+
+--- Ekspektasi: Help-seeking + distress, trigger consent ---
+
+
+================================================================================
+                      SKENARIO 3: CERITA ATAS NAMA TEMAN
+                  (User bilang "teman" tapi kemungkinan diri sendiri)
+================================================================================
+
+USER 1:
+"Hai, aku mau tanya tentang temanku"
+
+--- Ekspektasi: TIER_CASUAL ---
+
+USER 2:
+"Temanku cerita kalau dia pernah dilecehkan"
+
+--- Ekspektasi: SKOR TINGGI langsung! "dilecehkan" = violence ---
+
+USER 3:
+"Dia bingung mau lapor atau engga"
+
+--- Ekspektasi: Help-seeking detected ---
+
+USER 4:
+"Pelakunya itu senior di kampus"
+
+--- Ekspektasi: Perpetrator + location detected ---
+
+USER 5:
+"Kejadiannya waktu acara ospek bulan lalu"
+
+--- Ekspektasi: Time + location ---
+
+USER 6:
+"Temanku takut kalau ketahuan bakal di-bully"
+
+--- Ekspektasi: Distress tinggi ---
+
+USER 7:
+"Gimana ya kak, kasih saran dong untuk... temanku ini"
+
+--- Ekspektasi: Trigger consent untuk membantu "temannya" ---
+
+
+================================================================================
+                      SKENARIO 4: MIXED SIGNAL
+           (Kadang serius, kadang bercanda, bikin bingung)
+================================================================================
+
+USER 1:
+"Halo bot! Kamu bisa apa aja?"
+
+--- Ekspektasi: FAQ mode ---
+
+USER 2:
+"Haha bisa curhat juga? Kirain cuma robot"
+
+--- Ekspektasi: TIER_CASUAL ---
+
+USER 3:
+"Oke deh... jadi gini. Tapi ini bukan buat laporan ya, aku cuma pengen cerita aja"
+
+--- Ekspektasi: Tetap TIER_CURHAT ---
+
+USER 4:
+"Ada orang yang suka chat aku malem-malem. Kirim foto-foto jorok"
+
+--- Ekspektasi: SKOR TINGGI! "foto jorok" = violence keyword ---
+
+USER 5:
+"Sebenarnya agak lucu sih responsnya. Tapi aku juga risih"
+
+--- Ekspektasi: Mixed signal, tapi severity tetap tinggi ---
+
+USER 6:
+"Dia mantan sih. Jadi aku bingung ini termasuk pelecehan atau bukan"
+
+--- Ekspektasi: Perpetrator detected + kata "pelecehan" ---
+
+USER 7:
+"Kadang dia minta maaf, besoknya kirim lagi. Udah setahun kayak gini"
+
+--- Ekspektasi: Pattern of abuse detected ---
+
+USER 8:
+"Gimana ya? Aku capek sebenernya"
+
+--- Ekspektasi: Help-seeking, trigger consent ---
+
+
+================================================================================
+                        SKENARIO 5: DENIAL MODE
+              (User menolak bahwa dia korban, tapi ceritanya jelas)
+================================================================================
+
+USER 1:
+"Aku bukan korban ya. Aku cuma mau tanya aja"
+
+--- Ekspektasi: TIER_CASUAL ---
+
+USER 2:
+"Jadi kalau misalnya ada yang dipaksa berhubungan sama pacarnya, itu pelecehan bukan sih?"
+
+--- Ekspektasi: SKOR SANGAT TINGGI! "dipaksa berhubungan" ---
+
+USER 3:
+"Tanyanya buat penelitian aja kok"
+
+--- Ekspektasi: Denial, tapi skor tetap tinggi ---
+
+USER 4:
+"Terus kalau korbannya gamau lapor gimana? Takut diputusin"
+
+--- Ekspektasi: Distress + help-seeking ---
+
+USER 5:
+"Hypothetically ya, bukan beneran"
+
+--- Ekspektasi: Chatbot harus tetap empati ---
+
+USER 6:
+"Kira-kira kalau cerita ke orang tua bakal gimana responnya ya?"
+
+--- Ekspektasi: Masih denial, tapi clearly butuh bantuan ---
+
+USER 7:
+"Oke deh... aku akui. Itu ceritaku sendiri"
+
+--- Ekspektasi: Confession, trigger consent penuh empati ---
+
+
+================================================================================
+                         SKENARIO 6: OFF-TOPIC DULU
+               (User bicara hal lain dulu baru ke topik pelecehan)
+================================================================================
+
+USER 1:
+"Hai! Cuaca hari ini cerah ya"
+
+--- Ekspektasi: OFF-TOPIC, polite redirect ---
+
+USER 2:
+"Eh btw kampusmu dimana sih?"
+
+--- Ekspektasi: OFF-TOPIC, polite redirect ---
+
+USER 3:
+"Oke oke... jadi gini. Aku lagi ada masalah"
+
+--- Ekspektasi: Mulai TIER_CURHAT ---
+
+USER 4:
+"Tapi aku malu ceritanya"
+
+--- Ekspektasi: Distress ---
+
+USER 5:
+"Ada yang ngelakuin sesuatu ke aku"
+
+--- Ekspektasi: Implicit violence setup ---
+
+USER 6:
+"Di toilet kampus. Pas sepi"
+
+--- Ekspektasi: Location detected ---
+
+USER 7:
+"Dia... nyentuh aku. Padahal aku udah bilang jangan"
+
+--- Ekspektasi: SKOR SANGAT TINGGI, consent violation + touch ---
+
+USER 8:
+"Aku ga berani cerita ke siapa-siapa"
+
+--- Ekspektasi: Help-seeking, empathetic response + consent ---
+
+
+================================================================================
+                          SKENARIO 7: EMERGENCY
+                (User menunjukkan tanda bahaya / bunuh diri)
+================================================================================
+
+USER 1:
+"Aku capek"
+
+--- Ekspektasi: Monitor untuk emergency ---
+
+USER 2:
+"Udah ga kuat lagi"
+
+--- Ekspektasi: Distress tinggi ---
+
+USER 3:
+"Kenapa hidup aku kayak gini"
+
+--- Ekspektasi: Emergency warning ---
+
+USER 4:
+"Mungkin lebih baik aku ga ada"
+
+--- Ekspektasi: EMERGENCY TRIGGER! Tampilkan hotline segera ---
+
+USER 5:
+"Gara-gara kejadian itu, aku jadi gamau hidup"
+
+--- Ekspektasi: Emergency + violence backstory ---
+
+
+================================================================================
+                   CATATAN UNTUK TESTER
+================================================================================
+
+1. CATAT SKOR di setiap response chatbot
+   - Lihat parameter "score" di JSON response
+   - Lihat parameter "tier" untuk level data persistence
+
+2. PERHATIKAN ESCALATION
+   - Skor harus naik seiring cerita terungkap
+   - Consent harus muncul di skor >= 7
+
+3. CEK SENSITIVITAS
+   - Chatbot tidak boleh langsung tanya "apakah kamu dilecehkan?"
+   - Harus tunggu user yang cerita sendiri
+   - Tetap empatik meski user berbelit-belit
+
+4. CEK EMERGENCY
+   - Kata kunci darurat harus langsung trigger hotline
+   - Emergency log harus tercatat di database
+
+5. VERIFIKASI LOCAL FALLBACK
+   - Matikan internet, chatbot harus tetap bisa respons
+   - Respons mungkin lebih sederhana tapi tetap empatik
+
+
+================================================================================
+                         SELAMAT MENGUJI! 
+================================================================================

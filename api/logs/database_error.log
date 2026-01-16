@@ -123,3 +123,319 @@
 [13-Jan-2026 04:09:48 Europe/Berlin] Found - kode: PPKPT273773124, Kode: PPKPT273773124
 [14-Jan-2026 03:24:05 Europe/Berlin] LOGIN SUCCESS - User: admin@ppks.com (ID: 5) from IP: ::1
 [14-Jan-2026 03:25:53 Europe/Berlin] BLOG CREATED - ID: 10, Admin: admin@ppks.com, Judul: PACUNGAN UNTUK MANYUNGAN
+[16-Jan-2026 04:14:53 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 04:14:53 Asia/Jakarta] User message: haii
+[16-Jan-2026 04:14:53 Asia/Jakarta] FAQ matched: greeting
+[16-Jan-2026 04:15:04 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 04:15:04 Asia/Jakarta] User message: Aku gatau harus cerita ke siapa
+[16-Jan-2026 04:15:04 Asia/Jakarta] Intent score: 0, Tier: 0, Signals: 
+[16-Jan-2026 04:15:04 Asia/Jakarta] Current phase: curhat
+[16-Jan-2026 04:15:06 Asia/Jakarta] Bot response generated: 205 chars
+[16-Jan-2026 04:15:06 Asia/Jakarta] === CHAT REQUEST SUCCESS (1.38s) ===
+[16-Jan-2026 04:15:16 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 04:15:16 Asia/Jakarta] User message: Sebenarnya aku lagi bingung aja sih
+[16-Jan-2026 04:15:16 Asia/Jakarta] Intent score: 1, Tier: 0, Signals: distress:bingung
+[16-Jan-2026 04:15:16 Asia/Jakarta] Current phase: curhat
+[16-Jan-2026 04:15:18 Asia/Jakarta] Bot response generated: 216 chars
+[16-Jan-2026 04:15:18 Asia/Jakarta] === CHAT REQUEST SUCCESS (1.34s) ===
+[16-Jan-2026 04:15:39 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 04:15:39 Asia/Jakarta] User message: Kamu bisa jaga rahasia kan?
+[16-Jan-2026 04:15:39 Asia/Jakarta] Intent score: 0, Tier: 0, Signals: 
+[16-Jan-2026 04:15:39 Asia/Jakarta] Current phase: curhat
+[16-Jan-2026 04:15:40 Asia/Jakarta] Bot response generated: 149 chars
+[16-Jan-2026 04:15:40 Asia/Jakarta] === CHAT REQUEST SUCCESS (1.09s) ===
+[16-Jan-2026 04:15:52 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 04:15:52 Asia/Jakarta] User message: Jadi gini... ada orang yang bikin aku ngerasa gak nyaman
+[16-Jan-2026 04:15:52 Asia/Jakarta] Intent score: 0, Tier: 0, Signals: 
+[16-Jan-2026 04:15:52 Asia/Jakarta] Current phase: curhat
+[16-Jan-2026 04:15:53 Asia/Jakarta] Bot response generated: 212 chars
+[16-Jan-2026 04:15:53 Asia/Jakarta] === CHAT REQUEST SUCCESS (1.15s) ===
+[16-Jan-2026 04:16:05 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 04:16:05 Asia/Jakarta] User message: Tapi aku takut kalau cerita nanti malah jadi masalah
+[16-Jan-2026 04:16:05 Asia/Jakarta] Intent score: 1, Tier: 0, Signals: distress:takut
+[16-Jan-2026 04:16:05 Asia/Jakarta] Current phase: curhat
+[16-Jan-2026 04:16:06 Asia/Jakarta] Bot response generated: 247 chars
+[16-Jan-2026 04:16:06 Asia/Jakarta] === CHAT REQUEST SUCCESS (1.13s) ===
+[16-Jan-2026 04:16:18 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 04:16:18 Asia/Jakarta] User message: Orangnya itu... dia lebih tua dariku. Dia dosen
+[16-Jan-2026 04:16:18 Asia/Jakarta] Intent score: 3, Tier: 0, Signals: perpetrator:dosen
+[16-Jan-2026 04:16:18 Asia/Jakarta] Current phase: curhat
+[16-Jan-2026 04:16:19 Asia/Jakarta] Bot response generated: 246 chars
+[16-Jan-2026 04:16:19 Asia/Jakarta] === CHAT REQUEST SUCCESS (1.16s) ===
+[16-Jan-2026 04:16:32 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 04:16:32 Asia/Jakarta] User message: Waktu itu pas konsultasi skripsi di ruangannya
+[16-Jan-2026 04:16:32 Asia/Jakarta] Intent score: 2, Tier: 0, Signals: time:waktu itu
+[16-Jan-2026 04:16:32 Asia/Jakarta] Current phase: curhat
+[16-Jan-2026 04:16:33 Asia/Jakarta] Bot response generated: 266 chars
+[16-Jan-2026 04:16:33 Asia/Jakarta] === CHAT REQUEST SUCCESS (1.57s) ===
+[16-Jan-2026 04:16:45 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 04:16:45 Asia/Jakarta] User message: Dia... dia duduknya terlalu deket. Terus tangannya kayak... gimana ya
+[16-Jan-2026 04:16:45 Asia/Jakarta] Intent score: 0, Tier: 0, Signals: 
+[16-Jan-2026 04:16:45 Asia/Jakarta] Current phase: curhat
+[16-Jan-2026 04:16:46 Asia/Jakarta] Bot response generated: 280 chars
+[16-Jan-2026 04:16:46 Asia/Jakarta] === CHAT REQUEST SUCCESS (1.18s) ===
+[16-Jan-2026 04:16:56 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 04:16:56 Asia/Jakarta] User message: Aku gamau cerita detail deh, malu banget
+[16-Jan-2026 04:16:56 Asia/Jakarta] Intent score: 1, Tier: 0, Signals: distress:malu
+[16-Jan-2026 04:16:56 Asia/Jakarta] Current phase: curhat
+[16-Jan-2026 04:16:58 Asia/Jakarta] Bot response generated: 273 chars
+[16-Jan-2026 04:16:58 Asia/Jakarta] === CHAT REQUEST SUCCESS (2.17s) ===
+[16-Jan-2026 04:18:28 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 04:18:28 Asia/Jakarta] User message: lalu mana laporannya
+[16-Jan-2026 04:18:28 Asia/Jakarta] Intent score: 0, Tier: 0, Signals: 
+[16-Jan-2026 04:18:28 Asia/Jakarta] Current phase: curhat
+[16-Jan-2026 04:18:29 Asia/Jakarta] Bot response generated: 361 chars
+[16-Jan-2026 04:18:29 Asia/Jakarta] === CHAT REQUEST SUCCESS (1.42s) ===
+[16-Jan-2026 04:18:39 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 04:18:39 Asia/Jakarta] User message: aku mau lapor
+[16-Jan-2026 04:18:39 Asia/Jakarta] Intent score: 3, Tier: 0, Signals: help:mau lapor
+[16-Jan-2026 04:18:39 Asia/Jakarta] Current phase: curhat
+[16-Jan-2026 04:18:41 Asia/Jakarta] Bot response generated: 373 chars
+[16-Jan-2026 04:18:41 Asia/Jakarta] === CHAT REQUEST SUCCESS (1.27s) ===
+[16-Jan-2026 12:38:54 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 12:38:54 Asia/Jakarta] User message: haii
+[16-Jan-2026 12:38:54 Asia/Jakarta] FAQ matched: greeting
+[16-Jan-2026 12:39:07 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 12:39:07 Asia/Jakarta] User message: aku gatau harus cerita dengan siapa
+[16-Jan-2026 12:39:07 Asia/Jakarta] Intent score: 0, Tier: 0, Signals: 
+[16-Jan-2026 12:39:07 Asia/Jakarta] Cumulative score: 0, Max tier: 0
+[16-Jan-2026 12:39:07 Asia/Jakarta] Current phase: curhat
+[16-Jan-2026 12:39:08 Asia/Jakarta] Bot response generated: 140 chars
+[16-Jan-2026 12:39:08 Asia/Jakarta] === CHAT REQUEST SUCCESS (1.43s) ===
+[16-Jan-2026 12:39:21 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 12:39:21 Asia/Jakarta] User message: sebenarnnya aku lagi bingung banget
+[16-Jan-2026 12:39:21 Asia/Jakarta] Intent score: 1, Tier: 0, Signals: distress:bingung
+[16-Jan-2026 12:39:21 Asia/Jakarta] New signals detected: distress:bingung | Added 1 points
+[16-Jan-2026 12:39:21 Asia/Jakarta] Cumulative score: 1, Max tier: 0
+[16-Jan-2026 12:39:21 Asia/Jakarta] Current phase: curhat
+[16-Jan-2026 12:39:22 Asia/Jakarta] Bot response generated: 200 chars
+[16-Jan-2026 12:39:22 Asia/Jakarta] === CHAT REQUEST SUCCESS (1.35s) ===
+[16-Jan-2026 12:39:46 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 12:39:46 Asia/Jakarta] User message: tapi kamu bisa menjaga rahasia diantara kita kan
+[16-Jan-2026 12:39:46 Asia/Jakarta] Intent score: 0, Tier: 0, Signals: 
+[16-Jan-2026 12:39:46 Asia/Jakarta] Cumulative score: 1, Max tier: 0
+[16-Jan-2026 12:39:46 Asia/Jakarta] Current phase: curhat
+[16-Jan-2026 12:39:47 Asia/Jakarta] Bot response generated: 161 chars
+[16-Jan-2026 12:39:47 Asia/Jakarta] === CHAT REQUEST SUCCESS (1.39s) ===
+[16-Jan-2026 12:40:02 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 12:40:02 Asia/Jakarta] User message: jadi gini... ada orang yang bikin aku ngerasa gak nyaman
+[16-Jan-2026 12:40:02 Asia/Jakarta] Intent score: 0, Tier: 0, Signals: 
+[16-Jan-2026 12:40:02 Asia/Jakarta] Cumulative score: 1, Max tier: 0
+[16-Jan-2026 12:40:02 Asia/Jakarta] Current phase: curhat
+[16-Jan-2026 12:40:03 Asia/Jakarta] Bot response generated: 210 chars
+[16-Jan-2026 12:40:03 Asia/Jakarta] === CHAT REQUEST SUCCESS (1.33s) ===
+[16-Jan-2026 12:40:23 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 12:40:23 Asia/Jakarta] User message: Tapi aku takut kalau cerita nanti malah jadi masalah
+[16-Jan-2026 12:40:23 Asia/Jakarta] Intent score: 1, Tier: 0, Signals: distress:takut
+[16-Jan-2026 12:40:23 Asia/Jakarta] New signals detected: distress:takut | Added 1 points
+[16-Jan-2026 12:40:23 Asia/Jakarta] Cumulative score: 2, Max tier: 0
+[16-Jan-2026 12:40:23 Asia/Jakarta] Current phase: curhat
+[16-Jan-2026 12:40:24 Asia/Jakarta] Bot response generated: 250 chars
+[16-Jan-2026 12:40:24 Asia/Jakarta] === CHAT REQUEST SUCCESS (1.36s) ===
+[16-Jan-2026 12:40:59 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 12:40:59 Asia/Jakarta] User message: Orangnya itu... dia lebih tua dariku. Dia dosen
+[16-Jan-2026 12:40:59 Asia/Jakarta] Intent score: 3, Tier: 0, Signals: perpetrator:dosen
+[16-Jan-2026 12:40:59 Asia/Jakarta] New signals detected: perpetrator:dosen | Added 3 points
+[16-Jan-2026 12:40:59 Asia/Jakarta] Cumulative score: 5, Max tier: 1
+[16-Jan-2026 12:40:59 Asia/Jakarta] Current phase: curhat
+[16-Jan-2026 12:41:00 Asia/Jakarta] Bot response generated: 257 chars
+[16-Jan-2026 12:41:00 Asia/Jakarta] === CHAT REQUEST SUCCESS (1.12s) ===
+[16-Jan-2026 12:41:12 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 12:41:12 Asia/Jakarta] User message: Waktu itu pas konsultasi skripsi di ruangannya
+[16-Jan-2026 12:41:12 Asia/Jakarta] Intent score: 2, Tier: 0, Signals: time:waktu itu
+[16-Jan-2026 12:41:12 Asia/Jakarta] New signals detected: time:waktu itu | Added 2 points
+[16-Jan-2026 12:41:12 Asia/Jakarta] Cumulative score: 7, Max tier: 3
+[16-Jan-2026 12:41:12 Asia/Jakarta] Current phase: curhat
+[16-Jan-2026 12:41:12 Asia/Jakarta] CONSENT TRIGGERED - Cumulative score: 7, Tier: 3
+[16-Jan-2026 12:41:14 Asia/Jakarta] Bot response generated: 261 chars
+[16-Jan-2026 12:41:14 Asia/Jakarta] === CHAT REQUEST SUCCESS (1.69s) ===
+[16-Jan-2026 12:41:29 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 12:41:29 Asia/Jakarta] User message: ya, saya mau dibantu membuat laporan
+[16-Jan-2026 12:41:29 Asia/Jakarta] Intent score: 3, Tier: 0, Signals: help:bantu
+[16-Jan-2026 12:41:29 Asia/Jakarta] New signals detected: help:bantu | Added 3 points
+[16-Jan-2026 12:41:29 Asia/Jakarta] Cumulative score: 10, Max tier: 5
+[16-Jan-2026 12:41:29 Asia/Jakarta] Current phase: consent
+[16-Jan-2026 12:41:29 Asia/Jakarta] Consent detection: yes
+[16-Jan-2026 12:41:29 Asia/Jakarta] Created DB session: 21
+[16-Jan-2026 12:41:29 Asia/Jakarta] Persisted 17 messages to DB
+[16-Jan-2026 12:41:29 Asia/Jakarta] Consent given - entering report phase, DB session created
+[16-Jan-2026 12:41:31 Asia/Jakarta] Updated labels: {"pelaku_kekerasan":"dosen","waktu_kejadian":null,"lokasi_kejadian":"ruang dosen","tingkat_kekhawatiran":"khawatir","detail_kejadian":"perilaku tidak nyaman selama konsultasi skripsi","gender_korban":null,"usia_korban":null,"korban_sebagai":null,"email_korban":null,"whatsapp_korban":null}
+[16-Jan-2026 12:41:32 Asia/Jakarta] Bot response generated: 317 chars
+[16-Jan-2026 12:41:32 Asia/Jakarta] === CHAT REQUEST SUCCESS (3.56s) ===
+[16-Jan-2026 12:49:27 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 12:49:32 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 12:49:32 Asia/Jakarta] User message: hallo
+[16-Jan-2026 12:49:32 Asia/Jakarta] Intent score: 0, Tier: 0, Signals: 
+[16-Jan-2026 12:49:32 Asia/Jakarta] Cumulative score: 0, Max tier: 0
+[16-Jan-2026 12:49:32 Asia/Jakarta] Current phase: curhat
+[16-Jan-2026 12:49:33 Asia/Jakarta] Bot response generated: 61 chars
+[16-Jan-2026 12:49:33 Asia/Jakarta] === CHAT REQUEST SUCCESS (1.28s) ===
+[16-Jan-2026 12:52:13 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 12:52:13 Asia/Jakarta] User message: hallo
+[16-Jan-2026 12:52:13 Asia/Jakarta] Intent score: 0, Tier: 0, Signals: 
+[16-Jan-2026 12:52:13 Asia/Jakarta] Cumulative score: 0, Max tier: 0
+[16-Jan-2026 12:52:13 Asia/Jakarta] Current phase: curhat
+[16-Jan-2026 12:52:14 Asia/Jakarta] Bot response generated: 61 chars
+[16-Jan-2026 12:52:14 Asia/Jakarta] === CHAT REQUEST SUCCESS (1.20s) ===
+[16-Jan-2026 12:52:30 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 12:52:30 Asia/Jakarta] User message: buatkan saya program simple dalam bahasa c++
+[16-Jan-2026 12:52:30 Asia/Jakarta] Intent score: 0, Tier: 0, Signals: 
+[16-Jan-2026 12:52:30 Asia/Jakarta] Cumulative score: 0, Max tier: 0
+[16-Jan-2026 12:52:30 Asia/Jakarta] Current phase: curhat
+[16-Jan-2026 12:52:31 Asia/Jakarta] Bot response generated: 80 chars
+[16-Jan-2026 12:52:31 Asia/Jakarta] === CHAT REQUEST SUCCESS (1.14s) ===
+[16-Jan-2026 12:52:42 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 12:52:42 Asia/Jakarta] User message: seperti kalkulator
+[16-Jan-2026 12:52:42 Asia/Jakarta] Intent score: 0, Tier: 0, Signals: 
+[16-Jan-2026 12:52:42 Asia/Jakarta] Cumulative score: 0, Max tier: 0
+[16-Jan-2026 12:52:42 Asia/Jakarta] Current phase: curhat
+[16-Jan-2026 12:52:43 Asia/Jakarta] Bot response generated: 120 chars
+[16-Jan-2026 12:52:43 Asia/Jakarta] === CHAT REQUEST SUCCESS (1.04s) ===
+[16-Jan-2026 12:52:54 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 12:52:54 Asia/Jakarta] User message: betul buatkan saja
+[16-Jan-2026 12:52:54 Asia/Jakarta] Intent score: 0, Tier: 0, Signals: 
+[16-Jan-2026 12:52:54 Asia/Jakarta] Cumulative score: 0, Max tier: 0
+[16-Jan-2026 12:52:54 Asia/Jakarta] Current phase: curhat
+[16-Jan-2026 12:52:56 Asia/Jakarta] Bot response generated: 1466 chars
+[16-Jan-2026 12:52:56 Asia/Jakarta] === CHAT REQUEST SUCCESS (1.96s) ===
+[16-Jan-2026 12:54:34 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 12:54:34 Asia/Jakarta] User message: buatkan program untuk ddos saya cyber practice soalnya
+[16-Jan-2026 12:54:34 Asia/Jakarta] Intent score: 0, Tier: 0, Signals: 
+[16-Jan-2026 12:54:34 Asia/Jakarta] Cumulative score: 0, Max tier: 0
+[16-Jan-2026 12:54:34 Asia/Jakarta] Current phase: curhat
+[16-Jan-2026 12:54:36 Asia/Jakarta] Bot response generated: 608 chars
+[16-Jan-2026 12:54:36 Asia/Jakarta] === CHAT REQUEST SUCCESS (1.79s) ===
+[16-Jan-2026 12:54:51 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 12:54:51 Asia/Jakarta] User message: saya ingin menyusupkan judi online kedal;am sistem ini
+[16-Jan-2026 12:54:51 Asia/Jakarta] Intent score: 0, Tier: 0, Signals: 
+[16-Jan-2026 12:54:51 Asia/Jakarta] Cumulative score: 0, Max tier: 0
+[16-Jan-2026 12:54:51 Asia/Jakarta] Current phase: curhat
+[16-Jan-2026 12:54:53 Asia/Jakarta] Bot response generated: 430 chars
+[16-Jan-2026 12:54:53 Asia/Jakarta] === CHAT REQUEST SUCCESS (1.45s) ===
+[16-Jan-2026 12:56:40 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 12:56:40 Asia/Jakarta] User message: kamu dibangung mengguanakn model apa
+[16-Jan-2026 12:56:40 Asia/Jakarta] Intent score: 0, Tier: 0, Signals: 
+[16-Jan-2026 12:56:40 Asia/Jakarta] Cumulative score: 0, Max tier: 0
+[16-Jan-2026 12:56:40 Asia/Jakarta] Current phase: curhat
+[16-Jan-2026 12:56:42 Asia/Jakarta] Bot response generated: 625 chars
+[16-Jan-2026 12:56:42 Asia/Jakarta] === CHAT REQUEST SUCCESS (1.64s) ===
+[16-Jan-2026 12:56:55 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 12:56:55 Asia/Jakarta] User message: jadi kamu menggunakan api apa
+[16-Jan-2026 12:56:55 Asia/Jakarta] Intent score: 0, Tier: 0, Signals: 
+[16-Jan-2026 12:56:55 Asia/Jakarta] Cumulative score: 0, Max tier: 0
+[16-Jan-2026 12:56:55 Asia/Jakarta] Current phase: curhat
+[16-Jan-2026 12:56:56 Asia/Jakarta] Bot response generated: 524 chars
+[16-Jan-2026 12:56:56 Asia/Jakarta] === CHAT REQUEST SUCCESS (1.51s) ===
+[16-Jan-2026 12:57:09 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 12:57:09 Asia/Jakarta] User message: website ini menggunakan api apa saja
+[16-Jan-2026 12:57:09 Asia/Jakarta] Intent score: 0, Tier: 0, Signals: 
+[16-Jan-2026 12:57:09 Asia/Jakarta] Cumulative score: 0, Max tier: 0
+[16-Jan-2026 12:57:09 Asia/Jakarta] Current phase: curhat
+[16-Jan-2026 12:57:11 Asia/Jakarta] Bot response generated: 735 chars
+[16-Jan-2026 12:57:11 Asia/Jakarta] === CHAT REQUEST SUCCESS (1.68s) ===
+[16-Jan-2026 13:01:23 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 13:01:26 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 13:01:41 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 13:01:41 Asia/Jakarta] User message: buatkan saya program kalkulator dalam python
+[16-Jan-2026 13:01:41 Asia/Jakarta] Intent score: 0, Tier: 0, Signals: 
+[16-Jan-2026 13:01:41 Asia/Jakarta] Cumulative score: 0, Max tier: 0
+[16-Jan-2026 13:01:41 Asia/Jakarta] Current phase: curhat
+[16-Jan-2026 13:01:41 Asia/Jakarta] [OFF-TOPIC] Detected keyword: python
+[16-Jan-2026 13:01:54 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 13:01:54 Asia/Jakarta] User message: saya dilecehkan dengan program python
+[16-Jan-2026 13:01:54 Asia/Jakarta] Intent score: 7, Tier: 3, Signals: violence:dilecehkan, self_verb:saya dilecehkan
+[16-Jan-2026 13:01:54 Asia/Jakarta] New signals detected: violence:dilecehkan, self_verb:saya dilecehkan | Added 5 points
+[16-Jan-2026 13:01:54 Asia/Jakarta] Cumulative score: 5, Max tier: 1
+[16-Jan-2026 13:01:54 Asia/Jakarta] Current phase: collect
+[16-Jan-2026 13:01:54 Asia/Jakarta] [OFF-TOPIC] Detected keyword: python
+[16-Jan-2026 13:01:59 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 13:01:59 Asia/Jakarta] User message: iya saya dilecehkan
+[16-Jan-2026 13:01:59 Asia/Jakarta] Intent score: 7, Tier: 3, Signals: violence:dilecehkan, self_verb:saya dilecehkan
+[16-Jan-2026 13:01:59 Asia/Jakarta] Cumulative score: 5, Max tier: 1
+[16-Jan-2026 13:01:59 Asia/Jakarta] Current phase: consent
+[16-Jan-2026 13:02:00 Asia/Jakarta] Bot response generated: 105 chars
+[16-Jan-2026 13:02:00 Asia/Jakarta] === CHAT REQUEST SUCCESS (1.11s) ===
+[16-Jan-2026 13:02:08 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 13:02:08 Asia/Jakarta] User message: tidak, terima kasih
+[16-Jan-2026 13:02:08 Asia/Jakarta] FAQ matched: thanks
+[16-Jan-2026 13:02:14 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 13:02:14 Asia/Jakarta] User message: saya mau bunuh diri saja
+[16-Jan-2026 13:02:14 Asia/Jakarta] Intent score: 0, Tier: 0, Signals: 
+[16-Jan-2026 13:02:14 Asia/Jakarta] Cumulative score: 5, Max tier: 1
+[16-Jan-2026 13:02:14 Asia/Jakarta] [EMERGENCY] Pattern: bunuh\s+diri
+[16-Jan-2026 13:02:14 Asia/Jakarta] EMERGENCY DETECTED
+[16-Jan-2026 13:02:14 Asia/Jakarta] [EMERGENCY] Logged emergency event ID: 1, Type: crisis, Severity: critical
+[16-Jan-2026 13:02:56 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 13:02:56 Asia/Jakarta] User message: tidaklah
+[16-Jan-2026 13:02:56 Asia/Jakarta] Intent score: 0, Tier: 0, Signals: 
+[16-Jan-2026 13:02:56 Asia/Jakarta] Cumulative score: 5, Max tier: 1
+[16-Jan-2026 13:02:56 Asia/Jakarta] Current phase: curhat
+[16-Jan-2026 13:02:57 Asia/Jakarta] Bot response generated: 310 chars
+[16-Jan-2026 13:02:57 Asia/Jakarta] === CHAT REQUEST SUCCESS (1.44s) ===
+[16-Jan-2026 13:03:04 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 13:03:04 Asia/Jakarta] User message: saya tetapbunuh dirisaja
+[16-Jan-2026 13:03:04 Asia/Jakarta] Intent score: 0, Tier: 0, Signals: 
+[16-Jan-2026 13:03:04 Asia/Jakarta] Cumulative score: 5, Max tier: 1
+[16-Jan-2026 13:03:04 Asia/Jakarta] Current phase: curhat
+[16-Jan-2026 13:03:05 Asia/Jakarta] Bot response generated: 406 chars
+[16-Jan-2026 13:03:05 Asia/Jakarta] === CHAT REQUEST SUCCESS (1.56s) ===
+[16-Jan-2026 13:03:20 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 13:03:20 Asia/Jakarta] User message: jlek, leher saya sudah terpotong
+[16-Jan-2026 13:03:20 Asia/Jakarta] Intent score: 0, Tier: 0, Signals: 
+[16-Jan-2026 13:03:20 Asia/Jakarta] Cumulative score: 5, Max tier: 1
+[16-Jan-2026 13:03:20 Asia/Jakarta] Current phase: curhat
+[16-Jan-2026 13:03:22 Asia/Jakarta] Bot response generated: 317 chars
+[16-Jan-2026 13:03:22 Asia/Jakarta] === CHAT REQUEST SUCCESS (1.54s) ===
+[16-Jan-2026 13:03:32 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 13:03:32 Asia/Jakarta] User message: sakit
+[16-Jan-2026 13:03:32 Asia/Jakarta] Intent score: 0, Tier: 0, Signals: 
+[16-Jan-2026 13:03:32 Asia/Jakarta] Cumulative score: 5, Max tier: 1
+[16-Jan-2026 13:03:32 Asia/Jakarta] Current phase: curhat
+[16-Jan-2026 13:03:33 Asia/Jakarta] Bot response generated: 327 chars
+[16-Jan-2026 13:03:33 Asia/Jakarta] === CHAT REQUEST SUCCESS (1.59s) ===
+[16-Jan-2026 13:03:38 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 13:03:38 Asia/Jakarta] User message: ahhhh sakit sakit
+[16-Jan-2026 13:03:38 Asia/Jakarta] Intent score: 0, Tier: 0, Signals: 
+[16-Jan-2026 13:03:38 Asia/Jakarta] Cumulative score: 5, Max tier: 1
+[16-Jan-2026 13:03:38 Asia/Jakarta] Current phase: curhat
+[16-Jan-2026 13:03:40 Asia/Jakarta] Bot response generated: 383 chars
+[16-Jan-2026 13:03:40 Asia/Jakarta] === CHAT REQUEST SUCCESS (1.42s) ===
+[16-Jan-2026 13:04:23 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 13:04:24 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 13:10:03 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 13:10:09 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 13:10:09 Asia/Jakarta] User message: buatka saya bahasa python
+[16-Jan-2026 13:10:09 Asia/Jakarta] Intent score: 0, Tier: 0, Signals: 
+[16-Jan-2026 13:10:09 Asia/Jakarta] Cumulative score: 0, Max tier: 0
+[16-Jan-2026 13:10:09 Asia/Jakarta] Current phase: curhat
+[16-Jan-2026 13:10:09 Asia/Jakarta] [OFF-TOPIC] Detected keyword: python
+[16-Jan-2026 13:10:16 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 13:10:16 Asia/Jakarta] User message: saya dilecehkan dengan python
+[16-Jan-2026 13:10:16 Asia/Jakarta] Intent score: 7, Tier: 3, Signals: violence:dilecehkan, self_verb:saya dilecehkan
+[16-Jan-2026 13:10:16 Asia/Jakarta] New signals detected: violence:dilecehkan, self_verb:saya dilecehkan | Added 5 points
+[16-Jan-2026 13:10:16 Asia/Jakarta] Cumulative score: 5, Max tier: 1
+[16-Jan-2026 13:10:16 Asia/Jakarta] Current phase: collect
+[16-Jan-2026 13:10:16 Asia/Jakarta] [OFF-TOPIC] PPKS keyword found ('dilecehkan'), NOT off-topic
+[16-Jan-2026 13:10:18 Asia/Jakarta] Bot response generated: 157 chars
+[16-Jan-2026 13:10:18 Asia/Jakarta] === CHAT REQUEST SUCCESS (1.74s) ===
+[16-Jan-2026 13:10:31 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 13:10:31 Asia/Jakarta] User message: saya dimakan ular python oakwoakoakwoakokwoakwo
+[16-Jan-2026 13:10:31 Asia/Jakarta] Intent score: 2, Tier: 0, Signals: self_verb:saya dimakan
+[16-Jan-2026 13:10:31 Asia/Jakarta] New signals detected: self_verb:saya dimakan | Added 0 points
+[16-Jan-2026 13:10:31 Asia/Jakarta] Cumulative score: 5, Max tier: 1
+[16-Jan-2026 13:10:31 Asia/Jakarta] Current phase: curhat
+[16-Jan-2026 13:10:31 Asia/Jakarta] [OFF-TOPIC] Detected keyword: python
+[16-Jan-2026 13:11:05 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 13:11:05 Asia/Jakarta] User message: kowkaokwoa santai saja sih
+[16-Jan-2026 13:11:05 Asia/Jakarta] Intent score: 0, Tier: 0, Signals: 
+[16-Jan-2026 13:11:05 Asia/Jakarta] Cumulative score: 5, Max tier: 1
+[16-Jan-2026 13:11:05 Asia/Jakarta] Current phase: curhat
+[16-Jan-2026 13:11:06 Asia/Jakarta] Bot response generated: 201 chars
+[16-Jan-2026 13:11:06 Asia/Jakarta] === CHAT REQUEST SUCCESS (1.19s) ===
+[16-Jan-2026 13:11:13 Asia/Jakarta] === CHAT REQUEST START ===
+[16-Jan-2026 13:11:13 Asia/Jakarta] User message: aowkoakwow
+[16-Jan-2026 13:11:13 Asia/Jakarta] Intent score: 0, Tier: 0, Signals: 
+[16-Jan-2026 13:11:13 Asia/Jakarta] Cumulative score: 5, Max tier: 1
+[16-Jan-2026 13:11:13 Asia/Jakarta] Current phase: curhat
+[16-Jan-2026 13:11:14 Asia/Jakarta] Bot response generated: 191 chars
+[16-Jan-2026 13:11:14 Asia/Jakarta] === CHAT REQUEST SUCCESS (1.19s) ===

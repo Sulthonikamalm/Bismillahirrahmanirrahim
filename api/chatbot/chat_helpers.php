@@ -249,12 +249,67 @@ class ChatHelpers {
     }
 
     public static function isOffTopic($message) {
-        $keywords = ['buatkan kode', 'coding', 'python', 'javascript', 'tugas kuliah', 'resep masak'];
         $msg = strtolower($message);
         
-        foreach ($keywords as $keyword) {
-            if (strpos($msg, $keyword) !== false) return true;
+        // PENTING: Jika ada kata kunci PPKS, JANGAN anggap off-topic
+        // Ini untuk menghindari false positive seperti "saya dilecehkan dengan program python"
+        $ppksKeywords = [
+            'dilecehkan', 'diperkosa', 'disentuh', 'dipaksa', 'kekerasan',
+            'pelecehan', 'cabul', 'asusila', 'harassment', 'abuse',
+            'takut', 'trauma', 'curhat', 'cerita', 'lapor', 'bantuan'
+        ];
+        
+        foreach ($ppksKeywords as $ppksWord) {
+            if (strpos($msg, $ppksWord) !== false) {
+                error_log("[OFF-TOPIC] PPKS keyword found ('$ppksWord'), NOT off-topic");
+                return false; // Ada kata PPKS, bukan off-topic
+            }
         }
+        
+        // Kata kunci yang JELAS off-topic
+        $offTopicKeywords = [
+            // Programming
+            'buatkan kode', 'buat program', 'coding', 'python', 'javascript', 'java ', 
+            'c++', 'php ', 'html', 'css', 'sql', 'react', 'node', 'flutter',
+            'compile', 'syntax', 'function', 'variable', 'loop', 'array',
+            
+            // Tugas/akademik
+            'tugas kuliah', 'tugas sekolah', 'pr ', 'homework', 'jawab soal',
+            'kerjakan tugas', 'bantu kerjain',
+            
+            // Hacking/ilegal
+            'ddos', 'hack', 'hacking', 'crack', 'bypass', 'exploit', 'malware',
+            'judi', 'gambling', 'slot', 'togel', 'poker', 'casino',
+            'virus', 'trojan', 'phishing', 'inject', 'brute force',
+            
+            // Umum off-topic
+            'resep masak', 'lirik lagu', 'cuaca', 'bola', 'sepak bola',
+            'game', 'film', 'artis', 'gosip', 'zodiak', 'ramalan',
+            'translate', 'terjemahkan', 'bahasa inggris'
+        ];
+        
+        foreach ($offTopicKeywords as $keyword) {
+            if (strpos($msg, $keyword) !== false) {
+                error_log("[OFF-TOPIC] Detected keyword: $keyword");
+                return true;
+            }
+        }
+        
+        // Pattern untuk request membuat sesuatu yang bukan laporan
+        $offTopicPatterns = [
+            '/buatkan\s+(saya|aku|gue)?\s*(program|kode|script|bot|website)/i',
+            '/buat(in|kan)?\s*(aplikasi|game|tools)/i',
+            '/ajarin?\s*(coding|programming|hacking)/i',
+            '/cara\s+(hack|ddos|crack|cheat)/i'
+        ];
+        
+        foreach ($offTopicPatterns as $pattern) {
+            if (preg_match($pattern, $msg)) {
+                error_log("[OFF-TOPIC] Detected pattern: $pattern");
+                return true;
+            }
+        }
+        
         return false;
     }
 

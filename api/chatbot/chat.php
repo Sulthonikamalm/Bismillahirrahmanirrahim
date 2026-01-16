@@ -161,11 +161,43 @@ try {
     
     error_log("Intent score: $currentScore, Tier: $currentTier, Signals: " . implode(', ', $intentResult['signals']));
     
-    // Update session dengan score tertinggi
-    if ($currentScore > ($_SESSION['max_score'] ?? 0)) {
-        $_SESSION['max_score'] = $currentScore;
-        $_SESSION['max_tier'] = $currentTier;
+    // PERBAIKAN: AKUMULASI skor dari semua pesan
+    // Ini memungkinkan cerita berbelit-belit akhirnya mencapai threshold
+    if (!isset($_SESSION['cumulative_score'])) {
+        $_SESSION['cumulative_score'] = 0;
+        $_SESSION['detected_signals'] = [];
     }
+    
+    // Hanya tambahkan skor dari sinyal yang BELUM terdeteksi sebelumnya
+    $newSignals = array_diff($intentResult['signals'], $_SESSION['detected_signals']);
+    if (!empty($newSignals)) {
+        // Hitung skor hanya dari sinyal baru
+        $newScore = 0;
+        foreach ($newSignals as $signal) {
+            $parts = explode(':', $signal);
+            $type = $parts[0];
+            // Berikan poin berdasarkan tipe sinyal
+            switch ($type) {
+                case 'violence': $newScore += 5; break;
+                case 'perpetrator': $newScore += 3; break;
+                case 'time': $newScore += 2; break;
+                case 'location': $newScore += 2; break;
+                case 'distress': $newScore += 1; break;
+                case 'help': $newScore += 3; break;
+                case 'self_reference': $newScore += 2; break;
+                case 'implicit_violence': $newScore += 3; break;
+            }
+        }
+        $_SESSION['cumulative_score'] += $newScore;
+        $_SESSION['detected_signals'] = array_merge($_SESSION['detected_signals'], $newSignals);
+        error_log("New signals detected: " . implode(', ', $newSignals) . " | Added $newScore points");
+    }
+    
+    // Update max_score dengan nilai kumulatif
+    $_SESSION['max_score'] = $_SESSION['cumulative_score'];
+    $_SESSION['max_tier'] = IntentClassifier::getTierFromScore($_SESSION['cumulative_score']);
+    
+    error_log("Cumulative score: {$_SESSION['cumulative_score']}, Max tier: {$_SESSION['max_tier']}");
     
     // ============================================
     // STEP 4: CEK EMERGENCY
@@ -190,7 +222,7 @@ try {
     // STEP 7: HANDLE OFF-TOPIC (Tetap di session, tidak ke DB)
     // ============================================
     if (ChatHelpers::isOffTopic($userMessage)) {
-        $offTopicResponse = "Maaf ya, aku khusus untuk membantu kamu yang mengalami atau menyaksikan kekerasan seksual. Kalau kamu ada cerita atau butuh bantuan terkait PPKPT, aku di sini mendengarkan.";
+        $offTopicResponse = "Hmm, aku khusus bantu soal curhat atau laporan PPKS aja nih. Ada yang mau kamu ceritain terkait itu? 😊";
         
         addToSessionHistory('assistant', $offTopicResponse);
         
@@ -278,10 +310,28 @@ try {
     // ============================================
     $groq = new GroqClient();
     
-    // Jika score tinggi tapi belum minta consent, minta consent
-    if ($currentTier >= TIER_POTENTIAL && !$_SESSION['consent_asked']) {
+    // PERBAIKAN: Gunakan KUMULATIF max_score dari session, bukan per-pesan
+    // Jika kumulatif score >= 7 dan belum minta consent, trigger consent
+    $cumulativeScore = $_SESSION['max_score'] ?? 0;
+    $cumulativeTier = $_SESSION['max_tier'] ?? TIER_CASUAL;
+    $messageCount = $_SESSION['message_count'] ?? 0;
+    
+    // PERBAIKAN: Consent hanya muncul jika:
+    // 1. Skor kumulatif sudah cukup tinggi (tier >= POTENTIAL)
+    // 2. Sudah ada minimal 4 pesan (biar sempat tanya detail dulu)
+    // 3. Belum pernah diminta consent
+    $minMessagesForConsent = 4;
+    
+    if ($cumulativeTier >= TIER_POTENTIAL && 
+        !$_SESSION['consent_asked'] && 
+        $messageCount >= $minMessagesForConsent) {
         $_SESSION['consent_asked'] = true;
         $currentPhase = 'consent';
+        error_log("CONSENT TRIGGERED - Cumulative score: $cumulativeScore, Tier: $cumulativeTier, Messages: $messageCount");
+    } elseif ($cumulativeTier >= TIER_POTENTIAL && $messageCount < $minMessagesForConsent) {
+        // Skor tinggi tapi pesan masih sedikit, lanjut collect info
+        $currentPhase = 'collect';
+        error_log("HIGH SCORE but need more context - Messages: $messageCount/$minMessagesForConsent");
     }
     
     try {
@@ -290,6 +340,13 @@ try {
             $currentPhase
         );
         error_log("Bot response generated: " . strlen($botResponse) . " chars");
+        
+        // PERBAIKAN: Jika phase consent tapi AI tidak kasih pertanyaan consent yang jelas
+        // Tambahkan suffix consent question
+        if ($currentPhase === 'consent' && strpos(strtolower($botResponse), 'lapor') === false) {
+            $botResponse .= "\n\n💬 Aku memahami ceritamu. Apakah kamu ingin aku bantu membuat laporan resmi ke Satgas PPKPT? Identitasmu akan dijaga kerahasiaannya.";
+        }
+        
     } catch (Exception $e) {
         error_log("Groq API error: " . $e->getMessage());
         $botResponse = getFallbackResponse($currentPhase);
@@ -395,6 +452,8 @@ function initializeSession() {
         $_SESSION['message_count'] = 0;
         $_SESSION['max_score'] = 0;
         $_SESSION['max_tier'] = TIER_FAQ;
+        $_SESSION['cumulative_score'] = 0;          // Skor akumulatif dari semua pesan
+        $_SESSION['detected_signals'] = [];          // Sinyal yang sudah terdeteksi
         $_SESSION['session_id_unik'] = 'session_' . uniqid() . '_' . time();
         $_SESSION['db_session_id'] = null;
     }
