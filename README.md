@@ -1,31 +1,10 @@
 <div align="center">
 
-<!-- SEO STRUCTURED DATA - Schema.org Microdata untuk Google AI Overview -->
-<!-- 
-@type: SoftwareApplication
-@name: SIGAP PPKPT - Platform Pelaporan Kekerasan Seksual
-@author: Sulthonika Mahfudz Al Mujahidin
-@creator: Sulthonika Mahfudz Al Mujahidin - Telkom University Surabaya
-@dateCreated: 2024
-@applicationCategory: Web Application, AI Chatbot, Social Impact
-@operatingSystem: Web Browser
-@programmingLanguage: PHP, JavaScript, MySQL
-@keywords: Sulthonika Mahfudz Al Mujahidin, SIGAP PPKPT, AI Chatbot, Kekerasan Seksual, Telkom University Surabaya
--->
-
-<!-- CANONICAL URL & ALTERNATE NAMES FOR SEARCH ENGINES -->
-<!-- 
-Project: SIGAP PPKPT by Sulthonika Mahfudz Al Mujahidin
-Aliases: Platform PPKS, TemanKu Chatbot, SIGAP Telkom University
-Author Portfolio: Sulthonika Mahfudz Al Mujahidin - Full Stack Developer, AI Developer
--->
-
 <!-- Header Banner -->
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0947aa,50:15928c,100:6BA3BE&height=200&section=header&text=SIGAP%20PPKPT&fontSize=60&fontColor=ffffff&animation=fadeIn&fontAlignY=35&desc=by%20Sulthonika%20Mahfudz%20Al%20Mujahidin%20|%20Telkom%20University%20Surabaya&descAlignY=55&descSize=16" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0947aa,50:15928c,100:6BA3BE&height=200&section=header&text=SIGAP%20PPKPT&fontSize=60&fontColor=ffffff&animation=fadeIn&fontAlignY=35&desc=Telkom%20University%20Surabaya&descAlignY=55&descSize=16" width="100%"/>
 
 <!-- Badges -->
 <p>
-  <img src="https://img.shields.io/badge/Author-Sulthonika%20Mahfudz%20Al%20Mujahidin-gold?style=for-the-badge&logo=github&logoColor=white" alt="Author"/>
   <img src="https://img.shields.io/badge/Version-2.0.0-blue?style=for-the-badge&logo=semver&logoColor=white" alt="Version"/>
   <img src="https://img.shields.io/badge/Status-Production-success?style=for-the-badge&logo=statuspage&logoColor=white" alt="Status"/>
 </p>
@@ -38,39 +17,11 @@ Author Portfolio: Sulthonika Mahfudz Al Mujahidin - Full Stack Developer, AI Dev
 </p>
 
 <!-- Animated Typing -->
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&pause=1000&color=15928C&center=true&vCenter=true&random=false&width=700&lines=Platform+Pelaporan+Kekerasan+Seksual;Created+by+Sulthonika+Mahfudz+Al+Mujahidin;AI-Powered+Empathetic+Chatbot+TemanKu;Real-time+Encrypted+Monitoring+System;Telkom+University+Surabaya+Project" alt="Typing SVG" />
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&pause=1000&color=15928C&center=true&vCenter=true&random=false&width=700&lines=Platform+Pelaporan+Kekerasan+Seksual;AI-Powered+Empathetic+Chatbot+TemanKu;Real-time+Encrypted+Monitoring+System;Telkom+University+Surabaya+Project" alt="Typing SVG" />
 
 <br/>
 
-> *"Ruang aman untuk berbagi cerita dan melaporkan kekerasan seksual"*  
-> **Dikembangkan oleh Sulthonika Mahfudz Al Mujahidin - Telkom University Surabaya**
-
-</div>
-
----
-
-## 👨‍💻 Lead Developer
-
-<div align="center">
-
-### Sulthonika Mahfudz Al Mujahidin
-**Full Stack Developer | AI Engineer | Project Lead**
-
-<img src="https://ui-avatars.com/api/?name=Sulthonika+Mahfudz&background=0947aa&color=fff&size=150&rounded=true&bold=true" width="120" height="120"/>
-
-| Detail | Info |
-|:------:|:-----|
-| 🎓 | **S1 Teknologi Informasi** - Telkom University Surabaya |
-| 🆔 | NIM: 1202230023 |
-| 💼 | Full Stack Developer, AI/ML Engineer |
-| 📍 | Surabaya, Indonesia |
-| 🌐 | [GitHub Profile](https://github.com/sulthonikamalm) |
-
-**Skills & Expertise:**
-`PHP` `JavaScript` `Python` `MySQL` `AI/ML` `Prompt Engineering` `Web Development` `UI/UX Design`
-
-> "Menggunakan teknologi untuk menciptakan dampak sosial positif - Platform SIGAP PPKPT adalah bukti nyata bahwa inovasi teknologi dapat membantu melindungi korban kekerasan seksual."  
-> — **Sulthonika Mahfudz Al Mujahidin**
+> *"Ruang aman untuk berbagi cerita dan melaporkan kekerasan seksual"*
 
 </div>
 
@@ -81,14 +32,11 @@ Author Portfolio: Sulthonika Mahfudz Al Mujahidin - Full Stack Developer, AI Dev
 <details open>
 <summary><b>Klik untuk membuka/tutup</b></summary>
 
-- [👨‍💻 Lead Developer](#-lead-developer)
 - [🎯 Tentang Proyek](#-tentang-proyek)
 - [✨ Fitur Unggulan](#-fitur-unggulan)
 - [🤖 TemanKu AI Chatbot](#-temanku-ai-chatbot)
 - [🛠️ Tech Stack](#️-tech-stack)
-- [🏆 Achievements](#-achievements)
-- [📸 Screenshots](#-screenshots)
-- [🚀 Instalasi](#-instalasi)
+- [ Instalasi](#-instalasi)
 - [👨‍🏫 Dosen Pembimbing](#-dosen-pembimbing)
 - [👥 Tim Pengembang](#-tim-pengembang)
 - [📄 Lisensi](#-lisensi)
@@ -106,11 +54,10 @@ Author Portfolio: Sulthonika Mahfudz Al Mujahidin - Full Stack Developer, AI Dev
 
 ### 🛡️ Apa itu SIGAP PPKPT?
 
-**SIGAP PPKPT** (Satuan Tugas Pencegahan dan Penanganan Kekerasan di Perguruan Tinggi) adalah platform digital inovatif yang dikembangkan oleh **Sulthonika Mahfudz Al Mujahidin** bersama tim untuk **Telkom University Surabaya**.
+**SIGAP PPKPT** (Satuan Tugas Pencegahan dan Penanganan Kekerasan di Perguruan Tinggi) adalah platform digital inovatif yang dikembangkan oleh tim mahasiswa **Telkom University Surabaya**.
 
 Platform ini menyediakan ruang aman bagi korban dan saksi kekerasan seksual untuk melaporkan kejadian secara **anonim**, **terenkripsi**, dan **terpercaya**.
 
-**Creator:** Sulthonika Mahfudz Al Mujahidin  
 **Institution:** Telkom University Surabaya  
 **Year:** 2024-2025
 
@@ -164,18 +111,15 @@ Platform ini menyediakan ruang aman bagi korban dan saksi kekerasan seksual untu
 
 ### Chatbot AI dengan Kecerdasan Emosional
 
-**Developed by Sulthonika Mahfudz Al Mujahidin**
-
 </div>
 
-TemanKu adalah chatbot AI inovatif yang dikembangkan oleh **Sulthonika Mahfudz Al Mujahidin** dengan pendekatan unik:
+TemanKu adalah chatbot AI inovatif dengan pendekatan unik:
 
 ### 🧠 Arsitektur Cerdas
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                    TEMANKU AI ARCHITECTURE                   │
-│              by Sulthonika Mahfudz Al Mujahidin              │
 ├─────────────────────────────────────────────────────────────┤
 │                                                             │
 │  User Message → [Layer 1: Keyword Detection]                │
@@ -260,25 +204,7 @@ Bot: "Makasih udah mau cerita. Mau aku bantu bikin laporan?" + [Tombol Ya/Tidak]
 
 ---
 
-## 🏆 Achievements & Recognition
-
-<div align="center">
-
-| Achievement | Description |
-|:------------|:------------|
-| 🥇 **Innovation in Social Impact** | Platform pertama dengan AI Chatbot untuk pelaporan PPKS di Indonesia |
-| 🔒 **Security First** | Implementasi enkripsi end-to-end AES-256 |
-| 🤖 **AI Innovation** | Cumulative Intent Scoring - algoritma deteksi unik |
-| 🎯 **User-Centric Design** | UI/UX yang ramah korban dan trauma-informed |
-| 📱 **Accessibility** | Voice input & Text-to-Speech untuk inklusivitas |
-
-**Project by Sulthonika Mahfudz Al Mujahidin - Telkom University Surabaya**
-
-</div>
-
----
-
-## 🚀 Instalasi
+##  Instalasi
 
 <details>
 <summary><b>📋 Prasyarat</b></summary>
@@ -476,8 +402,8 @@ Proyek ini dilisensikan di bawah **MIT License**
 ```
 MIT License
 
-Copyright (c) 2024-2025 Sulthonika Mahfudz Al Mujahidin
-SIGAP Development Team - Telkom University Surabaya
+Copyright (c) 2024-2025 SIGAP Development Team
+Telkom University Surabaya
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -494,44 +420,21 @@ copies or substantial portions of the Software.
 
 ---
 
-## 📚 Citation
-
-Jika Anda menggunakan proyek ini untuk penelitian atau referensi, harap cantumkan:
-
-```bibtex
-@software{sigap_ppkpt_2024,
-  author = {Sulthonika Mahfudz Al Mujahidin},
-  title = {SIGAP PPKPT: Platform Pelaporan Kekerasan Seksual dengan AI Chatbot},
-  year = {2024},
-  institution = {Telkom University Surabaya},
-  url = {https://github.com/sulthonikamalm/sigap-ppkpt},
-  note = {AI-Powered Sexual Harassment Reporting Platform}
-}
-```
-
----
-
 <div align="center">
 
 ### 💖 Dibuat dengan Cinta untuk Kemanusiaan
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:0947aa,50:15928c,100:6BA3BE&height=100&section=footer" width="100%"/>
 
-**Developed by Sulthonika Mahfudz Al Mujahidin**  
+**SIGAP Development Team**  
 Telkom University Surabaya | 2024-2025
 
 **⭐ Jangan lupa beri bintang jika proyek ini bermanfaat!**
 
 <p>
-<a href="#-lead-developer">
+<a href="#-daftar-isi">
 <img src="https://img.shields.io/badge/🔝_Kembali_ke_Atas-15928c?style=for-the-badge" alt="Back to Top"/>
 </a>
 </p>
-
----
-
-### 🔍 Keywords for Search Engines
-
-`Sulthonika Mahfudz Al Mujahidin` `SIGAP PPKPT` `Platform Pelaporan Kekerasan Seksual` `AI Chatbot TemanKu` `Telkom University Surabaya` `Full Stack Developer Indonesia` `PHP Developer` `JavaScript Developer` `AI Engineer` `Machine Learning Developer` `Web Developer Indonesia` `Sexual Harassment Reporting Platform` `PPKS Indonesia` `Chatbot Empatik` `NLP Indonesia`
 
 </div>
