@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SIGAP PPKPT - Sistem Informasi Pengelolaan dan Pelaporan Kekerasan Seksual">
+    <title>SIGAP - Login Admin</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="../../assets/css/auth/main.css">
+    <link rel="stylesheet" href="../../assets/css/auth/login-animation.css">
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <div class="row vh-100">
+            <div class="col-lg-7 col-md-6 image-column order-2 order-md-1">
+                <div class="background">
+                    <span></span><span></span><span></span><span></span>
+                    <span></span><span></span><span></span><span></span>
+                    <span></span><span></span><span></span><span></span>
+                    <span></span><span></span><span></span><span></span>
+                    <span></span><span></span><span></span><span></span>
+                    <span></span><span></span><span></span>
+                </div>
+
+                <div class="illustration-container">
+                    <div class="illustration-content">
+                        <div class="logo-container">
+                            <img src="../../assets/images/logo-sigap-new.png" class="logo-image" alt="Logo SIGAP"
+                                onerror="this.src='../../assets/images/logo-sigap.png';">
+                        </div>
+
+                        <p class="welcome-text">Selamat Datang di</p>
+                        <h1 class="main-title">SIGAP PPKPT</h1>
+                        <p class="subtitle-text">Pencegahan dan Penanganan Kekerasan</p>
+                        <p class="subtitle-text">Perguruan Tinggi</p>
+                        <p class="subtitle-text">Telkom University Surabaya</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-5 col-md-6 form-column order-1 order-md-2">
+                <div class="form-container">
+                    <h2 class="subtitle" style="margin-bottom: 5px; font-weight: 550; color: #302f2f;">Log in Admin</h2>
+
+                    <form id="loginForm" novalidate>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" class="form-control" id="email" placeholder="pacungan@gmail.com"
+                                autocomplete="email" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="password" class="form-label">Password</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="password"
+                                    placeholder="Enter your password" autocomplete="current-password" required>
+                                <span class="input-group-text" id="togglePassword" style="cursor: pointer;">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="eyeIcon">
+                                        <path
+                                            d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24">
+                                        </path>
+                                        <line x1="1" y1="1" x2="23" y2="23"></line>
+                                    </svg>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div id="errorMessage" class="alert alert-danger hidden" role="alert">
+                            <i class="bi bi-exclamation-circle"></i>
+                            <span id="errorText">Email atau Password salah!</span>
+                        </div>
+
+                        <div class="d-grid mt-3">
+                            <button type="submit" class="btn-login login-button">
+                                Log in
+                            </button>
+                        </div>
+
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../assets/js/auth/auth.js"></script>
+</body>
+
+</html>

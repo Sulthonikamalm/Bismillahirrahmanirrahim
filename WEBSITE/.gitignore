@@ -1,0 +1,43 @@
+# Upload files
+/uploads/bukti/*
+!/uploads/bukti/.gitkeep
+
+# Logs (semua log file dan archive, kecuali script dan htaccess)
+/api/logs/*.log
+/api/logs/archive/*
+!/api/logs/.htaccess
+!/api/logs/rotate.php
+!/api/logs/.gitkeep
+*.log.gz
+
+# Environment (WAJIB DIAKTIFKAN - jangan commit credentials!)
+.env
+.env.local
+.env.production
+
+# Config (WAJIB DIAKTIFKAN - berisi API key dan credentials)
+/config/config.php
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# PHP
+vendor/
+composer.lock
+
+# Rate limit storage
+/storage/rate_limit/*.json
+!/storage/rate_limit/.htaccess
+!/storage/rate_limit/.gitkeep
+!/storage/rate_limit/index.php
+
+# Maintenance
+.maintenance

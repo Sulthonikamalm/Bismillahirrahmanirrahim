@@ -1,0 +1,441 @@
+        /* ========== RICH TEXT EDITOR STYLES ========== */
+        :root {
+            --editor-bg: #F8F9FA;
+            --editor-paper: #FFFFFF;
+            --editor-text: #202124;
+            --editor-secondary: #5F6368;
+            --editor-border: #DADCE0;
+            --editor-hover: #F1F3F4;
+            --editor-active: #E8EAED;
+            --editor-primary: #1A73E8;
+            --editor-shadow-sm: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+            --editor-shadow-md: 0 2px 6px rgba(0, 0, 0, 0.15);
+            --editor-shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Editor Container */
+        .editor-wrapper {
+            background: var(--editor-bg);
+            border-radius: 8px;
+            padding: 0;
+            margin-top: 16px;
+            position: relative;
+        }
+
+        /* Editor Toolbar */
+        .editor-toolbar {
+            background: var(--editor-paper);
+            border-bottom: 1px solid var(--editor-border);
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            flex-wrap: wrap;
+            border-radius: 8px 8px 0 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .toolbar-group {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            padding: 0 6px;
+            border-right: 1px solid var(--editor-border);
+        }
+
+        .toolbar-group:last-child {
+            border-right: none;
+        }
+
+        .toolbar-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: transparent;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--editor-secondary);
+            transition: all 0.15s ease;
+        }
+
+        .toolbar-btn:hover {
+            background: var(--editor-hover);
+            color: var(--editor-text);
+        }
+
+        .toolbar-btn.active {
+            background: var(--editor-active);
+            color: var(--editor-primary);
+        }
+
+        .toolbar-btn .material-icons {
+            font-size: 20px;
+        }
+
+        .font-select-wrapper {
+            position: relative;
+            min-width: 120px;
+        }
+
+        .font-dropdown {
+            width: 100%;
+            height: 32px;
+            padding: 0 28px 0 10px;
+            border: 1px solid var(--editor-border);
+            border-radius: 4px;
+            background: var(--editor-paper);
+            font-size: 13px;
+            color: var(--editor-text);
+            cursor: pointer;
+            appearance: none;
+        }
+
+        .font-dropdown:hover {
+            background: var(--editor-hover);
+        }
+
+        .font-select-wrapper::after {
+            content: '▼';
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 9px;
+            color: var(--editor-secondary);
+            pointer-events: none;
+        }
+
+        /* Paper View */
+        .editor-paper {
+            background: var(--editor-paper);
+            min-height: 500px;
+            box-shadow: var(--editor-shadow-md);
+            margin: 20px auto;
+            max-width: 800px;
+            padding: 60px 72px;
+            border-radius: 2px;
+        }
+
+        .editor-content {
+            outline: none;
+            font-size: 11pt;
+            line-height: 1.6;
+            color: var(--editor-text);
+            font-family: 'Roboto', Arial, sans-serif;
+            min-height: 400px;
+        }
+
+        .editor-content:empty::before {
+            content: 'Mulai menulis konten...';
+            color: #999;
+            font-style: italic;
+        }
+
+        /* Floating Toolbar */
+        .floating-toolbar {
+            position: absolute;
+            background: var(--editor-text);
+            color: white;
+            border-radius: 8px;
+            padding: 6px 8px;
+            display: none;
+            gap: 4px;
+            box-shadow: var(--editor-shadow-lg);
+            z-index: 10000;
+            animation: floatIn 0.2s ease;
+        }
+
+        @keyframes floatIn {
+            from {
+                opacity: 0;
+                transform: translateY(5px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .floating-toolbar.show {
+            display: flex;
+        }
+
+        .floating-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: transparent;
+            color: rgba(255, 255, 255, 0.8);
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s ease;
+        }
+
+        .floating-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .floating-btn.active {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .floating-btn .material-icons {
+            font-size: 18px;
+        }
+
+        .floating-divider {
+            width: 1px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.2);
+            margin: 0 4px;
+        }
+
+/* Custom Dropdown for Toolbar */
+.dropdown-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: -10px; /* Slight offset */
+    background: white;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    padding: 6px 0;
+    min-width: 240px;
+    z-index: 10002;
+    display: none;
+    flex-direction: column;
+    margin-top: 8px;
+    animation: fadeIn 0.15s ease-out;
+}
+
+.dropdown-menu.show {
+    display: flex;
+}
+
+.dropdown-item {
+    padding: 10px 20px;
+    font-size: 14px;
+    color: #4a5568;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    border-left: 2px solid transparent;
+}
+
+.dropdown-item:hover {
+    background: #f8fafc;
+    color: var(--editor-primary);
+    border-left-color: var(--editor-primary);
+}
+
+.dropdown-item.active {
+    background: #eff6ff;
+    color: var(--editor-primary);
+    font-weight: 500;
+}
+
+.dropdown-divider {
+    height: 1px;
+    background: #e2e8f0;
+    margin: 6px 0;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+        /* Text Styles */
+        .editor-content h1 {
+            font-size: 28pt;
+            font-weight: 600;
+            margin: 16px 0 12px;
+            line-height: 1.3;
+        }
+
+        .editor-content h2 {
+            font-size: 20pt;
+            font-weight: 600;
+            margin: 14px 0 10px;
+            line-height: 1.3;
+        }
+
+        .editor-content h3 {
+            font-size: 16pt;
+            font-weight: 600;
+            margin: 12px 0 8px;
+            line-height: 1.4;
+        }
+
+        .editor-content p {
+            margin: 6px 0;
+        }
+
+        .editor-content blockquote {
+            border-left: 4px solid var(--editor-primary);
+            padding-left: 16px;
+            margin: 12px 0;
+            color: var(--editor-secondary);
+            font-style: italic;
+        }
+
+        .editor-content hr {
+            border: none;
+            border-top: 1px solid var(--editor-border);
+            margin: 24px 0;
+        }
+
+        .editor-content ul,
+        .editor-content ol {
+            margin: 8px 0;
+            padding-left: 32px;
+        }
+
+        .editor-content li {
+            margin: 4px 0;
+        }
+
+        .editor-content img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+
+        .editor-content a {
+            color: var(--editor-primary);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+        }
+
+        .editor-content a:hover {
+            border-bottom-color: var(--editor-primary);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10001;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal-box {
+            background: white;
+            border-radius: 8px;
+            padding: 24px;
+            min-width: 400px;
+            box-shadow: var(--editor-shadow-lg);
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .modal-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--editor-border);
+            border-radius: 4px;
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+
+        .modal-input:focus {
+            outline: none;
+            border-color: var(--editor-primary);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+
+        .modal-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .modal-btn-cancel {
+            background: transparent;
+            color: var(--editor-secondary);
+        }
+
+        .modal-btn-cancel:hover {
+            background: var(--editor-hover);
+        }
+
+        .modal-btn-primary {
+            background: var(--editor-primary);
+            color: white;
+        }
+
+        .modal-btn-primary:hover {
+            background: #1557b0;
+        }
+
+        /* Tooltip */
+        .tooltip-btn {
+            position: relative;
+        }
+
+        .tooltip-btn::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%) translateY(-4px);
+            background: rgba(0, 0, 0, 0.85);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+            z-index: 10002;
+        }
+
+        .tooltip-btn:hover::after {
+            opacity: 1;
+        }
+
+        /* Hide default textarea */
+        #postIsi {
+            display: none;
+        }

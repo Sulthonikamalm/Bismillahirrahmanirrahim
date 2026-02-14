@@ -1,0 +1,3780 @@
+/* Global Fix for Horizontal Overflow - CRITICAL */
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+  position: relative;
+}
+
+/* Prevent any element from causing overflow */
+* {
+  max-width: 100%;
+}
+
+/* Exception for elements that need to overflow */
+.hero-image-new,
+.hero-phone-image,
+.transparansi-main-card {
+  max-width: none;
+}
+
+/* Section White Background */
+.section-white {
+  background: #ffffff;
+}
+
+/* ============================================
+   PROSES PENANGANAN SECTION
+   Grid + Clouds + Animated Text
+   ============================================ */
+
+.section-proses-penanganan {
+  position: relative;
+  background: #ffffff;
+  min-height: 400px;
+  padding: 30px 0 80px;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 60px;
+  z-index: 0; /* Create stacking context */
+}
+
+/* Grid Pattern - Fades at top, visible from Oleh PPKPT to Step 5 */
+.proses-grid-pattern {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: calc(100% + 200px);
+  background-image:
+    linear-gradient(to right, rgba(180, 190, 200, 0.4) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(180, 190, 200, 0.4) 1px, transparent 1px);
+  background-size: 50px 50px;
+  opacity: 0.6;
+  pointer-events: none;
+  z-index: 1; /* Lowest layer - above background */
+  /* TOP: fade out, MIDDLE-BOTTOM: fully visible */
+  mask-image: 
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      transparent 12%,
+      rgba(0,0,0,0.15) 18%,
+      rgba(0,0,0,0.4) 25%,
+      rgba(0,0,0,0.7) 32%,
+      rgba(0,0,0,1) 40%,
+      rgba(0,0,0,1) 100%
+    );
+  -webkit-mask-image: 
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      transparent 12%,
+      rgba(0,0,0,0.15) 18%,
+      rgba(0,0,0,0.4) 25%,
+      rgba(0,0,0,0.7) 32%,
+      rgba(0,0,0,1) 40%,
+      rgba(0,0,0,1) 100%
+    );
+}
+
+/* Cloud/Smoke Effects - Above grid */
+.proses-clouds {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2; /* Above grid */
+  overflow: hidden;
+}
+
+.cloud {
+  position: absolute;
+  background: radial-gradient(ellipse at center, 
+    rgba(180, 200, 230, 0.2) 0%, 
+    rgba(200, 215, 240, 0.12) 40%,
+    transparent 70%);
+  border-radius: 50%;
+  filter: blur(50px);
+  /* NO ANIMATION - static clouds */
+}
+
+.cloud-1 {
+  width: 600px;
+  height: 300px;
+  top: 0%;
+  left: -15%;
+  opacity: 0.8;
+}
+
+.cloud-2 {
+  width: 500px;
+  height: 250px;
+  top: 40%;
+  right: -15%;
+  opacity: 0.7;
+}
+
+.cloud-3 {
+  width: 450px;
+  height: 220px;
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0.6;
+}
+
+/* Main Content Container - Above all decorations */
+.proses-content {
+  position: relative;
+  z-index: 5; /* Above grid (1), clouds (2), decorations (3) */
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+/* Title Wrapper - contains both title and Oleh PPKPT - VERY COMPACT */
+.proses-title-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0; /* NO GAP - very compact */
+}
+
+/* Main Title - Slight tilt for style */
+.proses-main-title {
+  font-family: var(--font-heading);
+  /* Same size as Transparansi Data Penanganan */
+  font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  /* Slight tilt - stylish but subtle */
+  transform: rotate(-1.5deg);
+}
+
+/* Proses Highlight - Softer muted blue with White Text */
+.proses-highlight {
+  position: relative;
+  color: #ffffff;
+  background: transparent !important;
+  padding: 8px 24px;
+  display: inline-block;
+  border-radius: 8px;
+  font-size: inherit;
+  line-height: inherit;
+  z-index: 1;
+}
+
+.proses-highlight::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  /* Softer, more muted blue - not too vibrant */
+  background: linear-gradient(135deg, #6b9bd1 0%, #8fb3dc 100%);
+  border-radius: 8px;
+  z-index: -1;
+  box-shadow: 0 4px 15px rgba(107, 155, 209, 0.25);
+}
+
+.proses-highlight.in-view::before {
+  animation: stabilo-sweep 1s ease-out forwards;
+}
+
+/* Oleh PPKPT - Same size as Transparansi title - NO margin */
+.proses-oleh-text {
+  font-family: var(--font-heading);
+  /* SAME SIZE as Transparansi title */
+  font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+  font-weight: 700;
+  color: #1a1a2e;
+  letter-spacing: -0.02em;
+  margin-top: 0; /* NO spacing - very compact */
+}
+
+/* Animation for Oleh PPKPT - fade in from bottom (scroll-triggered) */
+.proses-oleh-animate {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.proses-oleh-animate.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Description paragraph - centered, black, small font, COMPACT margin */
+.proses-description {
+  font-family: var(--font-body);
+  /* Same size as Transparansi commitment text */
+  font-size: clamp(0.9rem, 1.5vw, 1.05rem);
+  font-weight: 400;
+  color: #1a1a2e;
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto; /* NO GAP - completely attached to Oleh PPKPT */
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+}
+
+/* Animation for description - scroll-triggered */
+.proses-description-animate {
+  opacity: 0;
+  transform: translateY(15px);
+  transition: opacity 0.6s ease-out 0.2s, transform 0.6s ease-out 0.2s;
+}
+
+.proses-description-animate.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================================
+   PROCESS TIMELINE - Professional Grid Layout
+   ============================================ */
+
+/* Main Timeline Container */
+.process-timeline {
+  width: 100%;
+  max-width: 900px;
+  margin: 50px auto 0;
+  position: relative;
+  z-index: 5;
+}
+
+/* ONE Continuous Drawing Line - Animated on scroll */
+.timeline-drawing-line {
+  position: absolute;
+  left: 50%;
+  top: 25px;
+  width: 3px;
+  height: 0; /* Animated by JS */
+  background: linear-gradient(to bottom,
+    rgba(107, 155, 209, 0.6) 0%,
+    rgba(107, 155, 209, 0.4) 100%
+  );
+  transform: translateX(-50%);
+  border-radius: 2px;
+  z-index: 0; /* Very low - will be covered by step-center */
+  box-shadow: 0 0 6px rgba(107, 155, 209, 0.2);
+}
+
+/* Each Process Step - 3 Column Grid */
+.process-step {
+  display: grid;
+  grid-template-columns: 1fr 80px 1fr;
+  gap: 20px;
+  align-items: start;
+  margin-bottom: 0;
+  position: relative;
+  z-index: 2; /* Above the drawing line */
+}
+
+/* Left Content Column */
+.step-left-content {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 10px;
+}
+
+/* Right Content Column */
+.step-right-content {
+  display: flex;
+  justify-content: flex-start;
+  padding-left: 10px;
+}
+
+/* Center Column - Number + Line - Creates stacking context */
+.step-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 2; /* Above the drawing line (z-index: 0) */
+}
+
+/* White background circle that COVERS the line - sized to match number */
+.step-center::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70px;
+  height: 70px;
+  background: #ffffff;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+/* Step Number Circle */
+.step-number {
+  width: 56px;
+  height: 56px;
+  background: #ffffff;
+  border: 3px solid rgba(107, 155, 209, 0.35);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #6b9bd1;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  z-index: 3; /* Above the white background */
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* Outer decorative ring */
+.step-number::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70px;
+  height: 70px;
+  border: 2px solid rgba(107, 155, 209, 0.12);
+  border-radius: 50%;
+}
+
+/* Number hover effect */
+.step-number:hover {
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.12);
+}
+
+/* Line Segment - Hidden, continuous line handles visual */
+.step-line-segment {
+  width: 0;
+  height: 80px;
+  background: transparent;
+  visibility: hidden;
+}
+
+/* Step Card Content - Better proportions */
+.step-card {
+  text-align: center;
+  width: 200px;
+  padding: 24px 20px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.06),
+    0 2px 8px rgba(0, 0, 0, 0.02);
+  transition: 
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 5;
+}
+
+.step-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 
+    0 16px 48px rgba(0, 0, 0, 0.1),
+    0 6px 16px rgba(0, 0, 0, 0.05);
+}
+
+.step-left-content .step-card {
+  text-align: center;
+}
+
+.step-right-content .step-card {
+  text-align: center;
+}
+
+/* Icon Box - Blue rounded card with white icon (like reference image) */
+.step-icon-box {
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, #7ba8dc 0%, #6b9bd1 100%);
+  border-radius: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+  box-shadow: 0 4px 16px rgba(107, 155, 209, 0.25);
+  transition: 
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.step-icon-box:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(107, 155, 209, 0.35);
+}
+
+.step-icon-box i {
+  font-size: 1.6rem;
+  color: #ffffff;
+}
+
+/* Step Title - Cleaner */
+.step-card h4 {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0 0 6px 0;
+  letter-spacing: -0.01em;
+}
+
+/* Step Description */
+.step-card p {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: #5a6775;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Scroll Animation - Cards appear when line reaches bullet */
+.roadmap-animate {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: 
+    opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.roadmap-animate.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Step Card animates with parent */
+.step-card {
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: 
+    opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.1s,
+    transform 0.4s cubic-bezier(0.4, 0, 0.2, 1) 0.1s;
+}
+
+.step-right-content .step-card {
+  transform: translateX(20px);
+}
+
+.roadmap-animate.in-view .step-card {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Step Number animates with parent */
+.step-number {
+  opacity: 0;
+  transform: scale(0.5);
+  transition: 
+    opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.roadmap-animate.in-view .step-number {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Mobile-only cards - Hidden on desktop, shown on mobile */
+.mobile-only {
+  display: none !important;
+}
+
+/* Desktop-only cards - Shown on desktop, hidden on mobile */
+.desktop-only {
+  display: block;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .process-timeline {
+    padding: 0 15px;
+  }
+  
+  /* Move the drawing line to align with circles on mobile */
+  .timeline-drawing-line {
+    left: 35px;
+  }
+  
+  .process-step {
+    grid-template-columns: 60px 1fr;
+    grid-template-rows: auto;
+    gap: 15px;
+    margin-bottom: 20px;
+    align-items: start;
+  }
+  
+  /* Hide left content on mobile */
+  .step-left-content {
+    display: none !important;
+  }
+  
+  /* Show right content always - ensure it takes the card area */
+  .step-right-content {
+    display: flex !important;
+    grid-column: 2;
+    grid-row: 1;
+    padding-left: 0;
+    align-items: flex-start;
+  }
+  
+  .step-center {
+    grid-column: 1;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Smaller white mask on mobile - proportional to number */
+  .step-center::before {
+    width: 56px;
+    height: 56px;
+    top: -3px;
+  }
+  
+  .step-number {
+    width: 44px;
+    height: 44px;
+    font-size: 0.9rem;
+  }
+  
+  .step-number::after {
+    width: 56px;
+    height: 56px;
+  }
+  
+  .step-line-segment {
+    height: 40px;
+  }
+  
+  .step-icon-box {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+  }
+  
+  .step-icon-box i {
+    font-size: 1.2rem;
+  }
+  
+  .step-card {
+    text-align: left !important;
+    width: 100%;
+    max-width: 100%;
+    padding: 16px;
+    border-radius: 16px;
+  }
+  
+  .step-card h4 {
+    font-size: 0.95rem;
+    margin-bottom: 4px;
+  }
+  
+  .step-card p {
+    font-size: 0.8rem;
+    line-height: 1.4;
+    margin: 0;
+  }
+  
+  /* Show mobile-only cards on mobile */
+  .mobile-only {
+    display: block !important;
+  }
+  
+  /* Hide desktop-only on mobile */
+  .desktop-only {
+    display: none !important;
+  }
+  
+  /* Ensure ALL cards in step-right-content are visible on mobile */
+  .step-right-content .step-card {
+    display: block !important;
+  }
+}
+
+/* ============================================
+   CREATIVE DECORATIONS - Geometric Shapes
+   (Not bubbles, but abstract geometric forms)
+   ============================================ */
+
+.proses-decorations {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 3; /* Above grid (1) and clouds (2) */
+  overflow: hidden;
+}
+
+/* Soft gradient circles - like subtle aurora */
+.deco-shape {
+  position: absolute;
+  border-radius: 50%;
+  /* NO ANIMATION - static */
+}
+
+/* Large soft shape - top left - MORE VISIBLE */
+.deco-shape-1 {
+  width: 350px;
+  height: 350px;
+  top: 5%;
+  left: -8%;
+  background: radial-gradient(circle at 30% 30%, 
+    rgba(107, 155, 209, 0.25) 0%,
+    rgba(143, 179, 220, 0.12) 50%,
+    transparent 70%);
+}
+
+/* Soft shape - top right - MORE VISIBLE */
+.deco-shape-2 {
+  width: 280px;
+  height: 280px;
+  top: 8%;
+  right: 3%;
+  background: radial-gradient(circle at 70% 30%, 
+    rgba(180, 200, 230, 0.22) 0%,
+    rgba(200, 215, 240, 0.1) 50%,
+    transparent 70%);
+}
+
+/* ============================================
+   VIDEO CARD SECTION - Clean Professional Design
+   ============================================ */
+
+.video-card-section {
+  width: 100%;
+  max-width: 1000px;
+  margin: 60px auto 0;
+  padding: 0 20px;
+  position: relative;
+}
+
+/* Video Decorative Ornaments */
+.video-decorations {
+  position: absolute;
+  top: -50px;
+  left: -80px;
+  right: -80px;
+  bottom: -50px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.video-deco {
+  position: absolute;
+  border-radius: 50%;
+}
+
+/* Floating Circles */
+.video-deco-circle-1 {
+  width: 120px;
+  height: 120px;
+  top: -20px;
+  left: -40px;
+  background: radial-gradient(circle at 30% 30%, 
+    rgba(107, 155, 209, 0.15) 0%, 
+    rgba(123, 168, 220, 0.08) 60%, 
+    transparent 100%);
+}
+
+.video-deco-circle-2 {
+  width: 80px;
+  height: 80px;
+  top: 30%;
+  right: -30px;
+  background: radial-gradient(circle at 70% 30%, 
+    rgba(180, 200, 230, 0.18) 0%, 
+    transparent 70%);
+}
+
+.video-deco-circle-3 {
+  width: 60px;
+  height: 60px;
+  bottom: 20%;
+  left: -25px;
+  background: rgba(107, 155, 209, 0.1);
+}
+
+/* Rings */
+.video-deco-ring-1 {
+  width: 100px;
+  height: 100px;
+  top: 15%;
+  right: -50px;
+  border: 3px solid rgba(107, 155, 209, 0.12);
+  background: transparent;
+}
+
+.video-deco-ring-2 {
+  width: 50px;
+  height: 50px;
+  bottom: 30%;
+  right: -20px;
+  border: 2px solid rgba(180, 200, 230, 0.15);
+  background: transparent;
+}
+
+/* Dots Pattern */
+.video-deco-dots {
+  width: 80px;
+  height: 80px;
+  bottom: 10%;
+  left: -35px;
+  background-image: radial-gradient(circle, rgba(107, 155, 209, 0.25) 2px, transparent 2px);
+  background-size: 12px 12px;
+  border-radius: 0;
+}
+
+/* Gradient Blobs */
+.video-deco-blob-1 {
+  width: 200px;
+  height: 200px;
+  top: -80px;
+  right: 10%;
+  background: radial-gradient(ellipse at center, 
+    rgba(123, 168, 220, 0.1) 0%, 
+    transparent 60%);
+  filter: blur(30px);
+}
+
+.video-deco-blob-2 {
+  width: 150px;
+  height: 150px;
+  bottom: -40px;
+  left: 5%;
+  background: radial-gradient(ellipse at center, 
+    rgba(107, 155, 209, 0.08) 0%, 
+    transparent 60%);
+  filter: blur(25px);
+}
+
+.video-card-wrapper {
+  position: relative;
+  width: 100%;
+  padding-bottom: 50px;
+  z-index: 1; /* Above decorations */
+}
+
+.video-svg-container {
+  position: relative;
+  width: 100%;
+  filter: drop-shadow(0 15px 50px rgba(0, 0, 0, 0.15));
+}
+
+/* Video Cover Overlay - Hides YouTube Branding */
+.video-cover-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  cursor: pointer;
+  border-radius: 50px 50px 0 0;
+  overflow: hidden;
+  transition: opacity 0.4s ease;
+}
+
+.video-cover-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.video-cover-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, 
+    rgba(107, 155, 209, 0.95) 0%, 
+    rgba(123, 168, 220, 0.9) 50%,
+    rgba(100, 145, 195, 0.95) 100%);
+}
+
+.video-cover-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  color: #ffffff;
+  text-align: center;
+}
+
+.video-cover-content i {
+  font-size: 5rem;
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.2));
+  transition: transform 0.3s ease;
+}
+
+.video-cover-overlay:hover .video-cover-content i {
+  transform: scale(1.1);
+}
+
+.video-cover-content span {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.video-svg-container svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.video-inner-container {
+  width: 100%;
+  height: 100%;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden; /* Ensure cropping works */
+  position: relative;
+}
+
+.video-inner-container iframe {
+  position: absolute;
+  /* Expand iframe beyond container to crop edges */
+  top: -12%;
+  left: -12%;
+  width: 124% !important;
+  height: 124% !important;
+  max-width: none !important; /* Override Bootstrap/global CSS */
+  max-height: none !important;
+  min-width: 0;
+  min-height: 0;
+  border: none;
+  /* ALWAYS disable clicking - only custom button can control */
+  pointer-events: none !important;
+  transform-origin: center center;
+}
+
+/* Never enable pointer-events on video - only custom button controls */
+.video-inner-container.playing iframe {
+  pointer-events: none !important;
+}
+
+/* Play Button */
+.video-play-wrapper {
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+}
+
+.video-play-btn {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #7ba8dc 0%, #6b9bd1 100%);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 12px 35px rgba(107, 155, 209, 0.45);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 5px solid #ffffff;
+  outline: none;
+  position: relative;
+}
+
+.video-play-btn:hover {
+  transform: scale(1.1) translateY(-3px);
+  box-shadow: 0 18px 45px rgba(107, 155, 209, 0.6);
+}
+
+.video-play-btn:active {
+  transform: scale(0.95);
+}
+
+/* Play Icon Triangle */
+.play-icon-triangle {
+  width: 0;
+  height: 0;
+  border-left: 24px solid #ffffff;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+  margin-left: 5px;
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.15));
+  transition: all 0.3s ease;
+}
+
+/* Pause Icon Bars */
+.pause-icon-bars {
+  display: none;
+  gap: 7px;
+  align-items: center;
+}
+
+.pause-icon-bars.active {
+  display: flex;
+}
+
+.play-icon-triangle.hidden {
+  display: none;
+}
+
+.pause-icon-bars span {
+  width: 9px;
+  height: 28px;
+  background: #ffffff;
+  border-radius: 3px;
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.15));
+}
+
+/* Video Card Responsive */
+@media (max-width: 768px) {
+  .video-card-section {
+    margin-top: 40px;
+    padding: 0 15px;
+  }
+  
+  .video-play-wrapper {
+    bottom: -25px;
+  }
+  
+  .video-play-btn {
+    width: 64px;
+    height: 64px;
+    border-width: 4px;
+  }
+  
+  .play-icon-triangle {
+    border-left-width: 20px;
+    border-top-width: 12px;
+    border-bottom-width: 12px;
+  }
+  
+  .pause-icon-bars span {
+    width: 7px;
+    height: 22px;
+  }
+}
+
+/* Geometric line accent - MORE VISIBLE */
+.deco-line {
+  position: absolute;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(107, 155, 209, 0.35), 
+    transparent);
+  /* NO ANIMATION */
+}
+
+.deco-line-1 {
+  width: 150px;
+  top: 25%;
+  left: 10%;
+  transform: rotate(-12deg);
+}
+
+.deco-line-2 {
+  width: 120px;
+  bottom: 30%;
+  right: 12%;
+  transform: rotate(10deg);
+}
+
+/* Subtle diamond shapes - MORE VISIBLE */
+.deco-diamond {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  background: rgba(107, 155, 209, 0.18);
+  transform: rotate(45deg);
+  border-radius: 2px;
+  /* NO ANIMATION */
+}
+
+.deco-diamond-1 {
+  top: 18%;
+  right: 22%;
+}
+
+.deco-diamond-2 {
+  bottom: 25%;
+  left: 18%;
+  width: 18px;
+  height: 18px;
+}
+
+.deco-diamond-3 {
+  top: 55%;
+  right: 10%;
+  width: 14px;
+  height: 14px;
+}
+
+/* Additional diamond for symmetry */
+.deco-diamond-4 {
+  top: 40%;
+  left: 8%;
+  width: 16px;
+  height: 16px;
+}
+
+/* Soft ring shapes - MORE VISIBLE & REARRANGED */
+.deco-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid rgba(107, 155, 209, 0.18);
+  background: transparent;
+  /* NO ANIMATION */
+}
+
+.deco-ring-1 {
+  width: 100px;
+  height: 100px;
+  top: 12%;
+  left: 20%;
+}
+
+.deco-ring-2 {
+  width: 60px;
+  height: 60px;
+  bottom: 22%;
+  right: 22%;
+}
+
+
+
+/* Responsive */
+@media (max-width: 768px) {
+  .section-proses-penanganan {
+    min-height: 400px;
+    padding: 60px 0 80px;
+  }
+
+  .proses-grid-pattern {
+    width: 100%;
+    background-size: 40px 40px;
+  }
+
+  .proses-main-title {
+    font-size: clamp(2rem, 8vw, 3rem);
+    transform: rotate(-2deg) skewX(-1deg);
+  }
+
+  .proses-highlight {
+    padding: 6px 16px;
+  }
+
+  .cloud {
+    filter: blur(20px);
+  }
+
+  .cloud-1, .cloud-2 {
+    width: 200px;
+    height: 100px;
+  }
+
+  .cloud-3 {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .section-proses-penanganan {
+    min-height: 350px;
+    padding: 50px 0 60px;
+  }
+
+  .proses-main-title {
+    font-size: 1.8rem;
+  }
+
+  .proses-oleh-text {
+    font-size: 1rem;
+  }
+}
+
+/* ============================================
+   STABILO/HIGHLIGHTER ANIMATION
+   Efek highlight dari kiri ke kanan saat scroll
+   ============================================ */
+
+/* Keyframe animation - sweep from left to right */
+@keyframes stabilo-sweep {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+/* Keyframe animation - fade in + slide up (NO ZOOM) */
+@keyframes fadeSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== Data Penanganan - White highlight sweep ===== */
+.transparansi-text-highlight.highlight-animate {
+  position: relative;
+  color: #7ba8dc;
+  background: transparent !important;
+  padding: 4px 12px;
+  display: inline-block;
+  border-radius: 6px;
+  /* Preserve font size */
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.transparansi-text-highlight.highlight-animate::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  background: #ffffff;
+  border-radius: 6px;
+  z-index: -1;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.transparansi-text-highlight.highlight-animate.in-view::before {
+  animation: stabilo-sweep 0.8s ease-out forwards;
+}
+
+
+/* ===== Berani Bersuara - Blue background sweep ===== */
+.hero-title-new .text-gradient.highlight-animate {
+  position: relative;
+  color: #ffffff;
+  background: transparent !important;
+  padding: 4px 12px;
+  display: inline-block;
+  border-radius: 6px;
+  /* Preserve font size */
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.hero-title-new .text-gradient.highlight-animate::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  background: #7ba8dc;
+  border-radius: 6px;
+  z-index: -1;
+}
+
+.hero-title-new .text-gradient.highlight-animate.in-view::before {
+  animation: stabilo-sweep 0.8s ease-out forwards;
+  animation-delay: 0.5s;
+}
+
+
+
+/* ===== Stat Cards - Fade + Slide Up Animation ===== */
+.transparansi-stat-box {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.transparansi-stat-box.in-view {
+  animation: fadeSlideUp 0.6s ease-out forwards;
+}
+
+/* Stagger animation for second card */
+.transparansi-stat-box:nth-child(2).in-view {
+  animation-delay: 0.2s;
+}
+
+
+/* ============================================
+   NEW HERO SECTION - Clean White Design
+   Grid Pattern + Hand Phone Image (Netfox Style)
+   ============================================ */
+
+.hero-section-new {
+  position: relative;
+  background: #ffffff;
+  min-height: 100vh;
+  padding-top: 100px;
+  padding-bottom: 0;
+  overflow: visible;
+  display: flex;
+  align-items: center;
+  z-index: 1;
+}
+
+/* Grid Pattern - Upper Left - CLEARLY VISIBLE */
+.hero-grid-pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60%;
+  height: 100%;
+  background-image:
+    linear-gradient(to right, #e5e7eb 1px, transparent 1px),
+    linear-gradient(to bottom, #e5e7eb 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity: 1;
+  pointer-events: none;
+  z-index: 0;
+  /* Visible past LAPOR button but fade before phone image - 10% lower opacity */
+  mask-image: linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.85) 70%, rgba(0,0,0,0.25) 85%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.85) 70%, rgba(0,0,0,0.25) 85%, transparent 100%);
+}
+
+/* Decorative Circles - Static (no animation) */
+.hero-decorative-circles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.deco-circle {
+  position: absolute;
+  border-radius: 50%;
+}
+
+/* Large blue circle - top left */
+.deco-circle-1 {
+  width: 140px;
+  height: 140px;
+  background: #7ba8dc;
+  opacity: 0.35;
+  top: 12%;
+  left: 5%;
+}
+
+/* Medium blue circle - left side */
+.deco-circle-2 {
+  width: 70px;
+  height: 70px;
+  background: #7ba8dc;
+  opacity: 0.45;
+  top: 35%;
+  left: 15%;
+}
+
+/* Small blue circle - top right area */
+.deco-circle-3 {
+  width: 50px;
+  height: 50px;
+  background: #7ba8dc;
+  opacity: 0.4;
+  top: 10%;
+  right: 30%;
+}
+
+/* Extra circle */
+.deco-circle-4 {
+  width: 30px;
+  height: 30px;
+  background: #7ba8dc;
+  opacity: 0.5;
+  top: 20%;
+  left: 30%;
+}
+
+/* Hero Content Container */
+.hero-content-new {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+/* Left: Text Content - Shifted slightly to left */
+.hero-text-new {
+  max-width: 600px;
+  margin-left: -2%;
+}
+
+.hero-label {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: #558198;
+  background: rgba(85, 129, 152, 0.1);
+  padding: 10px 20px;
+  border-radius: 100px;
+  margin-bottom: 24px;
+  /* Entrance animation */
+  opacity: 0;
+  animation: textFadeIn 0.7s ease-out 0.2s forwards;
+}
+
+.hero-title-new {
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 700;
+  color: #1a1a2e;
+  line-height: 1.05;
+  margin-bottom: 24px;
+  letter-spacing: -0.02em;
+  /* Entrance animation */
+  opacity: 0;
+  animation: textFadeIn 0.7s ease-out 0.4s forwards;
+}
+
+.hero-title-new .text-gradient {
+  color: #ffffff;
+  background: #7ba8dc;
+  padding: 4px 12px;
+  display: inline;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.hero-description-new {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: #4a5568;
+  line-height: 1.8;
+  margin-bottom: 32px;
+  /* Entrance animation */
+  opacity: 0;
+  animation: textFadeIn 0.7s ease-out 0.6s forwards;
+}
+
+/* Text fade in animation */
+@keyframes textFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hero Buttons */
+.hero-buttons {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.btn-primary-hero {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #dc2626;
+  color: #ffffff;
+  padding: 14px 32px;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
+  letter-spacing: 0.05em;
+  /* Entrance animation for desktop */
+  opacity: 0;
+  animation: textFadeIn 0.7s ease-out 0.8s forwards;
+}
+
+.btn-primary-hero:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(220, 38, 38, 0.4);
+  background: #b91c1c;
+}
+
+
+
+/* Right: Phone Image - Large & Overflows Section */
+.hero-image-new {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  position: relative;
+  margin-bottom: -200px;
+  margin-right: -150px;
+  margin-top: -60px;
+}
+
+.hero-phone-image {
+  width: 100%;
+  max-width: 968px;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 40px 80px rgba(0, 0, 0, 0.2));
+  position: relative;
+  z-index: 10;
+  /* Entrance animation - arm straightening from right to left */
+  animation: armStraighten 1.4s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+  transform-origin: bottom center;
+}
+
+/* Phone animation - bent to straight, right to left */
+@keyframes armStraighten {
+  0% {
+    opacity: 0;
+    transform: rotate(20deg) translateX(40px);
+  }
+  50% {
+    opacity: 1;
+    transform: rotate(5deg) translateX(10px);
+  }
+  80% {
+    transform: rotate(-1deg) translateX(-3px);
+  }
+  100% {
+    opacity: 1;
+    transform: rotate(0deg) translateX(0);
+  }
+}
+
+/* ============================================
+   FLOATING CARDS - Overlay on Phone Image
+   ============================================ */
+
+.floating-card {
+  position: absolute;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 
+    0 10px 40px rgba(0, 0, 0, 0.12),
+    0 4px 12px rgba(0, 0, 0, 0.08);
+  z-index: 20;
+  min-width: 220px;
+  max-width: 280px;
+}
+
+.floating-card-icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border-radius: 12px;
+}
+
+/* ============================================
+   FONT AWESOME ICON STYLING
+   Ensure icons render consistently
+   ============================================ */
+
+/* Floating card icons - consistent sizing */
+.floating-card-icon i {
+  font-size: 1.5rem;
+  line-height: 1;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+/* Hover effect for cards */
+.floating-card:hover .floating-card-icon i {
+  transform: scale(1.1);
+}
+
+/* Icon colors for each card type */
+.card-top .floating-card-icon i {
+  color: #16a34a; /* Green for privacy/shield */
+}
+
+.card-middle .floating-card-icon i {
+  color: #d97706; /* Amber for speed/bolt */
+}
+
+.card-bottom .floating-card-icon i {
+  color: #db2777; /* Pink for support/heart */
+}
+
+/* Monitoring section icon */
+.icon-large i {
+  font-size: 3rem;
+  line-height: 1;
+  display: block;
+  color: #7ba8dc;
+}
+
+.floating-card-content {
+  flex: 1;
+}
+
+.floating-card-title {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0 0 4px 0;
+  line-height: 1.3;
+}
+
+.floating-card-text {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Card Positions - All on RIGHT side overlaying phone */
+/* Card 1: Privasi - appears first */
+.card-top {
+  top: 5%;
+  right: 10%;
+  left: auto;
+  opacity: 0;
+  animation: cardSlideIn 0.8s ease-out 0.6s forwards;
+}
+
+/* Card 2: Respon Cepat - appears second */
+.card-middle {
+  top: 38%;
+  right: 60%;
+  left: auto;
+  opacity: 0;
+  animation: cardSlideIn 0.8s ease-out 0.9s forwards;
+}
+
+/* Card 3: Pendampingan - appears third */
+.card-bottom {
+  bottom: 30%;
+  right: 10%;
+  left: auto;
+  opacity: 0;
+  animation: cardSlideIn 0.8s ease-out 1.2s forwards;
+}
+
+/* Card slide in animation - smooth fade with subtle movement */
+@keyframes cardSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(30px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+/* Card icon color variations */
+.card-top .floating-card-icon {
+  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+}
+
+.card-middle .floating-card-icon {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+}
+
+.card-bottom .floating-card-icon {
+  background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%);
+}
+
+/* ============================================
+   HERO SECTION RESPONSIVE
+   ============================================ */
+
+@media (max-width: 1200px) {
+  .hero-content-new {
+    gap: 40px;
+  }
+
+  .hero-title-new {
+    font-size: clamp(2rem, 4.5vw, 3.5rem);
+  }
+
+  .hero-phone-image {
+    max-width: 764px;
+  }
+
+  .hero-image-new {
+    margin-bottom: -180px;
+    margin-right: -60px;
+    margin-top: -40px;
+  }
+
+  /* Floating cards smaller */
+  .floating-card {
+    padding: 12px 16px;
+    min-width: 180px;
+    max-width: 220px;
+    gap: 10px;
+  }
+
+  .floating-card-icon {
+    font-size: 1.5rem;
+    width: 40px;
+    height: 40px;
+  }
+
+  .floating-card-title {
+    font-size: 0.85rem;
+  }
+
+  .floating-card-text {
+    font-size: 0.7rem;
+  }
+
+  .card-top {
+    right: 10%;
+    left: auto;
+  }
+
+  .card-middle {
+    right: 50%;
+    left: auto;
+  }
+
+  .card-bottom {
+    right: 10%;
+    left: auto;
+  }
+}
+
+@media (max-width: 992px) {
+  .hero-section-new {
+    padding-top: 120px;
+    padding-bottom: 0;
+  }
+
+  .hero-content-new {
+    grid-template-columns: 1fr;
+    gap: 50px;
+    text-align: center;
+  }
+
+  .hero-text-new {
+    max-width: 100%;
+    order: 1;
+    margin-left: 0;
+  }
+
+  .hero-image-new {
+    order: 2;
+  }
+
+  .hero-buttons {
+    justify-content: center;
+  }
+
+  .hero-grid-pattern {
+    width: 100%;
+    height: 80%;
+    mask-image: 
+      linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 60%, transparent 90%);
+    -webkit-mask-image: 
+      linear-gradient(to bottom, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.5) 60%, transparent 90%);
+  }
+
+  .hero-phone-image {
+    max-width: 612px;
+  }
+
+  /* Hide phone image on mobile for cleaner layout */
+  .hero-image-new {
+    display: none;
+  }
+
+  /* Bubbles visible on mobile */
+  .deco-circle-1 {
+    width: 100px;
+    height: 100px;
+    top: 8%;
+    left: 5%;
+  }
+
+  .deco-circle-2 {
+    width: 50px;
+    height: 50px;
+    top: 25%;
+    right: 10%;
+    left: auto;
+  }
+
+  .deco-circle-3 {
+    display: block;
+    width: 35px;
+    height: 35px;
+    top: 45%;
+    left: 8%;
+  }
+
+  .deco-circle-4 {
+    display: block;
+    width: 25px;
+    height: 25px;
+    top: 15%;
+    right: 25%;
+    left: auto;
+  }
+
+  /* Hide label on mobile for cleaner layout */
+  .hero-label {
+    display: none;
+  }
+
+  /* Disable button animation on mobile for quick access */
+  .btn-primary-hero {
+    opacity: 1;
+    animation: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section-new {
+    padding-top: 100px;
+    padding-bottom: 0;
+    min-height: auto;
+  }
+
+  .hero-title-new {
+    font-size: clamp(2rem, 9vw, 3rem);
+  }
+
+  /* Ensure text-gradient is same size as title */
+  .hero-title-new .text-gradient,
+  .hero-title-new .text-gradient.highlight-animate {
+    font-size: inherit !important;
+  }
+
+
+  .hero-description-new {
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+  }
+
+  /* Button should not be 100% width - better centered look */
+  .btn-primary-hero,
+  .btn-outline-hero {
+    width: auto;
+    max-width: 280px;
+    padding: 14px 40px;
+    justify-content: center;
+  }
+
+  .hero-phone-image {
+    max-width: 490px;
+  }
+
+  .hero-image-new {
+    margin-bottom: -120px;
+    margin-top: 0;
+    justify-content: center;
+  }
+}
+
+
+@media (max-width: 480px) {
+  .hero-section-new {
+    padding-top: 85px;
+    padding-bottom: 30px;
+  }
+
+  .hero-label {
+    font-size: 0.7rem;
+    padding: 8px 16px;
+  }
+
+  .hero-title-new {
+    font-size: clamp(1.8rem, 9vw, 2.5rem);
+    margin-bottom: 16px;
+  }
+
+  /* Ensure text-gradient is same size as title */
+  .hero-title-new .text-gradient,
+  .hero-title-new .text-gradient.highlight-animate {
+    font-size: inherit !important;
+  }
+
+
+  .hero-description-new {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 24px;
+  }
+
+  .btn-primary-hero,
+  .btn-outline-hero {
+    padding: 12px 32px;
+    font-size: 0.9rem;
+    max-width: 240px;
+  }
+
+  .hero-phone-image {
+    max-width: 388px;
+  }
+
+  .hero-image-new {
+    margin-bottom: -100px;
+    margin-top: 0;
+    justify-content: center;
+  }
+
+  .hero-grid-pattern {
+    background-size: 30px 30px;
+    opacity: 0.6;
+  }
+
+  /* Decorative circles smaller on mobile */
+  .deco-circle-1 {
+    width: 80px;
+    height: 80px;
+  }
+
+  .deco-circle-2 {
+    width: 40px;
+    height: 40px;
+  }
+
+  .deco-circle-3 {
+    width: 30px;
+    height: 30px;
+  }
+
+  .deco-circle-4 {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 360px) {
+  .hero-section-new {
+    padding-top: 80px;
+    padding-bottom: 24px;
+  }
+
+  .hero-title-new {
+    font-size: 1.4rem;
+    line-height: 1.25;
+  }
+
+  .hero-description-new {
+    font-size: 0.85rem;
+  }
+
+  .btn-primary-hero,
+  .btn-outline-hero {
+    padding: 10px 28px;
+    font-size: 0.85rem;
+    max-width: 220px;
+  }
+}
+
+#monitoring {
+  position: relative;
+  overflow: hidden;
+  background: #7ba8dc;
+}
+
+/* Wave transitions */
+.monitoring-wave-top,
+.monitoring-wave-bottom {
+  background: #ffffff;
+  line-height: 0;
+}
+
+.monitoring-wave-top svg,
+.monitoring-wave-bottom svg {
+  width: 100%;
+  height: 80px;
+  display: block;
+}
+
+.monitoring-gradient-top,
+.monitoring-gradient-bottom {
+  display: none;
+}
+
+#monitoring::before,
+#monitoring::after {
+  display: none;
+}
+
+/* ===== TITLE WITH HIGHLIGHT EFFECT (Same as Data Penanganan) ===== */
+.monitoring-title {
+  font-family: var(--font-heading);
+  margin-bottom: 3.5rem;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.monitoring-title .title-highlight {
+  position: relative;
+  color: #7ba8dc;
+  background: transparent !important;
+  padding: 4px 16px;
+  display: inline-block;
+  border-radius: 6px;
+  font-size: inherit;
+  line-height: inherit;
+  font-weight: 700;
+}
+
+.monitoring-title .title-highlight::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  background: #ffffff;
+  border-radius: 6px;
+  z-index: -1;
+  box-shadow: 0 4px 15px rgba(255,255,255,0.2);
+}
+
+.monitoring-title .title-highlight.in-view::before {
+  animation: stabilo-sweep 0.8s ease-out forwards;
+}
+
+/* ===== DECORATIVE ELEMENTS ===== */
+.monitoring-deco {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.monitoring-deco-1 {
+  display: none;
+}
+
+.monitoring-deco-2 {
+  display: none;
+}
+
+.monitoring-deco-3 {
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, transparent 60%);
+  top: 50%;
+  left: 10%;
+}
+
+/* Ring decorations */
+.monitoring-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.monitoring-ring-1 {
+  width: 350px;
+  height: 350px;
+  top: -120px;
+  left: -120px;
+}
+
+.monitoring-ring-2 {
+  width: 280px;
+  height: 280px;
+  bottom: -80px;
+  right: -80px;
+}
+
+/* Floating particles */
+.monitoring-particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.monitoring-particles span {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  animation: particle-float 15s linear infinite;
+}
+
+.monitoring-particles span:nth-child(1) { left: 10%; animation-delay: 0s; animation-duration: 12s; }
+.monitoring-particles span:nth-child(2) { left: 20%; animation-delay: 2s; animation-duration: 14s; }
+.monitoring-particles span:nth-child(3) { left: 35%; animation-delay: 4s; animation-duration: 10s; }
+.monitoring-particles span:nth-child(4) { left: 50%; animation-delay: 1s; animation-duration: 16s; }
+.monitoring-particles span:nth-child(5) { left: 65%; animation-delay: 3s; animation-duration: 11s; }
+.monitoring-particles span:nth-child(6) { left: 75%; animation-delay: 5s; animation-duration: 13s; }
+.monitoring-particles span:nth-child(7) { left: 85%; animation-delay: 2.5s; animation-duration: 15s; }
+.monitoring-particles span:nth-child(8) { left: 25%; animation-delay: 6s; animation-duration: 12s; }
+.monitoring-particles span:nth-child(9) { left: 55%; animation-delay: 7s; animation-duration: 14s; }
+.monitoring-particles span:nth-child(10) { left: 90%; animation-delay: 1.5s; animation-duration: 10s; }
+
+@keyframes particle-float {
+  0% { 
+    transform: translateY(100vh) scale(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% { 
+    transform: translateY(-100px) scale(1);
+    opacity: 0;
+  }
+}
+
+/* ===== SCROLL REVEAL ANIMATIONS ===== */
+.reveal-fade {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal-fade.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-slide-left {
+  opacity: 0;
+  transform: translateX(-50px);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal-slide-left.in-view {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.reveal-slide-right {
+  opacity: 0;
+  transform: translateX(50px);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transition-delay: 0.2s;
+}
+
+.reveal-slide-right.in-view {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ===== LAYOUT ===== */
+.monitoring-layout {
+  display: flex;
+  flex-direction: row; 
+  align-items: center;
+  justify-content: space-between;
+  gap: 5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.monitoring-form-wrapper {
+  flex: 1;
+  max-width: 480px;
+  width: 100%;
+}
+
+.monitoring-text-content {
+  flex: 1;
+  color: #ffffff;
+}
+
+.monitoring-text-content h3 {
+  font-family: var(--font-heading);
+  font-size: 1.85rem;
+  margin-bottom: 1.25rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.monitoring-text-content p {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  margin-bottom: 2rem;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.9);
+}
+
+.monitoring-text-content .clean-list {
+  margin-bottom: 2rem;
+}
+
+.monitoring-text-content .clean-list li {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  margin-bottom: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: rgba(255,255,255,0.9);
+}
+
+.monitoring-text-content .clean-list li i {
+  color: #ffffff;
+  font-size: 1rem;
+  width: 20px;
+  text-align: center;
+}
+
+/* ===== CARD STYLING ===== */
+.card-monitoring {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  text-align: center;
+}
+
+.card-monitoring .icon-large {
+  font-size: 2rem;
+  margin-bottom: 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #7ba8dc !important;
+  color: #ffffff !important;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  box-shadow: 0 4px 15px rgba(123, 168, 220, 0.3);
+}
+
+.card-monitoring .icon-large i {
+  font-size: 1.8rem;
+  color: #ffffff !important;
+}
+
+.card-monitoring h5 {
+  font-family: var(--font-heading);
+  color: #132338;
+  font-size: 1.35rem;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.card-monitoring .text-muted {
+  font-family: var(--font-body);
+  color: #6b7280;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* ===== INPUT & BUTTON ===== */
+#monitoring .input-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 1.75rem;
+}
+
+#monitoring .input-group input {
+  flex: 1;
+  padding: 14px 18px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  background: #f9fafb;
+}
+
+#monitoring .input-group input:focus {
+  outline: none;
+  border-color: #7ba8dc;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(123, 168, 220, 0.12);
+}
+
+#monitoring .input-group input::placeholder {
+  color: #9ca3af;
+}
+
+.btn-monitoring {
+  padding: 14px 22px;
+  white-space: nowrap;
+  background: #7ba8dc;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-monitoring:hover {
+  background: #6a9ad0;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(123, 168, 220, 0.25);
+}
+
+.btn-monitoring:active {
+  transform: translateY(0);
+}
+
+.btn-monitoring i {
+  font-size: 0.85rem;
+}
+
+#progressStatus {
+  min-height: 24px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-top: 1rem;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .monitoring-layout {
+    flex-direction: column; 
+    gap: 3rem;
+    text-align: center;
+  }
+  
+  .monitoring-form-wrapper {
+    max-width: 100%;
+  }
+  
+  .monitoring-form-wrapper {
+    order: 1; 
+  }
+  
+  .monitoring-text-content {
+    display: none;
+  }
+  
+  .monitoring-deco-3,
+  .monitoring-ring-1,
+  .monitoring-ring-2 {
+    display: none;
+  }
+  
+  .monitoring-particles span {
+    width: 3px;
+    height: 3px;
+  }
+}
+
+
+@media (max-width: 480px) {
+  #monitoring .input-group {
+    flex-direction: column;
+  }
+  
+  .btn-monitoring {
+    width: 100%;
+    justify-content: center;
+    padding: 14px 20px;
+  }
+
+  .card-monitoring {
+    padding: 2rem 1.5rem;
+    border-radius: 14px;
+  }
+  
+  .card-monitoring .icon-large {
+    width: 56px;
+    height: 56px;
+    font-size: 1.5rem;
+  }
+  
+  .card-monitoring h5 {
+    font-size: 1.2rem;
+  }
+}
+
+/* ============================================
+   TRANSPARANSI DATA SECTION - NEW CARD DESIGN
+   ============================================ */
+
+.section-transparansi {
+  background: #ffffff;
+  position: relative;
+  overflow: visible; /* Allow curve to extend on desktop */
+  padding-top: 60px;
+}
+
+/* Main Card Container - SVG Based with Extended Width */
+.transparansi-main-card {
+  position: relative;
+  /* Kiri: extend 5% lebih ke kiri */
+  margin-left: -5%;
+  /* Kanan: extend sampai viewport edge */
+  margin-right: calc(-5vw - (50vw - 50%));
+  /* Width: container + 5% kiri + extension ke kanan */
+  width: calc(100% + 5% + 5vw + (50vw - 50%));
+  min-height: 380px;
+  filter: drop-shadow(0 20px 40px rgba(85, 129, 152, 0.25));
+  /* Override max-width constraint */
+  max-width: none !important;
+}
+
+/* SVG Background Shape */
+.transparansi-bg-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.transparansi-bg-svg svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+
+/* Main Content */
+.transparansi-main-content {
+  position: relative;
+  z-index: 1;
+  padding: 40px 50px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Header */
+.transparansi-main-header {
+  margin-bottom: 24px;
+  max-width: 45%;
+}
+
+.transparansi-main-title {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  /* Memperbesar ukuran font agar mendekati Hero (Hero maks 4rem) */
+  font-size: clamp(2.2rem, 4.5vw, 3.5rem); 
+  line-height: 1.15;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.transparansi-text-black {
+  color: #1a1a2e; /* Black */
+}
+
+.transparansi-text-highlight {
+  color: #7ba8dc;        /* Blue Text */
+  /* Background handled by animation - start transparent */
+  background: transparent;
+  padding: 4px 12px;
+  display: inline-block;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  border-radius: 6px;
+  position: relative;
+  z-index: 1;
+}
+
+
+/* Body */
+.transparansi-main-body {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.transparansi-main-desc {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 1rem;
+  /* Warna Putih sesuai request */
+  color: #ffffff; 
+  line-height: 1.8;
+  max-width: 85%;
+  margin: 0;
+}
+
+/* Stats Grid - 2 Cards */
+.transparansi-stats-grid {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* Individual Stat Box - Wider cards with large icons */
+.transparansi-stat-box {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  /* Shadow sangat subtle */
+  box-shadow: 
+    0 2px 8px rgba(0, 0, 0, 0.02),
+    0 1px 4px rgba(0, 0, 0, 0.02);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  /* Card lebih lebar */
+  max-width: 380px;
+  min-width: 300px;
+  flex: 1 1 auto;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+}
+
+
+.transparansi-stat-box:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+
+
+/* Stat Box Icon - BESAR hampir 50% card width */
+.stat-box-icon {
+  width: 100px;
+  height: 100px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 2.5rem;
+  /* Background biru #7ba8dc */
+  background: linear-gradient(135deg, #7ba8dc 0%, #9ec5e8 100%);
+  /* Icon putih */
+  color: #ffffff;
+}
+
+/* Both icons use same blue */
+.stat-box-icon.icon-shield {
+  background: linear-gradient(135deg, #7ba8dc 0%, #9ec5e8 100%);
+  color: #ffffff;
+}
+
+
+/* Stat Box Content */
+.stat-box-content {
+  flex: 1;
+}
+
+.stat-box-number {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 800;
+  color: #1a1a2e;
+  line-height: 1;
+  margin: 0 0 6px 0;
+}
+
+/* Label - White text with blue highlight, single line */
+.stat-box-label {
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  font-weight: 600;
+  /* White text on blue background */
+  color: #ffffff;
+  background-color: #7ba8dc;
+  padding: 4px 10px;
+  border-radius: 6px;
+  display: inline-block;
+  margin: 0 0 6px 0;
+  /* Prevent text wrapping */
+  white-space: nowrap;
+}
+
+.stat-box-desc {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: #64748b;
+  line-height: 1.4;
+  margin: 0;
+}
+
+
+/* Keep .transparansi-stat for JS counter */
+.transparansi-stat {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 800;
+  color: #1a1a2e;
+  line-height: 1;
+  margin: 0 0 6px 0;
+}
+
+/* Responsive - Tablet */
+@media (max-width: 992px) {
+  /* Prevent overflow on smaller screens */
+  .section-transparansi {
+    overflow: hidden;
+  }
+
+  .transparansi-main-card {
+    /* Reset extended margins for mobile */
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    border-radius: 16px;
+    /* Background fallback when SVG is hidden */
+    background: linear-gradient(135deg, #7ba8dc 0%, #9ec5e8 100%);
+  }
+
+  .transparansi-main-content {
+    padding: 30px;
+  }
+
+  .transparansi-main-header {
+    max-width: 100%;
+  }
+
+  .transparansi-main-title {
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+  }
+
+  /* Ensure highlight text inherits size */
+  .transparansi-text-highlight,
+  .transparansi-text-highlight.highlight-animate {
+    font-size: inherit !important;
+  }
+
+  .transparansi-main-desc {
+    max-width: 100%;
+  }
+
+  /* Hide complex SVG shape on tablet/mobile */
+  .transparansi-bg-svg {
+    display: none;
+  }
+}
+
+
+/* Responsive - Mobile */
+@media (max-width: 768px) {
+  .section-transparansi {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+
+  .transparansi-main-card {
+    min-height: auto;
+    border-radius: 12px;
+  }
+
+  .transparansi-main-content {
+    padding: 24px 20px;
+  }
+
+  .transparansi-main-header {
+    max-width: 100%;
+    margin-bottom: 16px;
+  }
+
+  .transparansi-main-title {
+    font-size: clamp(1.6rem, 6vw, 2rem);
+    line-height: 1.3;
+  }
+
+  /* Ensure highlight text inherits size */
+  .transparansi-text-highlight,
+  .transparansi-text-highlight.highlight-animate {
+    padding: 2px 8px;
+    font-size: inherit !important;
+  }
+
+
+  .transparansi-main-body {
+    gap: 20px;
+  }
+
+  .transparansi-main-desc {
+    font-size: 0.9rem;
+    max-width: 100%;
+    line-height: 1.6;
+  }
+
+  .transparansi-stats-grid {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .transparansi-stat-box {
+    max-width: 100%;
+    min-width: unset;
+    width: 100%;
+    padding: 14px 16px;
+  }
+
+  .stat-box-number,
+  .transparansi-stat {
+    font-size: 1.75rem;
+  }
+
+  .stat-box-label {
+    font-size: 0.9rem;
+  }
+
+  .stat-box-desc {
+    font-size: 0.75rem;
+  }
+}
+
+
+@media (max-width: 480px) {
+  .section-transparansi {
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
+
+  .transparansi-main-content {
+    padding: 20px 16px;
+  }
+
+  .transparansi-main-title {
+    font-size: 1.3rem;
+  }
+
+  .transparansi-main-desc {
+    font-size: 0.85rem;
+  }
+
+  .stat-box-icon {
+    width: 38px;
+    height: 38px;
+    font-size: 0.95rem;
+  }
+
+  .stat-box-number,
+  .transparansi-stat {
+    font-size: 1.5rem;
+  }
+
+  .stat-box-label {
+    font-size: 0.85rem;
+  }
+
+  .stat-box-desc {
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .transparansi-main-title {
+    font-size: 1.15rem;
+  }
+
+  .stat-box-number,
+  .transparansi-stat {
+    font-size: 1.35rem;
+  }
+
+  .stat-box-label {
+    font-size: 0.8rem;
+  }
+}
+
+/* ============================================
+   KABAR SIGAP - Article Carousel Section
+   ============================================ */
+
+/* Entrance Animations */
+@keyframes kabarSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes kabarFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes kabarScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.section-kabar-sigap {
+  /* White on top, very subtle blue-gray tint at bottom (like the reference image) */
+  background: linear-gradient(180deg, 
+    #ffffff 0%, 
+    #ffffff 60%, 
+    #f8fbff 100%
+  );
+  padding: 100px 0 120px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Animate text section on scroll */
+.section-kabar-sigap .kabar-text-section.reveal.in-view {
+  animation: kabarSlideUp 0.8s ease-out forwards;
+}
+
+.section-kabar-sigap .kabar-text-section.reveal.in-view .kabar-label {
+  animation: kabarFadeIn 0.6s ease-out 0.2s forwards;
+  opacity: 0;
+}
+
+.section-kabar-sigap .kabar-text-section.reveal.in-view h2 {
+  animation: kabarSlideUp 0.7s ease-out 0.3s forwards;
+  opacity: 0;
+}
+
+.section-kabar-sigap .kabar-text-section.reveal.in-view .description {
+  animation: kabarSlideUp 0.7s ease-out 0.4s forwards;
+  opacity: 0;
+}
+
+.section-kabar-sigap .kabar-text-section.reveal.in-view .kabar-cta-btn {
+  animation: kabarSlideUp 0.7s ease-out 0.5s forwards;
+  opacity: 0;
+}
+
+/* Card entrance animation */
+.kabar-card {
+  animation: kabarScaleIn 0.6s ease-out forwards;
+}
+
+.kabar-card.state-1 { animation-delay: 0.1s; }
+.kabar-card.state-2 { animation-delay: 0.2s; }
+.kabar-card.state-3 { animation-delay: 0.3s; }
+
+
+
+/* Decorative Blob - Primary Blue (#7ba8dc) */
+.kabar-decor-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.kabar-decor-blob.blob-1 {
+  width: 500px;
+  height: 500px;
+  background: rgba(123, 168, 220, 0.3); /* #7ba8dc with transparency */
+  left: -200px;
+  top: -150px;
+}
+
+.kabar-decor-blob.blob-2 {
+  width: 400px;
+  height: 400px;
+  background: rgba(123, 168, 220, 0.25); /* #7ba8dc lighter */
+  right: -100px;
+  bottom: -100px;
+}
+
+/* Decorative Dots Pattern */
+.kabar-deco-dots {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  bottom: 20%;
+  right: 5%;
+  background-image: radial-gradient(circle, rgba(123, 168, 220, 0.25) 2px, transparent 2px);
+  background-size: 16px 16px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Decorative Ring */
+.kabar-deco-ring {
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  top: 15%;
+  left: 3%;
+  border: 3px solid rgba(123, 168, 220, 0.15);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Decorative Circle */
+.kabar-deco-circle {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  background: rgba(123, 168, 220, 0.1);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.kabar-deco-circle.circle-1 {
+  top: 30%;
+  right: 10%;
+}
+
+.kabar-deco-circle.circle-2 {
+  bottom: 35%;
+  left: 8%;
+  width: 50px;
+  height: 50px;
+}
+
+.kabar-sigap-container {
+  width: 100%;
+  max-width: 1720px; /* Lebar container disesuaikan agar muat layout lebar */
+  padding: 0 40px;
+  display: flex;
+  align-items: flex-start; /* Align top slightly */
+  gap: 60px;
+  position: relative;
+  margin: 0 auto;
+}
+
+/* --- Left Text Section --- */
+.kabar-text-section {
+  width: 450px; /* Adjusted slightly for standard screens */
+  flex-shrink: 0;
+  z-index: 10;
+  padding-top: 40px; /* Visual alignment with cards */
+}
+
+.kabar-label {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 700;
+  color: #7ba8dc; /* Brand color */
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 20px;
+  background: rgba(123, 168, 220, 0.1);
+  padding: 8px 16px;
+  border-radius: 30px;
+  border: 1px solid rgba(123, 168, 220, 0.2);
+}
+
+.kabar-text-section h2 {
+  font-size: 52px;
+  font-weight: 800;
+  line-height: 1.05;
+  color: #0f172a;
+  margin-bottom: 28px;
+  letter-spacing: -1.5px;
+}
+
+.kabar-text-section .text-gradient {
+  /* Brand color gradient */
+  background: linear-gradient(135deg, #7ba8dc 0%, #5a8fc9 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block; 
+}
+
+.kabar-text-section .description {
+  font-size: 18px;
+  line-height: 1.7;
+  color: #64748b;
+  margin-bottom: 48px;
+  max-width: 90%;
+  font-weight: 400;
+}
+
+.kabar-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 32px;
+  /* Menggunakan warna brand #7ba8dc */
+  background: linear-gradient(135deg, #7ba8dc 0%, #5a8fc9 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  box-shadow: 0 4px 15px rgba(123, 168, 220, 0.3);
+  letter-spacing: 0.02em;
+}
+
+.kabar-cta-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(123, 168, 220, 0.4);
+  background: linear-gradient(135deg, #6a9bd1 0%, #4a7fb9 100%);
+}
+
+/* --- Carousel SectionWrapper --- */
+.kabar-carousel-wrapper {
+  flex: 1;
+  height: 620px; 
+  max-width: 920px; /* Limit width agar card ke-3 terpotong */
+  position: relative;
+  overflow: hidden; /* Potong card yang keluar */
+  touch-action: pan-y pinch-zoom;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.kabar-track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  touch-action: pan-y pinch-zoom;
+}
+
+/* --- Card Styling --- */
+.kabar-card {
+  position: absolute;
+  top: 0;
+  border-radius: 25px;
+  background-color: #cbd5e1;
+  background-size: cover;
+  background-position: center;
+  transition: 
+    left 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    width 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.4s ease;
+  width: 373px; 
+  height: 507px;
+  opacity: 1;
+  /* No shadow - clean look */
+  box-shadow: none;
+  cursor: grab;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.kabar-card:active {
+  cursor: grabbing;
+}
+
+/* Gradient Overlay - LIGHTER, tidak terlalu menutupi gambar */
+.kabar-card-gradient {
+  position: absolute;
+  inset: 0;
+  border-radius: 25px;
+  /* Gradient lebih ringan - hanya sedikit di bagian paling bawah */
+  background: linear-gradient(
+    180deg, 
+    rgba(0,0,0,0) 0%, 
+    rgba(0,0,0,0) 60%,
+    rgba(0,0,0,0.08) 80%,
+    rgba(0,0,0,0.2) 100%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Mini Info for side cards */
+.kabar-card-info-mini {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  z-index: 2;
+}
+
+.kabar-card-category-mini {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background: rgba(123, 168, 220, 0.9);
+  padding: 4px 10px;
+  border-radius: 20px;
+  margin-bottom: 8px;
+}
+
+.kabar-card-title-mini {
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.3;
+  margin: 0;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Category styling for active card */
+.kabar-card-category {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  background: #7ba8dc;
+  padding: 5px 12px;
+  border-radius: 20px;
+  margin-bottom: 8px;
+}
+
+/* --- States Logic --- */
+
+/* STATE 0: Active Card (Large, Left) - Full visible */
+.kabar-card.state-0 {
+  width: 420px; 
+  height: 560px; 
+  left: 0; 
+  top: 20px; 
+  z-index: 5;
+  opacity: 1;
+  box-shadow: none; /* Clean look - no shadow */
+}
+
+/* STATE 1: Second Card - Full visible */
+.kabar-card.state-1 {
+  width: 300px;
+  height: 420px;
+  left: 450px; 
+  top: 70px;
+  z-index: 4;
+  opacity: 1;
+}
+
+/* STATE 2: Third Card - Setengah terlihat (terpotong di edge kanan) */
+.kabar-card.state-2 {
+  width: 300px;
+  height: 420px;
+  left: 780px; /* Posisi agar setengah card keluar dari wrapper */
+  top: 70px;
+  z-index: 3;
+  opacity: 0.85;
+}
+
+/* STATE HIDDEN: Cards beyond visible range */
+.kabar-card.state-hidden {
+  width: 300px;
+  height: 420px;
+  left: 780px;
+  top: 70px;
+  z-index: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: none !important;
+  visibility: hidden;
+  box-shadow: none;
+}
+
+/* Adjust Info Box - Clean bottom card style */
+.kabar-info-box {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  right: 80px; /* Leave space for the round button */
+  width: auto;
+  max-width: 280px;
+  /* Solid white background - clean & readable */
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.4s 0.2s ease;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+  border-left: 3px solid #7ba8dc;
+}
+
+/* No decorative pseudo-elements - keep it clean */
+.kabar-info-box::before,
+.kabar-info-box::after {
+  display: none;
+}
+
+.kabar-card.state-0 .kabar-info-box {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Hide info-box on non-active cards */
+.kabar-card:not(.state-0) .kabar-info-box {
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+}
+
+/* Show mini-info on non-active cards */
+.kabar-card-info-mini {
+  opacity: 1;
+  transition: opacity 0.4s ease;
+}
+
+/* Hide mini-info on active card (state-0 uses info-box instead) */
+.kabar-card.state-0 .kabar-card-info-mini {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.kabar-info-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 4px;
+  line-height: 1.3;
+  /* Limit to 2 lines */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.kabar-info-desc {
+  font-size: 13px;
+  color: #64748b;
+  margin-bottom: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.5;
+}
+
+/* Round Button inside Card */
+.kabar-card-btn {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #7ba8dc 0%, #5a8fc9 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 3px solid white;
+  opacity: 0;
+  transform: scale(0.8);
+  box-shadow: 0 4px 15px rgba(123, 168, 220, 0.4);
+}
+.kabar-card.state-0 .kabar-card-btn {
+  opacity: 1;
+  transform: scale(1);
+}
+.kabar-card-btn svg {
+  width: 22px;
+  height: 22px;
+  fill: white;
+}
+.kabar-card-btn:hover { 
+  transform: scale(1.1) !important; 
+  box-shadow: 0 8px 25px rgba(123, 168, 220, 0.5);
+}
+
+
+/* --- Bottom Controls (Below 2nd Card) --- */
+.kabar-controls {
+  position: absolute;
+  left: 450px; /* Aligned with State 1 */
+  bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  z-index: 20;
+}
+
+/* Desktop: Controls positioned inside container context */
+@media (min-width: 1025px) {
+  .kabar-sigap-container {
+    position: relative;
+  }
+  
+  .kabar-controls {
+    position: absolute;
+    /* Sejajar dengan card samping */
+    left: calc(450px + 450px + 120px);
+    bottom: 30px;
+  }
+}
+
+.kabar-pagination {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.kabar-dot {
+  width: 12px;
+  height: 12px;
+  background: rgba(123, 168, 220, 0.3); /* Brand color dengan transparency */
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  padding: 0;
+}
+
+.kabar-dot:hover {
+  background: rgba(123, 168, 220, 0.5);
+}
+
+.kabar-dot.active {
+  width: 32px; 
+  background: #7ba8dc; /* Brand color solid */
+}
+
+.kabar-arrows {
+  display: flex;
+  gap: 16px;
+}
+
+.kabar-arrow-btn {
+  width: 48px;
+  height: 48px;
+  background: #ffffff;
+  border: 2px solid #7ba8dc;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(123, 168, 220, 0.15);
+  color: #7ba8dc;
+}
+.kabar-arrow-btn:hover { 
+  background: #7ba8dc; 
+  border-color: #7ba8dc;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(123, 168, 220, 0.3);
+}
+.kabar-arrow-btn svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  stroke-width: 2.5;
+}
+
+/* --- Responsive Scaling --- */
+@media (max-width: 1400px) {
+    .kabar-sigap-container {
+        transform: scale(0.85);
+        transform-origin: top left;
+        width: 117%; /* Compensate scale */
+        margin-bottom: -100px; /* Remove gaps */
+    }
+}
+
+@media (max-width: 1024px) {
+  .section-kabar-sigap {
+    padding: 60px 20px 80px;
+  }
+
+  .kabar-sigap-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    transform: none;
+    width: 100%;
+    margin-bottom: 0;
+    padding: 0 20px;
+    position: relative; /* Positioning context for controls */
+  }
+
+  /* Text Section */
+  .kabar-text-section {
+    width: 100%;
+    text-align: center;
+    padding-top: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .kabar-label {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .kabar-text-section h2 {
+    font-size: 32px;
+  }
+
+  .kabar-text-section .description {
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 15px;
+    margin-bottom: 24px;
+    max-width: 100%;
+  }
+
+  /* Carousel Wrapper - Fixed height container */
+  .kabar-carousel-wrapper {
+    width: calc(100% + 40px); /* Extend beyond padding */
+    margin-left: -20px;
+    margin-right: -20px;
+    height: 440px; /* Fixed height */
+    overflow-x: scroll;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: 10px 20px;
+  }
+
+  .kabar-carousel-wrapper::-webkit-scrollbar {
+    display: none;
+  }
+
+  .kabar-track {
+    display: flex;
+    gap: 16px;
+    padding: 0;
+    height: 100%;
+    width: max-content;
+    align-items: center;
+  }
+
+  /* Cards - Reset absolute positioning for flex layout */
+  .kabar-card {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+    flex-shrink: 0;
+    width: 300px;
+    height: 420px;
+    opacity: 1 !important;
+    scroll-snap-align: center;
+    z-index: 1 !important;
+    pointer-events: auto !important;
+  }
+
+  /* Active Card - Slightly larger */
+  .kabar-card.state-0 {
+    width: 320px;
+    height: 450px;
+    box-shadow: none; /* Clean look - no shadow */
+  }
+
+  /* Mobile cards (rendered with mobile-card class) */
+  .kabar-card.mobile-card {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+    flex-shrink: 0;
+    width: 280px;
+    height: 400px;
+    opacity: 1 !important;
+    scroll-snap-align: center;
+    z-index: 1 !important;
+    pointer-events: auto !important;
+    animation: none !important; /* Disable entrance animation on mobile scroll */
+  }
+
+  /* Show ALL cards - swipe carousel style */
+  .kabar-card.state-1,
+  .kabar-card.state-2,
+  .kabar-card.state-3,
+  .kabar-card.state-hidden {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    z-index: 1 !important;
+    width: 280px;
+    height: 400px;
+    animation: none !important;
+  }
+
+  /* Mini info visible on all cards in mobile */
+  .kabar-card-info-mini {
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+  }
+
+  .kabar-card-title-mini {
+    font-size: 14px;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .kabar-card-category-mini {
+    font-size: 9px;
+    padding: 3px 8px;
+    margin-bottom: 6px;
+  }
+
+  /* Hide info-box on mobile, use mini info instead */
+  .kabar-info-box {
+    display: none;
+  }
+
+  .kabar-info-title {
+    font-size: 14px;
+  }
+  
+  .kabar-info-desc {
+    display: none;
+  }
+
+  /* Round button smaller */
+  .kabar-card-btn {
+    width: 56px;
+    height: 56px;
+    bottom: 12px;
+    right: 12px;
+    border-width: 3px;
+    opacity: 1 !important;
+    transform: scale(1) !important;
+  }
+
+  .kabar-card-btn svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  /* Controls - FIXED at bottom, always visible */
+  .kabar-controls {
+    position: relative;
+    left: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+    margin-top: 24px;
+    justify-content: center;
+    width: 100%;
+    gap: 24px;
+    display: flex !important;
+    flex-wrap: wrap;
+    padding: 0 20px;
+    box-sizing: border-box;
+    /* Ensure always visible */
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  .kabar-arrows {
+    display: flex;
+    gap: 12px;
+  }
+
+  .kabar-arrow-btn {
+    width: 44px;
+    height: 44px;
+  }
+
+  /* Decorations - smaller on mobile */
+  .kabar-decor-blob.blob-1 {
+    width: 300px;
+    height: 300px;
+    left: -150px;
+    top: -100px;
+  }
+
+  .kabar-decor-blob.blob-2 {
+    width: 250px;
+    height: 250px;
+    right: -80px;
+    bottom: -50px;
+  }
+}
+
+@media (max-width: 480px) {
+  .section-kabar-sigap {
+    padding: 40px 12px 50px;
+  }
+
+  .kabar-sigap-container {
+    padding: 0 8px;
+    gap: 20px;
+  }
+
+  .kabar-text-section h2 {
+    font-size: 26px;
+  }
+
+  .kabar-text-section .description {
+    font-size: 14px;
+  }
+
+  .kabar-carousel-wrapper {
+    min-height: 380px;
+  }
+
+  .kabar-track {
+    gap: 12px;
+  }
+
+  .kabar-card {
+    width: 260px;
+    height: 360px;
+    border-radius: 20px;
+  }
+
+  .kabar-card.state-0 {
+    width: 280px;
+    height: 380px;
+  }
+  
+  .kabar-info-box {
+    bottom: 10px;
+    padding: 12px;
+    width: calc(100% - 20px);
+    left: 10px;
+    border-radius: 16px;
+  }
+
+  .kabar-info-title {
+    font-size: 14px;
+  }
+
+  .kabar-info-desc {
+    font-size: 11px;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+
+  .kabar-card-btn {
+    width: 48px;
+    height: 48px;
+    bottom: 10px;
+    right: 10px;
+    border-width: 2px;
+  }
+
+  .kabar-card-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .kabar-controls {
+    margin-top: 20px;
+    gap: 16px;
+  }
+
+  .kabar-arrow-btn {
+    width: 40px;
+    height: 40px;
+  }
+
+  .kabar-dot {
+    width: 10px;
+    height: 10px;
+  }
+
+  .kabar-dot.active {
+    width: 24px;
+  }
+
+  /* Hide decorations on small screens */
+  .kabar-decor-blob {
+    opacity: 0.2;
+  }
+}
+
+
+
+/* ============================================
+   ACCESSIBILITY: REDUCED MOTION SUPPORT
+   Disable animations for users with motion sensitivity
+   WCAG 2.1 Level AA Compliance
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  /* ========== DISABLE ALL ANIMATIONS ========== */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* ========== SPECIFIC ANIMATIONS TO DISABLE ========== */
+  
+  /* Hero entrance animations */
+  .hero-label,
+  .hero-title-new,
+  .hero-description-new,
+  .btn-primary-hero,
+  .hero-phone-image {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* Floating cards */
+  .floating-card {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* Stabilo/highlighter sweep animation */
+  .highlight-animate::before {
+    animation: none !important;
+    width: 100% !important; /* Show fully highlighted immediately */
+  }
+
+  /* Stat counter animation */
+  .transparansi-stat-box {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* Proses section animations */
+  .proses-oleh-animate,
+  .proses-description-animate {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* Roadmap animations */
+  .roadmap-animate,
+  .roadmap-animate .step-card,
+  .roadmap-animate .step-number {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* Timeline drawing line */
+  .timeline-drawing-line {
+    height: 100% !important; /* Show full line immediately */
+    transition: none !important;
+  }
+
+  /* Kabar Sigap carousel */
+  .kabar-card {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* Video decorations */
+  .video-deco,
+  .proses-clouds .cloud,
+  .hero-decorative-circles .deco-circle {
+    animation: none !important;
+  }
+
+  /* Reveal animations */
+  .reveal {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  /* Hover effects - allow but instant */
+  .btn:hover,
+  .kabar-card:hover {
+    transition-duration: 0s !important;
+  }
+
+  /* ========== KEEP ESSENTIAL UI FEEDBACK ========== */
+  
+  /* Allow instant visual feedback for clicks */
+  .btn:active {
+    transition: none !important;
+  }
+
+  /* Keep focus indicators visible immediately */
+  *:focus {
+    transition: none !important;
+  }
+
+  /* ========== ACCESSIBILITY NOTE ========== */
+  /* Users with vestibular disorders can experience:
+     - Nausea from parallax scrolling
+     - Dizziness from large movements
+     - Disorientation from complex animations
+     
+     This media query respects their OS-level preference
+     and provides a calm, static experience.
+     
+     Test:
+      - macOS: Settings > Accessibility > Display > Reduce Motion
+      - Windows: Settings > Ease of Access > Display > Show animations
+      - iOS: Settings > Accessibility > Motion > Reduce Motion
+  */
+}
+
+
+

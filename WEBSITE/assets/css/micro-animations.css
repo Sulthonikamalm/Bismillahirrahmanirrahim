@@ -1,0 +1,422 @@
+/* ============================================
+   MICRO-ANIMATIONS CSS
+   Smooth interactions for buttons, cards, and elements
+   ============================================ */
+
+/* ============================================
+   BUTTON ANIMATIONS
+   ============================================ */
+
+/* Subtle Scale on Hover */
+.btn-animate {
+    transition: all 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.btn-animate:hover {
+    transform: translateY(-2px);
+}
+
+.btn-animate:active {
+    transform: translateY(0) scale(0.98);
+}
+
+/* Ripple Effect */
+.btn-ripple {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-ripple::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s, opacity 0.6s;
+    opacity: 0;
+}
+
+.btn-ripple:active::after {
+    width: 300px;
+    height: 300px;
+    opacity: 0;
+}
+
+/* Shine Effect */
+.btn-shine {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-shine::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.25),
+        transparent
+    );
+    transition: left 0.5s ease;
+}
+
+.btn-shine:hover::before {
+    left: 100%;
+}
+
+/* Pulse on Focus */
+.btn-pulse:focus {
+    animation: btn-pulse 0.4s ease;
+}
+
+@keyframes btn-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* Icon Slide */
+.btn-icon-slide {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    overflow: hidden;
+}
+
+.btn-icon-slide i {
+    transition: transform 0.3s ease;
+}
+
+.btn-icon-slide:hover i {
+    transform: translateX(4px);
+}
+
+/* ============================================
+   CARD ANIMATIONS
+   ============================================ */
+
+/* Lift on Hover */
+.card-lift {
+    transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1),
+                box-shadow 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.card-lift:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+}
+
+/* Tilt Effect (3D) */
+.card-tilt {
+    transition: transform 0.3s ease;
+    transform-style: preserve-3d;
+}
+
+.card-tilt:hover {
+    transform: perspective(1000px) rotateX(2deg) rotateY(-2deg) translateZ(10px);
+}
+
+/* Scale on Hover */
+.card-scale {
+    transition: transform 0.3s ease;
+}
+
+.card-scale:hover {
+    transform: scale(1.02);
+}
+
+/* Border Glow */
+.card-glow {
+    transition: box-shadow 0.3s ease;
+}
+
+.card-glow:hover {
+    box-shadow: 0 0 0 2px rgba(75, 138, 123, 0.3),
+                0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Image Zoom Inside Card */
+.card-img-zoom {
+    overflow: hidden;
+}
+
+.card-img-zoom img {
+    transition: transform 0.5s ease;
+}
+
+.card-img-zoom:hover img {
+    transform: scale(1.08);
+}
+
+/* ============================================
+   INPUT ANIMATIONS
+   ============================================ */
+
+/* Focus Underline */
+.input-underline {
+    position: relative;
+    border-bottom: 2px solid #ddd;
+    transition: border-color 0.3s ease;
+}
+
+.input-underline::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #4b8a7b;
+    transition: width 0.3s ease;
+}
+
+.input-underline:focus::after {
+    width: 100%;
+}
+
+/* Focus Glow */
+.input-glow:focus {
+    box-shadow: 0 0 0 4px rgba(75, 138, 123, 0.15);
+    border-color: #4b8a7b;
+    outline: none;
+}
+
+/* Shake on Error */
+.input-shake {
+    animation: shake 0.5s ease;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+/* ============================================
+   LIST ANIMATIONS
+   ============================================ */
+
+/* Stagger Fade In */
+.list-stagger > * {
+    opacity: 0;
+    animation: stagger-fade-in 0.5s ease forwards;
+}
+
+.list-stagger > *:nth-child(1) { animation-delay: 0.1s; }
+.list-stagger > *:nth-child(2) { animation-delay: 0.2s; }
+.list-stagger > *:nth-child(3) { animation-delay: 0.3s; }
+.list-stagger > *:nth-child(4) { animation-delay: 0.4s; }
+.list-stagger > *:nth-child(5) { animation-delay: 0.5s; }
+.list-stagger > *:nth-child(6) { animation-delay: 0.6s; }
+.list-stagger > *:nth-child(7) { animation-delay: 0.7s; }
+.list-stagger > *:nth-child(8) { animation-delay: 0.8s; }
+
+@keyframes stagger-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================================
+   ICON ANIMATIONS
+   ============================================ */
+
+/* Spin */
+.icon-spin {
+    animation: icon-spin 1s linear infinite;
+}
+
+@keyframes icon-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Bounce */
+.icon-bounce {
+    animation: icon-bounce 1s ease infinite;
+}
+
+@keyframes icon-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+/* Pulse */
+.icon-pulse {
+    animation: icon-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes icon-pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.8; }
+}
+
+/* Wiggle */
+.icon-wiggle:hover {
+    animation: icon-wiggle 0.5s ease;
+}
+
+@keyframes icon-wiggle {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-10deg); }
+    75% { transform: rotate(10deg); }
+}
+
+/* ============================================
+   TOOLTIP ANIMATIONS
+   ============================================ */
+.tooltip-animate {
+    position: relative;
+}
+
+.tooltip-animate::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-5px);
+    padding: 8px 16px;
+    background: #333;
+    color: white;
+    font-size: 13px;
+    border-radius: 8px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+.tooltip-animate:hover::after {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(-10px);
+}
+
+/* ============================================
+   LOADING ANIMATIONS
+   ============================================ */
+
+/* Dots Loading */
+.loading-dots {
+    display: inline-flex;
+    gap: 4px;
+}
+
+.loading-dots span {
+    width: 8px;
+    height: 8px;
+    background: currentColor;
+    border-radius: 50%;
+    animation: dot-bounce 1.4s infinite ease-in-out both;
+}
+
+.loading-dots span:nth-child(1) { animation-delay: -0.32s; }
+.loading-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes dot-bounce {
+    0%, 80%, 100% { transform: scale(0); }
+    40% { transform: scale(1); }
+}
+
+/* Spinner */
+.loading-spinner {
+    width: 24px;
+    height: 24px;
+    border: 3px solid rgba(0, 0, 0, 0.1);
+    border-top-color: #4b8a7b;
+    border-radius: 50%;
+    animation: spinner 0.8s linear infinite;
+}
+
+@keyframes spinner {
+    to { transform: rotate(360deg); }
+}
+
+/* ============================================
+   SCROLL REVEAL (Intersection Observer Ready)
+   Use: reveal-anim class (not .reveal to avoid conflict)
+   ============================================ */
+.reveal-anim {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal-anim.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.reveal-anim-left {
+    opacity: 0;
+    transform: translateX(-30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal-anim-left.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.reveal-anim-right {
+    opacity: 0;
+    transform: translateX(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal-anim-right.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.reveal-anim-scale {
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal-anim-scale.active {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* ============================================
+   MOBILE TOUCH FEEDBACK
+   ============================================ */
+@media (hover: none) {
+    .touch-feedback {
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .touch-feedback:active {
+        transform: scale(0.97);
+        opacity: 0.9;
+    }
+}
+
+/* ============================================
+   REDUCE MOTION (Accessibility)
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

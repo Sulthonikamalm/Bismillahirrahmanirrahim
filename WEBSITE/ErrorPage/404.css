@@ -1,0 +1,780 @@
+/* ============================================
+   404 PAGE - PREMIUM OCEAN DESIGN
+   Senior Developer Quality Water Animation
+   ============================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+body {
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    min-height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(180deg, 
+        #0f2027 0%, 
+        #132338 30%,
+        #1a3a5c 60%,
+        #1e4d6b 100%);
+}
+
+.error-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* ============================================
+   STARS - REALISTIC NIGHT SKY
+   ============================================ */
+.stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.star {
+    position: absolute;
+    background: radial-gradient(circle, #fff 0%, rgba(255,255,255,0) 70%);
+    border-radius: 50%;
+    animation: starTwinkle 3s infinite ease-in-out;
+}
+
+@keyframes starTwinkle {
+    0%, 100% { 
+        opacity: 0.2; 
+        transform: scale(0.8);
+    }
+    50% { 
+        opacity: 1; 
+        transform: scale(1);
+    }
+}
+
+/* Shooting star effect */
+.stars::after {
+    content: '';
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 10px 2px rgba(255,255,255,0.8);
+    animation: shootingStar 8s infinite ease-out;
+    opacity: 0;
+}
+
+@keyframes shootingStar {
+    0% {
+        top: 10%;
+        left: 80%;
+        opacity: 0;
+        transform: translateX(0) translateY(0);
+    }
+    2% { opacity: 1; }
+    8% {
+        top: 40%;
+        left: 30%;
+        opacity: 0;
+        transform: translateX(-200px) translateY(200px);
+    }
+    100% { opacity: 0; }
+}
+
+/* ============================================
+   OCEAN SCENE - HYPER REALISTIC WAVES
+   ============================================ */
+.ocean-scene {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    overflow: hidden;
+}
+
+/* Gradient overlay untuk depth */
+.ocean-scene::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, 
+        transparent 0%,
+        rgba(10, 30, 50, 0.3) 50%,
+        rgba(5, 20, 40, 0.6) 100%);
+    z-index: 3;
+    pointer-events: none;
+}
+
+/* Wave Container */
+.waves {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Premium Wave Layer System */
+.wave {
+    position: absolute;
+    width: 200%;
+    left: -50%;
+    bottom: 0;
+}
+
+/* Wave 1 - Front Layer (Lightest, Fastest) */
+.wave:first-child {
+    height: 120px;
+    background: 
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,60 C150,120 350,0 600,60 C850,120 1050,0 1200,60 L1200,120 L0,120 Z' fill='%23245b78'/%3E%3C/svg%3E") repeat-x;
+    background-size: 600px 120px;
+    animation: waveFlow 6s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
+    opacity: 0.9;
+    z-index: 4;
+}
+
+/* Wave 2 - Middle Layer */
+.wave:nth-child(2) {
+    height: 100px;
+    bottom: 30px;
+    background: 
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,40 C200,100 400,0 600,50 C800,100 1000,20 1200,40 L1200,120 L0,120 Z' fill='%231d4a63'/%3E%3C/svg%3E") repeat-x;
+    background-size: 700px 100px;
+    animation: waveFlow 8s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite reverse;
+    opacity: 0.8;
+    z-index: 3;
+}
+
+/* Wave 3 - Back Layer (Darkest, Slowest) */
+.waves::before {
+    content: '';
+    position: absolute;
+    width: 200%;
+    left: -50%;
+    height: 80px;
+    bottom: 50px;
+    background: 
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,50 C180,90 380,10 600,50 C820,90 1020,10 1200,50 L1200,120 L0,120 Z' fill='%23153a52'/%3E%3C/svg%3E") repeat-x;
+    background-size: 800px 80px;
+    animation: waveFlow 12s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
+    opacity: 0.6;
+    z-index: 2;
+}
+
+/* Ocean Floor Gradient */
+.waves::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 60%;
+    bottom: 0;
+    background: linear-gradient(180deg, 
+        transparent 0%,
+        #0d2840 40%,
+        #081a2b 100%);
+    z-index: 5;
+}
+
+/* Smooth wave animation */
+@keyframes waveFlow {
+    0% { 
+        transform: translateX(0); 
+    }
+    100% { 
+        transform: translateX(-50%); 
+    }
+}
+
+/* Caustic light effect - underwater shimmer */
+.ocean-scene::after {
+    content: '';
+    position: absolute;
+    top: 20%;
+    left: 0;
+    width: 100%;
+    height: 80%;
+    background: 
+        radial-gradient(ellipse 100px 100px at 20% 30%, rgba(100, 200, 255, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse 80px 80px at 60% 50%, rgba(100, 200, 255, 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse 120px 120px at 80% 40%, rgba(100, 200, 255, 0.07) 0%, transparent 50%);
+    animation: causticShimmer 4s ease-in-out infinite alternate;
+    z-index: 6;
+    pointer-events: none;
+}
+
+@keyframes causticShimmer {
+    0% { 
+        opacity: 0.5; 
+        transform: scale(1);
+    }
+    100% { 
+        opacity: 1; 
+        transform: scale(1.05);
+    }
+}
+
+/* ============================================
+   LIFEBUOY - REALISTIC FLOATING
+   ============================================ */
+.lifebuoy {
+    position: absolute;
+    bottom: 38%;
+    left: 12%;
+    width: 100px;
+    height: 100px;
+    z-index: 10;
+    animation: lifebuoyFloat 5s ease-in-out infinite;
+    filter: drop-shadow(0 15px 25px rgba(0,0,0,0.4));
+}
+
+.lifebuoy-ring {
+    width: 100%;
+    height: 100%;
+    border: 18px solid;
+    border-color: #e74c3c white #e74c3c white;
+    border-radius: 50%;
+    position: relative;
+    background: 
+        repeating-conic-gradient(
+            from 0deg,
+            #e74c3c 0deg 90deg,
+            white 90deg 180deg
+        );
+    box-shadow: 
+        inset 0 0 15px rgba(0,0,0,0.2),
+        0 8px 20px rgba(0,0,0,0.3);
+}
+
+.lifebuoy-ring::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 35%;
+    height: 35%;
+    background: radial-gradient(circle, #1a4a6e 0%, #0d2840 100%);
+    border-radius: 50%;
+    box-shadow: inset 0 2px 8px rgba(0,0,0,0.4);
+}
+
+/* Rope effect */
+.lifebuoy-ring::after {
+    content: '';
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 20px;
+    border: 3px solid #c9a86c;
+    border-bottom: none;
+    border-radius: 40px 40px 0 0;
+}
+
+@keyframes lifebuoyFloat {
+    0%, 100% { 
+        transform: translateY(0) rotate(-8deg); 
+    }
+    25% {
+        transform: translateY(-12px) rotate(-3deg);
+    }
+    50% { 
+        transform: translateY(-6px) rotate(6deg); 
+    }
+    75% {
+        transform: translateY(-15px) rotate(2deg);
+    }
+}
+
+/* ============================================
+   PAPER BOAT - ELEGANT ORIGAMI STYLE
+   ============================================ */
+.paper-boat {
+    position: absolute;
+    bottom: 36%;
+    right: 15%;
+    z-index: 10;
+    animation: boatSail 6s ease-in-out infinite;
+    filter: drop-shadow(0 12px 20px rgba(0,0,0,0.35));
+}
+
+.boat-body {
+    width: 70px;
+    height: 32px;
+    background: linear-gradient(180deg, #fafafa 0%, #e8e8e8 50%, #d5d5d5 100%);
+    clip-path: polygon(0 0, 100% 0, 82% 100%, 18% 100%);
+    position: relative;
+}
+
+/* Paper fold effect */
+.boat-body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 40%;
+    background: linear-gradient(90deg, 
+        rgba(0,0,0,0.05) 0%, 
+        transparent 20%, 
+        transparent 80%, 
+        rgba(0,0,0,0.05) 100%);
+}
+
+.boat-sail {
+    position: absolute;
+    bottom: 100%;
+    left: 45%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 30px solid transparent;
+    border-right: 4px solid transparent;
+    border-bottom: 55px solid;
+    border-bottom-color: #e74c3c;
+    filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.15));
+}
+
+/* Sail gradient overlay */
+.boat-sail::before {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: -25px;
+    width: 25px;
+    height: 45px;
+    background: linear-gradient(135deg, #ef5350 0%, #c62828 100%);
+    clip-path: polygon(0 0, 100% 100%, 0 100%);
+}
+
+.boat-mast {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    width: 2px;
+    height: 58px;
+    background: linear-gradient(180deg, #5d4037 0%, #3e2723 100%);
+    border-radius: 1px;
+}
+
+/* Flag at top of mast */
+.boat-mast::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 2px;
+    width: 12px;
+    height: 8px;
+    background: #4b8a7b;
+    clip-path: polygon(0 0, 100% 30%, 0 100%);
+    animation: flagWave 1s ease-in-out infinite alternate;
+    transform-origin: left center;
+}
+
+@keyframes flagWave {
+    0% { transform: scaleX(1) skewY(0deg); }
+    100% { transform: scaleX(0.9) skewY(-3deg); }
+}
+
+@keyframes boatSail {
+    0%, 100% { 
+        transform: translateY(0) rotate(4deg) translateX(0); 
+    }
+    20% {
+        transform: translateY(-10px) rotate(1deg) translateX(-5px);
+    }
+    40% { 
+        transform: translateY(-4px) rotate(-3deg) translateX(3px);
+    }
+    60% {
+        transform: translateY(-14px) rotate(0deg) translateX(-3px);
+    }
+    80% {
+        transform: translateY(-7px) rotate(5deg) translateX(2px);
+    }
+}
+
+/* ============================================
+   BUBBLES - ORGANIC & NATURAL
+   ============================================ */
+.bubbles {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 8;
+}
+
+.bubble {
+    position: absolute;
+    bottom: -50px;
+    background: radial-gradient(circle at 30% 30%, 
+        rgba(255, 255, 255, 0.4) 0%, 
+        rgba(255, 255, 255, 0.1) 40%,
+        transparent 70%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    animation: bubbleRise linear infinite;
+}
+
+/* Bubble shine */
+.bubble::before {
+    content: '';
+    position: absolute;
+    top: 20%;
+    left: 20%;
+    width: 30%;
+    height: 30%;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+}
+
+@keyframes bubbleRise {
+    0% { 
+        transform: translateY(0) translateX(0) scale(1); 
+        opacity: 0.6; 
+    }
+    25% {
+        transform: translateY(-25vh) translateX(15px) scale(0.95);
+    }
+    50% {
+        transform: translateY(-50vh) translateX(-10px) scale(0.9);
+        opacity: 0.4;
+    }
+    75% {
+        transform: translateY(-75vh) translateX(8px) scale(0.85);
+    }
+    100% { 
+        transform: translateY(-100vh) translateX(-5px) scale(0.7); 
+        opacity: 0; 
+    }
+}
+
+/* ============================================
+   ERROR CONTENT - PREMIUM TYPOGRAPHY
+   ============================================ */
+.error-content {
+    position: relative;
+    z-index: 20;
+    text-align: center;
+    color: white;
+    padding: 20px;
+    max-width: 600px;
+}
+
+.error-code {
+    font-size: clamp(7rem, 18vw, 12rem);
+    font-weight: 800;
+    letter-spacing: -8px;
+    background: linear-gradient(180deg, 
+        #ffffff 0%, 
+        #c5e4f3 40%,
+        #8ec5db 70%,
+        #6ab0cc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
+    margin-bottom: 5px;
+    animation: codeFloat 4s ease-in-out infinite;
+    filter: drop-shadow(0 4px 30px rgba(100, 180, 220, 0.3));
+}
+
+/* Glow effect behind text */
+.error-code::before {
+    content: '404';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    font-size: inherit;
+    font-weight: inherit;
+    letter-spacing: inherit;
+    -webkit-text-fill-color: transparent;
+    background: linear-gradient(180deg, rgba(100, 180, 220, 0.3) 0%, transparent 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    filter: blur(20px);
+    z-index: -1;
+}
+
+@keyframes codeFloat {
+    0%, 100% { 
+        transform: translateY(0); 
+    }
+    50% { 
+        transform: translateY(-8px); 
+    }
+}
+
+.error-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, rgba(231, 76, 60, 0.95) 0%, rgba(192, 57, 43, 0.95) 100%);
+    color: white;
+    padding: 14px 36px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    margin-bottom: 28px;
+    box-shadow: 
+        0 4px 20px rgba(231, 76, 60, 0.4),
+        inset 0 1px 0 rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.1);
+    text-transform: uppercase;
+}
+
+.error-message {
+    font-size: 1.1rem;
+    line-height: 1.9;
+    max-width: 480px;
+    margin: 0 auto 36px;
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 400;
+}
+
+/* ============================================
+   ACTION BUTTONS - PREMIUM GLASS EFFECT
+   ============================================ */
+.error-actions {
+    display: flex;
+    gap: 18px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-home {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 40px;
+    background: linear-gradient(135deg, #4b8a7b 0%, #3d7268 50%, #2d5a4e 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: 60px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+    box-shadow: 
+        0 6px 25px rgba(75, 138, 123, 0.45),
+        inset 0 1px 0 rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-home::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.btn-home:hover::before {
+    left: 100%;
+}
+
+.btn-home:hover {
+    transform: translateY(-5px);
+    box-shadow: 
+        0 12px 35px rgba(75, 138, 123, 0.55),
+        inset 0 1px 0 rgba(255,255,255,0.3);
+}
+
+.btn-home:active {
+    transform: translateY(-2px);
+}
+
+.btn-report {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 40px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    color: white;
+    text-decoration: none;
+    border: 2px solid rgba(255, 255, 255, 0.25);
+    border-radius: 60px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.btn-report:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(255,255,255,0.1);
+}
+
+.btn-report:active {
+    transform: translateY(-2px);
+}
+
+/* ============================================
+   HELP BUTTON - FLOATING ACTION
+   ============================================ */
+.help-float {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    box-shadow: 
+        0 6px 25px rgba(231, 76, 60, 0.5),
+        inset 0 1px 0 rgba(255,255,255,0.2);
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+    z-index: 100;
+    text-decoration: none;
+    animation: helpPulse 3s ease-in-out infinite;
+}
+
+@keyframes helpPulse {
+    0%, 100% { box-shadow: 0 6px 25px rgba(231, 76, 60, 0.5); }
+    50% { box-shadow: 0 6px 35px rgba(231, 76, 60, 0.7), 0 0 0 8px rgba(231, 76, 60, 0.1); }
+}
+
+.help-float:hover {
+    transform: scale(1.1) rotate(10deg);
+    box-shadow: 0 8px 30px rgba(231, 76, 60, 0.6);
+    animation: none;
+}
+
+.help-float:active {
+    transform: scale(1.05);
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+@media (max-width: 768px) {
+    .error-code { 
+        letter-spacing: -4px; 
+    }
+    
+    .lifebuoy { 
+        width: 70px; 
+        height: 70px; 
+        left: 8%; 
+        bottom: 42%;
+    }
+    
+    .lifebuoy-ring {
+        border-width: 14px;
+    }
+    
+    .paper-boat { 
+        right: 8%; 
+        bottom: 40%;
+    }
+    
+    .boat-body { 
+        width: 55px; 
+        height: 26px; 
+    }
+    
+    .boat-sail { 
+        border-left-width: 24px;
+        border-right-width: 3px;
+        border-bottom-width: 42px;
+    }
+    
+    .boat-mast {
+        height: 46px;
+    }
+    
+    .error-message { 
+        font-size: 1rem; 
+        padding: 0 24px;
+        line-height: 1.8;
+    }
+    
+    .error-badge {
+        font-size: 0.8rem;
+        padding: 12px 28px;
+        letter-spacing: 2px;
+    }
+    
+    .error-actions { 
+        flex-direction: column; 
+        padding: 0 24px;
+        gap: 14px;
+    }
+    
+    .btn-home, 
+    .btn-report { 
+        width: 100%; 
+        justify-content: center;
+        padding: 16px 32px;
+    }
+    
+    .help-float {
+        bottom: 24px;
+        right: 24px;
+        width: 54px;
+        height: 54px;
+        font-size: 22px;
+    }
+}
+
+@media (max-width: 480px) {
+    .error-code {
+        letter-spacing: -2px;
+    }
+    
+    .error-badge {
+        font-size: 0.75rem;
+        padding: 10px 24px;
+    }
+    
+    .lifebuoy {
+        display: none;
+    }
+    
+    .paper-boat {
+        right: 50%;
+        transform: translateX(50%);
+    }
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

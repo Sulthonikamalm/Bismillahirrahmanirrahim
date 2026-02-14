@@ -1,0 +1,369 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIGAP - Edit Postingan</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Image Resizer -->
+    <link rel="stylesheet" href="../../assets/css/blog/image-resizer.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;500;600&family=Roboto:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/css/core/dashboard.css">
+
+    <link rel="stylesheet" href="../../assets/css/blog/blog-editor.css">
+</head>
+
+<body>
+    <div class="d-flex">
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1 class="brand-title">Sigap</h1>
+            </div>
+            <ul class="nav flex-column sidebar-nav">
+                <li class="nav-item"><a class="nav-link" href="../cases/cases.html"><i class="bi bi-grid-fill me-2"></i>
+                        Data
+                        Kasus</a></li>
+                <li class="nav-item"><a class="nav-link" href="../cases/statistics.html"><i
+                            class="bi bi-bar-chart-fill me-2"></i> Statistik</a></li>
+                <li class="nav-item"><a class="nav-link active" href="blog-list.html"><i
+                            class="bi bi-file-earmark-text-fill me-2"></i> Blog</a></li>
+            </ul>
+
+            <div class="user-profile-dropdown">
+                <div class="user-profile" id="userProfileToggle">
+                    <i class="bi bi-person-circle me-2 fs-3"></i>
+                    <div class="user-info">
+                        <span class="user-name">Admin PPKPT</span>
+                        <span class="user-role">Administrator</span>
+                    </div>
+                    <i class="bi bi-chevron-down ms-auto dropdown-arrow"></i>
+                </div>
+                <div class="user-dropdown-menu" id="userDropdownMenu">
+                    <a href="../cases/manual-input.html" class="dropdown-item-input">
+                        <i class="bi bi-pencil-square"></i>
+                        <span>Input Manual</span>
+                    </a>
+                    <button id="btnLogout" class="dropdown-item-logout">
+                        <i class="bi bi-box-arrow-right me-2"></i>
+                        <span>Logout</span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <main class="main-content" id="mainContent">
+            <header class="content-header">
+                <button class="btn sidebar-toggle" id="sidebarToggle" type="button"><i
+                        class="bi bi-list fs-3"></i></button>
+                <h2 class="breadcrumb-header">
+                    <a href="blog-list.html">Blog</a>
+                    <i class="bi bi-chevron-right"></i>
+                    <span>Edit</span>
+                </h2>
+                <div></div>
+            </header>
+
+            <form id="postForm" novalidate>
+                <div class="card shadow-sm border-0 detail-card">
+                    <div class="card-body p-4 p-md-5">
+                        <div class="row g-4 mb-4">
+                            <div class="col-lg-4">
+                                <div class="image-upload-wrapper">
+                                    <label for="imageUpload" class="image-upload-box" id="imageUploadLabel">
+                                        <i class="bi bi-image default-icon"></i>
+                                        <img src="#" alt="Image Preview" id="imagePreview" class="image-preview">
+                                    </label>
+                                    <input type="file" id="imageUpload" accept="image/*" class="d-none">
+                                </div>
+                                <div class="validation-error" id="imageError">Gambar tidak boleh kosong.</div>
+                            </div>
+                            <div class="col-lg-8">
+                                <input type="text" id="postJudul" class="form-control post-input-judul"
+                                    placeholder="Judul">
+                                <div class="validation-error" id="judulError">Judul tidak boleh kosong.</div>
+
+                                <select id="postKategori" class="form-select mt-3">
+                                    <option value="">-- Pilih Kategori --</option>
+                                    <option value="Kesehatan Mental">Kesehatan Mental</option>
+                                    <option value="Pencegahan Kekerasan">Pencegahan Kekerasan</option>
+                                    <option value="Edukasi">Edukasi</option>
+                                    <option value="Konseling">Konseling</option>
+                                    <option value="Tips & Trik">Tips & Trik</option>
+                                    <option value="Berita">Berita</option>
+                                    <option value="Pengumuman">Pengumuman</option>
+                                    <option value="Lainnya">Lainnya</option>
+                                </select>
+                                <div class="validation-error" id="kategoriError">Kategori tidak boleh kosong.</div>
+                            </div>
+                        </div>
+
+                        <!-- Rich Text Editor -->
+                        <div class="editor-wrapper">
+                            <!-- Toolbar -->
+                            <div class="editor-toolbar">
+                                <!-- History -->
+                                <div class="toolbar-group">
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="undoBtn"
+                                        data-tooltip="Undo">
+                                        <span class="material-icons">undo</span>
+                                    </button>
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="redoBtn"
+                                        data-tooltip="Redo">
+                                        <span class="material-icons">redo</span>
+                                    </button>
+                                </div>
+
+                                <!-- Font -->
+                                <div class="toolbar-group">
+                                    <div class="font-select-wrapper">
+                                        <select class="font-dropdown" id="fontSelect">
+                                            <option value="Roboto">Roboto</option>
+                                            <option value="Arial">Arial</option>
+                                            <option value="Georgia">Georgia</option>
+                                            <option value="Times New Roman">Times New Roman</option>
+                                            <option value="Courier New">Courier New</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Text Formatting -->
+                                <div class="toolbar-group">
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="boldBtn"
+                                        data-tooltip="Bold">
+                                        <i class="bi bi-type-bold"></i>
+                                    </button>
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="italicBtn"
+                                        data-tooltip="Italic">
+                                        <i class="bi bi-type-italic"></i>
+                                    </button>
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="underlineBtn"
+                                        data-tooltip="Underline">
+                                        <i class="bi bi-type-underline"></i>
+                                    </button>
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="strikeBtn"
+                                        data-tooltip="Strikethrough">
+                                        <i class="bi bi-type-strikethrough"></i>
+                                    </button>
+                                </div>
+
+                                <!-- Headings -->
+                                <div class="toolbar-group">
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="h1Btn"
+                                        data-tooltip="Heading 1">
+                                        <span style="font-weight: 600; font-size: 13px;">H1</span>
+                                    </button>
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="h2Btn"
+                                        data-tooltip="Heading 2">
+                                        <span style="font-weight: 600; font-size: 13px;">H2</span>
+                                    </button>
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="h3Btn"
+                                        data-tooltip="Heading 3">
+                                        <span style="font-weight: 600; font-size: 13px;">H3</span>
+                                    </button>
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="pBtn"
+                                        data-tooltip="Paragraph">
+                                        <span style="font-weight: 500; font-size: 13px;">P</span>
+                                    </button>
+                                </div>
+
+                                <!-- Alignment -->
+                                <div class="toolbar-group">
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="alignLeftBtn"
+                                        data-tooltip="Align Left">
+                                        <span class="material-icons">format_align_left</span>
+                                    </button>
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="alignCenterBtn"
+                                        data-tooltip="Align Center">
+                                        <span class="material-icons">format_align_center</span>
+                                    </button>
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="alignRightBtn"
+                                        data-tooltip="Align Right">
+                                        <span class="material-icons">format_align_right</span>
+                                    </button>
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="alignJustifyBtn"
+                                        data-tooltip="Justify">
+                                        <span class="material-icons">format_align_justify</span>
+                                    </button>
+                                </div>
+
+                                <!-- Line Spacing -->
+                                <div class="toolbar-group">
+                                    <div class="dropdown-wrapper">
+                                        <button type="button" class="toolbar-btn tooltip-btn" id="lineSpacingBtn"
+                                            data-tooltip="Line Spacing">
+                                            <span class="material-icons">format_line_spacing</span>
+                                        </button>
+                                        <div class="dropdown-menu" id="lineSpacingDropdown">
+                                            <div class="dropdown-item" data-spacing="1.0">1.0</div>
+                                            <div class="dropdown-item" data-spacing="1.15">1.15</div>
+                                            <div class="dropdown-item" data-spacing="1.5">1.5</div>
+                                            <div class="dropdown-item" data-spacing="2.0">2.0</div>
+                                            <div class="dropdown-item" data-spacing="2.5">2.5</div>
+                                            <div class="dropdown-item" data-spacing="3.0">3.0</div>
+                                            <div class="dropdown-divider"></div>
+                                            <div class="dropdown-item" data-action="spaceBefore">Add Space Before
+                                                Paragraph</div>
+                                            <div class="dropdown-item" data-action="spaceAfter">Add Space After
+                                                Paragraph</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Lists -->
+                                <div class="toolbar-group">
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="bulletBtn"
+                                        data-tooltip="Bullet List">
+                                        <span class="material-icons">format_list_bulleted</span>
+                                    </button>
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="numberBtn"
+                                        data-tooltip="Numbered List">
+                                        <span class="material-icons">format_list_numbered</span>
+                                    </button>
+                                </div>
+
+                                <!-- Indent -->
+                                <div class="toolbar-group">
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="outdentBtn"
+                                        data-tooltip="Decrease Indent">
+                                        <span class="material-icons">format_indent_decrease</span>
+                                    </button>
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="indentBtn"
+                                        data-tooltip="Increase Indent">
+                                        <span class="material-icons">format_indent_increase</span>
+                                    </button>
+                                </div>
+
+                                <!-- Insert -->
+                                <div class="toolbar-group">
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="linkBtn"
+                                        data-tooltip="Insert Link">
+                                        <span class="material-icons">link</span>
+                                    </button>
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="imageBtn"
+                                        data-tooltip="Insert Image">
+                                        <span class="material-icons">image</span>
+                                    </button>
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="quoteBtn"
+                                        data-tooltip="Blockquote">
+                                        <span class="material-icons">format_quote</span>
+                                    </button>
+                                    <button type="button" class="toolbar-btn tooltip-btn" id="hrBtn"
+                                        data-tooltip="Horizontal Line">
+                                        <span class="material-icons">horizontal_rule</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Paper View -->
+                            <div class="editor-paper">
+                                <div class="editor-content" contenteditable="true" id="editorContent"></div>
+                            </div>
+                        </div>
+
+                        <!-- Hidden textarea for form submission -->
+                        <textarea id="postIsi" class="form-control post-input-isi" placeholder="(isi)"
+                            rows="10"></textarea>
+                        <div class="validation-error" id="isiError">Isi tidak boleh kosong.</div>
+                    </div>
+                </div>
+
+                <footer class="content-footer-blog d-flex justify-content-end gap-2 align-items-center mt-3">
+                    <div class="action-container bg-white p-2 rounded shadow-sm border">
+                        <button type="button" class="btn btn-outline-secondary me-2" id="previewAction">
+                            <i class="bi bi-eye me-1"></i> Preview
+                        </button>
+                        <button type="submit" class="btn btn-primary" id="updateAction">Update Post</button>
+                    </div>
+                </footer>
+            </form>
+    </div>
+
+    <!-- Custom Dropdown Styles -->
+    <style>
+        .action-container {
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .tab-btn {
+            padding: 8px 16px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+
+        .tab-btn.active {
+            border-bottom-color: var(--primary-color);
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+    </style>
+
+    <!-- Link Modal -->
+    <div class="modal-overlay" id="linkModal">
+        <div class="modal-box">
+            <h3 class="modal-title">Insert Link</h3>
+            <input type="url" class="modal-input" id="linkUrl" placeholder="https://example.com">
+            <div class="modal-actions">
+                <button type="button" class="modal-btn modal-btn-cancel" id="cancelLink">Cancel</button>
+                <button type="button" class="modal-btn modal-btn-primary" id="insertLink">Insert</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Modal -->
+    <div class="modal-overlay" id="imageModal">
+        <div class="modal-box">
+            <h3 class="modal-title">Insert Image</h3>
+
+            <div class="d-flex mb-3 border-bottom">
+                <div class="tab-btn active" id="tabUpload">Upload Computer</div>
+                <div class="tab-btn" id="tabUrl">By URL</div>
+            </div>
+
+            <!-- Upload Section -->
+            <div id="viewUpload">
+                <div class="image-upload-wrapper mb-3">
+                    <label for="editorImageFile" class="image-upload-box"
+                        style="background: #f8f9fa; border: 2px dashed #dee2e6; height: 150px; flex-direction: column;">
+                        <i class="bi bi-cloud-upload"
+                            style="font-size: 2.5rem; color: #6c757d; margin-bottom: 0.5rem;"></i>
+                        <span style="color: #6c757d; font-size: 0.9rem;">Click to browse</span>
+                    </label>
+                    <input type="file" id="editorImageFile" accept="image/*" class="d-none">
+                </div>
+                <div id="uploadStatus" class="text-center text-muted small mb-2"></div>
+            </div>
+
+            <!-- URL Section -->
+            <div id="viewUrl" style="display:none;">
+                <input type="url" class="modal-input" id="imageUrl" placeholder="https://example.com/image.jpg">
+            </div>
+
+            <input type="text" class="modal-input" id="imageAlt" placeholder="Caption / Alt text (optional)">
+
+            <div class="modal-actions">
+                <button type="button" class="modal-btn modal-btn-cancel" id="cancelImage">Cancel</button>
+                <button type="button" class="modal-btn modal-btn-primary" id="insertImage">Insert</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../../assets/js/core/sidebar.js?v=2026010501"></script>
+    <script src="../../assets/js/blog/blog-form.js"></script>
+    <script src="../../assets/js/blog/image-resizer.js"></script>
+    <script src="../../assets/js/blog/blog-editor.js"></script>
+
+</body>
+
+</html>

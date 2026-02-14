@@ -1,0 +1,700 @@
+/* =========================================
+   SCIENTIFIC DEEP READING LAYOUT (REMASTERED)
+   Target: "Kutu Buku" & Immersive Experience
+   ========================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600&display=swap');
+
+:root {
+    /* TYPOGRAPHY SYSTEM */
+    --font-heading: 'Playfair Display', serif; /* Elegant, Editorial */
+    --font-body: 'Lora', serif;                /* Best for long reading */
+    --font-ui: 'Inter', sans-serif;            /* UI Elements (Buttons, Meta) */
+
+    /* READING METRICS */
+    --width-reading: 720px;       /* Golden ratio for comfortable scanning */
+    --line-height-body: 1.8;      /* Airy lines */
+    --font-size-body: 19px;       /* Larger base size for comfort */
+    
+    /* PALETTE - WARM PAPER THEME */
+    --color-bg-page: #fdfbf7;     /* Warm/Cream white (Book paper) */
+    --color-text-body: #2d3339;   /* Deep Charcoal (not pitch black) */
+    --color-text-heading: #111827;
+    --color-accent: #d97706;      /* Amber/Gold highlight */
+    --color-teal: #0d9488;        /* Sigap Primary Brand */
+    --color-selection: rgba(13, 148, 136, 0.2);
+}
+
+::selection {
+    background: var(--color-selection);
+}
+
+body {
+    background-color: var(--color-bg-page);
+    color: var(--color-text-body);
+    font-family: var(--font-body);
+    font-size: var(--font-size-body);
+    line-height: var(--line-height-body);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+}
+
+/* -------------------------------------------
+   PROGRESS & NAVIGATION
+   ------------------------------------------- */
+.progress-container {
+    height: 3px;
+    background: rgba(0,0,0,0.03);
+    position: fixed;
+    top: 70px;
+    left: 0;
+    z-index: 1000;
+}
+.progress-bar {
+    height: 100%;
+    background: var(--color-teal);
+    width: 0%;
+    transition: width 0.1s linear;
+}
+
+/* -------------------------------------------
+   BACK BUTTON (COMPACT & CLEAN)
+   ------------------------------------------- */
+.back-nav-sticky {
+    position: fixed;
+    top: 90px;
+    left: 20px;
+    z-index: 990;
+    pointer-events: none;
+}
+
+/* The actual button - COMPACT SIZE - !important to override inline accessibility styles */
+.back-btn {
+    pointer-events: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px !important;
+    background: white;
+    color: #374151;
+    border-radius: 50px;
+    text-decoration: none;
+    font-family: var(--font-ui), -apple-system, sans-serif;
+    font-weight: 600;
+    font-size: 0.8rem !important; /* Force small size */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border: 1px solid rgba(0,0,0,0.08);
+    transition: all 0.2s ease;
+}
+
+.back-btn i {
+    font-size: 0.85rem !important;
+    color: var(--color-teal);
+}
+
+.back-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border-color: var(--color-teal);
+    color: var(--color-teal);
+}
+
+/* -------------------------------------------
+   MOBILE RESPONSIVENESS (CRITICAL)
+   ------------------------------------------- */
+@media (max-width: 900px) {
+    /* UX CHANGE: Move to Bottom Left (Thumb Friendly Zone) 
+       Centering was obstructing reading flow */
+    .back-nav-sticky {
+        top: auto;
+        bottom: 30px; /* Safe distance from bottom edge */
+        left: 24px;   /* Standard margin */
+        right: auto;
+        transform: none; /* Remove centering */
+        width: auto;
+        height: auto;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        pointer-events: none;
+    }
+
+    .back-btn {
+        pointer-events: auto;
+        background: rgba(255, 255, 255, 0.95); /* Cleaner look than dark mode in light theme */
+        backdrop-filter: blur(8px);
+        color: #1f2937;
+        padding: 8px 16px !important;
+        font-size: 0.85rem !important;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* Softer shadow */
+        border: 1px solid rgba(0,0,0,0.05);
+        border-radius: 50px;
+        gap: 8px;
+        height: auto !important;
+        width: max-content;
+        flex-shrink: 0;
+    }
+
+    .back-btn i {
+        color: var(--color-teal); /* Keep branding consistency */
+        font-size: 0.9rem !important;
+        transform: translateX(0);
+        transition: transform 0.2s;
+    }
+    
+    /* Animation hint that it's clickable */
+    .back-btn:active {
+        transform: scale(0.95);
+        background: #f3f4f6;
+    }
+}
+
+/* -------------------------------------------
+   ARTICLE CONTAINER
+   ------------------------------------------- */
+.article-wrapper {
+    max-width: 100%;
+    position: relative;
+    padding-bottom: 8rem;
+}
+
+/* -------------------------------------------
+   HEADER SECTION
+   ------------------------------------------- */
+.article-header-immersive {
+    max-width: 900px;
+    margin: 6rem auto 4rem;
+    text-align: center;
+    padding: 0 1.5rem;
+}
+
+.article-title {
+    font-family: var(--font-heading);
+    font-size: clamp(2.5rem, 5vw, 4.2rem);
+    line-height: 1.1;
+    font-weight: 900;
+    color: var(--color-text-heading);
+    letter-spacing: -0.02em;
+    margin-bottom: 2rem;
+}
+
+.article-meta-modern {
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+    font-family: var(--font-ui);
+    font-size: 0.95rem;
+    color: #64748b;
+    border-top: 1px solid rgba(0,0,0,0.08);
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    padding: 1rem 2rem;
+}
+
+.meta-item { display: flex; align-items: center; gap: 8px; }
+.meta-item i { color: var(--color-teal); }
+.meta-separator { width: 4px; height: 4px; background: #cbd5e1; border-radius: 50%; }
+
+/* -------------------------------------------
+   HERO IMAGE
+   ------------------------------------------- */
+.hero-image-container {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto 5rem;
+    position: relative;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.hero-image {
+    width: 100%;
+    height: auto;
+    max-height: 650px;
+    object-fit: cover;
+    display: block;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+/* -------------------------------------------
+   DEEP READING CONTENT (THE CORE)
+   ------------------------------------------- */
+.deep-reading-content {
+    max-width: var(--width-reading);
+    margin: 0 auto;
+    font-family: var(--font-body);
+}
+
+/* Paragraph styling */
+.deep-reading-content p {
+    margin-bottom: 2rem;
+    font-size: var(--font-size-body);
+}
+
+/* Dropcap - Classic Book Feel */
+.deep-reading-content > p:first-of-type::first-letter {
+    float: left;
+    font-family: var(--font-heading);
+    font-size: 5.5rem;
+    line-height: 0.85;
+    font-weight: 700;
+    color: var(--color-text-heading);
+    margin-right: 16px;
+    margin-top: 4px;
+}
+
+/* Headings in content */
+.deep-reading-content h2, 
+.deep-reading-content h3 {
+    font-family: var(--font-heading);
+    color: var(--color-text-heading);
+    margin-top: 4rem;
+    margin-bottom: 1.25rem;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.deep-reading-content h2 { font-size: 2.2rem; }
+.deep-reading-content h3 { font-size: 1.7rem; }
+
+/* Lists - Clean & Indented */
+.deep-reading-content ul,
+.deep-reading-content ol {
+    margin: 2rem 0;
+    padding-left: 1.5rem;
+}
+
+.deep-reading-content li {
+    margin-bottom: 1rem;
+    padding-left: 0.5rem;
+}
+
+.deep-reading-content ul li::marker { color: var(--color-teal); }
+.deep-reading-content ol li::marker { font-family: var(--font-ui); font-weight: 600; color: var(--color-teal); }
+
+/* Blockquote - Architectural */
+.deep-reading-content blockquote {
+    border-left: 4px solid var(--color-teal);
+    padding: 1rem 2rem;
+    margin: 3rem 0;
+    font-style: italic;
+    font-size: 1.4rem;
+    color: #4b5563;
+    background: white;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+    border-radius: 0 8px 8px 0;
+}
+
+/* Images in content */
+.deep-reading-content img {
+    max-width: 120%; /* Break the grid slightly */
+    width: 120%;
+    margin: 3rem -10%;
+    height: auto;
+    border-radius: 4px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+/* Links */
+.deep-reading-content a {
+    color: var(--color-teal);
+    text-decoration: none;
+    background-image: linear-gradient(to bottom, transparent 90%, rgba(13, 148, 136, 0.2) 0);
+    background-size: 100% 100%;
+    transition: background-size 0.2s;
+}
+.deep-reading-content a:hover {
+    background-image: linear-gradient(to bottom, transparent 0%, rgba(13, 148, 136, 0.2) 0);
+}
+
+/* -------------------------------------------
+   SHARE SECTION
+   ------------------------------------------- */
+.share-section {
+    max-width: var(--width-reading);
+    margin: 5rem auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 3rem;
+    border-top: 1px solid rgba(0,0,0,0.1);
+}
+
+.btn-share {
+    background: white;
+    font-family: var(--font-ui);
+    padding: 12px 24px;
+    border-radius: 50px;
+    border: 1px solid #e2e8f0;
+    cursor: pointer;
+    font-weight: 600;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    transition: all 0.3s;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+}
+.btn-share:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.05);
+    background: #fafafa;
+}
+
+/* -------------------------------------------
+   RESPONSIVE
+   ------------------------------------------- */
+@media (max-width: 900px) {
+    .deep-reading-content img {
+        width: 100%;
+        margin: 2rem 0;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .article-header-immersive {
+        margin-top: 4rem;
+        text-align: left;
+    }
+    .article-title { font-size: 2.5rem; }
+    .hero-image { max-height: 400px; }
+    .deep-reading-content { padding: 0 1.25rem; }
+    
+    .deep-reading-content > p:first-of-type::first-letter {
+        font-size: 4rem;
+        margin-right: 12px;
+    }
+    .article-meta-modern {
+        justify-content: flex-start;
+        padding: 1rem 0;
+        border: none;
+    }
+}
+
+/* Progress Bar */
+.progress-container {
+    width: 100%;
+    height: 4px;
+    background: rgba(0, 0, 0, 0.05);
+    position: fixed;
+    top: 70px; /* Below navbar */
+    left: 0;
+    z-index: 999;
+}
+
+.progress-bar {
+    height: 4px;
+    background: var(--color-teal);
+    width: 0%;
+    transition: width 0.1s;
+}
+
+/* Back Button styles are defined above - removed duplicate */
+
+/* Article Container */
+.article-wrapper {
+    max-width: 1000px; /* Outer frame */
+    margin: 0 auto;
+    padding-top: 100px;
+    position: relative;
+}
+
+/* Decorative Background Element */
+.article-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1px;
+    height: 80px;
+    background: linear-gradient(to bottom, transparent, var(--color-teal));
+    opacity: 0.5;
+}
+
+/* 1. Immersive Header (Refined) */
+.article-header-immersive {
+    margin-bottom: 4rem;
+    text-align: center;
+    padding: 3rem 1rem 0;
+}
+
+.article-title {
+    font-family: var(--font-heading-optimized);
+    font-weight: 800;
+    /* Massive, Editorial Style Title */
+    font-size: clamp(2.5rem, 6vw, 4rem); 
+    line-height: 1.15;
+    color: var(--color-dark-blue);
+    max-width: 900px;
+    margin: 0 auto 1.5rem;
+    letter-spacing: -0.03em;
+    text-shadow: 0 2px 20px rgba(19, 35, 56, 0.05); /* Subtle depth */
+}
+
+.article-meta-modern {
+    font-family: var(--font-heading-optimized);
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    color: #556070; /* Better contrast */
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 10px 30px;
+    background: white;
+    border-radius: 50px;
+    border: 1px solid rgba(0,0,0,0.06);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.meta-item i {
+    color: var(--color-teal);
+    font-size: 1.1em; /* Icon slightly larger */
+}
+
+.meta-separator {
+    width: 5px;
+    height: 5px;
+    background: #e2e8f0;
+    border-radius: 50%;
+}
+
+/* Hero Image (Parallax Feel) */
+.hero-image-container {
+    width: 100%;
+    height: 65vh; 
+    max-height: 600px;
+    min-height: 400px;
+    margin-bottom: 5rem;
+    border-radius: 24px; /* Softer corners */
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); /* Dramatic Shadow */
+    transform: translateZ(0); /* Hardware accel */
+}
+
+.hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1.2s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.hero-image-container:hover .hero-image {
+    transform: scale(1.03); /* Subtle zoom on hover */
+}
+
+/* 2. Deep Reading Content (Enhanced) */
+.deep-reading-content {
+    max-width: var(--width-reading);
+    margin: 0 auto;
+    /* Larger base font for modern editorial feel */
+    font-size: 1.35rem; 
+    line-height: 1.85; 
+    color: #2d3748;
+    position: relative;
+}
+
+/* Dropcap for first paragraph */
+.deep-reading-content > p:first-of-type::first-letter {
+    float: left;
+    font-family: var(--font-heading-optimized);
+    font-size: 4.8rem;
+    line-height: 0.8;
+    font-weight: 800;
+    color: var(--color-dark-blue);
+    margin-right: 12px;
+    margin-top: 5px;
+}
+
+/* Typography Details */
+.deep-reading-content p {
+    margin-bottom: 2.5rem; /* More breathing room */
+}
+
+.deep-reading-content h2 {
+    font-size: 2.4rem;
+    margin-top: 4.5rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 15px;
+    border-bottom: 2px solid rgba(75, 138, 123, 0.15); /* Underline section */
+    position: relative;
+}
+
+.deep-reading-content h2::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 80px;
+    height: 2px;
+    background: var(--color-teal);
+}
+
+.deep-reading-content blockquote {
+    border-left: none; /* Reset old */
+    position: relative;
+    padding: 2rem 3rem;
+    margin: 3.5rem 0;
+    font-family: var(--font-heading-optimized);
+    font-style: italic;
+    font-size: 1.6rem;
+    line-height: 1.5;
+    color: var(--color-dark-blue);
+    background: linear-gradient(to right, #f6f9fc, transparent);
+    border-radius: 8px;
+}
+
+.deep-reading-content blockquote::before {
+    content: '\201C'; /* Quote mark */
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    font-size: 5rem;
+    color: rgba(75, 138, 123, 0.15);
+    font-family: serif;
+}
+
+/* Share Section */
+.share-section {
+    max-width: var(--width-reading);
+    margin: 4rem auto 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.share-label {
+    font-family: var(--font-heading-optimized);
+    font-weight: 600;
+    margin-right: 1rem;
+}
+
+.btn-share {
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    background: white;
+    cursor: pointer;
+    font-family: var(--font-heading-optimized);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-dark-blue);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+}
+
+.btn-share:hover {
+    background: #f7fafc;
+    border-color: #cbd5e0;
+}
+
+/* Related Articles */
+.related-section {
+    background: #f7fafc;
+    padding: 4rem 0;
+    margin-top: 4rem;
+}
+
+.related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.related-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    transition: transform 0.2s;
+    cursor: pointer;
+}
+
+.related-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+}
+
+.related-image {
+    height: 200px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.related-content {
+    padding: 1.5rem;
+}
+
+.related-title {
+    font-family: var(--font-heading-optimized);
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+    color: var(--color-dark-blue);
+}
+
+.related-date {
+    font-size: 0.85rem;
+    color: #718096;
+}
+
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .back-nav-sticky {
+        position: absolute; /* Unstick on smaller screens to avoid overlap */
+        top: 20px;
+    }
+    .article-wrapper {
+        padding-top: 60px;
+    }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --width-reading: 100%;
+    }
+    
+    .article-header-immersive {
+        padding: 0 1rem;
+    }
+
+    .article-title {
+        font-size: 2rem;
+    }
+
+    .deep-reading-content {
+        font-size: 1.125rem; /* 18px on mobile */
+        padding: 0 1.25rem;
+    }
+
+    .hero-image-container {
+        height: 350px;
+        margin-bottom: 2rem;
+        border-radius: 0;
+    }
+    
+    .share-section {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+        padding: 0 1.25rem;
+    }
+}

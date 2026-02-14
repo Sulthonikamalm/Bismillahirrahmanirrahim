@@ -1,0 +1,678 @@
+/**
+ * ============================================================
+ * SIGAP PPKPT - Cases Page Styles
+ * File: assets/css/cases.css
+ * Description: Styles for case management page with responsive design
+ * ============================================================
+ */
+
+/* ========================================
+   HEADER SECTION
+   ======================================== */
+
+.content-header {
+    margin-bottom: 1.5rem;
+}
+
+.header-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex: 1;
+}
+
+.header-title h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.header-title p {
+    font-size: 0.875rem;
+    margin: 0;
+}
+
+.header-actions {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+/* Hide sidebar toggle on desktop */
+.sidebar-toggle {
+    display: none;
+}
+
+/* ========================================
+   TAB NAVIGATION
+   ======================================== */
+
+.case-tabs {
+    display: flex;
+    gap: 25px;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 20px;
+    padding-left: 5px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.case-tabs::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.case-tabs {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    padding: 10px 5px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: #888;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.tab-btn:hover {
+    color: #333;
+}
+
+.tab-btn.active {
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.tab-btn.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #05730b;
+    border-radius: 3px 3px 0 0;
+}
+
+.badge-count {
+    background-color: #f1f1f1;
+    color: #666;
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 12px;
+    margin-left: 8px;
+    font-weight: 500;
+    transition: all 0.3s;
+    display: inline-block;
+}
+
+.tab-btn.active .badge-count {
+    background-color: #2c3e50;
+    color: #fff;
+}
+
+/* ========================================
+   TABLE HEADER
+   ======================================== */
+
+.case-list-header {
+    display: none; /* Hidden by default, shown on desktop */
+    grid-template-columns: 40px 1fr 1.5fr 2.5fr 1.5fr 1.5fr;
+    gap: 1rem;
+    padding: 1rem;
+    font-weight: 600;
+    color: #666;
+    font-size: 0.875rem;
+    border-bottom: 2px solid #e0e0e0;
+    background-color: #f8f9fa;
+}
+
+.header-checkbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-col {
+    display: flex;
+    align-items: center;
+}
+
+/* ========================================
+   CASE LIST CONTAINER
+   ======================================== */
+
+.case-list-container {
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { 
+        opacity: 0; 
+        transform: translateY(5px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
+.case-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+/* ========================================
+   CASE ITEM
+   ======================================== */
+
+.case-item-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: all 0.3s ease;
+}
+
+.case-item-link:hover {
+    transform: translateX(4px);
+}
+
+.case-item {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1rem;
+    transition: all 0.3s ease;
+}
+
+.case-item:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border-color: #05730b;
+}
+
+.case-content {
+    display: grid;
+    grid-template-columns: 40px 1fr 1.5fr 2.5fr 1.5fr 1.5fr;
+    gap: 1rem;
+    align-items: center;
+}
+
+.case-checkbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.case-checkbox input {
+    cursor: pointer;
+}
+
+.case-id {
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 0.9rem;
+}
+
+.case-worry {
+    display: flex;
+    align-items: center;
+}
+
+.case-email,
+.case-date {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: #666;
+}
+
+.case-email i,
+.case-date i {
+    color: #999;
+    flex-shrink: 0;
+}
+
+.case-email span,
+.case-date span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.case-status {
+    display: flex;
+    justify-content: flex-start;
+}
+
+/* ========================================
+   KHAWATIR BAR (Worry Level Indicator)
+   ======================================== */
+
+.khawatir-bar {
+    height: 8px;
+    border-radius: 4px;
+    width: 100%;
+    max-width: 120px;
+}
+
+.khawatir-bar.sedikit {
+    background-color: #1abc9c;
+}
+
+.khawatir-bar.khawatir {
+    background-color: #f39c12;
+}
+
+.khawatir-bar.sangat {
+    background-color: #e74c3c;
+}
+
+/* ========================================
+   STATUS BADGES
+   ======================================== */
+
+.status-badge {
+    padding: 0.35rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: inline-block;
+    text-align: center;
+    min-width: 100px;
+}
+
+.status-process {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.status-investigation {
+    background-color: #cce5ff;
+    color: #004085;
+}
+
+.status-completed {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+/* ========================================
+   FOOTER LEGEND
+   ======================================== */
+
+.content-footer {
+    padding-top: 2rem;
+    border-top: 1px solid #e0e0e0;
+}
+
+.legend-container {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: #666;
+}
+
+.legend-color {
+    width: 24px;
+    height: 8px;
+    border-radius: 4px;
+}
+
+.legend-color.sedikit {
+    background-color: #1abc9c;
+}
+
+.legend-color.khawatir {
+    background-color: #f39c12;
+}
+
+.legend-color.sangat {
+    background-color: #e74c3c;
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+/* Tablet (max-width: 991px) */
+@media (max-width: 991.98px) {
+    .header-wrapper {
+        gap: 0.75rem;
+    }
+
+    .header-title h2 {
+        font-size: 1.25rem;
+    }
+
+    .header-title p {
+        font-size: 0.8rem;
+    }
+
+    .case-content {
+        grid-template-columns: 30px 1fr 1fr 2fr 1fr 1fr;
+        gap: 0.75rem;
+    }
+
+    .case-id {
+        font-size: 0.85rem;
+    }
+
+    .case-email,
+    .case-date {
+        font-size: 0.8rem;
+    }
+
+    .status-badge {
+        font-size: 0.75rem;
+        min-width: 90px;
+        padding: 0.3rem 0.6rem;
+    }
+
+    .khawatir-bar {
+        max-width: 80px;
+    }
+}
+
+/* Mobile (max-width: 767px) */
+@media (max-width: 767.98px) {
+    /* Show sidebar toggle on mobile */
+    .sidebar-toggle {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        border: none;
+        padding: 0.5rem;
+        color: #2c3e50;
+        cursor: pointer;
+    }
+
+    .header-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .header-left {
+        width: 100%;
+        gap: 0.75rem;
+    }
+
+    .header-title {
+        flex: 1;
+    }
+
+    .header-title h2 {
+        font-size: 1.1rem;
+    }
+
+    .header-title p {
+        display: none; /* Hide subtitle on mobile */
+    }
+
+    .header-actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    .btn-text {
+        display: none; /* Hide button text, show icon only */
+    }
+
+    .header-actions .btn {
+        padding: 0.5rem 0.75rem;
+    }
+
+    .case-tabs {
+        gap: 15px;
+        margin-bottom: 15px;
+    }
+
+    .tab-btn {
+        font-size: 0.875rem;
+        padding: 8px 4px;
+    }
+
+    .badge-count {
+        font-size: 0.7rem;
+        padding: 1px 6px;
+        margin-left: 6px;
+    }
+
+    /* Mobile Case Item - Stack Layout */
+    .case-item {
+        padding: 0.875rem;
+    }
+
+    .case-content {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        align-items: stretch;
+    }
+
+    .case-checkbox {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+    }
+
+    .case-item {
+        position: relative;
+    }
+
+    .case-id {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: #05730b;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .case-worry {
+        order: 1;
+    }
+
+    .khawatir-bar {
+        max-width: 100%;
+        height: 6px;
+    }
+
+    .case-email,
+    .case-date {
+        order: 2;
+        font-size: 0.85rem;
+    }
+
+    .case-email i,
+    .case-date i {
+        font-size: 0.9rem;
+    }
+
+    .case-status {
+        order: 3;
+        justify-content: flex-start;
+        margin-top: 0.25rem;
+    }
+
+    .status-badge {
+        font-size: 0.75rem;
+        padding: 0.4rem 0.75rem;
+        min-width: auto;
+    }
+
+    .legend-container {
+        gap: 1rem;
+        justify-content: center;
+    }
+
+    .legend-item {
+        font-size: 0.8rem;
+    }
+
+    .legend-color {
+        width: 20px;
+        height: 6px;
+    }
+}
+
+/* Small Mobile (max-width: 575px) */
+@media (max-width: 575.98px) {
+    .header-title h2 {
+        font-size: 1rem;
+    }
+
+    .case-tabs {
+        gap: 12px;
+    }
+
+    .tab-btn {
+        font-size: 0.813rem;
+    }
+
+    .case-item {
+        padding: 0.75rem;
+    }
+
+    .case-id {
+        font-size: 0.9rem;
+    }
+
+    .case-email,
+    .case-date {
+        font-size: 0.8rem;
+    }
+
+    .status-badge {
+        font-size: 0.7rem;
+        padding: 0.35rem 0.65rem;
+    }
+
+    .legend-container {
+        flex-direction: column;
+        gap: 0.75rem;
+        align-items: flex-start;
+    }
+}
+
+/* Desktop (min-width: 992px) */
+@media (min-width: 992px) {
+    .case-list-header {
+        display: grid; /* Show table header on desktop */
+    }
+}
+
+/* ========================================
+   UTILITY CLASSES
+   ======================================== */
+
+.d-none {
+    display: none !important;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-muted {
+    color: #6c757d !important;
+}
+
+.py-4 {
+    padding-top: 1.5rem !important;
+    padding-bottom: 1.5rem !important;
+}
+
+.mt-2 {
+    margin-top: 0.5rem !important;
+}
+
+.mt-5 {
+    margin-top: 3rem !important;
+}
+
+.mb-0 {
+    margin-bottom: 0 !important;
+}
+
+.mb-4 {
+    margin-bottom: 1.5rem !important;
+}/* ========================================
+   MOBILE RESPONSIVE FIX for Cases Page
+   Add this after cases.css
+   ======================================== */
+
+/* Mobile (max-width: 767px) */
+@media (max-width: 767.98px) {
+    .header-wrapper {
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        width: 100%;
+        gap: 0.5rem;
+    }
+
+    .header-left {
+        flex: 1;
+        gap: 0.5rem;
+        min-width: 0;
+        width: auto !important;
+    }
+
+    .header-title {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .header-title h2 {
+        font-size: 1rem !important;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .header-actions {
+        display: flex !important;
+        gap: 0.5rem;
+        flex-shrink: 0;
+        width: auto !important;
+        justify-content: flex-end !important;
+    }
+
+    .header-actions .btn {
+        padding: 0.5rem !important;
+        min-width: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .header-actions .btn i {
+        margin: 0 !important;
+    }
+}

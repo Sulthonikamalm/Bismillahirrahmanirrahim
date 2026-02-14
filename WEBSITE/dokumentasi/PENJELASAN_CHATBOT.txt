@@ -1,0 +1,283 @@
+================================================================================
+                    PENJELASAN SISTEM CHATBOT SIGAP PPKS
+                         (Bahasa Gampang & Sederhana)
+================================================================================
+
+Tanggal: 16 Januari 2026
+Untuk: Referensi Pribadi
+
+================================================================================
+                              APA ITU SIGAP PPKS?
+================================================================================
+
+SIGAP PPKS adalah sistem pelaporan kekerasan seksual di kampus yang dilengkapi
+dengan chatbot pintar. Chatbot ini bisa:
+
+1. Mendengarkan curhat mahasiswa
+2. Mendeteksi apakah ada indikasi kekerasan seksual
+3. Membantu membuat laporan ke Satgas PPKPT
+4. Memberikan informasi hotline darurat
+
+================================================================================
+                         FITUR-FITUR YANG SUDAH DIBUAT
+================================================================================
+
+A. CHATBOT PINTAR (api/chatbot/)
+--------------------------------
+
+   1. CHAT.PHP - Otak utama chatbot
+      - Menerima pesan dari user
+      - Menentukan jenis pesan (FAQ, curhat, atau laporan)
+      - Memberikan respons yang sesuai
+      - Menyimpan percakapan (hanya jika user setuju)
+
+   2. INTENT_CLASSIFIER.PHP - Pendeteksi Maksud Pesan
+      - Layer 1: Deteksi kata kunci (dilecehkan, diperkosa, dll)
+      - Layer 2: Deteksi pola kalimat ("saya dilecehkan", "dia memaksa")
+      - Memberikan SKOR untuk menentukan apakah ini laporan atau bukan
+      
+      Contoh Scoring:
+      - Kata "dilecehkan" = +5 poin
+      - Menyebut pelaku (dosen, senior) = +3 poin
+      - Menyebut waktu (kemarin, minggu lalu) = +2 poin
+      - Menyebut lokasi (kampus, kos) = +2 poin
+      - Minta tolong = +3 poin
+      
+      Jika skor >= 7, sistem akan tanya: "Mau bikin laporan?"
+
+   3. FAQ_HANDLER.PHP - Jawaban Otomatis
+      - Menjawab pertanyaan umum TANPA butuh AI
+      - Contoh: "Apa itu PPKS?", "Bagaimana cara melapor?"
+      - Lebih cepat dan hemat kuota API
+
+   4. GROQ_CLIENT.PHP - Koneksi ke AI
+      - Menghubungkan ke Groq AI untuk respons cerdas
+      - Dual API key (primary & secondary) untuk backup
+      - Jika API down, pakai jawaban lokal
+
+   5. QUOTA_MANAGER.PHP - Pengatur Kuota API
+      - Menghitung berapa kali API dipanggil per hari
+      - Jika primary key hampir habis (80%), otomatis pindah ke secondary
+      - Jika kedua habis, pakai fallback lokal
+      - Reset otomatis setiap hari baru
+
+   6. EMERGENCY_LOGGER.PHP - Pencatat Kasus Darurat
+      - Jika ada indikasi bunuh diri atau bahaya aktif
+      - Langsung tampilkan nomor hotline
+      - Simpan log untuk follow-up (dihapus otomatis 7 hari)
+
+   7. CHAT_HELPERS.PHP - Fungsi Pembantu
+      - Deteksi keadaan darurat
+      - Deteksi topik di luar PPKS
+      - Merge data yang sudah diekstrak
+
+B. CLEANUP_CRON.PHP - Pembersih Otomatis
+----------------------------------------
+
+   - Dijalankan setiap 6 jam via CRON
+   - Menghapus log darurat yang sudah expired
+   - Menampilkan status kuota API
+   
+   Cara jalankan:
+   php api/cleanup_cron.php
+
+================================================================================
+                           ALUR KERJA CHATBOT
+================================================================================
+
+                        +------------------+
+                        |  User kirim pesan |
+                        +--------+---------+
+                                 |
+                                 v
+                    +------------+------------+
+                    | Cek: Apakah pertanyaan FAQ? |
+                    +------------+------------+
+                                 |
+              +------------------+------------------+
+              |                                     |
+              v                                     v
+        [YA - FAQ]                            [BUKAN FAQ]
+              |                                     |
+              v                                     v
+   +------------------+              +------------------------+
+   | Jawab langsung   |              | Klasifikasi Intent     |
+   | tanpa AI         |              | (hitung skor)          |
+   +------------------+              +------------------------+
+                                                |
+                      +-------------------------+-------------------------+
+                      |                         |                         |
+                      v                         v                         v
+               [SKOR < 4]              [SKOR 4-6]               [SKOR >= 7]
+                      |                         |                         |
+                      v                         v                         v
+           +----------------+        +------------------+      +------------------+
+           | Mode Curhat    |        | Mode Curhat+     |      | Tanya consent    |
+           | (tidak simpan) |        | (simpan session) |      | untuk laporan    |
+           +----------------+        +------------------+      +------------------+
+                                                                         |
+                                              +--------------------------+
+                                              |                          |
+                                              v                          v
+                                        [USER SETUJU]            [USER TOLAK]
+                                              |                          |
+                                              v                          v
+                                    +------------------+      +------------------+
+                                    | Buat laporan     |      | Tetap mode curhat |
+                                    | Simpan ke DB     |      | Tidak simpan DB   |
+                                    +------------------+      +------------------+
+
+
+================================================================================
+                         SISTEM TIER (TINGKATAN DATA)
+================================================================================
+
+Chatbot punya sistem TIER untuk menentukan bagaimana data disimpan:
+
+TIER 0 - FAQ
+   -> Data: Tidak disimpan sama sekali
+   -> Contoh: "Apa itu PPKS?"
+
+TIER 1 - CASUAL
+   -> Data: Hanya di memory browser
+   -> Contoh: "Halo, apa kabar?"
+
+TIER 2 - CURHAT
+   -> Data: Session + localStorage browser (terenkripsi)
+   -> Contoh: "Aku lagi sedih nih..."
+
+TIER 3 - POTENTIAL
+   -> Data: Buffer, siap-siap untuk consent
+   -> Contoh: "Aku dilecehkan sama senior..."
+
+TIER 4 - CONSENT
+   -> Data: Menunggu persetujuan user
+   -> Sistem tanya: "Mau aku bantu bikin laporan?"
+
+TIER 5 - REPORT
+   -> Data: Disimpan ke Database
+   -> User sudah setuju untuk melapor
+
+
+================================================================================
+                            KONFIGURASI PENTING
+================================================================================
+
+File: config/chatbot_config.php
+
+1. API KEY
+   - GROQ_API_KEY_PRIMARY   = API key utama
+   - GROQ_API_KEY_SECONDARY = API key cadangan
+
+2. MODEL AI
+   - GROQ_MODEL_PRIMARY     = llama-3.3-70b-versatile (akurat)
+   - GROQ_MODEL_SECONDARY   = llama-3.1-8b-instant (cepat)
+
+3. THRESHOLD SKOR
+   - INTENT_THRESHOLD_CASUAL = 3 (skor 0-3 = basa-basi)
+   - INTENT_THRESHOLD_CURHAT = 6 (skor 4-6 = curhat)
+   - INTENT_THRESHOLD_REPORT = 7 (skor 7+ = potensial laporan)
+
+4. QUOTA
+   - DAILY_QUOTA_LIMIT      = 1000 request/hari per key
+   - QUOTA_WARNING_THRESHOLD = 0.8 (pindah ke secondary di 80%)
+   - QUOTA_CRITICAL_THRESHOLD = 0.95 (stop API di 95%)
+
+
+================================================================================
+                              KATA KUNCI DETEKSI
+================================================================================
+
+A. KATA KEKERASAN (Bobot +5):
+   dilecehkan, diperkosa, dicabuli, disentuh, dipaksa,
+   catcalling, eksploitasi, revenge porn, dll
+
+B. KATA PELAKU (Bobot +3):
+   dosen, senior, pacar, mantan, atasan, teman,
+   om, paman, tetangga, ojol, satpam, dll
+
+C. KATA WAKTU (Bobot +2):
+   kemarin, tadi, minggu lalu, semalam, dulu, pernah, dll
+
+D. KATA LOKASI (Bobot +2):
+   kampus, kelas, kos, rumah, kantor, toilet, parkir, dll
+
+E. KATA DISTRESS (Bobot +1):
+   takut, sedih, trauma, malu, bingung, stress, dll
+
+F. KATA MINTA TOLONG (Bobot +3):
+   tolong, bantu, gimana caranya, mau lapor, dll
+
+
+================================================================================
+                           KEADAAN DARURAT (EMERGENCY)
+================================================================================
+
+Jika chatbot mendeteksi:
+- Bunuh diri (mau mati, ingin mengakhiri, dll)
+- Self-harm (menyakiti diri sendiri)
+- Bahaya aktif (sedang dikejar, dikurung, dll)
+
+Maka langsung tampilkan:
+================================================================================
+   🆘 HOTLINE DARURAT:
+   📞 WhatsApp Satgas: 082188467793
+   📞 Hotline Nasional: 119 ext 8
+   
+   Tolong jangan sendirian. Hubungi sekarang.
+================================================================================
+
+
+================================================================================
+                               PRIVASI & KEAMANAN
+================================================================================
+
+1. DATA TIDAK DISIMPAN (default)
+   - Percakapan biasa TIDAK masuk database
+   - Hanya disimpan di browser user (terenkripsi)
+   
+2. DATA DISIMPAN (hanya jika consent)
+   - User harus setuju dulu
+   - Baru percakapan masuk database
+   
+3. EMERGENCY LOG
+   - Kasus darurat disimpan untuk follow-up
+   - Otomatis dihapus setelah 7 hari
+   - Session ID di-hash (anonymized)
+
+4. ENKRIPSI
+   - Data di localStorage browser terenkripsi AES-256
+   - Kunci enkripsi dari environment variable
+
+
+================================================================================
+                                  KESIMPULAN
+================================================================================
+
+Sistem chatbot SIGAP PPKS dirancang untuk:
+
+✓ AMAN       - Data hanya disimpan jika user setuju
+✓ SENSITIF   - Mendeteksi kekerasan dengan akurat
+✓ EMPATIK    - Respons seperti teman yang mendukung
+✓ RELIABLE   - Dual API key + fallback lokal
+✓ SCALABLE   - Quota management otomatis
+✓ COMPLIANT  - Emergency logging untuk legal/review
+
+Semoga dokumentasi ini membantu memahami cara kerja sistem! 😊
+
+
+================================================================================
+                           CATATAN TAMBAHAN
+================================================================================
+
+File-file penting:
+- api/chatbot/chat.php           -> Endpoint utama chatbot
+- api/chatbot/intent_classifier.php -> Deteksi intent
+- api/cleanup_cron.php           -> Pembersihan berkala
+- config/chatbot_config.php      -> Konfigurasi chatbot
+- config/database.php            -> Koneksi database
+
+
+================================================================================
+                                   SELESAI
+================================================================================

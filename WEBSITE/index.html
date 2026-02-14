@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIGAP PPKPT</title>
+    <style>
+        /* Modern Reset & Base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            background: linear-gradient(135deg, #15928c 0%, #0947aa 25%, #0A7075 50%, #066bca 75%, #6BA3BE 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Animations */
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .bg-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            animation: float 15s infinite ease-in-out;
+        }
+
+        .bg-circle:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .bg-circle:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            top: 60%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+
+        .bg-circle:nth-child(3) {
+            width: 150px;
+            height: 150px;
+            bottom: 20%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) scale(1);
+            }
+
+            50% {
+                transform: translateY(-30px) scale(1.1);
+            }
+        }
+
+        /* Container */
+        .splash-container {
+            text-align: center;
+            z-index: 10;
+            animation: fadeInUp 0.8s ease-out;
+            padding: 20px;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            animation: textReveal 1s ease-out 0.5s backwards;
+        }
+
+        @keyframes textReveal {
+            from {
+                opacity: 0;
+                letter-spacing: 10px;
+                filter: blur(10px);
+            }
+
+            to {
+                opacity: 1;
+                letter-spacing: 2px;
+                filter: blur(0);
+            }
+        }
+
+        /* Loading Bar */
+        .loading-container {
+            animation: fadeIn 1s ease-out 1s backwards;
+        }
+
+        .loading-text {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            font-weight: 300;
+        }
+
+        .progress-bar {
+            width: 280px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            margin: 0 auto;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #6BA3BE, #0C969C, #6BA3BE);
+            background-size: 200% 100%;
+            border-radius: 10px;
+            animation: progressFill 2.5s ease-out forwards;
+        }
+
+        @keyframes progressFill {
+            from {
+                width: 0%;
+            }
+
+            to {
+                width: 100%;
+            }
+        }
+
+        /* Transitions */
+        body.fade-out {
+            animation: fadeOut 0.5s ease-out forwards;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .bg-circle:nth-child(1) {
+                width: 150px;
+                height: 150px;
+            }
+
+            .progress-bar {
+                width: 220px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Background Animated Circles -->
+    <div class="bg-circle"></div>
+    <div class="bg-circle"></div>
+    <div class="bg-circle"></div>
+
+    <!-- Main Content -->
+    <div class="splash-container">
+        <h1>SIGAP PPKPT</h1>
+
+        <div class="loading-container">
+            <p class="loading-text">Memuat sistem...</p>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Redirect Logic -->
+    <script>
+        (function () {
+            'use strict';
+
+            const TARGET_URL = 'Landing Page/Landing_Page.html';
+            const DELAY_MS = 2500;
+            let redirected = false;
+
+            function doRedirect() {
+                if (redirected) return;
+                redirected = true;
+
+                document.body.classList.add('fade-out');
+                setTimeout(() => {
+                    window.location.href = TARGET_URL;
+                }, 500);
+            }
+
+            // Auto redirect
+            setTimeout(doRedirect, DELAY_MS);
+
+            // Click to skip
+            document.body.addEventListener('click', doRedirect);
+
+            // Prevent context menu
+            document.addEventListener('contextmenu', e => e.preventDefault());
+        })();
+    </script>
+</body>
+
+</html>

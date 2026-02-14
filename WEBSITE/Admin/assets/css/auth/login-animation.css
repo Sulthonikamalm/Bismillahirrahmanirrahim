@@ -1,0 +1,567 @@
+/* ========================================
+   SIGAP PPKPT - Login Animation Styles
+   File: assets/css/login-animation.css
+   
+   Updated: Full viewport background coverage
+   ======================================== */
+
+/* === ANIMATED BACKGROUND === */
+@keyframes move {
+    100% {
+        transform: translate3d(0, 0, 1px) rotate(360deg);
+    }
+}
+
+.background {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background: #0d4651;
+    overflow: hidden;
+    z-index: 0;
+    opacity: 0.4;
+}
+
+.background span {
+    width: 20vmin;
+    height: 20vmin;
+    border-radius: 20vmin;
+    backface-visibility: hidden;
+    position: absolute;
+    animation: move;
+    animation-duration: 45s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+.background span:nth-child(0) {
+    color: #106f75;
+    top: 7%;
+    left: 11%;
+    animation-duration: 51s;
+    animation-delay: -14s;
+    transform-origin: 12vw 20vh;
+    box-shadow: 40vmin 0 5.868303597545978vmin currentColor;
+}
+.background span:nth-child(1) {
+    color: #2dcf62;
+    top: 62%;
+    left: 37%;
+    animation-duration: 41s;
+    animation-delay: -30s;
+    transform-origin: 10vw -10vh;
+    box-shadow: 40vmin 0 5.188266376440398vmin currentColor;
+}
+.background span:nth-child(2) {
+    color: #4b74a0;
+    top: 55%;
+    left: 76%;
+    animation-duration: 6s;
+    animation-delay: -24s;
+    transform-origin: 23vw -7vh;
+    box-shadow: 40vmin 0 5.828424988977054vmin currentColor;
+}
+.background span:nth-child(3) {
+    color: #4b74a0;
+    top: 58%;
+    left: 88%;
+    animation-duration: 55s;
+    animation-delay: -43s;
+    transform-origin: -15vw -19vh;
+    box-shadow: 40vmin 0 5.389457498019317vmin currentColor;
+}
+.background span:nth-child(4) {
+    color: #009843;
+    top: 58%;
+    left: 94%;
+    animation-duration: 11s;
+    animation-delay: -40s;
+    transform-origin: 11vw -20vh;
+    box-shadow: 40vmin 0 5.48027060627257vmin currentColor;
+}
+.background span:nth-child(5) {
+    color: #009843;
+    top: 97%;
+    left: 75%;
+    animation-duration: 26s;
+    animation-delay: -43s;
+    transform-origin: 25vw 2vh;
+    box-shadow: 40vmin 0 5.949417178162548vmin currentColor;
+}
+.background span:nth-child(6) {
+    color: #106f75;
+    top: 76%;
+    left: 39%;
+    animation-duration: 11s;
+    animation-delay: -45s;
+    transform-origin: 24vw 9vh;
+    box-shadow: -40vmin 0 5.611167285715998vmin currentColor;
+}
+.background span:nth-child(7) {
+    color: #009843;
+    top: 60%;
+    left: 6%;
+    animation-duration: 30s;
+    animation-delay: -30s;
+    transform-origin: -17vw 20vh;
+    box-shadow: 40vmin 0 5.019250603458387vmin currentColor;
+}
+.background span:nth-child(8) {
+    color: #4b74a0;
+    top: 61%;
+    left: 39%;
+    animation-duration: 43s;
+    animation-delay: -48s;
+    transform-origin: -20vw -20vh;
+    box-shadow: -40vmin 0 5.7578387035400524vmin currentColor;
+}
+.background span:nth-child(9) {
+    color: #106f75;
+    top: 49%;
+    left: 32%;
+    animation-duration: 14s;
+    animation-delay: -43s;
+    transform-origin: -2vw -1vh;
+    box-shadow: -40vmin 0 5.408324530650847vmin currentColor;
+}
+.background span:nth-child(10) {
+    color: #009843;
+    top: 24%;
+    left: 61%;
+    animation-duration: 48s;
+    animation-delay: -33s;
+    transform-origin: 20vw 11vh;
+    box-shadow: 40vmin 0 5.0699494196862105vmin currentColor;
+}
+.background span:nth-child(11) {
+    color: #4b74a0;
+    top: 88%;
+    left: 48%;
+    animation-duration: 27s;
+    animation-delay: -33s;
+    transform-origin: -20vw 0vh;
+    box-shadow: -40vmin 0 5.214469833226475vmin currentColor;
+}
+.background span:nth-child(12) {
+    color: #4b74a0;
+    top: 75%;
+    left: 95%;
+    animation-duration: 27s;
+    animation-delay: -48s;
+    transform-origin: 9vw -9vh;
+    box-shadow: -40vmin 0 5.092047921315573vmin currentColor;
+}
+.background span:nth-child(13) {
+    color: #4b74a0;
+    top: 62%;
+    left: 59%;
+    animation-duration: 19s;
+    animation-delay: -43s;
+    transform-origin: -3vw -1vh;
+    box-shadow: -40vmin 0 5.130871679116025vmin currentColor;
+}
+.background span:nth-child(14) {
+    color: #4b74a0;
+    top: 60%;
+    left: 2%;
+    animation-duration: 36s;
+    animation-delay: -19s;
+    transform-origin: -22vw -15vh;
+    box-shadow: -40vmin 0 5.282247715776416vmin currentColor;
+}
+.background span:nth-child(15) {
+    color: #4b74a0;
+    top: 78%;
+    left: 91%;
+    animation-duration: 38s;
+    animation-delay: -45s;
+    transform-origin: -8vw -21vh;
+    box-shadow: 40vmin 0 5.975823610232039vmin currentColor;
+}
+.background span:nth-child(16) {
+    color: #009843;
+    top: 34%;
+    left: 29%;
+    animation-duration: 39s;
+    animation-delay: -39s;
+    transform-origin: 15vw -2vh;
+    box-shadow: -40vmin 0 5.655381216354079vmin currentColor;
+}
+.background span:nth-child(17) {
+    color: #106f75;
+    top: 53%;
+    left: 45%;
+    animation-duration: 42s;
+    animation-delay: -5s;
+    transform-origin: 8vw -19vh;
+    box-shadow: 40vmin 0 5.326033821876761vmin currentColor;
+}
+.background span:nth-child(18) {
+    color: #2dcf62;
+    top: 40%;
+    left: 49%;
+    animation-duration: 23s;
+    animation-delay: -19s;
+    transform-origin: 18vw -4vh;
+    box-shadow: 40vmin 0 5.0066518469177765vmin currentColor;
+}
+.background span:nth-child(19) {
+    color: #009843;
+    top: 43%;
+    left: 86%;
+    animation-duration: 34s;
+    animation-delay: -50s;
+    transform-origin: -18vw -5vh;
+    box-shadow: 40vmin 0 5.127408069605039vmin currentColor;
+}
+.background span:nth-child(20) {
+    color: #009843;
+    top: 72%;
+    left: 93%;
+    animation-duration: 41s;
+    animation-delay: -27s;
+    transform-origin: 3vw 4vh;
+    box-shadow: 40vmin 0 5.588299221009625vmin currentColor;
+}
+.background span:nth-child(21) {
+    color: #009843;
+    top: 39%;
+    left: 32%;
+    animation-duration: 38s;
+    animation-delay: -21s;
+    transform-origin: 17vw -1vh;
+    box-shadow: 40vmin 0 5.299989911593652vmin currentColor;
+}
+.background span:nth-child(22) {
+    color: #2dcf62;
+    top: 62%;
+    left: 60%;
+    animation-duration: 22s;
+    animation-delay: -18s;
+    transform-origin: 24vw -19vh;
+    box-shadow: 40vmin 0 5.375622689969871vmin currentColor;
+}
+.background span:nth-child(23) {
+    color: #2dcf62;
+    top: 45%;
+    left: 3%;
+    animation-duration: 26s;
+    animation-delay: -6s;
+    transform-origin: -8vw -17vh;
+    box-shadow: -40vmin 0 5.495335465411031vmin currentColor;
+}
+.background span:nth-child(24) {
+    color: #2dcf62;
+    top: 54%;
+    left: 8%;
+    animation-duration: 19s;
+    animation-delay: -43s;
+    transform-origin: -23vw -23vh;
+    box-shadow: 40vmin 0 5.517686550558642vmin currentColor;
+}
+
+
+/* === ILLUSTRATION CONTENT === */
+.illustration-container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; 
+    padding: 3rem 4rem; 
+}
+
+.illustration-content {
+    text-align: left; 
+    color: white;
+    max-width: 650px;
+    position: relative;
+    z-index: 10;
+}
+
+/* === LOGO === */
+.logo-container {
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    text-align: left;
+    width: 100%;
+}
+
+.logo-image {
+    /* UKURAN LOGO */
+    max-width: 200px; 
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0;     
+    margin-right: auto; 
+    
+    /* Efek bayangan opsional */
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.2)); 
+}
+
+/* === TEXT STYLES - OPEN SANS === */
+
+
+.welcome-text {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 24px;
+    font-weight: 450;
+    color: #FFFFFF;
+    margin: 0 0 8px 0;
+    letter-spacing: 0;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+
+.main-title {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 40px;
+    font-weight: 700; 
+    color: #FFFFFF;
+    margin: 0 0 8px 0;
+    letter-spacing: 0;
+    line-height: 1.2;
+    text-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+}
+
+
+.subtitle-text {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: #FFFFFF;
+    margin: 0 0 8px 0;
+    letter-spacing: 0;
+    line-height: 1.5;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+
+.university-text {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: #FFFFFF;
+    margin: 0 0 8px 0;
+}
+
+
+.illustration-image {
+    max-width: 320px;
+    width: 100%;
+    height: auto;
+    margin-top: 2rem;
+    display: block; /* For left alignment */
+    filter: drop-shadow(0 15px 40px rgba(0, 0, 0, 0.6));
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 991.98px) {
+    .background {
+        opacity: 0.3;
+    }
+    
+    .illustration-container {
+        padding: 2.5rem 3rem;
+    }
+    
+    .main-title {
+        font-size: 36px;
+    }
+    
+    .welcome-text {
+        font-size: 22px;
+    }
+    
+    .subtitle-text {
+        font-size: 15px;
+    }
+    
+    .logo-image {
+        max-width: 130px;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .illustration-container {
+        padding: 2rem;
+        justify-content: center; /* Center on mobile */
+    }
+    
+    .illustration-content {
+        text-align: center; /* Center on mobile */
+    }
+    
+    .logo-image,
+    .illustration-image {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .illustration-image {
+        max-width: 250px;
+        margin-top: 1.5rem;
+    }
+
+    .main-title {
+        font-size: 32px;
+    }
+
+    .welcome-text {
+        font-size: 20px;
+    }
+
+    .subtitle-text {
+        font-size: 14px;
+    }
+    
+    .logo-image {
+        max-width: 110px;
+    }
+    
+    .background {
+        opacity: 0.2;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .main-title {
+        font-size: 28px;
+    }
+    
+    .welcome-text {
+        font-size: 18px;
+    }
+    
+    .subtitle-text {
+        font-size: 13px;
+    }
+    
+    .logo-image {
+        max-width: 100px;
+    }
+    
+    .illustration-container {
+        padding: 1.5rem;
+    }
+}
+
+/* === ACCESSIBILITY === */
+@media (prefers-reduced-motion: reduce) {
+    .background span {
+        animation: none !important;
+    }
+}
+
+/* ========================================
+   LOGIN FORM ANIMATIONS & NOTIFICATIONS
+   ======================================== */
+
+/* === SHAKE ANIMATION (when login fails) === */
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    10%, 30%, 50%, 70%, 90% {
+        transform: translateX(-10px);
+    }
+    20%, 40%, 60%, 80% {
+        transform: translateX(10px);
+    }
+}
+
+.shake {
+    animation: shake 0.6s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+/* === SUCCESS NOTIFICATION === */
+.success-notification {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background: white;
+    padding: 2.5rem 3rem;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    z-index: 9999;
+    text-align: center;
+    min-width: 320px;
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.success-notification.show {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+}
+
+.success-notification .success-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    margin: 0 auto 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: scaleIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.success-notification .success-icon i {
+    font-size: 40px;
+    color: white;
+}
+
+.success-notification h3 {
+    color: #1f2937;
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+.success-notification p {
+    color: #6b7280;
+    font-size: 14px;
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+@keyframes scaleIn {
+    0% {
+        transform: scale(0);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* === OVERLAY FOR SUCCESS NOTIFICATION === */
+.notification-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9998;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.notification-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}

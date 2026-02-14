@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description"
+        content="Kenali hakmu, pahami langkahmu - Panduan lengkap pencegahan dan pelaporan kekerasan seksual">
+    <title>Wawasan PPKS - Sigap</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+
+
+    <!-- AOS Animation -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" />
+
+    <!-- Shared Styles -->
+    <link rel="stylesheet" href="../style.css" />
+
+    <!-- Wawasan Specific Styles -->
+    <link rel="stylesheet" href="wawasan.css" />
+
+    <!-- FAB & ChatBot -->
+    <link rel="stylesheet" href="../FABsigap/fabsigap.css" />
+    <link rel="stylesheet" href="../ChatBot/chatbot.css" />
+</head>
+
+<body>
+    <!-- Skip to main content -->
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <!-- NAVBAR -->
+    <nav class="navbar header-bg fixed-top" role="navigation" aria-label="Navigasi Utama">
+        <div class="main-container nav-content">
+            <a class="logo logo-flip" href="../Landing Page/Landing_Page.html">
+                <span class="logo-flip-front">SIGAP</span>
+                <span class="logo-flip-back"><img src="../Landing Page/assets/flip.png" alt="SIGAP"></span>
+            </a>
+
+
+            <div class="nav-links" id="primary-navigation">
+                <a class="nav-item" href="../About Page/about.html">TENTANG</a>
+                <a class="nav-item active" href="wawasan.html">WAWASAN</a>
+                <a class="nav-item" href="../Monitoring/monitoring.html">MONITORING</a>
+            </div>
+
+            <div class="nav-actions">
+                <button class="btn btn-outline-light js-lapor-wawasan"
+                    aria-label="Buka halaman pelaporan">LAPOR</button>
+            </div>
+
+            <button class="hamburger" aria-label="Buka menu" aria-controls="primary-navigation" aria-expanded="false">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="wawasan-hero header-bg" id="main-content">
+        <!-- Large Background Text - "SIGAP" (BELAKANG) -->
+        <div class="wawasan-bg-text" aria-hidden="true">
+            <span>SIGAP</span>
+        </div>
+
+        <!-- Content (TENGAH - GAMBAR) -->
+        <div class="wawasan-hero-content">
+            <div class="main-container">
+                <div class="wawasan-hero-image">
+                    <img src="assets/WAWASANTUNC.png" alt="Wawasan PPKS Illustration" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Hero Title - "WAWASAN" Kecil (CENTER dengan animasi) -->
+        <div class="wawasan-hero-title-wrapper">
+            <h1 class="wawasan-hero-title">WAWASAN</h1>
+        </div>
+
+        <!-- Glassmorphism Info Card (Bottom Hero) -->
+        <div class="wawasan-glass-card">
+            <p class="wawasan-subtitle">Kenali Hakmu, Pahami Langkahmu</p>
+            <p class="wawasan-description">Jangan biarkan ketidaktahuan membuatmu ragu. Bekali dirimu dengan pemahaman
+                tentang pencegahan kekerasan dan panduan pelaporan yang aman di sini.</p>
+        </div>
+    </section>
+
+    <!-- SECTION 1: EDUKASI (KAPAN HARUS LAPOR) -->
+    <section class="edukasi-section section-padding" id="edukasi-section">
+        <div class="main-container">
+            <div class="section-header">
+                <h2 class="section-title">Kapan Harus Lapor?</h2>
+
+            </div>
+
+            <!-- Bento Grid Layout -->
+            <div class="bento-grid" id="gridContainer">
+
+                <div class="card" onclick="toggleCard(this)">
+                    <img src="assets/kapanharuslapor/card1.png" alt="Kekerasan">
+                    <div class="overlay">
+                        <p class="card-title">Mengalami Tindak Kekerasan</p>
+                    </div>
+
+                    <div class="card-content">
+                        <button class="close-btn" onclick="closeCard(event, this)">&times;</button>
+                        <h2 class="content-title">Mengalami Tindak Kekerasan</h2>
+                        <div class="content-body">
+                            <p>Ketika mengalami kekerasan, tubuh dan pikiran sering memasuki mode bertahan. Banyak
+                                korban enggan bercerita karena takut dibalas atau malu.</p>
+                            <h4>Yang Perlu Dipahami:</h4>
+                            <ul>
+                                <li>Rasa takut dan bingung adalah reaksi wajar.</li>
+                                <li>Kekerasan fisik, psikis, seksual adalah pelanggaran HAM.</li>
+                                <li>Mencari pertolongan menyelamatkan diri, bukan aib.</li>
+                            </ul>
+                            <h4>Kapan Harus Melapor:</h4>
+                            <ul>
+                                <li>Keselamatan tidak lagi terjamin.</li>
+                                <li>Luka fisik/tekanan emosional mengganggu aktivitas.</li>
+                                <li>Pelaku semakin mengontrol & mengintimidasi.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card span-row-2" onclick="toggleCard(this)">
+                    <img src="assets/kapanharuslapor/card3.png" alt="Informasi">
+                    <div class="overlay">
+                        <p class="card-title center-title">Membutuhkan Informasi Perlindungan</p>
+                    </div>
+                    <div class="card-content">
+                        <button class="close-btn" onclick="closeCard(event, this)">&times;</button>
+                        <h2 class="content-title">Informasi Perlindungan</h2>
+                        <div class="content-body">
+                            <p>Banyak yang ragu melapor karena tidak paham prosedur atau takut balasan pelaku.
+                                Pengetahuan adalah kunci keberanian.</p>
+                            <h4>Hak Anda:</h4>
+                            <ul>
+                                <li>Laporan bisa dilakukan meski bukti belum lengkap.</li>
+                                <li>Berhak atas visum medis & konseling psikologis.</li>
+                                <li>Kerahasiaan identitas pelapor dijamin undang-undang.</li>
+                            </ul>
+                            <p>Mengetahui hak hukum membuat Anda lebih percaya diri mengambil keputusan demi keselamatan
+                                diri dan keluarga.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" onclick="toggleCard(this)">
+                    <img src="assets/kapanharuslapor/card2.png" alt="Mengetahui Korban">
+                    <div class="overlay">
+                        <p class="card-title">Mengetahui Seseorang Menjadi Korban</p>
+                    </div>
+                    <div class="card-content">
+                        <button class="close-btn" onclick="closeCard(event, this)">&times;</button>
+                        <h2 class="content-title">Mengetahui Korban</h2>
+                        <div class="content-body">
+                            <p>Kadang kita tidak melihat langsung, tapi menangkap perubahan: teman yang menjauh atau
+                                anak yang mendadak murung.</p>
+                            <h4>Tanda Bahaya:</h4>
+                            <ul>
+                                <li>Luka fisik yang alasannya tidak masuk akal.</li>
+                                <li>Ketakutan berlebihan pada pasangan/ortu.</li>
+                                <li>Penurunan drastis prestasi kerja/sekolah.</li>
+                            </ul>
+                            <h4>Tindakan Anda:</h4>
+                            <p>Jadilah pendengar yang aman. Tawarkan bantuan tanpa memaksa. Melaporkan situasi bahaya
+                                adalah bentuk kepedulian, bukan ikut campur.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" onclick="toggleCard(this)">
+                    <img src="assets/kapanharuslapor/card4.png" alt="Saksi">
+                    <div class="overlay">
+                        <p class="card-title">Menyaksikan Kekerasan Secara Langsung</p>
+                    </div>
+                    <div class="card-content">
+                        <button class="close-btn" onclick="closeCard(event, this)">&times;</button>
+                        <h2 class="content-title">Menjadi Saksi Mata</h2>
+                        <div class="content-body">
+                            <p>Dalam hitungan detik, Anda harus memutuskan. Prioritaskan keselamatan diri, tapi jangan
+                                abaikan korban.</p>
+                            <h4>Prinsip Penting:</h4>
+                            <ul>
+                                <li>Bantuan tidak harus berupa perkelahian fisik.</li>
+                                <li>Jangan anggap kekerasan sebagai "urusan pribadi".</li>
+                            </ul>
+                            <h4>Langkah Cepat:</h4>
+                            <ul>
+                                <li>Hubungi satpam/polisi jika mengancam nyawa.</li>
+                                <li>Rekam/Foto diam-diam sebagai bukti.</li>
+                                <li>Alihkan perhatian pelaku jika aman dilakukan.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" onclick="toggleCard(this)">
+                    <img src="assets/kapanharuslapor/card5.png" alt="Darurat">
+                    <div class="overlay">
+                        <p class="card-title">Situasi Darurat & Mengancam</p>
+                    </div>
+                    <div class="card-content">
+                        <button class="close-btn" onclick="closeCard(event, this)">&times;</button>
+                        <h2 class="content-title">Situasi Darurat</h2>
+                        <div class="content-body">
+                            <p style="color: #d32f2f; font-weight: bold;">JANGAN MENUNDA! Situasi ini membutuhkan
+                                tindakan detik ini juga.</p>
+                            <h4>Tanda Gawat Darurat:</h4>
+                            <ul>
+                                <li>Pelaku membawa senjata tajam/api.</li>
+                                <li>Anak kecil dalam bahaya tanpa perlindungan.</li>
+                                <li>Ancaman pembunuhan atau penyekapan.</li>
+                                <li>Korban butuh medis segera (pingsan/berdarah).</li>
+                            </ul>
+                            <p>Segera lari ke tempat aman dan hubungi <strong>112</strong> atau kantor polisi terdekat.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: AKSI (CARA LAPOR) -->
+    <section class="aksi-section section-padding section-yellow">
+        <div class="main-container">
+            <div class="section-header">
+                <h2 class="section-title">Cara Lapor</h2>
+
+            </div>
+
+            <!-- Tab Navigation -->
+            <div class="tab-nav" role="tablist">
+                <button class="btn btn-tab active" role="tab" data-tab="daring" aria-selected="true">
+                    <i class="fas fa-laptop"></i> LAPOR DARING
+                </button>
+
+                <button class="btn btn-tab" role="tab" data-tab="penting" aria-selected="false">
+                    <i class="fas fa-info-circle"></i> LANGKAH PENTING
+                </button>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="tab-content">
+                <!-- Lapor Daring -->
+                <div class="tab-pane active" id="tab-daring">
+                    <div class="steps-grid">
+                        <div class="step-card">
+                            <div class="step-number">1</div>
+                            <i class="fas fa-file-alt step-icon"></i>
+                            <h3 class="step-title">Isi Formulir Online</h3>
+                            <p class="step-desc">Isi formulir online yang telah disediakan dengan lengkap dan jelas.
+                            </p>
+                        </div>
+
+                        <div class="step-card">
+                            <div class="step-number">2</div>
+                            <i class="fas fa-upload step-icon"></i>
+                            <h3 class="step-title">Unggah Bukti</h3>
+                            <p class="step-desc">Unggah bukti atau informasi pendukung yang relevan dengan kasus.
+                            </p>
+                        </div>
+
+                        <div class="step-card">
+                            <div class="step-number">3</div>
+                            <i class="fas fa-check-circle step-icon"></i>
+                            <h3 class="step-title">Terima Kode Unik</h3>
+                            <p class="step-desc">Terima kode pelaporan unik Anda untuk tracking progress.</p>
+                        </div>
+
+                        <div class="step-card">
+                            <div class="step-number">4</div>
+                            <i class="fas fa-hourglass-half step-icon"></i>
+                            <h3 class="step-title">Tunggu Tindak Lanjut</h3>
+                            <p class="step-desc">Tunggu proses verifikasi dan tindak lanjut dari tim kami.</p>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- Langkah Penting -->
+                <div class="tab-pane" id="tab-penting">
+                    <div class="steps-grid">
+                        <div class="step-card">
+                            <div class="step-number">!</div>
+                            <i class="fas fa-save step-icon"></i>
+                            <h3 class="step-title">Simpan Bukti</h3>
+                            <p class="step-desc">Simpan semua bukti komunikasi, foto, atau video yang relevan.</p>
+                        </div>
+
+                        <div class="step-card">
+                            <div class="step-number">!</div>
+                            <i class="fas fa-shield-alt step-icon"></i>
+                            <h3 class="step-title">Jaga Keamanan</h3>
+                            <p class="step-desc">Prioritaskan keamanan pribadi Anda sebelum melaporkan.</p>
+                        </div>
+
+                        <div class="step-card">
+                            <div class="step-number">!</div>
+                            <i class="fas fa-user-friends step-icon"></i>
+                            <h3 class="step-title">Cari Dukungan</h3>
+                            <p class="step-desc">Jangan ragu mencari dukungan dari orang terdekat atau profesional.
+                            </p>
+                        </div>
+
+                        <div class="step-card">
+                            <div class="step-number">!</div>
+                            <i class="fas fa-clock step-icon"></i>
+                            <h3 class="step-title">Segera Laporkan</h3>
+                            <p class="step-desc">Semakin cepat dilaporkan, semakin baik untuk proses penanganan.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center" style="margin-top: 2rem;">
+                <button class="btn btn-lg btn-outline-dark" onclick="window.location.href='../Lapor/lapor.html'">
+                    <i class="fas fa-arrow-right"></i> Buat Laporan Sekarang
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: ARTIKEL (KABAR SIGAP) -->
+    <section class="artikel-section section-padding" id="kabar-sigap">
+        <div class="main-container">
+            <div class="section-header">
+                <h2 class="section-title">Kabar Sigap</h2>
+                <p class="section-subtitle">
+                    Artikel dan berita terbaru seputar pencegahan kekerasan seksual
+                </p>
+            </div>
+
+            <div class="artikel-grid" id="blog-grid">
+                <!-- Data akan dimuat via JS -->
+            </div>
+
+            <div class="text-center" style="margin-top: 1.5rem;">
+                <button class="btn btn-lg btn-primary" onclick="window.location.href='../Blog/index.html'">
+                    <i class="fas fa-newspaper"></i> Lihat Semua Artikel
+                </button>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- SECTION 5: EMERGENCY BANNER & FOOTER -->
+
+
+    <!-- FOOTER -->
+    <footer class="main-footer">
+        <div class="main-container footer-grid">
+            <div class="footer-col footer-logo-col">
+                <div class="footer-logo-section">
+                    <div class="footer-logo-wrapper">
+                        <img src="../Landing Page/assets/flip.png" alt="SIGAP Logo" class="footer-logo-img">
+                    </div>
+                    <p class="footer-satgas-text">Satuan Tugas PPKPT Telkom University Surabaya</p>
+                    <a href="https://www.instagram.com/satgasppks.tus" target="_blank" rel="noopener noreferrer"
+                        class="footer-instagram-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
+                            stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h5>Halaman</h5>
+                <ul class="clean-list">
+                    <li><a href="../About Page/about.html">Tentang</a></li>
+                    <li><a href="wawasan.html">Wawasan</a></li>
+                    <li><a href="../Monitoring/monitoring.html">Monitoring</a></li>
+                </ul>
+            </div>
+            <div class="footer-col footer-back-top-col">
+                <button class="back-to-top-btn" aria-label="Kembali ke atas"
+                    onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 15l-6-6-6 6" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="main-container">
+                <small style="display: block; margin-bottom: 8px;">
+                    © 2026 Telkom University Surabaya. Design & Development by <strong>SIGAPTIM</strong>
+                </small>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ChatBot Modal (Auto-injected by chatbot.js) -->
+    <div id="chatbot-container"></div>
+
+    <!-- Scripts -->
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="../index.js" defer></script>
+    <script src="wawasan.js" defer></script>
+    <script src="js/blog-fetcher.js" defer></script>
+
+    <!-- ChatBot Scripts -->
+    <script src="../assets/js/shared/encryption.js"></script>
+    <script src="../ChatBot/chat_storage.js"></script>
+    <script src="../ChatBot/chatbot.js"></script>
+
+    <!-- FAB Sigap Scripts -->
+    <script src="../FABsigap/modules/breathing.js" defer></script>
+    <script src="../FABsigap/modules/text_to_speech.js" defer></script>
+    <script src="../FABsigap/fabsigap.js" defer></script>
+
+    <!-- Accessibility Library -->
+    <script src="https://cdn.jsdelivr.net/npm/sienna-accessibility@latest/dist/sienna-accessibility.umd.js"
+        defer></script>
+    <script>
+        // AOS is initialized in other scripts, but we handle scroll offset here
+        window.addEventListener('load', () => {
+            if (window.location.hash) {
+                setTimeout(() => {
+                    const target = document.querySelector(window.location.hash);
+                    if (target) {
+                        const headerOffset = 120; // Adjusted for navbar
+                        const elementPosition = target.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: "smooth"
+                        });
+                    }
+                }, 500); // 500ms delay to allow dynamic content (skeleton/articles) to start rendering/settling
+            }
+        });
+    </script>
+</body>
+
+</html>

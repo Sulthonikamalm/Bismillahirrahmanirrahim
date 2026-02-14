@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tentang Kami - Sigap PPKPT</title>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+  <!-- Shared + About CSS -->
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="about.css" />
+
+  <!-- FAB Sigap Styles -->
+  <link rel="stylesheet" href="../FABsigap/fabsigap.css" />
+
+  <!-- ChatBot Styles -->
+  <link rel="stylesheet" href="../ChatBot/chatbot.css" />
+</head>
+
+<body>
+
+  <!-- NAVBAR (Sama seperti semua halaman) -->
+  <nav class="navbar header-bg fixed-top" role="navigation" aria-label="Navigasi Utama">
+    <div class="main-container nav-content">
+      <a class="logo logo-flip" href="../Landing Page/Landing_Page.html">
+        <span class="logo-flip-front">SIGAP</span>
+        <span class="logo-flip-back"><img src="../Landing Page/assets/flip.png" alt="SIGAP"></span>
+      </a>
+
+
+      <div class="nav-links" id="primary-navigation">
+        <a class="nav-item active" href="about.html">TENTANG</a>
+        <a class="nav-item" href="../Wawasan/wawasan.html">WAWASAN</a>
+        <a class="nav-item" href="../Monitoring/monitoring.html">MONITORING</a>
+      </div>
+
+      <div class="nav-actions">
+        <button class="btn btn-outline-light js-lapor-about" aria-label="Buka halaman pelaporan">LAPOR</button>
+      </div>
+
+      <button class="hamburger" aria-label="Buka menu" aria-controls="primary-navigation" aria-expanded="false">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Skip to main content link for accessibility -->
+  <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+  <!-- HERO ABOUT - REDESIGNED WITH VIDEO BACKGROUND -->
+  <section class="about-hero" id="main-content">
+    <!-- Background Video -->
+    <video class="about-hero-video" autoplay muted loop playsinline preload="auto">
+      <source src="../About Page/Video/background.webm" type="video/webm">
+      Your browser does not support the video tag.
+    </video>
+
+    <!-- Overlay with #558198 at 30% opacity -->
+    <div class="about-hero-overlay"></div>
+
+    <!-- Content -->
+    <div class="about-hero-content">
+      <div class="main-container">
+        <div class="about-hero-text-center reveal" data-reveal>
+          <h1 class="about-hero-title">TENTANG KAMI</h1>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SIGAP PPKPT SECTION -->
+  <section class="sigap-ppkpt-section">
+    <!-- Grid Pattern - Left Half Only -->
+    <div class="sigap-grid-pattern"></div>
+
+    <div class="sigap-ppkpt-container">
+      <!-- Left Content -->
+      <div class="sigap-ppkpt-content reveal" data-reveal>
+        <span class="sigap-ppkpt-label">Tentang Kami</span>
+        <h2 class="sigap-ppkpt-title"><span>SIGAP</span> <span>PPKPT</span></h2>
+        <p class="sigap-ppkpt-description">
+          Satuan Tugas Pencegahan dan Penanganan Kekerasan Seksual Telkom University berkomitmen untuk menciptakan
+          lingkungan kampus yang aman, nyaman, dan bebas dari segala bentuk kekerasan seksual. Kami hadir sebagai wadah
+          perlindungan dan pendampingan bagi seluruh civitas akademika.
+        </p>
+      </div>
+
+      <!-- Right Image with SVG Shape -->
+      <div class="sigap-ppkpt-image reveal" data-reveal>
+        <div class="sigap-svg-container">
+          <!-- SVG Shape with Image -->
+          <svg class="sigap-svg-shape" viewBox="0 0 1012 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <clipPath id="sesepuhClip">
+                <path
+                  d="M931.88 72C931.88 94.0914 949.789 112 971.88 112H1012V660C1012 693.137 985.137 720 952 720H60C58.3215 720 56.6592 719.93 55.0156 719.795H103.125V517C103.125 483.863 76.2619 457 43.125 457H0V276.473H55.9912C89.1282 276.473 115.991 249.61 115.991 216.473V0H931.88V72Z" />
+              </clipPath>
+            </defs>
+            <!-- Background Shape -->
+            <path
+              d="M931.88 72C931.88 94.0914 949.789 112 971.88 112H1012V660C1012 693.137 985.137 720 952 720H60C58.3215 720 56.6592 719.93 55.0156 719.795H103.125V517C103.125 483.863 76.2619 457 43.125 457H0V276.473H55.9912C89.1282 276.473 115.991 249.61 115.991 216.473V0H931.88V72Z"
+              fill="#4347F2" />
+            <!-- Image clipped to shape -->
+            <image href="assets/Sesepuh.jpg" x="0" y="0" width="1012" height="720" preserveAspectRatio="xMidYMid slice"
+              clip-path="url(#sesepuhClip)" />
+          </svg>
+          <!-- Logo Badge -->
+          <div class="sigap-logo-badge">
+            <img src="assets/Logo.png" alt="Logo Telkom University" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VISI & MISI -->
+  <section class="visi-misi-section">
+    <!-- Grid Pattern (Left Half Only) -->
+    <div class="visi-misi-grid-pattern"></div>
+
+    <!-- Large Background Text - Positioned Behind Header -->
+    <div class="visi-misi-bg-text" aria-hidden="true">
+      <span>VISI</span>
+      <span>MISI</span>
+    </div>
+
+    <div class="visi-misi-container">
+      <!-- Header Section -->
+      <div class="visi-misi-header reveal" data-reveal>
+        <span class="visi-misi-label">Satgas PPKPT Telkom University</span>
+        <h2 class="visi-misi-title">Visi dan Misi <span>Lingkungan</span> Aman</h2>
+      </div>
+
+      <!-- Content: Image Left + Visi Misi Right -->
+      <div class="visi-misi-content">
+        <!-- Left: Image -->
+        <div class="visi-misi-image reveal" data-reveal>
+          <img src="../About Page/assets/Prof.png" alt="Ilustrasi Visi Misi" />
+        </div>
+        <!-- Right: Visi & Misi Items -->
+        <div class="visi-misi-items">
+          <!-- Visi -->
+          <div class="visi-misi-item reveal" data-reveal>
+            <span class="visi-misi-pill">Visi</span>
+            <p class="visi-misi-text">
+              Terwujudnya lingkungan Telkom University yang aman, nyaman, dan bebas dari segala bentuk kekerasan
+              seksual.
+            </p>
+          </div>
+
+          <!-- Misi -->
+          <div class="visi-misi-item reveal" data-reveal>
+            <span class="visi-misi-pill">Misi</span>
+            <div class="visi-misi-text">
+              <p>1. Berpihak pada korban dengan menjamin keamanan dan kenyamanan sebagai prioritas utama,</p>
+              <p>2. Melindungi identitas dan informasi sensitif semua pihak,</p>
+              <p>3. Melaksanakan prosedur pelaporan dan pendampingan secara profesional,</p>
+              <p>4. Memberikan rekomendasi sanksi yang adil sesuai peraturan.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCROLL VELOCITY - Harmony, Excellence, Integrity -->
+  <section class="scroll-velocity-section">
+    <div class="scroll-velocity-wrapper">
+      <!-- Row 1 -->
+      <div class="scroll-velocity-track" data-direction="left">
+        <div class="scroll-velocity-content">
+          <span class="scroll-velocity-text row1">HARMONY</span>
+          <span class="scroll-velocity-text row1">EXCELLENCE</span>
+          <span class="scroll-velocity-text row1">INTEGRITY</span>
+          <span class="scroll-velocity-text row1">HARMONY</span>
+          <span class="scroll-velocity-text row1">EXCELLENCE</span>
+          <span class="scroll-velocity-text row1">INTEGRITY</span>
+        </div>
+      </div>
+      <!-- Row 2 -->
+      <div class="scroll-velocity-track" data-direction="right">
+        <div class="scroll-velocity-content">
+          <span class="scroll-velocity-text row2">HARMONY</span>
+          <span class="scroll-velocity-text row2">EXCELLENCE</span>
+          <span class="scroll-velocity-text row2">INTEGRITY</span>
+          <span class="scroll-velocity-text row2">HARMONY</span>
+          <span class="scroll-velocity-text row2">EXCELLENCE</span>
+          <span class="scroll-velocity-text row2">INTEGRITY</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PILAR SECTION -->
+  <section class="pilar-section">
+    <!-- Creative Background Pattern -->
+    <div class="pilar-pattern"></div>
+
+    <!-- Large Background Text - PILAR -->
+    <div class="pilar-bg-text" aria-hidden="true">
+      <span>PILAR</span>
+    </div>
+
+    <div class="pilar-container">
+      <!-- Header - Centered -->
+      <div class="pilar-header">
+        <span class="pilar-label">Lingkup Kerja</span>
+        <h2 class="pilar-title">Empat Penyangga Inti Keunggulan</h2>
+      </div>
+
+      <!-- Content: 3 Column Layout - Cards Left, Image Center, Cards Right -->
+      <div class="pilar-content-wrapper">
+        <!-- Left Column - 2 Cards -->
+        <div class="pilar-cards-left">
+          <div class="pilar-card">
+            <div class="pilar-card-front">
+              <div class="pilar-card-icon">
+                <img src="../Gambar/pencegahan.png" alt="Pencegahan" />
+              </div>
+              <h3 class="pilar-card-title">PENCEGAHAN</h3>
+            </div>
+            <div class="pilar-card-back">
+              <h3 class="pilar-card-title">PENCEGAHAN</h3>
+              <p class="pilar-card-description">Mencegah terjadinya kekerasan seksual melalui edukasi dan sosialisasi.
+              </p>
+            </div>
+          </div>
+
+          <div class="pilar-card">
+            <div class="pilar-card-front">
+              <div class="pilar-card-icon">
+                <img src="../Gambar/Penanganan.png" alt="Penanganan" />
+              </div>
+              <h3 class="pilar-card-title">PENANGANAN</h3>
+            </div>
+            <div class="pilar-card-back">
+              <h3 class="pilar-card-title">PENANGANAN</h3>
+              <p class="pilar-card-description">Menangani laporan dan kasus kekerasan seksual secara profesional.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Center Column - Prof4jari Shape -->
+        <div class="pilar-center-image">
+          <div class="pilar-shape-wrapper">
+            <!-- Inner filled shape -->
+            <div class="pilar-shape-inner"></div>
+            <!-- Outer border shape -->
+            <div class="pilar-shape-outer"></div>
+            <!-- Image inside -->
+            <div class="pilar-shape-image">
+              <img src="assets/Prof4jari.png" alt="Ilustrasi PILAR" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column - 2 Cards -->
+        <div class="pilar-cards-right">
+          <div class="pilar-card">
+            <div class="pilar-card-front">
+              <div class="pilar-card-icon">
+                <img src="../Gambar/Pendampingan.png" alt="Pendampingan" />
+              </div>
+              <h3 class="pilar-card-title">PENDAMPINGAN</h3>
+            </div>
+            <div class="pilar-card-back">
+              <h3 class="pilar-card-title">PENDAMPINGAN</h3>
+              <p class="pilar-card-description">Memberikan pendampingan kepada korban kekerasan seksual.</p>
+            </div>
+          </div>
+
+          <div class="pilar-card">
+            <div class="pilar-card-front">
+              <div class="pilar-card-icon">
+                <img src="../Gambar/Pemulihan.png" alt="Pemulihan" />
+              </div>
+              <h3 class="pilar-card-title">PEMULIHAN</h3>
+            </div>
+            <div class="pilar-card-back">
+              <h3 class="pilar-card-title">PEMULIHAN</h3>
+              <p class="pilar-card-description">Memulihkan kondisi korban melalui konseling dan dukungan.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SINERGI Section -->
+  <section class="sinergi-section">
+    <!-- Grid Pattern Background -->
+    <div class="sinergi-pattern" aria-hidden="true"></div>
+
+    <!-- Large Background Text -->
+    <div class="sinergi-bg-text" aria-hidden="true">
+      <span>SINERGI</span>
+    </div>
+
+    <div class="sinergi-container">
+      <!-- Header - Centered -->
+      <div class="sinergi-header">
+        <span class="sinergi-label">Satu Detak Jantung</span>
+        <h2 class="sinergi-title">Bersatu Padu Wujudkan Ruang Aman</h2>
+      </div>
+
+      <!-- Description -->
+      <p class="sinergi-description">
+        Menciptakan lingkungan aman bukan kerja satu orang. Ini adalah kolaborasi hati dan pikiran dari dosen,
+        mahasiswa, dan staf yang peduli pada masa depan kita.
+      </p>
+    </div>
+  </section>
+
+  <!-- STRUKTUR ORGANISASI CAROUSEL -->
+  <section class="struktur-carousel-section">
+    <div class="struktur-carousel-container">
+      <!-- Carousel Wrapper -->
+      <div class="struktur-carousel-wrapper">
+        <div class="struktur-carousel-track" id="strukturCarouselTrack">
+          <!-- Card 1 -->
+          <div class="struktur-card">
+            <div class="struktur-card-image">
+              <img src="assets/Struktur/1.png" alt="Prof. Dr. Suyanto" />
+            </div>
+            <div class="struktur-card-info">
+              <h3 class="struktur-card-name">Prof. Dr. Suyanto, S.T., M.Sc.</h3>
+              <p class="struktur-card-role">Rektor Telkom University<br>(Penanggung Jawab)</p>
+            </div>
+          </div>
+          <!-- Card 2 -->
+          <div class="struktur-card">
+            <div class="struktur-card-image">
+              <img src="assets/Struktur/2.png" alt="Prof. Dr. Ratri Wahyuningtyas" />
+            </div>
+            <div class="struktur-card-info">
+              <h3 class="struktur-card-name">Prof. Dr. Ratri Wahyuningtyas, S.T., M.M.</h3>
+              <p class="struktur-card-role">Wakil Rektor III<br>(Pengarah)</p>
+            </div>
+          </div>
+          <!-- Card 3 -->
+          <div class="struktur-card">
+            <div class="struktur-card-image">
+              <img src="assets/Struktur/3.png" alt="Dr. Maulana Rezi R" />
+            </div>
+            <div class="struktur-card-info">
+              <h3 class="struktur-card-name">Dr. Maulana Rezi R, S.Psi., M.Psi, Psikolog</h3>
+              <p class="struktur-card-role">Direktur Kemahasiswaan, Karier dan Alumni<br>(Pengelola)</p>
+            </div>
+          </div>
+          <!-- Card 4 -->
+          <div class="struktur-card">
+            <div class="struktur-card-image">
+              <img src="assets/Struktur/4.png" alt="Rah Utami Nugrahani" />
+            </div>
+            <div class="struktur-card-info">
+              <h3 class="struktur-card-name">Rah Utami Nugrahani, S.Sos., M.A.B., Ph.D.</h3>
+              <p class="struktur-card-role">Ketua</p>
+            </div>
+          </div>
+          <!-- Card 5 -->
+          <div class="struktur-card">
+            <div class="struktur-card-image">
+              <img src="assets/Struktur/5.png" alt="Pramitha Aulia" />
+            </div>
+            <div class="struktur-card-info">
+              <h3 class="struktur-card-name">Pramitha Aulia, S.Psi., M.Psi, Psikolog</h3>
+              <p class="struktur-card-role">Sekretaris</p>
+            </div>
+          </div>
+          <!-- Card 6 -->
+          <div class="struktur-card">
+            <div class="struktur-card-image">
+              <img src="assets/Struktur/6.png" alt="Dr. Mochamad Teguh Kurniawan" />
+            </div>
+            <div class="struktur-card-info">
+              <h3 class="struktur-card-name">Dr. Mochamad Teguh Kurniawan, S.T., M.T.</h3>
+              <p class="struktur-card-role">Anggota</p>
+            </div>
+          </div>
+          <!-- Card 7 -->
+          <div class="struktur-card">
+            <div class="struktur-card-image">
+              <img src="assets/Struktur/7.png" alt="Shaufiah" />
+            </div>
+            <div class="struktur-card-info">
+              <h3 class="struktur-card-name">Shaufiah, S.T., M.T.</h3>
+              <p class="struktur-card-role">Anggota</p>
+            </div>
+          </div>
+          <!-- Card 8 -->
+          <div class="struktur-card">
+            <div class="struktur-card-image">
+              <img src="assets/Struktur/8.png" alt="Lingga Agung" />
+            </div>
+            <div class="struktur-card-info">
+              <h3 class="struktur-card-name">Lingga Agung, S. I. Kom., M.Sn</h3>
+              <p class="struktur-card-role">Anggota</p>
+            </div>
+          </div>
+          <!-- Card 9 -->
+          <div class="struktur-card">
+            <div class="struktur-card-image">
+              <img src="assets/Struktur/9.png" alt="Rd. Yayuana Sabrina Supriadi" />
+            </div>
+            <div class="struktur-card-info">
+              <h3 class="struktur-card-name">Rd. Yayuana Sabrina Supriadi, S.Kom.</h3>
+              <p class="struktur-card-role">Anggota</p>
+            </div>
+          </div>
+          <!-- Card 10 -->
+          <div class="struktur-card">
+            <div class="struktur-card-image">
+              <img src="assets/Struktur/10.png" alt="Pravita Dwi Nugraheni" />
+            </div>
+            <div class="struktur-card-info">
+              <h3 class="struktur-card-name">Pravita Dwi Nugraheni, S.T, M.T</h3>
+              <p class="struktur-card-role">Anggota</p>
+            </div>
+          </div>
+          <!-- Card 11 -->
+          <div class="struktur-card">
+            <div class="struktur-card-image">
+              <img src="assets/Struktur/11.png" alt="Dr. Nofha Rina" />
+            </div>
+            <div class="struktur-card-info">
+              <h3 class="struktur-card-name">Dr. Nofha Rina, S.Sos., M.Si</h3>
+              <p class="struktur-card-role">Anggota</p>
+            </div>
+          </div>
+          <!-- Card 12 -->
+          <div class="struktur-card">
+            <div class="struktur-card-image">
+              <img src="assets/Struktur/12.png" alt="Amalia Nur Alifah" />
+            </div>
+            <div class="struktur-card-info">
+              <h3 class="struktur-card-name">Amalia Nur Alifah, S.Si., M.Si</h3>
+              <p class="struktur-card-role">Anggota</p>
+            </div>
+          </div>
+          <!-- Card 13 -->
+          <div class="struktur-card">
+            <div class="struktur-card-image">
+              <img src="assets/Struktur/13.png" alt="Hasri Wulan Nugraheni" />
+            </div>
+            <div class="struktur-card-info">
+              <h3 class="struktur-card-name">Hasri Wulan Nugraheni, S.Psi., M.Psi</h3>
+              <p class="struktur-card-role">Anggota</p>
+            </div>
+          </div>
+          <!-- Card 14 -->
+          <div class="struktur-card">
+            <div class="struktur-card-image">
+              <img src="assets/Struktur/14.png" alt="Fiera Wardhani Gladisa" />
+            </div>
+            <div class="struktur-card-info">
+              <h3 class="struktur-card-name">Fiera Wardhani Gladisa, S.T., M.M.</h3>
+              <p class="struktur-card-role">Anggota</p>
+            </div>
+          </div>
+          <!-- Card 15 -->
+          <div class="struktur-card">
+            <div class="struktur-card-image">
+              <img src="assets/Struktur/15.png" alt="Ilyas Hermawan" />
+            </div>
+            <div class="struktur-card-info">
+              <h3 class="struktur-card-name">Ilyas Hermawan, S.T</h3>
+              <p class="struktur-card-role">Anggota</p>
+            </div>
+          </div>
+          <!-- Card 16 -->
+          <div class="struktur-card">
+            <div class="struktur-card-image">
+              <img src="assets/Struktur/16.png" alt="Husna Rahmi" />
+            </div>
+            <div class="struktur-card-info">
+              <h3 class="struktur-card-name">Husna Rahmi, S.Sos</h3>
+              <p class="struktur-card-role">Anggota</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DAMPAK Section -->
+  <section class="dampak-section">
+    <!-- Grid Pattern Background -->
+    <div class="dampak-pattern" aria-hidden="true"></div>
+
+    <!-- Large Background Text -->
+    <div class="dampak-bg-text" aria-hidden="true">
+      <span>DAMPAK</span>
+    </div>
+
+    <div class="dampak-container">
+      <!-- Header - Centered -->
+      <div class="dampak-header">
+        <span class="dampak-label">Keberanian</span>
+        <h2 class="dampak-title">Ketika Keberanian Menemukan Tempat untuk Bicara</h2>
+      </div>
+
+      <!-- Description -->
+      <p class="dampak-description">
+        Setiap laporan bukan sekadar angka. Itu adalah keberanian yang akhirnya menemukan ruang untuk didengar. Di
+        sinilah kepedulian menjelma menjadi perlindungan, dan ruang aman mulai tercipta.
+      </p>
+
+      <!-- Stats Grid - Card Statistik -->
+      <div class="stats-grid">
+        <div class="card-pelapor card-green-teal reveal" data-reveal>
+          <div class="card-inner-flex">
+            <div class="pelapor-icon-circle bg-white">
+              <i class="fas fa-hand-holding-heart"></i>
+            </div>
+            <div class="text-content">
+              <h3 class="stat-number" id="about-cases-received" aria-live="polite" data-loading="true">0</h3>
+              <p class="stat-label">Laporan Diterima</p>
+              <p class="stat-sublabel">Sebagian masih dalam proses verifikasi dan asesmen</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-pelapor card-purple-dark reveal" data-reveal>
+          <div class="card-inner-flex">
+            <div class="pelapor-icon-circle bg-white">
+              <i class="fas fa-shield-alt"></i>
+            </div>
+            <div class="text-content">
+              <h3 class="stat-number" id="about-cases-completed" aria-live="polite" data-loading="true">0</h3>
+              <p class="stat-label">Penyintas dalam Tahap Perlindungan</p>
+              <p class="stat-sublabel">Pendampingan hukum dan pemulihan berkelanjutan</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dokumentasi: Footer dengan link layanan, kontak, dan sosial media, ditampilkan dalam grid responsif. -->
+  <footer class="main-footer">
+    <div class="main-container footer-grid">
+      <div class="footer-col footer-logo-col">
+        <div class="footer-logo-section">
+          <div class="footer-logo-wrapper">
+            <img src="../Landing Page/assets/flip.png" alt="SIGAP Logo" class="footer-logo-img">
+          </div>
+          <p class="footer-satgas-text">Satuan Tugas PPKPT Telkom University Surabaya</p>
+          <a href="https://www.instagram.com/satgasppks.tus" target="_blank" rel="noopener noreferrer"
+            class="footer-instagram-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
+              stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>Halaman</h5>
+        <ul class="clean-list">
+          <li><a href="about.html">Tentang</a></li>
+          <li><a href="../Wawasan/wawasan.html">Wawasan</a></li>
+          <li><a href="../Monitoring/monitoring.html">Monitoring</a></li>
+        </ul>
+      </div>
+      <div class="footer-col footer-back-top-col">
+        <button class="back-to-top-btn" aria-label="Kembali ke atas"
+          onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 15l-6-6-6 6" />
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="main-container">
+        <small style="display: block; margin-bottom: 8px;">
+          © 2026 Telkom University Surabaya. Design & Development by <strong>SIGAPTIM</strong>
+        </small>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ChatBot Modal (Auto-injected by chatbot.js) -->
+  <div id="chatbot-container"></div>
+
+  <!-- JS: Shared + About -->
+  <script src="../index.js" defer></script>
+  <script src="about.js" defer></script>
+
+  <!-- ChatBot Scripts -->
+  <script src="../assets/js/shared/encryption.js"></script>
+  <script src="../ChatBot/chat_storage.js"></script>
+  <script src="../ChatBot/chatbot.js"></script>
+
+  <!-- FAB Sigap Scripts (Load in Order) -->
+  <script src="../FABsigap/modules/breathing.js" defer></script>
+  <script src="../FABsigap/modules/qna_mental.js" defer></script>
+  <script src="../FABsigap/modules/text_to_speech.js" defer></script>
+  <script src="../FABsigap/fabsigap.js" defer></script>
+
+  <!-- Accessibility Library -->
+  <script src="https://cdn.jsdelivr.net/npm/sienna-accessibility@latest/dist/sienna-accessibility.umd.js"
+    defer></script>
+</body>
+
+</html>

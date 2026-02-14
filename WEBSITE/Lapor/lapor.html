@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form Pelaporan - Satgas PPKPT</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+    <!-- Original Style CSS (Root styles) -->
+    <link rel="stylesheet" href="../style.css" />
+
+    <!-- Lapor Custom CSS (Form specific) -->
+    <link rel="stylesheet" href="lapor.css" />
+</head>
+
+<body>
+    <!-- Skip to main content link for accessibility -->
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+
+    <!-- ============================================
+         NAVBAR (Sama seperti landing page)
+         ============================================ -->
+    <nav class="navbar header-bg fixed-top" role="navigation" aria-label="Navigasi Utama">
+        <div class="main-container nav-content">
+            <a class="logo logo-flip" href="../Landing Page/Landing_Page.html">
+                <span class="logo-flip-front">SIGAP</span>
+                <span class="logo-flip-back"><img src="../Landing Page/assets/flip.png" alt="SIGAP"></span>
+            </a>
+
+
+            <div class="nav-links" id="primary-navigation">
+                <a class="nav-item" href="../About Page/about.html">TENTANG</a>
+                <a class="nav-item" href="../Wawasan/wawasan.html">WAWASAN</a>
+                <a class="nav-item" href="../Monitoring/monitoring.html">MONITORING</a>
+            </div>
+
+            <div class="nav-actions">
+                <button class="btn btn-outline-light js-lapor-btn"
+                    aria-label="Tombol untuk halaman pelaporan">LAPOR</button>
+            </div>
+
+            <button class="hamburger" aria-label="Buka menu" aria-controls="primary-navigation" aria-expanded="false">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ============================================
+         FORM SECTION
+         ============================================ -->
+    <section class="lapor-section" id="main-content">
+        <div class="main-container">
+
+            <!-- Progress Indicator -->
+            <div class="lapor-progress-wrapper reveal" data-reveal>
+                <div class="lapor-progress-text">Langkah <span id="currentStepNumber">1</span> dari 7</div>
+                <div class="lapor-progress-bar">
+                    <div class="lapor-progress-fill" id="progressBar" role="progressbar" aria-valuenow="20"
+                        aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+
+            <!-- Form Card Container -->
+            <div class="lapor-card reveal" data-reveal>
+                <form id="laporForm" novalidate>
+
+                    <!-- ==========================================
+                         STEP 1: KEADAAN DARURAT
+                         ========================================== -->
+                    <div class="form-step active" id="step1">
+                        <h2 class="lapor-title">Apakah kamu dalam keadaan DARURAT?</h2>
+                        <p class="lapor-subtitle">Pilih salah satu di bawah ini</p>
+
+                        <div class="lapor-choices-grid">
+                            <!-- Card DARURAT -->
+                            <div class="lapor-choice darurat-choice" data-value="darurat" data-name="statusDarurat">
+                                <input type="radio" name="statusDarurat" id="darurat" value="darurat" hidden>
+                                <label for="darurat" class="lapor-choice-label">
+                                    <div class="lapor-choice-radio"></div>
+                                    <div class="lapor-choice-content">
+                                        <img src="assets/TandaSeru.png" alt="Darurat" class="lapor-choice-icon">
+                                        <h3 class="lapor-choice-title">DARURAT!</h3>
+                                        <p class="lapor-choice-desc">Tekan di sini untuk panggilan darurat</p>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <!-- Card TIDAK DARURAT -->
+                            <div class="lapor-choice tidak-darurat-choice" data-value="tidak" data-name="statusDarurat">
+                                <input type="radio" name="statusDarurat" id="tidak" value="tidak" hidden>
+                                <label for="tidak" class="lapor-choice-label">
+                                    <div class="lapor-choice-radio"></div>
+                                    <div class="lapor-choice-content">
+                                        <img src="assets/Sedih.png" alt="Tidak Darurat" class="lapor-choice-icon">
+                                        <h3 class="lapor-choice-title">TIDAK</h3>
+                                        <p class="lapor-choice-desc">Saya butuh bantuan tetapi tidak dalam keadaan
+                                            darurat</p>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="lapor-nav">
+                            <button type="button" class="btn-lapor btn-next" id="btnLanjutkan1" disabled>
+                                Lanjutkan <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- ==========================================
+                         STEP 2: SIAPA PENYINTASNYA (HALAMAN TERPISAH)
+                         ========================================== -->
+                    <div class="form-step" id="step2">
+                        <h2 class="lapor-title">Siapa Penyintasnya?</h2>
+                        <p class="lapor-subtitle">Pilih salah satu di bawah ini</p>
+
+                        <div class="lapor-choices-grid">
+                            <!-- Card SAYA SENDIRI -->
+                            <div class="lapor-choice saya-choice" data-value="saya" data-name="korban"
+                                data-group="korban">
+                                <input type="radio" name="korban" id="saya" value="saya" hidden>
+                                <label for="saya" class="lapor-choice-label">
+                                    <div class="lapor-choice-radio"></div>
+                                    <div class="lapor-choice-content">
+                                        <img src="assets/SAYA.png" alt="Saya Sendiri" class="lapor-choice-icon">
+                                        <h3 class="lapor-choice-title">SAYA SENDIRI</h3>
+                                        <p class="lapor-choice-desc">Saya sendiri mengalami sebagai penyintas</p>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <!-- Card ORANG LAIN -->
+                            <div class="lapor-choice orang-lain-choice" data-value="oranglain" data-name="korban"
+                                data-group="korban">
+                                <input type="radio" name="korban" id="oranglain" value="oranglain" hidden>
+                                <label for="oranglain" class="lapor-choice-label">
+                                    <div class="lapor-choice-radio"></div>
+                                    <div class="lapor-choice-content">
+                                        <img src="assets/OrangLain.png" alt="Orang Lain" class="lapor-choice-icon">
+                                        <h3 class="lapor-choice-title">ORANG LAIN</h3>
+                                        <p class="lapor-choice-desc">Saya melihat atau mendengar orang lain mendapat
+                                            kekerasan</p>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="lapor-nav">
+                            <button type="button" class="btn-lapor btn-back" id="btnKembali2">
+                                <i class="fas fa-arrow-left"></i> Kembali
+                            </button>
+                            <button type="button" class="btn-lapor btn-next" id="btnLanjutkan2" disabled>
+                                Lanjutkan <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- ==========================================
+                         STEP 3: TINGKAT KEKHAWATIRAN (HALAMAN TERPISAH)
+                         ========================================== -->
+                    <div class="form-step" id="step3">
+                        <h2 class="lapor-title">Nilai tingkat kekhawatiran Anda?</h2>
+                        <p class="lapor-subtitle">Pilih salah satu di bawah ini</p>
+
+                        <div class="lapor-choices-grid three-col">
+                            <!-- SEDIKIT KHAWATIR -->
+                            <div class="lapor-choice sedikit-khawatir-choice" data-value="sedikit"
+                                data-name="kehawatiran" data-group="kehawatiran">
+                                <input type="radio" name="kehawatiran" id="sedikit" value="sedikit" hidden>
+                                <label for="sedikit" class="lapor-choice-label">
+                                    <div class="lapor-choice-radio"></div>
+                                    <div class="lapor-choice-content">
+                                        <img src="assets/Sedih.png" alt="Sedikit Khawatir"
+                                            class="lapor-choice-icon small">
+                                        <h3 class="lapor-choice-title small">SEDIKIT KHAWATIR</h3>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <!-- KHAWATIR -->
+                            <div class="lapor-choice khawatir-choice" data-value="khawatir" data-name="kehawatiran"
+                                data-group="kehawatiran">
+                                <input type="radio" name="kehawatiran" id="khawatir" value="khawatir" hidden>
+                                <label for="khawatir" class="lapor-choice-label">
+                                    <div class="lapor-choice-radio"></div>
+                                    <div class="lapor-choice-content">
+                                        <img src="assets/Khawatir.png" alt="Khawatir" class="lapor-choice-icon small">
+                                        <h3 class="lapor-choice-title small">KHAWATIR</h3>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <!-- SANGAT KHAWATIR -->
+                            <div class="lapor-choice sangat-khawatir-choice" data-value="sangat" data-name="kehawatiran"
+                                data-group="kehawatiran">
+                                <input type="radio" name="kehawatiran" id="sangat" value="sangat" hidden>
+                                <label for="sangat" class="lapor-choice-label">
+                                    <div class="lapor-choice-radio"></div>
+                                    <div class="lapor-choice-content">
+                                        <img src="assets/SangatKhawatir.png" alt="Sangat Khawatir"
+                                            class="lapor-choice-icon small">
+                                        <h3 class="lapor-choice-title small">SANGAT KHAWATIR</h3>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="lapor-nav">
+                            <button type="button" class="btn-lapor btn-back" id="btnKembali3">
+                                <i class="fas fa-arrow-left"></i> Kembali
+                            </button>
+                            <button type="button" class="btn-lapor btn-next" id="btnLanjutkan3" disabled>
+                                Lanjutkan <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- ==========================================
+                         STEP 4: GENDER KORBAN
+                         ========================================== -->
+                    <div class="form-step" id="step4">
+                        <h2 class="lapor-title">Gender Penyintas</h2>
+                        <p class="lapor-subtitle">Pilih salah satu di bawah ini</p>
+
+                        <div class="lapor-radio-list">
+                            <div class="lapor-radio-item">
+                                <input type="radio" name="genderKorban" id="lakilaki" value="lakilaki">
+                                <label for="lakilaki">Laki-laki</label>
+                            </div>
+                            <div class="lapor-radio-item">
+                                <input type="radio" name="genderKorban" id="perempuan" value="perempuan">
+                                <label for="perempuan">Perempuan</label>
+                            </div>
+                        </div>
+
+                        <div class="lapor-nav">
+                            <button type="button" class="btn-lapor btn-back" id="btnKembali4">
+                                <i class="fas fa-arrow-left"></i> Kembali
+                            </button>
+                            <button type="button" class="btn-lapor btn-next" id="btnLanjutkan4" disabled>
+                                Lanjutkan <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- ==========================================
+                         STEP 5: SIAPA PELAKUNYA (AUTO-ADVANCE)
+                         ========================================== -->
+                    <div class="form-step" id="step5">
+                        <h2 class="lapor-title">Siapa Pelakunya?</h2>
+                        <p class="lapor-subtitle">Pilih salah satu (Otomatis lanjut setelah memilih)</p>
+
+                        <!-- Siapa yang Melakukan Kekerasan -->
+                        <div class="lapor-field">
+                            <div class="quick-select-container">
+                                <!-- Group: Kampus Akademik -->
+                                <div class="quick-select-group-label">Lingkungan Akademik</div>
+                                <div class="lapor-quick-select-grid">
+                                    <div class="quick-select-item">
+                                        <input type="radio" name="pelakuKekerasan" id="p_dosen" value="dosen">
+                                        <label for="p_dosen"><i
+                                                class="fas fa-chalkboard-teacher"></i><span>Dosen</span></label>
+                                    </div>
+                                    <div class="quick-select-item">
+                                        <input type="radio" name="pelakuKekerasan" id="p_mahasiswa" value="mahasiswa">
+                                        <label for="p_mahasiswa"><i
+                                                class="fas fa-user-graduate"></i><span>Mahasiswa</span></label>
+                                    </div>
+                                    <div class="quick-select-item">
+                                        <input type="radio" name="pelakuKekerasan" id="p_tendik"
+                                            value="tenaga_kependidikan">
+                                        <label for="p_tendik"><i class="fas fa-id-card"></i><span>Tendik</span></label>
+                                    </div>
+                                    <div class="quick-select-item">
+                                        <input type="radio" name="pelakuKekerasan" id="p_alumni" value="alumni">
+                                        <label for="p_alumni"><i class="fas fa-user-tie"></i><span>Alumni</span></label>
+                                    </div>
+                                </div>
+
+                                <!-- Group: Layanan Kampus -->
+                                <div class="quick-select-group-label" style="margin-top: 25px;">Layanan Kampus</div>
+                                <div class="lapor-quick-select-grid">
+                                    <div class="quick-select-item">
+                                        <input type="radio" name="pelakuKekerasan" id="p_satpam"
+                                            value="petugas_keamanan">
+                                        <label for="p_satpam"><i
+                                                class="fas fa-shield-alt"></i><span>Satpam</span></label>
+                                    </div>
+                                    <div class="quick-select-item">
+                                        <input type="radio" name="pelakuKekerasan" id="p_bersih"
+                                            value="petugas_kebersihan">
+                                        <label for="p_bersih"><i
+                                                class="fas fa-broom"></i><span>Kebersihan</span></label>
+                                    </div>
+                                    <div class="quick-select-item">
+                                        <input type="radio" name="pelakuKekerasan" id="p_kantin" value="staf_kantin">
+                                        <label for="p_kantin"><i class="fas fa-utensils"></i><span>Kantin</span></label>
+                                    </div>
+                                    <div class="quick-select-item">
+                                        <input type="radio" name="pelakuKekerasan" id="p_tamu" value="tamu">
+                                        <label for="p_tamu"><i class="fas fa-walking"></i><span>Tamu</span></label>
+                                    </div>
+                                </div>
+
+                                <!-- Group: Relasi Personal -->
+                                <div class="quick-select-group-label" style="margin-top: 25px;">Relasi Personal</div>
+                                <div class="lapor-quick-select-grid">
+                                    <div class="quick-select-item">
+                                        <input type="radio" name="pelakuKekerasan" id="p_pacar" value="pacar">
+                                        <label for="p_pacar"><i class="fas fa-heart"></i><span>Pacar</span></label>
+                                    </div>
+                                    <div class="quick-select-item">
+                                        <input type="radio" name="pelakuKekerasan" id="p_mantan" value="mantan_pacar">
+                                        <label for="p_mantan"><i
+                                                class="fas fa-heart-broken"></i><span>Mantan</span></label>
+                                    </div>
+                                    <div class="quick-select-item">
+                                        <input type="radio" name="pelakuKekerasan" id="p_teman" value="teman">
+                                        <label for="p_teman"><i
+                                                class="fas fa-user-friends"></i><span>Teman</span></label>
+                                    </div>
+                                    <div class="quick-select-item emergency">
+                                        <input type="radio" name="pelakuKekerasan" id="p_unknown"
+                                            value="orang_tidak_dikenal">
+                                        <label for="p_unknown"><i class="fas fa-user-secret"></i><span>Tak
+                                                Dikenal</span></label>
+                                    </div>
+                                </div>
+
+                                <!-- Group: Lainnya -->
+                                <div class="lapor-quick-select-grid" style="margin-top: 12px;">
+                                    <div class="quick-select-item" style="grid-column: 1 / -1;">
+                                        <input type="radio" name="pelakuKekerasan" id="p_lainnya" value="lainnya">
+                                        <label for="p_lainnya"
+                                            style="flex-direction: row; gap: 10px; min-height: 60px;">
+                                            <i class="fas fa-ellipsis-h" style="margin:0; font-size: 1.5rem;"></i>
+                                            <span>Lainnya (Sebutkan di detail kejadian)</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Hidden validation target -->
+                            <input type="text" id="pelakuKekerasan" name="pelakuKekerasanValidation"
+                                style="opacity: 0; position: absolute; pointer-events: none;" required tabindex="-1">
+                        </div>
+
+                        <div class="lapor-nav">
+                            <button type="button" class="btn-lapor btn-back" id="btnKembali5">
+                                <i class="fas fa-arrow-left"></i> Kembali
+                            </button>
+                            <!-- No Next Button needed because of auto-advance, but kept hidden just in case of JS failure or for accessibility -->
+                            <button type="button" class="btn-lapor btn-next" id="btnLanjutkan5" style="display: none;">
+                                Lanjutkan <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- ==========================================
+                         STEP 6: DETAIL KEJADIAN
+                         ========================================== -->
+                    <div class="form-step" id="step6">
+                        <h2 class="lapor-title">Detail Kejadian</h2>
+                        <p class="lapor-subtitle">Ceritakan apa yang terjadi</p>
+
+                        <!-- Kapan Kejadiannya -->
+                        <div class="lapor-field">
+                            <label for="waktuKejadian" class="lapor-label">
+                                Kapan kejadiannya? <span class="required">*</span>
+                            </label>
+                            <input type="date" class="lapor-input" id="waktuKejadian" name="waktuKejadian" required />
+                            <span class="lapor-error" id="errorWaktu">Waktu kejadian wajib dipilih</span>
+                        </div>
+
+                        <!-- Di mana kejadiannya - CATEGORY SELECTION -->
+                        <div class="lapor-field lokasi-section">
+                            <label class="lapor-label">
+                                Di mana kejadiannya? <span class="required">*</span>
+                            </label>
+                            <p class="lapor-hint">Pilih lokasi umum, detail bisa ditambahkan nanti</p>
+
+                            <!-- Location Category Grid -->
+                            <div class="lokasi-category-grid" id="lokasiCategoryGrid">
+                                <!-- Row 1 -->
+                                <div class="lokasi-category-item" data-lokasi="Gedung Utama">
+                                    <div class="lokasi-icon">🏢</div>
+                                    <span class="lokasi-name">Gedung Utama</span>
+                                </div>
+                                <div class="lokasi-category-item" data-lokasi="Gedung SBS">
+                                    <div class="lokasi-icon">🏫</div>
+                                    <span class="lokasi-name">Gedung SBS</span>
+                                </div>
+                                <div class="lokasi-category-item" data-lokasi="Area Parkir">
+                                    <div class="lokasi-icon">🅿️</div>
+                                    <span class="lokasi-name">Parkir</span>
+                                </div>
+                                <div class="lokasi-category-item" data-lokasi="Masjid">
+                                    <div class="lokasi-icon">🕌</div>
+                                    <span class="lokasi-name">Masjid</span>
+                                </div>
+                                <!-- Row 2 -->
+                                <div class="lokasi-category-item" data-lokasi="Kantin/Koperasi">
+                                    <div class="lokasi-icon">🍽️</div>
+                                    <span class="lokasi-name">Kantin</span>
+                                </div>
+                                <div class="lokasi-category-item" data-lokasi="Area Outdoor">
+                                    <div class="lokasi-icon">🌳</div>
+                                    <span class="lokasi-name">Outdoor</span>
+                                </div>
+                                <div class="lokasi-category-item" data-lokasi="Luar Kampus">
+                                    <div class="lokasi-icon">🏠</div>
+                                    <span class="lokasi-name">Luar Kampus</span>
+                                </div>
+                                <div class="lokasi-category-item lokasi-unknown" data-lokasi="Tidak Ingat">
+                                    <div class="lokasi-icon">❓</div>
+                                    <span class="lokasi-name">Tidak Ingat</span>
+                                </div>
+                            </div>
+
+                            <!-- Selected Location Indicator -->
+                            <div class="lokasi-selected-indicator" id="lokasiSelectedIndicator" style="display: none;">
+                                <div class="lokasi-selected-badge">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span id="lokasiSelectedText">-</span>
+                                    <button type="button" class="lokasi-change-btn" id="lokasiChangeBtn">
+                                        <i class="fas fa-edit"></i> Ubah
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Optional Detail Field (appears after selection) -->
+                            <div class="lokasi-detail-section" id="lokasiDetailSection" style="display: none;">
+                                <label for="lokasiDetail" class="lapor-label lokasi-detail-label">
+                                    Mau tambah detail? <span class="optional-badge">Opsional</span>
+                                </label>
+                                <p class="lapor-hint">
+                                    <i class="fas fa-info-circle"></i>
+                                    Contoh: "Lantai 2 depan perpustakaan" atau "Lab komputer SBS Lt.4"
+                                </p>
+                                <div class="lokasi-detail-input-wrapper">
+                                    <input type="text" class="lapor-input" id="lokasiDetail" name="lokasiDetail"
+                                        placeholder="Ketik detail lokasi atau ucapkan..." maxlength="200">
+                                    <button type="button" class="btn-voice-lokasi" id="btnVoiceLokasi"
+                                        title="Ucapkan detail lokasi">
+                                        <i class="fas fa-microphone"></i>
+                                    </button>
+                                </div>
+                                <p class="lapor-hint lokasi-skip-hint">
+                                    💬 Jika tidak diisi, petugas akan menanyakan saat menghubungi Anda
+                                </p>
+                            </div>
+
+                            <!-- Hidden input for form submission -->
+                            <input type="hidden" id="lokasiKejadian" name="lokasiKejadian" required>
+                            <span class="lapor-error" id="errorLokasi">Lokasi kejadian wajib dipilih</span>
+                        </div>
+
+                        <!-- Apa yang terjadi -->
+                        <div class="lapor-field">
+                            <label for="detailKejadian" class="lapor-label">
+                                Apa yang terjadi? <span class="required">*</span>
+                            </label>
+                            <p class="lapor-hint">
+                                Ceritakan secara detail apa yang terjadi (minimal 10 karakter).
+                                Bisa ketik atau <strong>gunakan suara</strong> 🎤
+                            </p>
+
+                            <!-- Textarea with Voice Button Container -->
+                            <div class="textarea-voice-wrapper">
+                                <textarea class="lapor-input lapor-textarea" id="detailKejadian" name="detailKejadian"
+                                    rows="6"
+                                    placeholder="Ceritakan secara detail apa yang terjadi... atau klik tombol mikrofon untuk merekam suara Anda"
+                                    required></textarea>
+
+                                <!-- Voice Input Button -->
+                                <button type="button" class="btn-voice-input" id="btnVoiceInput" title="Rekam suara">
+                                    <i class="fas fa-microphone"></i>
+                                </button>
+
+                                <!-- Compact Recording Indicator -->
+                                <div class="voice-recording-indicator" id="voiceRecordingIndicator"
+                                    style="display: none;">
+                                    <div class="recording-pulse"></div>
+                                    <span class="recording-text">Merekam</span>
+                                    <span class="recording-timer" id="recordingTimer">00:00</span>
+                                    <span class="confidence-badge" id="confidenceBadge">--</span>
+                                    <button type="button" class="btn-stop-recording" id="btnStopRecording">
+                                        <i class="fas fa-stop"></i> Stop
+                                    </button>
+                                </div>
+
+                                <!-- Live Transcript (small inline) -->
+                                <div class="live-transcript-inline" id="liveTranscriptPreview" style="display: none;">
+                                    <span class="transcript-text" id="liveTranscriptText"></span>
+                                </div>
+
+                                <!-- Emotion Detection Indicator -->
+                                <div class="emotion-indicator" id="emotionIndicator" style="display: none;">
+                                    <span class="emotion-icon" id="emotionIcon">😊</span>
+                                    <span class="emotion-text" id="emotionText">Emosi terdeteksi</span>
+                                </div>
+                            </div>
+
+                            <span class="lapor-error" id="errorDetail">Wajib memberikan keterangan kejadian minimal 10
+                                karakter</span>
+                        </div>
+
+                        <!-- Upload Bukti Foto/Video (Opsional) -->
+                        <div class="lapor-field">
+                            <label class="lapor-label">
+                                Upload Bukti (Foto/Video) <span class="optional-badge">Opsional</span>
+                            </label>
+                            <p class="lapor-hint">
+                                <i class="fas fa-shield-alt"></i>
+                                Jika Anda memiliki bukti, dapat diunggah di sini. Tidak ada bukti? Tidak apa-apa,
+                                laporan Anda tetap akan diproses. Maksimal 5 file, masing-masing max 10MB.
+                            </p>
+
+                            <!-- Upload Area -->
+                            <div class="upload-area" id="uploadArea">
+                                <div class="upload-icon">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                </div>
+                                <h4 class="upload-title">Klik atau seret file ke sini</h4>
+                                <p class="upload-desc">Format: JPG, PNG, MP4, MOV (Max 10MB per file)</p>
+                                <input type="file" id="fileInput" name="buktiFiles"
+                                    accept="image/jpeg,image/jpg,image/png,video/mp4,video/quicktime" multiple hidden>
+                                <button type="button" class="btn-upload" id="btnSelectFiles">
+                                    <i class="fas fa-folder-open"></i> Pilih File
+                                </button>
+                            </div>
+
+                            <!-- Preview Container -->
+                            <div class="file-preview-container" id="filePreviewContainer"></div>
+
+                            <span class="lapor-error" id="errorFiles">Terjadi kesalahan saat mengunggah file</span>
+                        </div>
+
+                        <div class="lapor-nav">
+                            <button type="button" class="btn-lapor btn-back" id="btnKembali6">
+                                <i class="fas fa-arrow-left"></i> Kembali
+                            </button>
+                            <button type="button" class="btn-lapor btn-next" id="btnLanjutkan6" disabled>
+                                Lanjutkan <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- ==========================================
+                         STEP 7: INPUT DATA KORBAN (FINAL)
+                         ========================================== -->
+                    <div class="form-step" id="step7">
+                        <h2 class="lapor-title">Input Data Penyintas</h2>
+                        <p class="lapor-subtitle">Data penyintas diperlukan untuk proses pelaporan</p>
+
+                        <!-- Email -->
+                        <div class="lapor-field">
+                            <label for="emailKorban" class="lapor-label">
+                                Masukkan email Anda
+                            </label>
+                            <p class="lapor-hint">Untuk melihat progress laporan (opsional)</p>
+                            <input type="email" class="lapor-input" id="emailKorban" name="emailKorban"
+                                placeholder="contoh@email.com">
+                            <span class="lapor-error" id="errorEmail">Format email tidak valid</span>
+                        </div>
+
+                        <!-- Usia Penyintas -->
+                        <div class="lapor-field">
+                            <label for="usiaKorban" class="lapor-label">
+                                Usia Penyintas <span class="required">*</span>
+                            </label>
+                            <select class="lapor-input" id="usiaKorban" name="usiaKorban" required>
+                                <option value="" selected disabled>Pilih usia penyintas</option>
+                                <option value="12-17">12-17 tahun</option>
+                                <option value="18-25">18-25 tahun</option>
+                                <option value="26-35">26-35 tahun</option>
+                                <option value="36-45">36-45 tahun</option>
+                                <option value="46-55">46-55 tahun</option>
+                                <option value="56+">56 tahun ke atas</option>
+                            </select>
+                            <span class="lapor-error" id="errorUsia">Usia penyintas wajib dipilih</span>
+                        </div>
+
+                        <!-- Disabilitas Status -->
+                        <div class="lapor-field">
+                            <label class="lapor-label">Apakah Penyintas Memiliki Disabilitas?</label>
+                            <div class="lapor-radio-list inline">
+                                <div class="lapor-radio-item">
+                                    <input type="radio" name="disabilitasStatus" id="disabilitasYa" value="ya">
+                                    <label for="disabilitasYa">Ya</label>
+                                </div>
+                                <div class="lapor-radio-item">
+                                    <input type="radio" name="disabilitasStatus" id="disabilitasTidak" value="tidak">
+                                    <label for="disabilitasTidak">Tidak</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Jenis Disabilitas (Hidden by default) -->
+                        <div class="lapor-field hidden" id="jenisDisabilitasContainer">
+                            <label for="jenisDisabilitas" class="lapor-label">
+                                Jenis Disabilitas Penyintas <span class="required">*</span>
+                            </label>
+                            <select class="lapor-input" id="jenisDisabilitas" name="jenisDisabilitas">
+                                <option value="" selected disabled>Pilih jenis disabilitas</option>
+                                <option value="kesulitan_melihat">Kesulitan melihat (meskipun memakai kacamata)</option>
+                                <option value="kesulitan_mendengar">Kesulitan mendengar (meskipun menggunakan alat
+                                    bantu)</option>
+                                <option value="kesulitan_berkomunikasi">Kesulitan berkomunikasi</option>
+                                <option value="kesulitan_mengingat">Kesulitan mengingat atau berkonsentrasi</option>
+                                <option value="kesulitan_perawatan_diri">Kesulitan perawatan diri</option>
+                                <option value="kesulitan_berjalan">Kesulitan berjalan atau menaiki tangga</option>
+                            </select>
+                            <span class="lapor-error" id="errorDisabilitas">Jenis disabilitas wajib dipilih</span>
+                        </div>
+
+                        <!-- WhatsApp -->
+                        <div class="lapor-field">
+                            <label for="whatsappKorban" class="lapor-label">
+                                Nomor WhatsApp yang dapat dihubungi
+                            </label>
+                            <div class="lapor-input-group">
+                                <span class="lapor-input-icon">
+                                    <i class="fab fa-whatsapp"></i>
+                                </span>
+                                <input type="tel" class="lapor-input with-icon" id="whatsappKorban"
+                                    name="whatsappKorban" placeholder="08xxxxxxxxxx">
+                            </div>
+                            <span class="lapor-error" id="errorWhatsapp">Nomor WhatsApp tidak valid</span>
+                        </div>
+
+                        <div class="lapor-nav">
+                            <button type="button" class="btn-lapor btn-back" id="btnKembali7">
+                                <i class="fas fa-arrow-left"></i> Kembali
+                            </button>
+                            <button type="button" class="btn-lapor btn-submit" id="btnKirimPengaduan" disabled>
+                                Kirim Pengaduan <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="../assets/js/shared/encryption.js"></script>
+    <script src="../assets/js/shared/enhanced_stt.js"></script>
+    <script src="../index.js" defer></script>
+    <script src="lapor.js" defer></script>
+</body>
+
+</html>
